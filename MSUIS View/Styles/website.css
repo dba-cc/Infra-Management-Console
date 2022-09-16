@@ -1,0 +1,444 @@
+﻿.single_team {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    display: inline;
+    float: left;
+    padding: 25px 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.team_img {
+    float: left;
+    display: block;
+    width: 100%;
+}
+
+    .team_img > img {
+        border-radius: 100%;
+        height: 150px;
+        margin: 0 auto 15px;
+        width: 150px;
+    }
+
+.single_team h5 {
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 18px;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+
+.single_team span {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.single_team p {
+    line-height: 26px;
+}
+
+.team_social {
+    float: left;
+    display: inline;
+    width: 100%;
+    margin-top: 10px;
+}
+
+    .team_social a {
+        color: #fff;
+        font-size: 18px;
+        display: inline-block;
+        background: #ccc;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        border-radius: 50%;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+.slider_area {
+    background-color: #ccc;
+    display: inline;
+    float: left;
+    margin-top: 80px;
+    width: 100%;
+}
+
+.slider_caption {
+    /*left: 5%;*/
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+
+.slider_right_caption {
+    left: 0%;
+}
+
+.slider_caption h2 {
+    color: #fff;
+    /*font-size: 33px;*/
+    background-color: rgba(49, 59, 61, 0.6);
+    padding: 8px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.slider_caption p {
+    background-color: rgba(49, 59, 61, 0.6);
+    color: #fff;
+    font-family: "Varela",sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.slider_btn {
+    background: rgba(49, 59, 61, 0.6);
+    border: 2px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    display: inline-block;
+    font-family: "Varela",sans-serif;
+    margin-top: 10px;
+    padding: 9px 15px;
+    text-decoration: none;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+    .slider_btn:hover, .slider_btn:focus {
+        text-decoration: none;
+        outline: none;
+    }
+
+.next, .prev {
+    display: none !important;
+}
+
+.slider_area:hover .next {
+    display: block !important;
+}
+
+.slider_area:hover .prev {
+    display: block !important;
+}
+
+/*--------------------*/
+/* HOME STUDENTS TESTIMONIAL SECTION */
+/*--------------------*/
+
+#studentsTestimonial {
+    background-color: #f6f6f6;
+    float: left;
+    display: inline;
+    width: 100%;
+    padding: 60px 0px;
+}
+
+.studentsTestimonial_content {
+    float: left;
+    display: inline;
+    width: 100%;
+}
+
+.single_stsTestimonial {
+    float: left;
+    display: inline;
+    width: 100%;
+    text-align: center;
+}
+
+.stsTestimonial_msgbox {
+    background-color: lightgray;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    display: inline;
+    float: left;
+    margin-bottom: 25px;
+    padding: 13px;
+    width: 100%;
+    position: relative;
+    transition-duration: .5s;
+}
+
+    .stsTestimonial_msgbox:hover {
+        background-color: #fff;
+        border: 1px solid gray;
+        border-radius: 8px;
+        display: inline;
+        float: left;
+        margin-bottom: 25px;
+        padding: 13px;
+        width: 100%;
+        position: relative;
+        transition-duration: .5s;
+    }
+
+    .stsTestimonial_msgbox:after {
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 15px solid lightgray;
+        bottom: -15px;
+        content: "";
+        height: 0;
+        left: 46%;
+        position: absolute;
+        width: 0;
+        transition-duration: .5s;
+    }
+
+    .stsTestimonial_msgbox:hover:after {
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 15px solid gray;
+        bottom: -15px;
+        content: "";
+        height: 0;
+        left: 46%;
+        position: absolute;
+        width: 0;
+        transition-duration: .5s;
+    }
+
+.stsTesti_img {
+    border: 5px solid #dbe2e9;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+}
+
+.stsTestimonial_content {
+    float: left;
+    display: inline;
+    width: 100%;
+}
+
+/*--------------------*/
+/* GALLERY */
+/*--------------------*/
+
+#gallery {
+    display: inline;
+    float: left;
+    padding: 60px 0;
+    width: 100%;
+}
+
+.gallery_area {
+    float: left;
+    display: inline;
+    width: 100%;
+}
+
+    .gallery_area a {
+        display: inline-block;
+        height: auto;
+        margin: 0 9px 18px;
+        width: 23%;
+        position: relative;
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+        .gallery_area a > img {
+            width: 100%;
+            height: 100%;
+            -webkit-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        .gallery_area a:hover .gallery_img {
+            transform: scale(2.2);
+        }
+
+.view_btn {
+    display: none;
+    left: -100%;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.gallery_area a:hover .view_btn {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    height: 100%;
+    left: 0;
+    padding-top: 34%;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 0;
+    width: 100%;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.tos-caption-0 {
+    font-family: 'Varela', sans-serif;
+    font-size: 22px;
+}
+
+/*Header Style*/
+
+.headerposition {
+    margin-top: 112px;
+}
+
+.headerTextTop {
+        font-size: 15px;
+}
+
+.logoText1{
+    font-size:25px;
+    top:35px;
+}
+.logoText2{
+    font-size:15px;
+    top:35px;
+}
+.logoHeight{
+    height:70px;
+}
+.logoTextMargin{
+    margin-left: 75px;
+}
+
+@media(min-width:400px){
+
+    .logoText1{
+        font-size:35px;
+        top:10px;
+    }
+    .logoText2{
+        font-size:22px;
+        top:10px;
+    }
+    .logoHeight{
+        height:90px;
+    }
+    .logoTextMargin{
+        margin-left: 100px;
+    }
+    .navbarPosition{
+        top:0px;
+        margin-left:350px;
+    }
+}
+
+@media(min-width:768px) {
+    .slider_caption {
+        left:5%;
+        position: absolute;
+        top: 25%;
+        width: 50%;
+    }
+
+    .headerTextTop {
+        font-size: 30px;
+    }
+
+    headerTextBottom {
+        font-size: 13px;
+    }
+    .slider_right_caption {
+    left: 45%;
+    }
+
+    .logoText1{
+        font-size:35px;
+        color:white;
+    }
+    .logoText2{
+        font-size:22px;
+        color:white;
+    }
+    .navbarPosition{
+        top:0px;
+    }
+}
+
+@media(min-width:992px) {
+    .slider_caption {
+        left: 5%;
+        position: absolute;
+        top: 25%;
+        width: 50%;
+    }
+
+    .headerTextTop {
+        font-size: 33px;
+    }
+
+    headerTextBottom {
+        font-size: 13px;
+    }
+    .slider_right_caption {
+    left: 38%;
+    }
+
+    .logoText1{
+        font-size:35px;
+        color:white;
+    }
+    .logoText2{
+        font-size:22px;
+        color:white;
+    }
+    .navbarPosition{
+        top:50px;
+        margin-left:0px;
+        right:0px;
+    }
+}
+
+@media(min-width:1200px) {
+    .navbarPosition{
+        top:25px;
+        margin-left:350px;
+    }
+
+}
+@media(min-width:1200px) {
+    .slider_caption {
+        left: 5%;
+        position: absolute;
+        top: 25%;
+        width: 50%;
+    }
+
+    .headerTextTop {
+        font-size: 33px;
+    }
+
+    headerTextBottom {
+        font-size: 13px;
+    }
+    .slider_right_caption {
+    left: 45%;
+    }
+
+    .logoText1{
+        font-size:35px;
+    }
+    .logoText2{
+        font-size:22px;
+    }
+}

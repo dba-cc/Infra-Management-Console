@@ -1,0 +1,18 @@
+﻿.btncolor1{
+    background-color:#66bb6a;
+}
+.green{
+    background-color:green;
+    color:white;
+}
+.red{
+    background-color:#ae0e0e;
+    color:white;
+}
+.redFont{
+    color:#ae0e0e;
+}
+.gray{
+    background-color:rgb(250,250,250);
+    color:black;
+}

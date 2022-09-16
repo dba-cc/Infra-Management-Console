@@ -1,0 +1,300 @@
+﻿
+
+ /*From App-green For Login Screen*/ 
+    div.back {
+  width: 100%;
+  background: url(../images/login-bg.jpg);
+  background-size: cover;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.errors {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+.login-outer {
+  padding-top: 6%;
+  padding-bottom: 8%;
+  height: 100%;
+}
+.login-outer a:hover {
+  text-decoration: none;
+}
+.login-outer .login-wrap {
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 970px;
+  margin: 0 auto;
+  width: 90%;
+  height: 100%;
+  display: table;
+  min-height: 550px;
+  margin-bottom: 10px;
+}
+.login-outer .login-wrap .login-left,
+.login-outer .login-wrap .login-right {
+  display: table-cell;
+  vertical-align: middle;
+  width: 50%;
+  position: relative;
+}
+.login-outer .login-wrap .login-left {
+  background-color: #06c5ac;
+  color: #fff;
+}
+.login-outer .login-wrap .login-left .logo-lg {
+  text-transform: uppercase;
+  font-size: 32px;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.login-outer .login-wrap .login-left .logo-lg i {
+  color: #f9e38b;
+}
+.login-outer .login-wrap .login-left .logo-lg:hover,
+.login-outer .login-wrap .login-left .logo-lg:active,
+.login-outer .login-wrap .login-left .logo-lg:focus {
+  text-decoration: none;
+}
+.login-outer .login-wrap .login-left .slogan {
+  font-size: 18px;
+  margin-top: 5px;
+  font-family: latothin;
+}
+.login-outer .login-wrap .login-right {
+  background-color: #333;
+  color: #999;
+}
+.login-outer .login-wrap .login-right .heading {
+  font-size: 21px;
+  padding: 20px;
+  font-family: latothin;
+}
+.login-outer .login-wrap .login-right .login-input-group input.form-control {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  padding-left: 50px;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 48px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+}
+.login-outer .login-wrap .login-right .login-input-group input.form-control:focus,
+.login-outer .login-wrap .login-right .login-input-group input.form-control:active {
+  border-color: #06c5ac;
+}
+.login-outer .login-wrap .login-right .login-input-group .login-input-group-addon {
+  position: absolute;
+  width: 50px;
+  text-align: center;
+  left: 0;
+  line-height: 48px;
+}
+.login-outer .login-wrap .login-right .login-input-group:last-child input.form-control {
+  border: none !important;
+}
+.login-outer .login-wrap .login-right .btn {
+  background: none;
+  padding: 10px 30px;
+  border-radius: 0 30px 30px 0;
+  border: solid 2px #06c5ac;
+  border-left: none;
+  color: #06c5ac;
+  min-width: 160px;
+  transition: all 0.2s ease-in-out;
+  margin-top: 20px;
+  font-family: latothin;
+}
+.login-outer .login-wrap .login-right .btn:hover,
+.login-outer .login-wrap .login-right .btn:active,
+.login-outer .login-wrap .login-right .btn:focus {
+  background-color: #06c5ac;
+  color: #fff;
+  box-shadow: none;
+}
+.login-outer .login-wrap .login-right .login-other {
+  float: right;
+  width: 60%;
+  padding-right: 20px;
+  margin-top: -35px;
+}
+.login-outer .login-wrap .login-right .login-other a {
+  display: inline-block;
+  padding: 3px;
+}
+.login-outer .login-wrap .login-right .rightFooter {
+  position: absolute;
+  bottom: 0;
+  background-color: #222;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+.login-outer .login-wrap .login-right .rightFooter a {
+  color: #666;
+}
+.login-outer .login-wrap .login-right .rightFooter a:hover {
+  color: #999;
+}
+.login-outer .login-wrap .login-right .huge-heading {
+  margin: 0;
+  text-align: center;
+  font-size: 82px;
+  font-style: italic;
+  color: #666;
+}
+@media (max-width: 992px) {
+  .login-outer {
+    height: auto;
+  }
+  .login-outer .login-wrap {
+    display: block;
+  }
+  .login-outer .login-wrap .login-left,
+  .login-outer .login-wrap .login-right {
+    display: block;
+    width: 100%;
+  }
+  .login-outer .login-wrap .login-left {
+    padding: 40px 20px;
+  }
+  .login-outer .login-wrap .login-right {
+    border-radius: 0 0 10px 10px;
+    padding-top: 60px;
+  }
+  .login-outer .login-wrap .login-right .rightFooter {
+    position: relative;
+    margin-top: 60px;
+    border-radius: 0 0 10px 10px;
+  }
+  .login-outer .login-wrap .login-right .btn {
+    border-radius: 30px;
+    margin-left: 20px;
+    border: solid 2px #06c5ac;
+  }
+}
+@media (max-width: 440px) {
+  .login-outer .login-wrap .login-right .btn {
+    display: block;
+    margin: 30px auto 0;
+  }
+  .login-outer .login-wrap .login-right .login-other {
+    float: none;
+    margin-top: 60px;
+    text-align: center;
+    width: auto;
+    padding-left: 25px;
+  }
+  .login-outer .login-wrap .login-right .login-other a i {
+    font-size: 18px;
+  }
+}
+
+/*Login Style Ended*/
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #222d32;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 0px 15px;
+      }
+      .row.content {height: auto;} 
+    }
+
+    .nav-pills>li{
+        padding-left:0px;
+    }
+
+    .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: white;
+    background-color: #1e282c;
+    /*color: #fff;
+    background-color: #0D47A1;*/
+}
+
+        .nav > li > a {
+    color: #b8c7ce;
+}
+
+    .nav > li > a:focus, .nav > li > a:hover {
+    color: white;
+    background-color: #1e282c;
+}
+
+    .nav-pills>li>a {
+    border-radius: 0px;
+}
+
+    .row-fluid {
+    word-wrap: break-word;
+}
+
+    .slider2 .flex-direction-nav a {width: 34px; height: 34px; margin: -21px 0 0; display: block; background: url() no-repeat 0 0; position: absolute; top: -23px; z-index: 10; cursor: pointer; text-indent: -2500px; opacity: .8; -webkit-transition: all .3s ease;}
+
+    .navbar-inverse {
+    background-color: #023956;
+    border-color: #253eb9;
+    border-top-color: #EF7351;
+    border-top-width: medium;
+}
+
+    .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    color: #fff;
+    background-color: #EF7351;
+}
+
+.paddingLeft15{
+    padding-left:15px;
+}
+
+.table-curved {
+    border-collapse:separate;
+    border: solid #ccc 1px;
+    border-radius: 5px;
+    overflow:hidden;
+}
+
+.table-curved last-child tr:last-child td
+{
+    border-bottom-left-radius: 5px;    
+    border-bottom-right-radius: 5px;   
+}
+
+.is-table-row {
+        display: table;
+    }
+    .is-table-row [class*="col-"] {
+        float: none;
+        display: table-cell;
+        vertical-align: top;
+    }
+
+.browseFile{
+    padding:0px 6px;
+    margin-top:2px;
+}
+
+.basicBorder{
+    border:solid 1px lightgray;
+    border-radius:3px;
+    margin:5px;
+}

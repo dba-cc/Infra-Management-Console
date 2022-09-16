@@ -1,0 +1,98 @@
+<div class="row widget has-shadow" style="margin: 0px;">
+    <div class="col-lg-12" style="padding:0px;">
+        <div class="widget-header bordered no-actions d-flex align-items-center">
+            <h4>ADD/EDIT Admin Users</h4>
+        </div>
+        <div class="widget-body row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:6px">
+                <label>Name:</label>
+                <input type="text" class="form-control" ng-model="users.name" />
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:6px">
+                <label>Email Id:</label>
+                <input type="text" class="form-control" ng-model="users.email" />
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:6px">
+                <label>Mobile No.:</label>
+                <input type="text" class="form-control" ng-model="users.mobile" limit-to="50" />
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:6px">
+                <label>User Type:</label>
+                <select class="form-control" ng-model="users.type" ng-options="userType.id as userType.name for userType in userTypeList">
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:6px">
+                <label>Select File:</label>
+                <input class="form-control" type="file" ngf-select ng-model="imageFile" />
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:6px">
+                <label class="form-label">Images</label>
+                <div class="row">
+
+                    <div class="col-lg-6 text-center" style="margin-top:15px;">
+                        <div ngf-drop ngf-select onchange="getFileDetails(this)" class="drop-box text-center"
+                             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                             accept="image/*"
+                             style="height:150px; width:150px; background-color:lightgray; border-radius:5px; padding:5px;"
+                             ngf-pattern="'image/*'">
+                            <div style="margin-top:55px;">Drop Images here or click to upload</div>
+                        </div>
+                    </div>
+                    <div ng-repeat="file in files" class="col-lg-6 text-center" style="margin-top:15px;">
+                        <img ngf-thumbnail="file" style="height:150px; width:150px; border: solid 2px lightgray; border-radius: 2px; box-shadow: grey 4px 4px 4px;">
+                        <i class="fa fa-trash" ng-click="removeImage(file)" style="color: darkred; cursor:pointer; position: absolute; right: 5px; top: -2px; border: solid 2px darkred; border-radius: 2px; padding: 3px; background-color:white;"></i>
+                    </div>
+                    <div ng-repeat="image in imageList" class="col-lg-6 text-center" style="margin-top:15px;">
+                        <img src="http://asnaniexports.techregnum.com/img/products/{{image.filePath}}" style="height:150px; width:150px; border: solid 2px lightgray; border-radius: 2px; box-shadow: grey 4px 4px 4px;">
+                        <i class="fa fa-trash" ng-click="deleteImage(image.id)" style="color: darkred; cursor:pointer; position: absolute; right: 5px; top: -2px; border: solid 2px darkred; border-radius: 2px; padding: 3px; background-color:white;"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" layout="row">
+                <md-button class="md-raised md-primary pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addAdminUser()" ng-hide="modifyAdminUserFlag">Add</md-button>
+                <md-button class="md-raised md-primary pull-right" style="margin-right:0px; height:15px; margin-top:20px;" ng-click="modifyAdminUser()" ng-show="modifyAdminUserFlag">Modify</md-button>
+                <md-button class="md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px;" ng-click="resetAdminUser()">Cancel</md-button>
+                <span flex></span>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:6px">
+                <hr style="margin-bottom:5px;margin-top:5px;border-color:grey;border-width: 2px;" />
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:6px">
+                <div style="border: solid 2px gray; border-radius:4px;padding-bottom:40px;">
+                    <table ng-table="userTableParams" class="table" show-filter="true">
+                        <tbody>
+                            <tr ng-repeat="adminUser in $data">
+                                <!--<td data-title="'Id'" filter="{eventId: 'text'}" sortable="'eventId'" style="border-top:none;"><label>{{adminUser.id}}</label></td>-->
+                                <t
+                                <td data-title="'Name'" filter="{name: 'text'}" sortable="'name'" style="border-top:none;"><label>{{adminUser.name}}</label></td>
+                                <td data-title="'Email'" filter="{email: 'text'}" sortable="'email'" style="border-top:none;"><label>{{adminUser.email}}</label></td>
+                                <td data-title="'Mobile'" filter="{mobile: 'text'}" sortable="'mobile'" style="border-top:none;"><label>{{adminUser.mobile}}</label></td>
+                                <td data-title="'Actions'">
+                                    <div layout="row" style="margin-top:-12px">
+                                        <span flex></span>
+                                        <md-button title="Edit" ng-click="modifyAdminUserData(adminUser)" class="md-raised md-primary" style="min-width:40px;"><i class="fa fa-pencil-square-o"></i>Edit</md-button>
+                                        <!--Hide Button-->
+                                        <md-button title="Hide" ng-click="hideAdminUser(adminUser)" class="md-raised" style="min-width:40px;background-color:red;color:white;" ng-hide="adminUser.status"><i class="fa fa-toggle-on"></i>Suspended</md-button>
+                                        <!--Show Button-->
+                                        <md-button title="Show" ng-click="showAdminUser(adminUser)" class="md-raised" style="min-width:40px;background-color:green;color:white;" ng-show="adminUser.status"><i class="fa fa-toggle-off"></i>Active</md-button>
+                                        <span flex></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31829.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MSUIS View", ".", "{23B8B71B-1BF3-497E-87AE-2FF1108B54CD}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51207"
+		Debug.AspNetCompiler.PhysicalPath = "..\MSUIS View\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51207\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51207"
+		Release.AspNetCompiler.PhysicalPath = "..\MSUIS View\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51207\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51207"
+		SlnRelativePath = "..\MSUIS View\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{23B8B71B-1BF3-497E-87AE-2FF1108B54CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B8B71B-1BF3-497E-87AE-2FF1108B54CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0A88B83-63A6-4F76-AEFF-C1B97A8FBBE9}
+	EndGlobalSection
+EndGlobal

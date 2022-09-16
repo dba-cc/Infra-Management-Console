@@ -1,0 +1,7 @@
+﻿<div>
+    <input type="text" class="form-control" ng-model="loginObj.username" placeholder="Email" style="border-radius:0px;" />
+    <br />
+    <input type="password" class="form-control" ng-model="loginObj.password" placeholder="Password" style="border-radius:0px;" ng-keypress="myFunct($event)" />
+    <!--<a class="btn btn-success" ng-class="{active: $state.includes('home')}" ui-sref="home"><i class="fa fa-home"></i> Login </a>-->
+    <a class="btn btn-success" ng-click="login()"><i class="fa fa-sign-in"></i> Login </a>
+</div>
