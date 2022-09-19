@@ -24,14 +24,12 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                Int32 Id = Convert.ToInt32(ObjFac.Id);
                 string UserName = Convert.ToString(ObjFac.UserName);
                 string UserPass = Convert.ToString(ObjFac.UserPass);
                 SqlCommand cmd = new SqlCommand("CreateUser", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", Id);
-                cmd.Parameters.AddWithValue("@UserName", UserName);
-                cmd.Parameters.AddWithValue("@UserPass", UserPass);
+                cmd.Parameters.AddWithValue("@userName", UserName);
+                cmd.Parameters.AddWithValue("@userPass", UserPass);
                 cmd.Parameters.AddWithValue("@CreatedOn", datetime);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
