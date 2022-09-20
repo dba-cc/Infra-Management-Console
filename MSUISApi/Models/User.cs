@@ -12,6 +12,5 @@ namespace MSUISApi.Models
         public string UserPass { get; set; }
         public DateTime CreatedOn { get; set; }
 
-
     }
 }

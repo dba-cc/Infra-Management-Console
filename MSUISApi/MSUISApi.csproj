@@ -163,6 +163,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\TableController.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\Institute1Controller.cs" />
     <Compile Include="Controllers\InstituteController.cs" />
@@ -174,6 +176,8 @@
     </Compile>
     <Compile Include="Models\Applicant.cs" />
     <Compile Include="Models\Bean.cs" />
+    <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\Database.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Function.cs" />
     <Compile Include="Models\Institute.cs" />
