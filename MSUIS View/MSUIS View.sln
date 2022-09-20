@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31829.152
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MSUIS View", ".", "{23B8B71B-1BF3-497E-87AE-2FF1108B54CD}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MSUIS View(3)", ".", "{23B8B71B-1BF3-497E-87AE-2FF1108B54CD}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51207"
 		Debug.AspNetCompiler.PhysicalPath = "..\MSUIS View\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51207\"

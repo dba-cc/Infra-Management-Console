@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/InstituteEdit"),
+    t.otherwise("/User"),
 
 
         e.state("boxed", {
@@ -106,6 +106,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         parent: "plain",
         templateUrl: "UI/pages/admin/InstituteEdit.html",
         controller: "InstituteCtrl"
+    });
+
+    e.state("User", {
+        url: "/User",
+        parent: "plain",
+        templateUrl: "UI/pages/admin/User.html",
+        controller: "UserCtrl"
     });
 }])
 
