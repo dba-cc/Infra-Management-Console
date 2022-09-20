@@ -7,21 +7,25 @@
     }
 
     $scope.ClearUser = function () {
-        $scope.Username = '';
-        $scope.Password = '';
+        $scope.User.Username = '';
+        $scope.User.Password = '';
+    }
+
+    $scope.NewAddPage = function () {
+        $scope.ShowFormFlag = true;
     }
     
 
     var ProgrammeList = [];
     
-    $scope.getUser = function () {
+    $scope.GetUser = function () {
 
         var data = new Object();
         //data.id = $rootScope.id;
 
         $http({
             method: 'POST',
-            url: 'api/User/Get_User',
+            url: 'api/User/GetUser',
             data: data,
 
             headers: { "Content-Type": 'application/json' }
@@ -53,7 +57,7 @@
         //debugger
         $http({
             method: 'POST',
-            url: 'api/User/InsertUser',
+            url: 'api/User/CreateUser',
             data: $scope.User,
             headers: { "Content-Type": 'application/json' }
         })
@@ -66,7 +70,7 @@
                 else {
                     alert(response.obj);
                     $scope.User = {};
-                    $scope.getUser();
+                    $scope.GetUser();
                     //$state.go('CompanyAdd');
                 }
             })
@@ -77,20 +81,20 @@
 
     
 
-    $scope.modifyCompany = function (data) {
+    $scope.modifyUser = function (data) {
         
-        $scope.ShowFormFlag = true;
-        $scope.Company = data;
-        $scope.getCompany();
+        $scope.ShowEditFlag = true;
+        $scope.User = data;
+        $scope.GetUser();
         $(window).scrollTop(0); 
     }
 
-    $scope.editCompany = function () {
+    $scope.editUser = function () {
 
         $http({
             method: 'POST',
-            url: 'api/Company/Update_Company',
-            data: $scope.Company,
+            url: 'api/User/EditUser',
+            data: $scope.User,
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
@@ -99,9 +103,9 @@
                 }
                 else {
                     alert(response.obj);
-                    $scope.showFormFlag = false;
-                    $scope.Company = {};
-                    $scope.getCompany();
+                    $scope.ShowEditFlag = false;
+                    $scope.User = {};
+                    $scope.GetUser();
                     //$scope.Company = {};
 
                 }
@@ -111,9 +115,9 @@
             });
     };
 
-    $scope.deleteCompany = function (ev, data) {
+    $scope.deleteUser = function (ev, data) {
         var confirm = $mdDialog.confirm()
-            .title('Would you like to delete?')
+            .title('Would you like to delete this User?')
             .textContent('')
             .ariaLabel('Lucky day')
             .targetEvent(ev)
@@ -125,7 +129,7 @@
 
             $http({
                 method: 'POST',
-                url: 'api/Company/Delete_Company',
+                url: 'api/User/DeleteUser',
                 data: $scope.Company,
                 headers: { "Content-Type": 'application/json' }
             })
@@ -140,7 +144,7 @@
                     }
                     else {
                         alert(response.obj);
-                        $scope.getCompany();
+                        $scope.GetUser();
                     }
                 })
                 .error(function (res) {

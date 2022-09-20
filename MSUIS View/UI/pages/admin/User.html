@@ -8,7 +8,7 @@
 </style>
 
 <!-- Page body start -->
-<div class="page-body" ng-controller="UserCtrl" ng-init="getUser()">
+<div class="page-body" ng-controller="UserCtrl" ng-init="GetUser()">
     <div class="row">
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
@@ -19,19 +19,19 @@
 
                 <div class="card-block">
 
-                    <!--<button type="button" ng-click="NewAddPage()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New User</button>--><br /><br />
+                    <button type="button" ng-click="NewAddPage()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New User</button><!--<br /><br />-->
                     <div class="col-md-12 offset-md-2">
                         <form ng-model="User" ng-show="ShowFormFlag">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Username<span style="color:red">*</span>:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" name="Username" class="form-control" ng-model="User.Username" placeholder="Type Username" required />
+                                    <input type="text" name="Username" class="form-control" ng-model="User.UserName" placeholder="Type Username" required />
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Password<span style="color:red">*</span>:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" name="Password" class="form-control" ng-model="User.Password" placeholder="Type Password" required />
+                                    <input type="text" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
                                 </div>
                             </div>
 
@@ -42,21 +42,48 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6">
                                         <button class="btn btn-success" ng-click="AddUser()">Add </button>
-                                        <button class="btn btn-dribbble" ng-click="ClearUser()">Clear</button>
+                                        <!--<button class="btn btn-dribbble" ng-click="ClearUser()">Clear</button>-->
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        </div>
+                    </div>
+
+
+                    <!--Modify User View-->
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="User" ng-show="ShowEditFlag">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Username<span style="color:red">*</span>:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="Username" class="form-control" ng-model="User.UserName" placeholder="Type Username" required />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Password<span style="color:red">*</span>:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="editUser()">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
                     <div class="card">
                         <div class="card-block">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="example-2" ng-table="CompanyTableParams" show-filter="true">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="UserParams" show-filter="true">
                                     <tbody>
-                                        <tr ng-repeat="Company in $data">
+                                        <tr ng-repeat="User in $data">
                                             <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                            <td data-title="'Company Name'" filter="{CompanyName: 'text'}" sortable="'CompanyName'" style=" border-top: none;"><label>{{Company.Company_Name}}</label></td>
-                                            <td data-title="'Company Address'" filter="{CompanyAddress: 'text'}" sortable="'CompanyAddress'" style=" border-top: none;"><label>{{Company.Company_Address}}</label></td>
+                                            <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style=" border-top: none;"><label>{{User.UserName}}</label></td>
 
 
                                             <td data-title="'Actions'">
@@ -64,8 +91,8 @@
                                                     <span flex></span>
 
 
-                                                    <button type="button" ng-click="modifyCompany(Company)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
-                                                    <button type="button" ng-click="deleteCompany($event,Company)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
+                                                    <button type="button" ng-click="modifyUser(User)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <button type="button" ng-click="deleteUser($event,User)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
                                                     <!--Hide Button-->
                                                     <!--<button title="Hide" ng-click="ShowVenueMaster(VenueMaster)" class="btn btn-danger ml-2 button-size" ng-hide="VenueMaster.IsActive"><i class="fa fa-toggle-on"></i>Click to Active</button>-->
                                                     <!--Show Button-->
