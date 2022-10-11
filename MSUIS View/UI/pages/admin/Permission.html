@@ -27,7 +27,7 @@
                                 <div class="col-sm-6">
                                     <div>
                                         <span class="nullable">
-                                            <select ng-model="User.UserName" ng-options="d.UserName as d.UserName for d in UserList" [value]="User.UserName" class="form-control" name="Userdropdown" required>
+                                            <select ng-model="User.UserName" ng-options="d.UserName as d.UserName for d in UserList" ng-change="showDatabaselist()" [value]="User.UserName" class="form-control" name="Userdropdown" required>
                                                 <option value="" disabled selected>-- select --</option>
                                             </select>
                                         </span>
@@ -35,12 +35,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row" ng-init="getDatabaseList()">
+                            <div class="form-group row" ng-show="showDatabaselistflag" ng-init="getDatabaseList()">
                                 <div class="col-sm-2">Database Name</div>
                                 <div class="col-sm-6">
                                     <div>
                                         <span class="nullable">
-                                            <select ng-model="Database.name" ng-options="d.name as d.name for d in DatabaseList" ng-change="getTableList()" [value]="Database.name" class="form-control" name="Databasedropdown" required>
+                                            <select ng-model="Database.name" ng-options="d.name as d.name for d in DatabaseList" ng-change="initPermissions()" [value]="Database.name" class="form-control" name="Databasedropdown" required>
                                                 <option value="" disabled selected>-- select --</option>
                                             </select>
                                         </span>
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <!--<div class="form-group row">
                                 <div class="col-sm-2">Table Name</div>
                                 <div class="col-sm-6">
                                     <div>
@@ -65,102 +65,63 @@
                                 <div class="col-sm-2">Permissions</div>
                                 <div class="col-sm-2">
                                     <div>
-                                        <input type="checkbox" ng-model="Permission.ReadPerm" name="Read">
+                                        <input type="checkbox" ng-model="Permission.ReadPerm" name="Read" ng-checked="PermissionList.ReadPerm">
                                         <label for="Read">Read</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div>
-                                        <input type="checkbox" ng-model="Permission.WritePerm" name="Read">
+                                        <input type="checkbox" ng-model="Permission.WritePerm" name="Read" ng-checked="PermissionList.WritePerm">
                                         <label for="Write">Write</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div>
-                                        <input type="checkbox" ng-model="Permission.AlterPerm" name="Read">
+                                        <input type="checkbox" ng-model="Permission.AlterPerm" name="Read" ng-checked="PermissionList.AlterPerm">
                                         <label for="Alter">Alter</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">First Name<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="First_Name" class="form-control" ng-model="Worker.First_Name" placeholder="Type Worker First Name" required />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Last Name<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="Last_Name" class="form-control" ng-model="Worker.Last_Name" placeholder="Type Worker Last Name" required />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Salary<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="number" name="Salary" class="form-control" ng-model="Worker.Salary" placeholder="Type Worker Salary" required />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Joining Date<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="date" name="" class="form-control" ng-model="Worker.Joining_Date" placeholder="Type Worker Joining Date" required />
-                                </div>
-                            </div>
-
-                            <div class="form-group row" ng-init="getDepartmentList()">
-                                <div class="col-sm-2">Department Name</div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <span class="nullable">
-                                            <select ng-model="Worker.Department_ID" ng-options="d.ID as d.Department_Name for d in DepartmentList" ng-change="getDepartmentList()" [value]="Department.Department_ID" class="form-control" name="Departmentdropdown" required>
-                                                <option value="" disabled selected>-- select --</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row" ng-init="getCompanyList()">
-                                <div class="col-sm-2">Company Name</div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <span class="nullable">
-                                            <select ng-model="Worker.Company_ID" ng-options="d.Company_ID as d.Company_Name for d in CompanyList" ng-change="getCompanyList()" [value]="Worker.Company_ID" class="form-control" name="Companydropdown" required>
-                                                <option value="" disabled selected>-- select --</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="form-group row">
-        <label class="col-sm-2 col-form-label">Company ID<span style="color:red">*</span>:</label>
-        <div class="col-sm-6">
-            <select ng-model="Worker.Company_ID" ng-options="d.CompanyID as d.Company_Name for d in CompanyList" ng-change="getCompanyList()" [value]="Company.CompanyID" class="form-control" name="Companydropdown" required>
-                <option value="" disabled selected>-- select --</option>
-            </select>
-        </div>
-    </div>-->
-
-                            <div class="col-md-12 offset-md-2">
+                            <!--<div cla<!--ss="col-md-12 offset-md-2">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
-                                        <button class="btn btn-success" ng-click="addWorker()">Add</button>
+                                        <button class="btn btn-success" ng-click="addWorker()">Update</button>
                                         <button class="btn btn-disabled disabled" ng-click="resetWorker()">Cancel</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </form>
                     </div>
-                    <div class="card">
+                    <div class="card" ng-show="ShowPermissionsFlag">
                         <div class="card-block">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="example-2" ng-table="WorkerTableParams" show-filter="true">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="PermissionParams" show-filter="true">
                                     <tbody>
-                                        <tr ng-repeat="Worker in $data">
+                                        <tr ng-repeat="Permission in $data">
                                             <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                            <td data-title="'Worker First Name'" filter="{First_Name: 'text'}" sortable="'First_Name'" style=" border-top: none;"><label>{{Worker.First_Name}}</label></td>
-                                            <td data-title="'Worker Last Name'" filter="{Last_Name: 'text'}" sortable="'Last_Name'" style=" border-top: none;"><label>{{Worker.Last_Name}}</label></td>
-                                            <td data-title="'Worker Salary'" filter="{Salary: 'text'}" sortable="'Salary'" style=" border-top: none;"><label>{{Worker.Salary}}</label></td>
+                                            <td data-title="'Table Name'" filter="{Table_Name: 'text'}" sortable="'Table_Name'" style=" border-top: none;"><label>{{Permission.TableName}}</label></td>
+
+                                            <td data-title="'Read'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <input type="checkbox" ng-model="Permission.ReadPerm" name="Read" ng-checked="Permission.ReadPerm">
+                                                </div>
+                                            </td>
+
+                                            <td data-title="'Write'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <input type="checkbox" ng-model="Permission.WritePerm" name="Write" ng-checked="Permission.WritePerm">
+                                                </div>
+                                            </td>
+
+                                            <td data-title="'Alter'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <input type="checkbox" ng-model="Permission.AlterPerm" name="Alter" ng-checked="Permission.AlterPerm">
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

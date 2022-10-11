@@ -20,13 +20,15 @@ namespace MSUISApi.Controllers
         DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
         [HttpPost]
-        public HttpResponseMessage GetPermissionsByUser(User user)
+        public HttpResponseMessage GetPermissionsByUser(Permission perm)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand("GetPermissionsByUser", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", user.UserName);
+                cmd.Parameters.AddWithValue("@username", perm.UserName);
+                //cmd.Parameters.AddWithValue("@tablename", perm.TableName);
+                cmd.Parameters.AddWithValue("@databasename", perm.DatabaseName);
                 Da.SelectCommand = cmd;
                 Da.Fill(Dt);
 
@@ -37,13 +39,14 @@ namespace MSUISApi.Controllers
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
                         Permission permission = new Permission();
-                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        //permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
                         permission.TableName = Convert.ToString(Dt.Rows[i]["TableName"]);
+                        //permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
                         permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
                         permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
                         permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
-                        permission.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["CreatedOn"]);
-                        permission.ModifiedOn = Convert.ToDateTime(Dt.Rows[i]["ModifiedOn"]);
+                        //permission.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["CreatedOn"]);
+                        //permission.ModifiedOn = Convert.ToDateTime(Dt.Rows[i]["ModifiedOn"]);
                         permissionsList.Add(permission);
                     }
                 }

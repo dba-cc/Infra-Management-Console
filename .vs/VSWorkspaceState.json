@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MSUISApi",
+    "\\MSUISApi\\Controllers",
+    "\\MSUISApi\\Models"
   ],
+  "SelectedNode": "\\MSUISApi\\MSUISApi.sln",
   "PreviewInSolutionExplorer": false
 }

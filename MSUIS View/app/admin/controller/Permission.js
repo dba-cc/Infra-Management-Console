@@ -233,12 +233,16 @@
             });
     };
 
+    $scope.showDatabaselist = function () {
+        $scope.showDatabaselistflag = true;
+    }
+
     $scope.initPermissions = function () {
 
         $http({
             method: 'POST',
             url: 'api/Permission/GetPermissionsByUser',
-            data: $scope.User,
+            data: [{ "username": $scope.User, "databasename": $scope.Database }],
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -247,7 +251,11 @@
                     $scope.TableList = {};
                 }
                 else {
-                    $scope.TableList = response.obj;
+                    $scope.PermissionParams = new NgTableParams({
+                    }, {
+                        dataset: response.obj
+                    });
+                    //$scope.TableList = response.obj;
                 }
 
             })

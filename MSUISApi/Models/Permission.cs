@@ -9,6 +9,7 @@ namespace MSUISApi.Models
     {
         public Int32 UserPermId { get; set; }
         public string UserName { get; set; }
+        public string DatabaseName { get; set; }
         public string TableName { get; set; }
         public bool ReadPerm { get; set; }
         public bool WritePerm { get; set; }
