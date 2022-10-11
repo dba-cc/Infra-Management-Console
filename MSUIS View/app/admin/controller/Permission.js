@@ -242,15 +242,16 @@
         $http({
             method: 'POST',
             url: 'api/Permission/GetPermissionsByUser',
-            data: [{ "username": $scope.User, "databasename": $scope.Database }],
+            data: '"'+$scope.User.UserName+' '+$scope.Database.name+'"',
             headers: { "Content-Type": 'application/json' }
         })
 
             .success(function (response) {
-                if (response.response_code == "201") {
-                    $scope.TableList = {};
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
+                    $scope.ShowPermissionsFlag = true
                     $scope.PermissionParams = new NgTableParams({
                     }, {
                         dataset: response.obj

@@ -1,4 +1,5 @@
 ﻿using MSUISApi.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,16 @@ namespace MSUISApi.Controllers
         DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
         [HttpPost]
-        public HttpResponseMessage GetPermissionsByUser(Permission perm)
+        public HttpResponseMessage GetPermissionsByUser([FromBody] String perm)
         {
             try
             {
+                String[] str = perm.Split(' ');
                 SqlCommand cmd = new SqlCommand("GetPermissionsByUser", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", perm.UserName);
+                cmd.Parameters.AddWithValue("@username", str[0]);
                 //cmd.Parameters.AddWithValue("@tablename", perm.TableName);
-                cmd.Parameters.AddWithValue("@databasename", perm.DatabaseName);
+                cmd.Parameters.AddWithValue("@databasename", str[1]);
                 Da.SelectCommand = cmd;
                 Da.Fill(Dt);
 
