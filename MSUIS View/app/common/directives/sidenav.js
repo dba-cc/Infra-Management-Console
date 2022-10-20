@@ -8,13 +8,13 @@
 			e.menuItemList = [
 				{
 					"icon": "ti-view-grid",
-					"displayName": "Users 1",
-					"state": "users"
+					"displayName": "User Management",
+					"state": "User"
 				},
 				{
 					"icon": "ti-view-grid",
-					"displayName": "Students 1",
-					"state": "students"
+					"displayName": "Permissions",
+					"state": "Permission"
 				}
 			]
 

@@ -1,175 +1,10 @@
 ﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
 
-    $rootScope.pageTitle = "Permission Management";
-
-    $scope.resetPermission = function () {
-        $scope.Permission = {};
-    }
-    
-    $scope.getPermission = function () {
-
-        var data = new Object();
-        //data.id = $rootScope.id;
-
-        $http({
-            method: 'POST',
-            url: 'api/Worker/WorkerGet',
-            data: data,
-
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                $rootScope.showLoading = false;
-
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    $scope.WorkerTableParams = new NgTableParams({
-                    }, {
-                            dataset: response.obj
-                    });
-                    
-                }
-
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-            });
-    }
-
-
-    $scope.addWorker = function () {
-        //debugger
-            $http({
-            method: 'POST',
-            url: 'api/Worker/Worker_Insert',
-            data: $scope.Worker,
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                $rootScope.showLoading = false;
-
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    alert(response.obj);
-                    $scope.Worker = {};
-                    $scope.getWorker();
-                }
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-            });
-    }
-
-    
-
-    $scope.modifyWorker = function (data) {
-        
-        $scope.ShowFormFlag = true;
-        $scope.Worker = data;
-        $scope.getWorker();
-        $(window).scrollTop(0); 
-    }
-
-    $scope.editWorker = function () {
-
-        $http({
-            method: 'POST',
-            url: 'api/Worker/Worker_Update',
-            data: $scope.Worker,
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    alert(response.obj);
-                    $scope.showFormFlag = false;
-                    $scope.Worker = {};
-                    $scope.getWorker();
-                    //$scope.Company = {};
-
-                }
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-            });
-    };
-
-    $scope.deleteWorker = function (ev, data) {
-        var confirm = $mdDialog.confirm()
-            .title('Would you like to delete?')
-            .textContent('')
-            .ariaLabel('Lucky day')
-            .targetEvent(ev)
-            .ok('Yes')
-            .cancel('No');
-
-        $mdDialog.show(confirm).then(function () {
-            $scope.Worker = data;
-
-            $http({
-                method: 'POST',
-                url: 'api/Worker/Worker_Delete',
-                data: $scope.Worker,
-                headers: { "Content-Type": 'application/json' }
-            })
-                .success(function (response) {
-
-                    $rootScope.showLoading = false;
-                    if (response.response_code == "0") {
-                        $state.go('login');
-
-                    } else if (response.response_code != "200") {
-                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                    }
-                    else {
-                        alert(response.obj);
-                        $scope.getWorker();
-                    }
-                })
-                .error(function (res) {
-                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                });
-
-        }, function () {
-            $scope.status = 'You decided to keep your debt.';
-        });
-    };
-
-    $scope.getCompanyList = function () {
-
-        $http({
-            method: 'POST',
-            url: 'api/Worker/Get_Company',
-            //data: $scope.FacultyInstituteMap,
-            headers: { "Content-Type": 'application/json' }
-        })
-
-            .success(function (response) {
-                if (response.response_code == "201") {
-                    $scope.CompanyList = {};
-                }
-                else {
-                    $scope.CompanyList = response.obj;
-                }
-
-            })
-            .error(function (res) {
-
-            });
-    };
-
     $scope.getUserList = function () {
 
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
-            //data: $scope.FacultyInstituteMap,
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -183,16 +18,19 @@
 
             })
             .error(function (res) {
-
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
     };
+
+    $scope.showDatabaselist = function () {
+        $scope.showDatabaselistflag = true;
+    }
 
     $scope.getDatabaseList = function () {
 
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
-            //data: $scope.FacultyInstituteMap,
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -206,36 +44,9 @@
 
             })
             .error(function (res) {
-
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
     };
-
-    $scope.getTableList = function () {
-
-        $http({
-            method: 'POST',
-            url: 'api/Table/GetTable',
-            data: $scope.Database,
-            headers: { "Content-Type": 'application/json' }
-        })
-
-            .success(function (response) {
-                if (response.response_code == "201") {
-                    $scope.TableList = {};
-                }
-                else {
-                    $scope.TableList = response.obj;
-                }
-
-            })
-            .error(function (res) {
-
-            });
-    };
-
-    $scope.showDatabaselist = function () {
-        $scope.showDatabaselistflag = true;
-    }
 
     $scope.initPermissions = function () {
 
@@ -261,8 +72,67 @@
 
             })
             .error(function (res) {
-
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
+    };
+
+
+    $scope.checkAllRead = function (value) {
+        //forEach($scope.PermissionParams.data, function (val) {
+        //    $scope.Permission.ReadPerm = true;
+        //})
+
+        //for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+            if (value)
+                $scope.data.Permission.ReadPerm = true;
+            else
+                $scope.Permission.ReadPerm = false;
+            //var item = $scope.PermissionParams.data[i];
+            //if(value)
+            //    $scope.selected[item.Permission.ReadPerm] = true;
+            //else
+            //    $scope.selected[item.Permission.ReadPerm] = false;
+        //}
+    };
+
+    $scope.updatePermissions = function () {
+
+        $scope.resp = null;
+
+        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+            var abc = $scope.PermissionParams.data[i];
+
+            $http({
+                method: 'POST',
+                url: 'api/Permission/GrantPermission',
+                data: '"' + abc.UserName + ' ' + abc.DatabaseName + ' ' + abc.TableName + ' ' + abc.ReadPerm + ' ' + abc.WritePerm + ' ' + abc.AlterPerm + '"',
+                headers: { "Content-Type": 'application/json' }
+            })
+
+                .success(function (response) {
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        resp = response;
+                        //break;
+                    }
+                    else {
+                        //alert(response.obj);
+                        resp = response;
+                    }
+
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    resp = res;
+                    //break;
+                });
+        }
+
+
+            if (resp.response_code == "200") {
+                $rootScope.$broadcast('dialog', "Success", "Success", resp.obj);
+            }
+
     };
 
 

@@ -26,10 +26,9 @@ namespace MSUISApi.Controllers
             try
             {
                 String[] str = perm.Split(' ');
-                SqlCommand cmd = new SqlCommand("GetPermissionsByUser", Con);
+                SqlCommand cmd = new SqlCommand("GetPermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", str[0]);
-                //cmd.Parameters.AddWithValue("@tablename", perm.TableName);
                 cmd.Parameters.AddWithValue("@databasename", str[1]);
                 Da.SelectCommand = cmd;
                 Da.Fill(Dt);
@@ -41,14 +40,12 @@ namespace MSUISApi.Controllers
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
                         Permission permission = new Permission();
-                        //permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
                         permission.TableName = Convert.ToString(Dt.Rows[i]["TableName"]);
-                        //permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
                         permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
                         permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
                         permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
-                        //permission.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["CreatedOn"]);
-                        //permission.ModifiedOn = Convert.ToDateTime(Dt.Rows[i]["ModifiedOn"]);
                         permissionsList.Add(permission);
                     }
                 }
@@ -61,19 +58,22 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GrantPermission(Permission Obj)
+        public HttpResponseMessage GrantPermission([FromBody] String Obj)
         {
             try
             {
-                string UserName = Convert.ToString(Obj.UserName);
-                string TableName = Convert.ToString(Obj.TableName);
-                bool ReadPerm = Convert.ToBoolean(Obj.ReadPerm);
-                bool WritePerm = Convert.ToBoolean(Obj.WritePerm);
-                bool AlterPerm = Convert.ToBoolean(Obj.AlterPerm);
+                String[] str = Obj.Split(' ');
+                string UserName = Convert.ToString(str[0]);
+                string DatabaseName = Convert.ToString(str[1]);
+                string TableName = Convert.ToString(str[2]);
+                bool ReadPerm = Convert.ToBoolean(str[3]);
+                bool WritePerm = Convert.ToBoolean(str[4]);
+                bool AlterPerm = Convert.ToBoolean(str[5]);
 
                 SqlCommand cmd = new SqlCommand("GrantPermission", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", UserName);
+                cmd.Parameters.AddWithValue("@dbname", DatabaseName);
                 cmd.Parameters.AddWithValue("@tablename", TableName);
                 cmd.Parameters.AddWithValue("@readPermission", ReadPerm);
                 cmd.Parameters.AddWithValue("@writePermission", WritePerm);

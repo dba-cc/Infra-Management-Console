@@ -20,6 +20,39 @@ namespace MSUISApi.Controllers
         DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
 
+        [HttpPost]
+        public HttpResponseMessage UserLogin([FromBody] String user)
+        {
+            try
+            {
+                String[] str = user.Split(' ');
+                string UserName = Convert.ToString(str[0]);
+                string UserPass = Convert.ToString(str[1]);
+                SqlCommand cmd = new SqlCommand("UserLogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", UserName);
+                cmd.Parameters.AddWithValue("@password", UserPass);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "Login Successful"))
+                {
+                    strMessage = "User Logged in Successfully.";
+                } 
+                else
+                {
+                    strMessage = "User Doesn't Exists.";
+                }
+                return Return.returnHttp("201", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
 
         [HttpPost]
         public HttpResponseMessage GetUser()
@@ -64,7 +97,6 @@ namespace MSUISApi.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", UserName);
                 cmd.Parameters.AddWithValue("@userPass", UserPass);
-                cmd.Parameters.AddWithValue("@CreatedOn", datetime);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();

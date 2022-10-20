@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/Permission"),
+    t.otherwise("/dashboard"),
 
 
         e.state("boxed", {
@@ -41,6 +41,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
             parent: "plain",
             templateUrl: "UI/layouts/admin/dashboard.html",
             controller: "dashboardCtrl"
+        });
+
+        e.state("UserDashBoard", {
+            url: "/UserDashBoard",
+            parent: "plain",
+            templateUrl: "UI/layouts/admin/UserDashBoard.html",
+            controller: "UserDashBoardCtrl"
         });
 
     e.state("login", {
@@ -110,16 +117,23 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     e.state("User", {
         url: "/User",
-        parent: "plain",
+        parent: "dashboard",
         templateUrl: "UI/pages/admin/User.html",
         controller: "UserCtrl"
     });
 
     e.state("Permission", {
         url: "/Permission",
-        parent: "plain",
+        parent: "dashboard",
         templateUrl: "UI/pages/admin/Permission.html",
         controller: "PermissionCtrl"
+    });
+
+    e.state("UserLogin", {
+        url: "/UserLogin",
+        parent: "plain",
+        templateUrl: "UI/pages/admin/UserLogin.html",
+        controller: "UserLoginCtrl"
     });
 }])
 
