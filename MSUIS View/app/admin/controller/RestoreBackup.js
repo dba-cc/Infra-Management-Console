@@ -1,4 +1,4 @@
-﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+﻿app.controller('RBCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
 
     $scope.getUserList = function () {
 
@@ -48,6 +48,28 @@
             });
     };
 
+    $scope.getFiles = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/RB/FCGet',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.FileList = {};
+                }
+                else {
+                    $scope.FileList = response.obj
+                }
+
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
     $scope.initPermissions = function () {
 
         $http({
@@ -74,34 +96,49 @@
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
-
-        var table = angular.element(document.getElementById('example-2'))
-        angular.element(document.getElementById('top-table')).rows[0].cells[0].width = table.rows[0].cells[0].width
     };
 
 
     $scope.checkAllRead = function () {
-        var cb = angular.element(document.getElementsByName('Read'))
-        console.log(cb)
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masterreadcheck'))[0].checked
-        });  
+        angular.forEach($scope.checkbox, function (obj) {
+            obj.selected = $scope.checkboxRead;
+        });
+        
+
+        //for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+            //if (value)
+            //    $scope.data.Permission.ReadPerm = true;
+            //else
+            //    $scope.data.Permission.ReadPerm = false;
+            //var item = $scope.PermissionParams.data[i];
+            //if(value)
+            //    $scope.selected[item.Permission.ReadPerm] = true;
+            //else
+            //    $scope.selected[item.Permission.ReadPerm] = false;
+        //}
     };
 
-    $scope.checkAllWrite = function () {
-        var cb = angular.element(document.getElementsByName('Write'))
-        console.log(cb)
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masterwritecheck'))[0].checked
-        });
-    };
+    $scope.RestoreBackup = function () {
 
-    $scope.checkAllAlter = function () {
-        var cb = angular.element(document.getElementsByName('Alter'))
-        console.log(cb)
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masteraltercheck'))[0].checked
-        });
+        $http({
+            method: 'POST',
+            url: 'api/RB/RestoreBackup',
+            data: $scope.RB,
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+                    alert(response.obj);
+                }
+
+            })
+            .error(function (res) {
+                alert(response.obj);
+            });
     };
 
     $scope.updatePermissions = function () {
@@ -136,6 +173,11 @@
                     //break;
                 });
         }
+
+
+            if (resp.response_code == "200") {
+                $rootScope.$broadcast('dialog', "Success", "Success", resp.obj);
+            }
 
     };
 

@@ -15,6 +15,11 @@
 					"icon": "ti-view-grid",
 					"displayName": "Permissions",
 					"state": "Permission"
+				},
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Backup Restore",
+					"state": "RestoreBackup"
 				}
 			]
 

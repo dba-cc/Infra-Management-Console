@@ -166,6 +166,7 @@
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
+    <Compile Include="Controllers\RBController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\Institute1Controller.cs" />
     <Compile Include="Controllers\InstituteController.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\Database.cs" />
+    <Compile Include="Models\RB.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Function.cs" />
     <Compile Include="Models\Institute.cs" />

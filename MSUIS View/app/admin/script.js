@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/dashboard"),
+    t.otherwise("/UserLogin"),
 
 
         e.state("boxed", {
@@ -127,6 +127,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         parent: "dashboard",
         templateUrl: "UI/pages/admin/Permission.html",
         controller: "PermissionCtrl"
+    });
+
+    e.state("RestoreBackup", {
+        url: "/RestoreBackup",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/RestoreBackup.html",
+        controller: "RBCtrl"
     });
 
     e.state("UserLogin", {
