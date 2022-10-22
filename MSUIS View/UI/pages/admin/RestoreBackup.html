@@ -1,0 +1,43 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="RBCtrl" ng-init="getFiles()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Restore Backup</h4></div>
+                    </div>                  
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="RestoreBackup">
+
+                            <div class="form-group row" ng-init="getFiles()">
+                                <div class="col-sm-1">File Name</div>
+                                <div class="col-sm-7">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="RB.DbName" ng-options="d.DbName as d.DbName for d in FileList" [value]="RB.DbName" class="form-control" name="Filedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="float-right"> <button type="button" ng-click="RestoreBackup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Restore</button></div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

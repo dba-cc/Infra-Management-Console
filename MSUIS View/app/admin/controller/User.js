@@ -26,7 +26,6 @@
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
-            data: data,
 
             headers: { "Content-Type": 'application/json' }
         })
@@ -125,35 +124,38 @@
             .cancel('No');
 
         $mdDialog.show(confirm).then(function () {
-            $scope.Company = data;
 
             $http({
                 method: 'POST',
                 url: 'api/User/DeleteUser',
-                data: $scope.Company,
+                data: data,
                 headers: { "Content-Type": 'application/json' }
             })
                 .success(function (response) {
 
                     $rootScope.showLoading = false;
-                    if (response.response_code == "0") {
-                        $state.go('login');
-
-                    } else if (response.response_code != "200") {
-                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                   if (response.response_code != "200") {
+                       $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                       $scope.resp = response.obj
                     }
                     else {
-                        alert(response.obj);
+                       alert(response.obj);
+                       $scope.resp = response.obj
                         $scope.GetUser();
                     }
                 })
                 .error(function (res) {
+                    $scope.resp = res.obj
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 });
 
         }, function () {
             $scope.status = 'You decided to keep your debt.';
         });
+        $scope.User = {};
+        $scope.GetUser()
+        console.log(data)
+        console.log($scope.resp)
     };
 
 

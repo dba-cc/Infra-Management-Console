@@ -94,51 +94,38 @@
                     <div class="card" ng-show="ShowPermissionsFlag">
                         <div class="card-block">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="example-2" ng-table="PermissionParams" show-filter="true">
-                                    <tbody>
+                                <table class="table table-striped table-bordered" id="top-table">
+                                    <tr>
+                                        <th>Select All</th>
+                                        <th style="text-align:center; width: auto"><label for="readall">Read <input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" /></label></th>
+                                        <th style="text-align:center;"><label for="writeall">Write <input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" /></label></th>
+                                        <th style="text-align:center;"><label for="alterall">Alter <input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" /></label></th>
 
-                                        <!--<tr>
-                                            <th>Sr.No</th>
-                                            <th>Table Name</th>
-                                            <th>Read</th>
-                                            <th>Write</th>
-                                            <th>Alter</th>
-                                        </tr>
-                                            -->
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th style="text-align:center;">Select All <input type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)"/></th>
-                                            <th style="text-align:center;">Select All <input type="checkbox" ng-model='checkboxWrite'/></th>
-                                            <th style="text-align:center;">Select All <input type="checkbox" ng-model='checkboxAlter'/></th>
-                                        </tr>
-                                        <tr ng-repeat="Permission in $data">
-                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                            <td data-title="'Table Name'" filter="{TableName: 'text'}" sortable="'TableName'" style=" border-top: none;"><label>{{Permission.TableName}}</label></td>
-
-                                            <td data-title="'Read'">
-                                                <div layout="row">
-                                                    <span flex></span>
-                                                    <input type="checkbox" ng-model="Permission.ReadPerm" name="Read"  ng-checked="Permission.ReadPerm">
-                                                </div>
-                                            </td>
-
-                                            <td data-title="'Write'">
-                                                <div layout="row">
-                                                    <span flex></span>
-                                                    <input type="checkbox" ng-model="Permission.WritePerm" name="Write" ng-checked="Permission.WritePerm">
-                                                </div>
-                                            </td>
-
-                                            <td data-title="'Alter'">
-                                                <div layout="row">
-                                                    <span flex></span>
-                                                    <input type="checkbox" ng-model="Permission.AlterPerm" name="Alter" ng-checked="Permission.AlterPerm">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    </tr>
                                 </table>
+                                    <table class="table table-striped table-bordered" id="example-2" ng-table="PermissionParams" show-filter="true">
+                                        
+                                        <tbody>
+
+                                            <tr ng-repeat="Permission in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Table Name'" filter="{TableName: 'text'}" sortable="'TableName'" style=" border-top: none;"><label>{{Permission.TableName}}</label></td>
+
+
+                                                <td data-title="'Read'" style="text-align: center;">
+                                                    <input type="checkbox" ng-model="Permission.ReadPerm" name="Read" ng-checked="Permission.ReadPerm" />
+                                                </td>
+
+                                                <td data-title="'Write'" style="text-align: center;">
+                                                    <input type="checkbox" ng-model="Permission.WritePerm" name="Write" ng-checked="Permission.WritePerm">
+                                                </td>
+
+                                                <td data-title="'Alter'" style="text-align: center;">
+                                                    <input type="checkbox" ng-model="Permission.AlterPerm" name="Alter" ng-checked="Permission.AlterPerm">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                             </div>
                             <!--<script type="text/ng-template" id="all.html">
                                 <input type="checkbox" ng-model="Permission.checkboxItem" ng-click="selectAll()" />
