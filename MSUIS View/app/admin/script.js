@@ -43,13 +43,6 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
             controller: "dashboardCtrl"
         });
 
-        e.state("UserDashBoard", {
-            url: "/UserDashBoard",
-            parent: "plain",
-            templateUrl: "UI/layouts/admin/UserDashBoard.html",
-            controller: "UserDashBoardCtrl"
-        });
-
     e.state("login", {
         url: "/login",
         parent: "plain",
