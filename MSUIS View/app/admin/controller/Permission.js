@@ -158,7 +158,7 @@
                     //break;
                 });
         }
-
+        alert(resp.obj);
     };
 
 
