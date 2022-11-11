@@ -6,11 +6,8 @@
     "\\MSUIS View\\app\\admin",
     "\\MSUIS View\\app\\admin\\controller",
     "\\MSUIS View\\UI",
-    "\\MSUIS View\\UI\\layouts\\admin",
     "\\MSUIS View\\UI\\pages",
-    "\\MSUIS View\\UI\\pages\\admin",
-    "\\MSUISApi\\Models"
+    "\\MSUIS View\\UI\\pages\\admin"
   ],
-  "SelectedNode": "\\MSUIS View\\UI\\pages\\admin\\Permission.html",
   "PreviewInSolutionExplorer": false
 }
