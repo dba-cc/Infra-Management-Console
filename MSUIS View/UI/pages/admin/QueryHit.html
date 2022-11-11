@@ -1,0 +1,42 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="QueryHitCtrl" ng-init="FetchQueryHitList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Query Analytics</h4></div>
+                    </div>                  
+                </div>
+
+                <div class="card-block">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="QueryHitParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="QueryHit in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
+                                            <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none;"><label>{{QueryHit.query}}</label></td>
+                                            <td data-title="'Number'" filter="{number: 'text'}" sortable="'number'" style=" border-top: none;"><label>{{QueryHit.number}}</label></td>
+                                            <td data-title="'Object ID'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
+                                            <td data-title="'DB Name'" filter="{dbname: 'text'}" sortable="'dbname'" style=" border-top: none;"><label>{{QueryHit.dbname}}</label></td>
+                                            <td data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

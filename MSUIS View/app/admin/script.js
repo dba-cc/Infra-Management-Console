@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/UserLogin"),
+    t.otherwise("/dashboard"),
 
 
         e.state("boxed", {
@@ -127,6 +127,20 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         parent: "dashboard",
         templateUrl: "UI/pages/admin/RestoreBackup.html",
         controller: "RBCtrl"
+    });
+
+    e.state("QueryHit", {
+        url: "/QueryHit",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/QueryHit.html",
+        controller: "QueryHitCtrl"
+    });
+
+    e.state("CredentialAnalytics", {
+        url: "/CredentialAnalytics",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/CredentialAnalytics.html",
+        controller: "CredentialAnalyticsCtrl"
     });
 
     e.state("UserLogin", {

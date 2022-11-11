@@ -20,6 +20,16 @@
 					"icon": "ti-view-grid",
 					"displayName": "Backup Restore",
 					"state": "RestoreBackup"
+				},
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Query Analytics",
+					"state": "QueryHit"
+				},
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Credential Analytics",
+					"state": "CredentialAnalytics"
 				}
 			]
 

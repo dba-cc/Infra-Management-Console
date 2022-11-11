@@ -4,14 +4,16 @@
         <div class="pcoded-inner-navbar main-menu">
             <div class="">
                 <div class="main-menu-header">
-                    <img class="img-40" src="assets/images/user.png" alt="User-Profile-Image">
+                    <img class="img-50" src="assets/images/user.png" alt="User-Profile-Image">
                     <div class="user-details">
                         <span>Admin</span>
                         <span>Database Admin</span>
+                        <hr>
+                        <a href="#!" style="color: lightsalmon"><i class="icon-logout" style="color:lightsalmon"></i> Logout</a>
                     </div>
                 </div>
 
-                <div class="main-menu-content">
+                <!--<div class="main-menu-content">
                     <ul>
                         <li>
                             <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
@@ -19,10 +21,10 @@
                             <a href="#!"><i class="ti-layout-sidebar-left"></i>Logout</a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
             </div>
 
-            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.navigation" menu-title-theme="theme5">Navigation</div>
+            <!--<div class="pcoded-navigatio-lavel" data-i18n="nav.category.navigation" menu-title-theme="theme5">Navigation</div>-->
             <ul class="pcoded-item pcoded-left-item">
                 <li ng-class="{active: $state.includes(menuItem.state)}" ng-repeat="menuItem in menuItemList">
                     <a ui-sref="{{menuItem.state}}">
