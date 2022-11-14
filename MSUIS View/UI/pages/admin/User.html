@@ -23,14 +23,14 @@
                     <div class="col-md-12 offset-md-2">
                         <form ng-model="User" ng-show="ShowFormFlag">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Username<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
+                                <label class="col-form-label" style="width:80px;">Username<span style="color:red">*</span>:</label>
+                                <div class="col-sm-4">
                                     <input type="text" name="Username" class="form-control" ng-model="User.UserName" placeholder="Type Username" required />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Password<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
+                                <label class="col-form-label" style="width:80px;">Password<span style="color:red">*</span>:</label>
+                                <div class="col-sm-4">
                                     <input type="text" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                             <div class="col-md-12 offset-md-2">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
-                                        <button class="btn btn-success" ng-click="AddUser()">Add </button>
+                                        <button class="tabledit-edit-button btn btn-primary waves-effect waves-light" ng-click="AddUser()">Add </button>
                                         <!--<button class="btn btn-dribbble" ng-click="ClearUser()">Clear</button>-->
                                     </div>
                                 </div>
@@ -52,23 +52,23 @@
 
                     <!--Modify User View-->
                     <div class="col-md-12 offset-md-2">
-                        <form ng-model="User" ng-show="ShowEditFlag">
+                        <form ng-model="UserEdit" ng-show="ShowEditFlag">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Username<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="Username" class="form-control" ng-model="User.UserName" placeholder="Type Username" required />
+                                <label class="col-form-label" style="width:80px;">Username<span style="color:red">*</span>:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="Username" class="form-control" ng-model="UserEdit.UserName" placeholder="Type Username" required />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Password<span style="color:red">*</span>:</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
+                                <label class="col-form-label" style="width:80px;">Password<span style="color:red">*</span>:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="Password" class="form-control" ng-model="UserEdit.UserPass" placeholder="Type Password" required />
                                 </div>
                             </div>
                             <div class="col-md-12 offset-md-2">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
-                                        <button class="btn btn-success" ng-click="editUser()">Update</button>
+                                        <button class="tabledit-edit-button btn btn-primary waves-effect waves-light" ng-click="editUser()">Update</button>
                                     </div>
                                 </div>
                             </div>

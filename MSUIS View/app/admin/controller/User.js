@@ -13,6 +13,7 @@
 
     $scope.NewAddPage = function () {
         $scope.ShowFormFlag = true;
+        $scope.ShowEditFlag = false;
     }
     
 
@@ -70,6 +71,7 @@
                     alert(response.obj);
                     $scope.User = {};
                     $scope.GetUser();
+                    $scope.ShowFormFlag = false;
                     //$state.go('CompanyAdd');
                 }
             })
@@ -81,9 +83,9 @@
     
 
     $scope.modifyUser = function (data) {
-        
+        $scope.ShowFormFlag = false;
         $scope.ShowEditFlag = true;
-        $scope.User = data;
+        $scope.UserEdit = data;
         $scope.GetUser();
         $(window).scrollTop(0); 
     }
@@ -93,7 +95,7 @@
         $http({
             method: 'POST',
             url: 'api/User/EditUser',
-            data: $scope.User,
+            data: $scope.UserEdit,
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
@@ -103,8 +105,9 @@
                 else {
                     alert(response.obj);
                     $scope.ShowEditFlag = false;
-                    $scope.User = {};
+                    $scope.UserEdit = {};
                     $scope.GetUser();
+                    $scope.ShowEditFlag = false;
                     //$scope.Company = {};
 
                 }

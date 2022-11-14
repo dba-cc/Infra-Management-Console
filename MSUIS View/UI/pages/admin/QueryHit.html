@@ -5,7 +5,7 @@
 </style>
 
 <!-- Page body start -->
-<div class="page-body" ng-controller="QueryHitCtrl" ng-init="FetchQueryHitList()">
+<div class="page-body" ng-controller="QueryHitCtrl">
     <div class="row">
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
@@ -13,10 +13,34 @@
                 <div class="card-header">
                     <div>
                         <div class="float-left"> <h4>Query Analytics</h4></div>
-                    </div>                  
+                    </div>
                 </div>
 
+
                 <div class="card-block">
+                    <div class="col-sm-24 offset-sm-4">
+                        <form name="query">
+                            <div class="form-group row">
+                                <label class="col-2.4 col-form-label">Query Count<span style="color:red">*</span>:</label>
+                                <div class="col-3">
+                                    <input name="querycount" type="number" class="form-control" ng-model="Query.count" placeholder="Query Count" required />
+                                    <span style="color:red;" ng-show="Show">Required!</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <button name="fetch" type="button" ng-click="check()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Fetch</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div class="card-block" ng-show="showQuerylistflag">
                     <div class="card">
                         <div class="card-block">
                             <div class="table-responsive">
@@ -37,6 +61,6 @@
                         </div>
                     </div>
                 </div>
-        </div>
+            </div>
     </div>
 </div>

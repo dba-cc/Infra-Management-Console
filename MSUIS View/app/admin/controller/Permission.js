@@ -67,6 +67,7 @@
                     }, {
                         dataset: response.obj
                     });
+                    $scope.UpdateFormFlag = true;
                     //$scope.TableList = response.obj;
                 }
 
