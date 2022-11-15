@@ -88,5 +88,5 @@
                 e.perfectSCrollbarObj = t.find(".tab-content").perfectScrollbar()
             }, 0)
         }
-    }
+	}
 })

@@ -1,3 +1,3 @@
-﻿app.controller("dashboardCtrl", function ($scope, $window, $rootScope) {
-
+﻿app.controller("dashboardCtrl", function ($scope, $state, $window, $rootScope) {
+    $state.go('User');
 })
