@@ -96,10 +96,11 @@
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered" id="top-table">
                                     <tr>
-                                        <th width="62.3%" style="text-align:center">Select All</th>
+                                        <th width="51.5%" style="text-align:center">Select All</th>
                                         <th style="text-align:center; width: auto"><label for="readall">Read <input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" /></label></th>
                                         <th style="text-align:center;"><label for="writeall">Write <input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" /></label></th>
                                         <th style="text-align:center;"><label for="alterall">Alter <input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" /></label></th>
+                                        <th style="text-align:center;"><label for="fullaccessall">Full Access <input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" /></label></th>
 
                                     </tr>
                                 </table>
@@ -122,6 +123,10 @@
 
                                             <td data-title="'Alter'" style="text-align: center;">
                                                 <input type="checkbox" ng-model="Permission.AlterPerm" name="Alter" ng-checked="Permission.AlterPerm">
+                                            </td>
+
+                                            <td data-title="'Full Access'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="Permission.FullAccessPerm" name="FullAccess" ng-checked="Permission.FullAccessPerm">
                                             </td>
                                         </tr>
                                     </tbody>

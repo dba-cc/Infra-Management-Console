@@ -1,6 +1,5 @@
 {
   "ExpandedNodes": [
-    "",
     "\\MSUIS View",
     "\\MSUIS View\\app",
     "\\MSUIS View\\app\\admin",
@@ -13,6 +12,5 @@
     "\\MSUIS View\\UI\\pages",
     "\\MSUIS View\\UI\\pages\\admin"
   ],
-  "SelectedNode": "\\MSUIS View\\app\\admin\\controller\\User.js",
   "PreviewInSolutionExplorer": false
 }

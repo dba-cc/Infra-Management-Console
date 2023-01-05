@@ -21,6 +21,8 @@
 
                     <button type="button" ng-click="NewAddPage()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New User</button><!--<br /><br />-->
                     <div class="col-md-12 offset-md-2">
+                        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+                        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
                         <form ng-model="User" ng-show="ShowFormFlag">
                             <div class="form-group row">
                                 <label class="col-form-label" style="width:80px;">Username<span style="color:red">*</span>:</label>
@@ -31,12 +33,12 @@
                             <div class="form-group row">
                                 <label class="col-form-label" style="width:80px;">Password<span style="color:red">*</span>:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
+                                    <input ng-attr-type="{{ showPassword ? 'text' : 'password' }}" name="Password" class="form-control" ng-model="User.UserPass" placeholder="Type Password" required />
+                                </div>
+                                <div class="input-group-addon" style="color:black; background-color:whitesmoke;">
+                                    <div ng-click="toggleShowPassword()" ng-class="{'fa fa-eye': showPassword,'fa fa-eye-slash': !showPassword}" style="cursor: pointer;" />
                                 </div>
                             </div>
-
-
-
 
                             <div class="col-md-12 offset-md-2">
                                 <div class="form-group row">
@@ -56,13 +58,16 @@
                             <div class="form-group row">
                                 <label class="col-form-label" style="width:80px;">Username<span style="color:red">*</span>:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="Username" class="form-control" ng-model="UserEdit.UserName" placeholder="Type Username" required />
+                                    <input ng-readonly="true" type="text" name="Username" class="form-control" ng-model="UserEdit.UserName" placeholder="Type Username" required />
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label" style="width:80px;">Password<span style="color:red">*</span>:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="Password" class="form-control" ng-model="UserEdit.UserPass" placeholder="Type Password" required />
+                                    <input type="text" ng-attr-type="{{ showPassword ? 'text' : 'password' }}" name="Password" class="form-control" ng-model="UserEdit.UserPass" placeholder="Type Password" required />
+                                </div>
+                                <div class="input-group-addon" style="color:black; background-color:whitesmoke;">
+                                    <div ng-click="toggleShowPassword()" ng-class="{'fa fa-eye': showPassword,'fa fa-eye-slash': !showPassword}" style="cursor: pointer;" />
                                 </div>
                             </div>
                             <div class="col-md-12 offset-md-2">

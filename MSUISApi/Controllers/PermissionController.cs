@@ -46,6 +46,7 @@ namespace MSUISApi.Controllers
                         permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
                         permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
                         permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
+                        permission.FullAccessPerm = Convert.ToBoolean(Dt.Rows[i]["FullAccessPerm"]);
                         permissionsList.Add(permission);
                     }
                 }
@@ -69,6 +70,7 @@ namespace MSUISApi.Controllers
                 bool ReadPerm = Convert.ToBoolean(str[3]);
                 bool WritePerm = Convert.ToBoolean(str[4]);
                 bool AlterPerm = Convert.ToBoolean(str[5]);
+                bool FullAccessPerm = Convert.ToBoolean(str[6]);
 
                 SqlCommand cmd = new SqlCommand("GrantPermission", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -78,6 +80,7 @@ namespace MSUISApi.Controllers
                 cmd.Parameters.AddWithValue("@readPermission", ReadPerm);
                 cmd.Parameters.AddWithValue("@writePermission", WritePerm);
                 cmd.Parameters.AddWithValue("@alterPermission", AlterPerm);
+                cmd.Parameters.AddWithValue("@fullaccessPermission", FullAccessPerm);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();

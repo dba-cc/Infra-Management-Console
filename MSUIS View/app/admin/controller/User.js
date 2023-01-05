@@ -15,7 +15,11 @@
         $scope.ShowFormFlag = true;
         $scope.ShowEditFlag = false;
     }
-    
+
+    $scope.showPassword = false;
+    $scope.toggleShowPassword = function () {
+        $scope.showPassword = !$scope.showPassword;
+    };
 
     var ProgrammeList = [];
     
@@ -68,11 +72,14 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    alert(response.obj);
-                    $scope.User = {};
-                    $scope.GetUser();
-                    $scope.ShowFormFlag = false;
-                    //$state.go('CompanyAdd');
+                    if (response.obj == 'Bad Password' || response.obj == 'Record already exists.') {
+                        alert(response.obj);
+                    } else {
+                        alert(response.obj);
+                        $scope.User = {};
+                        $scope.GetUser();
+                        $scope.ShowFormFlag = false;
+                    }
                 }
             })
             .error(function (res) {

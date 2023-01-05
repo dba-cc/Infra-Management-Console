@@ -126,6 +126,21 @@
         }
     };
 
+    $scope.checkAllFullAccess = function (value) {
+        var cb = angular.element(document.getElementsByName('FullAccess'))
+        console.log(cb)
+        angular.forEach(cb, function (value) {
+            value.checked = angular.element(document.getElementsByName('masterfullaccesscheck'))[0].checked
+        });
+
+        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+            if (value)
+                $scope.PermissionParams.data[i].FullAccessPerm = true;
+            else
+                $scope.PermissionParams.data[i].FullAccessPerm = false;
+        }
+    };
+
 
     $scope.updatePermissions = function () {
 
@@ -137,7 +152,7 @@
             $http({
                 method: 'POST',
                 url: 'api/Permission/GrantPermission',
-                data: '"' + abc.UserName + ' ' + abc.DatabaseName + ' ' + abc.TableName + ' ' + abc.ReadPerm + ' ' + abc.WritePerm + ' ' + abc.AlterPerm + '"',
+                data: '"' + abc.UserName + ' ' + abc.DatabaseName + ' ' + abc.TableName + ' ' + abc.ReadPerm + ' ' + abc.WritePerm + ' ' + abc.AlterPerm + ' ' + abc.FullAccessPerm + '"',
                 headers: { "Content-Type": 'application/json' }
             })
 

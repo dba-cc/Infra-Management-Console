@@ -6,6 +6,11 @@
 
     $scope.loginObj = {};
 
+    $scope.showPassword = false;
+    $scope.toggleShowPassword = function () {
+        $scope.showPassword = !$scope.showPassword;
+    };
+
     $scope.login = function () {
 
         $rootScope.showLoading = false;

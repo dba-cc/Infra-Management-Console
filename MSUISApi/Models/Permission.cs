@@ -14,6 +14,7 @@ namespace MSUISApi.Models
         public bool ReadPerm { get; set; }
         public bool WritePerm { get; set; }
         public bool AlterPerm { get; set; }
+        public bool FullAccessPerm { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }   
     }
