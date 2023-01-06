@@ -26,6 +26,7 @@
 
     .ui.stacked.segment {
         padding: 50px;
+        border-radius: 15px;
     }
 
     .ui.grid.column {
@@ -38,7 +39,6 @@
         justify-content: center;
         align-items: center;
         box-shadow: 12px 0 15px -4px rgb(0 0 0 / 87%), -12px 0 8px -4px rgb(0 0 0 / 54%);
-        border-left: 5px solid #333333;
         background: url('../../../assets/images/bg.jpg')
     }
 
@@ -70,22 +70,24 @@
 
                                 <form class="ui large form">
                                     <div class="ui stacked segment">
+
                                         <h2 class="ui green image header">
+                                            <i class="unlock alternate icon"></i>
                                             <div class="content">
-                                                Log-in as Admin
+                                                Log-in
                                             </div>
                                         </h2>
                                         <div class="field">
                                             <div class="ui big left icon input">
                                                 <i class="user icon"></i>
-                                                <input type="text" name="Username" placeholder="Username" class="form-control" ng-model="loginObj.username" autocomplete="off" required>
+                                                <input type="text" name="Username" placeholder="Username" class="form-control" ng-model="loginObj.username" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui big action left icon input">
                                                 <i class="lock icon"></i>
-                                                <input name="Password" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="loginObj.password" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}">
-                                                <button class="ui icon button" ng-click="toggleShowPassword()">
+                                                <input name="Password" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="loginObj.password" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}"/>
+                                                <button type="button" class="ui icon button" ng-click="toggleShowPassword()">
                                                     <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
                                                 </button>
                                             </div>
@@ -98,6 +100,11 @@
                                             <div class="hidden content">
                                                 <i class="sign-in icon"></i>
                                             </div>
+                                        </div>
+                                        <div class="ui negative message" id="error-message" style="display: none">
+                                            <p id="message" ng-model="message">
+                                                {{message}}
+                                            </p>
                                         </div>
                                     </div>
                                 </form>
