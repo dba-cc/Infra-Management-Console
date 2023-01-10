@@ -48,5 +48,36 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage AutoBackupDatabase([FromBody] String Obj)
+        {
+            try
+            {
+                String[] str = Obj.Split(' ');
+                string name = Convert.ToString(str[0]);
+                string location = Convert.ToString(str[1]);
+                string frequency = Convert.ToString(str[2]);
+                string type = Convert.ToString(str[3]);
+                DateTime time = DateTime.Parse(str[4]);
+                string day = Convert.ToString(str[5]);
+
+                SqlCommand cmd = new SqlCommand("AutoBackupDatabase", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DatabaseName", name);
+                cmd.Parameters.AddWithValue("@BackupLocation", location);
+                cmd.Parameters.AddWithValue("@Frequency", frequency);
+                cmd.Parameters.AddWithValue("@BackupType", type);
+                cmd.Parameters.AddWithValue("@BackupTime", time);
+                cmd.Parameters.AddWithValue("@DayForWeeklyBackup", day);
+                cmd.ExecuteNonQuery();
+                Con.Close();
+                return Return.returnHttp("200", "AutoBackup Scheduled.", null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }

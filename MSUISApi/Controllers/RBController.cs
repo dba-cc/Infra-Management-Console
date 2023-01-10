@@ -32,15 +32,15 @@ namespace MSUISApi.Controllers
 
                 Da.Fill(Dt);
 
-                List<RB> FCList = new List<RB>();
+                List<FC> FCList = new List<FC>();
 
                 if (Dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
-                        RB rb = new RB();
-                        rb.DbName = Convert.ToString(Dt.Rows[i]["FileNames"]);
-                        FCList.Add(rb);
+                        FC fc = new FC();
+                        fc.DbName = Convert.ToString(Dt.Rows[i]["FileNames"]);
+                        FCList.Add(fc);
                     }
                 }
                 return Return.returnHttp("200", FCList, null);
@@ -52,18 +52,20 @@ namespace MSUISApi.Controllers
         }
 
 
-
         [HttpPost]
-        public HttpResponseMessage RestoreBackup(RB ObjFac)
+        public HttpResponseMessage RestoreBackup(RB rb)
         {
             try
             {
-                string DbName = Convert.ToString(ObjFac.DbName);
+                string FrDbName = Convert.ToString(rb.FrDbName);
+                string ToDbName = Convert.ToString(rb.ToDbName);
                 SqlCommand cmd = new SqlCommand("RestoreBackup", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@dbName", DbName);
+                cmd.Parameters.AddWithValue("@dbFromName", FrDbName);
+                cmd.Parameters.AddWithValue("@dbToName", ToDbName);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
-                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+                Con.Open();
                 cmd.ExecuteNonQuery();
                 string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
                 Con.Close();

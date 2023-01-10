@@ -173,6 +173,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CredentialAnalysis.cs" />
+    <Compile Include="Models\FC.cs" />
     <Compile Include="Models\QueryHit.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Table.cs" />

@@ -26,6 +26,14 @@
                                 <div class="col-sm-4">
                                     <div>
                                         <span class="nullable">
+                                            <div class="dropdown pull-right makePaymentDropdownMainDiv" auto-close="outsideClick">
+                                                <button class="btn btn-default dropdown-toggle makePaymentDropdownBtn" type="button" id="individualDrop" data-toggle="dropdown">search<span class="caret pull-right"></span></button>
+                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                <ul class="dropdown-menu makePaymentDropdownUlStyle" role="menu" aria-labelledby="individualDrop">
+                                                    <input disable-auto-close type="search" ng-model="User.UserName" class="makePaymentDropdownSearchBox" placeholder="Search"></input>
+                                                    <li role="presentation" ng-repeat="d.UserName as d.UserName for d in UserList | filter: User.UserName"><a role="menuitem" ng-click="selectEntity(User.UserName)">{{User.UserName}}</a></li>
+                                                </ul>
+                                            </div>
                                             <select ng-model="User.UserName" ng-options="d.UserName as d.UserName for d in UserList" ng-change="showDatabaselist()" [value]="User.UserName" class="form-control" name="Userdropdown" required>
                                                 <option value="" disabled selected>-- select --</option>
                                             </select>
