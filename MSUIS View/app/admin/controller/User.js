@@ -164,8 +164,6 @@
         });
         $scope.User = {};
         $scope.GetUser()
-        console.log(data)
-        console.log($scope.resp)
     };
 
 

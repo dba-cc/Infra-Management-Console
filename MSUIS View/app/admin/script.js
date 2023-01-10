@@ -129,6 +129,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         controller: "RBCtrl"
     });
 
+    e.state("AutoBackup", {
+        url: "/AutoBackup",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/AutoBackup.html",
+        controller: "AutoBackupCtrl"
+    });
+
     e.state("QueryHit", {
         url: "/QueryHit",
         parent: "dashboard",

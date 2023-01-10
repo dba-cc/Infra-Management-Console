@@ -1,38 +1,46 @@
 ﻿app.directive("sidenav", function ($rootScope) {
-    return {
-        templateUrl: "UI/layouts/common/directives/sidenav.html",
-        restrict: "E",
-        replace: !0,
-        controller: ["$scope", function (e) {
+	return {
+		templateUrl: "UI/layouts/common/directives/sidenav.html",
+		restrict: "E",
+		replace: !0,
+		controller: ["$scope", function (e) {
+			
 
-			e.menuItemList = [
-				{
-					"icon": "ti-view-grid",
-					"displayName": "User Management",
-					"state": "User"
-				},
-				{
-					"icon": "ti-view-grid",
-					"displayName": "Permissions",
-					"state": "Permission"
-				},
-				{
-					"icon": "ti-view-grid",
-					"displayName": "Backup Restore",
-					"state": "RestoreBackup"
-				},
-				{
-					"icon": "ti-view-grid",
-					"displayName": "Query Analytics",
-					"state": "QueryHit"
-				},
-				{
-					"icon": "ti-view-grid",
-					"displayName": "Credential Analytics",
-					"state": "CredentialAnalytics"
-				}
-			]
+			//e.menuItemList = [
+			//	{
+			//		"icon": "ti-view-grid",
+			//		"displayName": "User Management",
+			//		"state": "User",
+			//		"subitems": ['Submenu 1', 'Submenu 2']
+			//	},
+			//	{
+			//		"icon": "ti-view-grid",
+			//		"displayName": "Permissions",
+			//		"state": "Permission",
+			//		"subitems": ['Submenu 1', 'Submenu 2']
+			//	},
+			//	{
+			//		"icon": "ti-view-grid",
+			//		"displayName": "Backup Restore",
+			//		"state": "RestoreBackup",
+			//		"subitems": ['Submenu 1', 'Submenu 2']
+			//	},
+			//	{
+			//		"icon": "ti-view-grid",
+			//		"displayName": "Query Analytics",
+			//		"state": "QueryHit",
+			//		"subitems": ['Submenu 1', 'Submenu 2']
+			//	},
+			//	{
+			//		"icon": "ti-view-grid",
+			//		"displayName": "Credential Analytics",
+			//		"state": "CredentialAnalytics"
+			//	}
+			//]
 
+			e.toggleSubmenu = function(item) {
+				item.expanded = !item.expanded;
+			}
 			if (!$rootScope.reloadPage) {
 				$("#pcoded").pcodedmenu({
 					themelayout: 'vertical',
@@ -76,17 +84,66 @@
 				});
 			}
 
-            //e.tabActive = [],
-            //    e.$watch("tabActive", function () {
-            //        e.perfectSCrollbarObj && setTimeout(function () {
-            //            e.perfectSCrollbarObj.perfectScrollbar("update")
-            //        }, 100)
-            //    }, !0)
-        }],
-        link: function (e, t, a) {
-            setTimeout(function () {
-                e.perfectSCrollbarObj = t.find(".tab-content").perfectScrollbar()
-            }, 0)
-        }
+			//e.tabActive = [],
+			//    e.$watch("tabActive", function () {
+			//        e.perfectSCrollbarObj && setTimeout(function () {
+			//            e.perfectSCrollbarObj.perfectScrollbar("update")
+			//        }, 100)
+			//    }, !0)
+		}],
+		link: function (scope, element, attrs) {
+			setTimeout(function () {
+				scope.perfectSCrollbarObj = element.find(".tab-content").perfectScrollbar()
+			}, 0)
+
+			scope.menuItems = [
+				{
+					"icon": "bi bi-person-vcard-fill",
+					"name": "Identity & Access",
+					"hasSubmenu": true,
+					"subitems": [{
+						"icon": "bi bi-people-fill",
+						"name": "User Accounts",
+						"state": "User",
+					}, {
+						"icon": "bi bi-person-fill-check",
+						"name": "User Permissions",
+						"state": "Permission",
+					}]
+				},
+				{
+					"icon": "bi bi-device-hdd-fill",
+					"name": "Manage Backups",
+					"hasSubmenu": true,
+					"subitems": [{
+						"icon": "bi bi-alarm-fill",
+						"name": "Auto Backup",
+						"state": "AutoBackup",
+					}, {
+						"icon": "bi bi-hdd-fill",
+						"name": "Restore Backup",
+						"state": "RestoreBackup",
+					}]
+				},
+				{
+					"icon": "bi bi-bar-chart-line-fill",
+					"name": "Analytics",
+					"hasSubmenu": true,
+					"subitems": [{
+						"icon": "bi bi-play-fill",
+						"name": "Query Analytics",
+						"state": "QueryHit",
+					}, {
+						"icon": "bi bi-person-lines-fill",
+						"name": "Credential Analytics",
+						"state": "CredentialAnalytics",
+					}]
+				}
+			]
+
+			scope.toggleSubmenu = function (item) {
+				item.expanded = !item.expanded;
+			}
+		}
 	}
 })

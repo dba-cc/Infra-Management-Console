@@ -1,66 +1,118 @@
 <style>
-    .cardcontainer {
-        width: 100%;
-        height: 90vh;
-        display: flex;
-        justify-content: center;
-        background-image:url("../../../assets/images/login-bg.jpg"); opacity:.8;
-        align-items: center;
+    * {
+        padding: 0;
+        margin: 0
     }
 
-    .cardstyle {
-        width: 330px;
-        height: 320px;
-        align-items:center;
-        justify-content:center;
-        box-shadow: 1px 1px 4px 4px black;
+    html, body {
+        height: 100vh;
+        overflow: hidden
+    }
+
+    .ui.grid {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .ui.compact.card {
+        width: 100%;
+        display: block;
+    }
+
+    .eight.wide.column {
+        padding: 0 !important;
+        margin: 0
+    }
+
+    .ui.stacked.segment {
+        padding: 50px;
+        border-radius: 15px;
+    }
+
+    .ui.grid.column {
+        padding: 0 !important;
+        margin: 0
+    }
+
+    .innerdiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 12px 0 15px -4px rgb(0 0 0 / 87%), -12px 0 8px -4px rgb(0 0 0 / 54%);
+        background: url('../../../assets/images/bg.jpg')
+    }
+
+    .infra-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        height: 100vh;
     }
 </style>
 
 <div>
     <!-- Page body start -->
     <div class="page-body" ng-controller="UserLoginCtrl">
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <div class="float-left"> <h4>INFRA MANAGEMENT CONSOLE</h4></div>
+        <div class="ui grid">
+            <div class="eight wide column">
+                <img style="display: flex; position: absolute; margin: 15px; width: 10vh; height: 10vh; }" src="../../../assets/images/MSU Logo1_pp.png" />
+                <div class="infra-logo">
+                    <img style="width: 30vh; height: 30vh" src="../../../assets/images/infra-mgmt-svg.svg" />
                 </div>
             </div>
-            <div class="cardcontainer">
-                <md-card class="cardstyle">
-                    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-                    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-                    <form>
-                        <div class="form-group row" style="justify-content:center; margin-bottom:50px;">
-                            <label style="color:orangered; font-family:'Berlin Sans FB'; font-size:x-large">LOGIN</label>
-                        </div>
-                        <div class="form-group row">
-                            <label style="width:90px;" class="col-form-label">Username<span style="color:red">*</span>:</label>
-                            <div style="width:203px;">
-                                <input type="text" name="Username" class="form-control" ng-model="loginObj.username" placeholder="Type Username" required />
+            <div class="eight wide column">
+                <div class="ui compact card">
+                    <div class="innerdiv">
+                        <div class="ui middle aligned center aligned grid">
+
+                            <div class="column">
+
+                                <form class="ui large form">
+                                    <div class="ui stacked segment">
+
+                                        <h2 class="ui green image header">
+                                            <i class="unlock alternate icon"></i>
+                                            <div class="content">
+                                                Log-in
+                                            </div>
+                                        </h2>
+                                        <div class="field">
+                                            <div class="ui big left icon input">
+                                                <i class="user icon"></i>
+                                                <input type="text" name="Username" placeholder="Username" class="form-control" ng-model="loginObj.username" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui big action left icon input">
+                                                <i class="lock icon"></i>
+                                                <input name="Password" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="loginObj.password" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}"/>
+                                                <button type="button" class="ui icon button" ng-click="toggleShowPassword()">
+                                                    <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="or-spacer-vertical right">
+                                            <div class="mask"></div>
+                                        </div>
+                                        <div class="ui fluid big green animated button" style="margin: 25px 0px 0px 0px;" ng-click="login()" tabindex="0">
+                                            <div class="visible content">Login</div>
+                                            <div class="hidden content">
+                                                <i class="sign-in icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ui negative message" id="error-message" style="display: none">
+                                            <p id="message" ng-model="message">
+                                                {{message}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label style="width:90px;" class="col-form-label">Password<span style="color:red">*</span>:</label>
-                            <div style="width:160px;">
-                                <input ng-attr-type="{{ showPassword ? 'text' : 'password' }}" name="Password" class="form-control" ng-model="loginObj.password" placeholder="Type Password" required />
-                            </div>
-                            <div class="input-group-addon" style="color:black; background-color:whitesmoke;">
-                                <div ng-click="toggleShowPassword()" ng-class="{'fa fa-eye': showPassword,'fa fa-eye-slash': !showPassword}" style="cursor: pointer;" />
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="form-group row" style="justify-content:center; align-items:center; margin-top:30px;">
-                            <button class="tabledit-edit-button btn btn-primary waves-effect waves-light" ng-click="login()">Sign In</button>
-                            <!--<button class="btn btn-dribbble" ng-click="ClearUser()">Clear</button>-->
-                        </div>
-                    </form>
-                </md-card>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Page body end -->
 </div>
