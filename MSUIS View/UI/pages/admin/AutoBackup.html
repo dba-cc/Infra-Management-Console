@@ -1,0 +1,136 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="AutoBackupCtrl" ng-init="getDatabaseList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Schedule Backup</h4>
+                </div>
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="">
+
+                            <div class="form-group row" ng-init="getDatabaseList()">
+                                <div style="width:120px;" class="col-form-label">Database Name</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Database.name" ng-options="d.name as d.name for d in DatabaseList" ng-change="initPermissions()" [value]="Database.name" class="ui fluid search dropdown" id="Databasedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div style="width:120px;" class="col-form-label">Directory</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <div class="ui input">
+                                            <input type="text" id="saveDir" fdprocessedid="rkgmhl">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div style="width:120px;" class="col-form-label">Frequency</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <div class="ui form">
+                                            <div class="inline fields col-form-label" style="margin: 0">
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" value="DAILY" class="freqRadio" name="frequency" checked="checked">
+                                                        <label>Daily</label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" value="WEEKLY" class="freqRadio" name="frequency" ng-change="toggleWeeklyBackup()">
+                                                        <label>Weekly</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div style="width:120px;" class="col-form-label">Type</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <div class="ui form">
+                                            <div class="inline fields col-form-label" style="margin: 0">
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" value="FULL" class="typeRadio" name="type" checked="checked">
+                                                        <label>Full</label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" value="PARTIAL" class="typeRadio" name="type">
+                                                        <label>Partial</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div style="width:120px;" class="col-form-label">Time</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <div class="ui calendar">
+                                            <div class="ui input">
+                                                <input type="time" placeholder="Time" id="timepicker">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="weeklyBackup">
+                                <div style="width:120px;" class="col-form-label">Day</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <select class="ui search dropdown" id="dayDropdown">
+                                            <option value="Sunday">Sunday</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-3">
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-primary waves-effect waves-light" ng-click="scheduleAutoBackup()">Schedule</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
