@@ -174,7 +174,7 @@ p {
         background-color: rgba(128, 128, 128, 0.12);
         border-radius: 15px;
         padding: 15px 20px;
-        text-align: right
+        text-align: left;
     }
     .card .card-header .card-header-left {
       display: inline-block; }
