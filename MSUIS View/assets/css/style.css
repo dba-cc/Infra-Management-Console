@@ -29,7 +29,7 @@ File: style.css
 body {
   background-color: #f3f3f3;
   font-size: 0.875em;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
   font-family: "Open Sans", sans-serif; }
 
 ul {
@@ -56,7 +56,7 @@ p {
   display: block;
   overflow: auto; }
 
-.animate-size-change {
+/*.animate-size-change {
     transition: all linear 0.5s;
     overflow: hidden;
 }
@@ -76,29 +76,41 @@ p {
     .animate-size-change.ng-leave-active {
         height: 0;
     }
-
+*/
 
 /**====== Custom css end ======**/
 /**  =====================
       Main-body css start
 ==========================  **/
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
     width: 20px;
     display:none;
-}
+}*/
 
 /* Track */
-::-webkit-scrollbar-track {
+/*::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px green;
     border-radius: 10px;
-}
+}*/
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/*::-webkit-scrollbar-thumb {
     background: green;
     border-radius: 10px;
+}*/
+.scrollbar {
+    overflow-y: scroll;
 }
+
+    .scrollbar::-webkit-scrollbar {
+        width: 0;
+        background-color: transparent;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+        background-color: #F5F5F5;
+    }
 
 .sidebar-main-screen ul {
     list-style: none;
@@ -144,19 +156,26 @@ p {
   padding: 1.25rem; }
 
 .card {
-  border-radius: 2px;
-  border-top: 4px solid #8CDDCD;
-  -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  margin-bottom: 30px; }
+    border-radius: 2px;
+    border-top: 4px solid #8CDDCD;
+    -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 15px;
+    border: 1px solid green;
+    border-radius: 15px;
+    background: white;
+}
   .card .card-footer {
     background-color: #fff; }
-  .card .card-header {
-    background-color: transparent;
-    padding: 15px 20px; }
+    .card .card-header {
+        background-color: rgba(128, 128, 128, 0.12);
+        border-radius: 15px;
+        padding: 15px 20px;
+        text-align: right
+    }
     .card .card-header .card-header-left {
       display: inline-block; }
     .card .card-header .card-header-right {
@@ -3391,11 +3410,14 @@ a[data-lightbox="example-set"] .img-fluid {
     flex: 0 0 91.666667%;
     max-width: 91.666667%; }
 
-  .col-sm-12 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
-    max-width: 100%; }
+    .col-sm-12 {
+        margin-top: 15px;
+        margin-right: 15px;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 
   .pull-sm-0 {
     right: auto; }
@@ -16548,7 +16570,8 @@ body.dark-layout {
   position: relative; }
 
 .pcoded-inner-content {
-  padding: 10px; }
+    margin-right: 15px;
+}
 
 .pcoded .pcoded-navbar .pcoded-item {
   display: block;
