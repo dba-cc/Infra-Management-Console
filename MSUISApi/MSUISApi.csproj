@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AutoBackupController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\PermReportController.cs" />
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\RBController.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\BackUp.cs" />
     <Compile Include="Models\CredentialAnalysis.cs" />
     <Compile Include="Models\FC.cs" />
+    <Compile Include="Models\PermReportDb.cs" />
     <Compile Include="Models\QueryHit.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Table.cs" />
@@ -238,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\PermReport\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

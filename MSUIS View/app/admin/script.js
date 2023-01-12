@@ -149,6 +149,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         templateUrl: "UI/pages/admin/CredentialAnalytics.html",
         controller: "CredentialAnalyticsCtrl"
     });
+    e.state("PermReport", {
+        url: "/PermReport",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/PermReport.html",
+        controller: "PermReportCtrl"
+    });
 
     e.state("UserLogin", {
         url: "/UserLogin",
