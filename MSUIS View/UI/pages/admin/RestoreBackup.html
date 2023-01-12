@@ -26,15 +26,28 @@
                                 <div class="col-sm-7">
                                     <div>
                                         <span class="nullable">
-                                            <select ng-model="RB.DbName" ng-options="d.DbName as d.DbName for d in FileList" [value]="RB.DbName" class="form-control" name="Filedropdown" required>
+                                            <select ng-model="RB.FrDbName" ng-options="d.DbName as d.DbName for d in FileList" ng-change="showDatabaselist()" [value]="RB.DbName" class="form-control" name="Filedropdown" required>
                                                 <option value="" disabled selected>-- select --</option>
                                             </select>
                                         </span>
                                     </div>
 
                                 </div>
+                                <!-- <div class="float-right"> <button type="button" ng-click="RestoreBackup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Restore</button></div>-->
+                            </div>
+                            <div class="form-group row" ng-show="showDatabaselistflag" ng-init="getDatabaseList()">
+                                <div style="width:120px;" class="col-form-label">Database Name</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <span class="nullable">
+                                            <input type="text" name="TODb" class="form-control" ng-model="RB.ToDbName" defaultValue=RB.FrDbName required />
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="float-right"> <button type="button" ng-click="RestoreBackup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Restore</button></div>
                             </div>
+                           
                         </form>
                 </div>
             </div>

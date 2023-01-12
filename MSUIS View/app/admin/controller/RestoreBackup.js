@@ -44,5 +44,30 @@
                 alert(response.obj);
             });
     };
+    $scope.showDatabaselist = function () {
+        $scope.showDatabaselistflag = true;
+    }
+
+    $scope.getDatabaseList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/Database/GetDatabase',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.DatabaseList = {};
+                }
+                else {
+                    $scope.DatabaseList = response.obj;
+                }
+
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
 
 });

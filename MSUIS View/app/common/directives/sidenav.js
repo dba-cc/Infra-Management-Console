@@ -109,6 +109,10 @@
 						"icon": "bi bi-person-fill-check",
 						"name": "User Permissions",
 						"state": "Permission",
+					}, {
+						"icon": "bi bi-person-fill-check",
+						"name": "Permissions Report",
+						"state": "PermReport",
 					}]
 				},
 				{
