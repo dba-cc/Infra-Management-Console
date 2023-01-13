@@ -114,13 +114,12 @@
 						"state": "Permission",
 					}, {
 						"icon": "bi bi-person-fill-check",
-<<<<<<< HEAD
 						"name": "DB Level Permissions",
 						"state": "DBPermission",
-=======
+					}, {
+						"icon": "bi bi-person-fill-check",
 						"name": "Permissions Report",
 						"state": "PermReport",
->>>>>>> 8e8cd5f44bd05e931263259a8a87e59f08556135
 					}]
 				},
 				{

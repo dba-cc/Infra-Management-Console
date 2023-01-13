@@ -177,11 +177,8 @@
     <Compile Include="Models\BackUp.cs" />
     <Compile Include="Models\CredentialAnalysis.cs" />
     <Compile Include="Models\FC.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\DBPermission.cs" />
-=======
     <Compile Include="Models\PermReportDb.cs" />
->>>>>>> 8e8cd5f44bd05e931263259a8a87e59f08556135
     <Compile Include="Models\QueryHit.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Table.cs" />
