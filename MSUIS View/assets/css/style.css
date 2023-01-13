@@ -26,19 +26,21 @@ File: style.css
 /**  =====================
       Custom css start
 ==========================  **/
+
+* {
+    font-family: "Open Sans", sans-serif;
+}
+
 body {
-  background-color: #f3f3f3;
-  font-size: 0.875em;
-  /*overflow-x: hidden;*/
-  font-family: "Open Sans", sans-serif; }
+    background-color: #f3f3f3;
+    font-size: 0.875em;
+    /*overflow-x: hidden;*/
+}
 
 ul {
   padding-left: 0;
   list-style-type: none;
   margin-bottom: 0; }
-parent-menu.ng-animate {
-    transition: height 0.5s ease-out;
-}
 
 * a {
     font-size: 14px;
@@ -56,6 +58,32 @@ p {
   display: block;
   overflow: auto; }
 
+#inputPopup {
+    /*position: fixed;*/
+    max-height: fit-content;
+    position: absolute;
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50% !important;
+    border-radius: 15px;
+}
+
+    #inputPopup .header {
+        margin: 15px;
+        border: 0;
+        border-radius: 15px;
+    }
+    #inputPopup .actions {
+        margin: 15px;
+        border: 1px solid green;
+        background-color: #8080801f;
+        border-radius: 15px;
+        padding: 0.7rem
+    }
+
+.dimmed.dimmable > .ui.visible.dimmer, .ui.active.dimmer {
+    border-radius: 15px !important;
+}
 /*.animate-size-change {
     transition: all linear 0.5s;
     overflow: hidden;
@@ -77,23 +105,19 @@ p {
         height: 0;
     }
 */
-
 /**====== Custom css end ======**/
 /**  =====================
       Main-body css start
 ==========================  **/
-
 /*::-webkit-scrollbar {
     width: 20px;
     display:none;
 }*/
-
 /* Track */
 /*::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px green;
     border-radius: 10px;
 }*/
-
 /* Handle */
 /*::-webkit-scrollbar-thumb {
     background: green;
@@ -153,7 +177,66 @@ p {
       Card-Layout css start
 ==========================  **/
 .card-block {
-  padding: 1.25rem; }
+  margin-top: 1.25rem; }
+
+#message-container {
+    position: fixed;
+    /* top: 16px; */
+    z-index: 99;
+    width: fit-content;
+    /* right: 28%; */
+    bottom: 27px;
+    padding: 14px;
+    right: 31px;
+    display: none;
+}
+
+.main-card {
+    height: 96vh;
+    max-height: 96vh;
+}
+
+.main-table {
+    border-radius: 15px !important;
+    border: 2px solid lightgrey !important;
+}
+
+
+.ui.table thead tr:first-child > th:first-child {
+    border-radius: 15px 0 0 0 !important;
+}
+
+.ui.table thead tr:first-child > th:last-child {
+    border-radius: 0 15px 0 0 !important;
+}
+
+.ui.table thead tr > th:first-child {
+    border-radius: 0 0 0 15px !important;
+}
+
+.ui.table thead tr > th:last-child {
+    border-radius: 0 0 15px 0 !important;
+}
+
+
+.ui.table tr > first-child td:last-child {
+    border-radius: 15px !important;
+}
+
+.ng-table th.filter .input-filter {
+    border-radius: 15px;
+    border: 1px solid green;
+}
+
+.ui.striped.table tbody tr:nth-child(2n) {
+    background-color: #27bc1a3b !important;
+    border-radius: 15px !important;
+}
+
+.ng-table-pager .ng-scope {
+    /*display: none !important;*/
+}
+
 
 .card {
     border-radius: 2px;
@@ -174,7 +257,8 @@ p {
         background-color: rgba(128, 128, 128, 0.12);
         border-radius: 15px;
         padding: 15px 20px;
-        text-align: left;
+        text-align: right;
+        border: 0;
     }
     .card .card-header .card-header-left {
       display: inline-block; }
@@ -7009,7 +7093,7 @@ body.menu-sidebar .navbar-wrapper {
 
 .btn-group,
 .btn-group-vertical {
-  display: inline-block; }
+  display: none; }
 
 .btn-group .btn {
   float: left; }
@@ -9026,7 +9110,29 @@ table.table-bordered.dataTable tbody td:focus {
   outline: none; }
 
 .card .card-block ul.pagination li {
-  margin-right: 0; }
+    margin-right: 0;
+    /* padding-right: 15px; */
+    /* padding-left: 15px; */
+    /* border: 1px solid green; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 10px 0 10px;
+    border-radius: 15px;
+    /* color: #20bb40ad; */
+    background-color: #20bb40ad;
+}
+
+#table-parent-container {
+    max-height: 85vh !important;
+    height: 85vh !important;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+    .card .card-block ul.pagination li a {
+        padding: 5px 15px 5px 15px;
+        color: white;
+    }
 
 .page-item.active .page-link {
   background-color: #1abc9c;

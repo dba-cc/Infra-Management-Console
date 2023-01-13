@@ -1,4 +1,5 @@
 ﻿app.directive("sidenav", function ($rootScope) {
+	
 	return {
 		templateUrl: "UI/layouts/common/directives/sidenav.html",
 		restrict: "E",
@@ -41,6 +42,8 @@
 			e.toggleSubmenu = function(item) {
 				item.expanded = !item.expanded;
 			}
+
+			
 			if (!$rootScope.reloadPage) {
 				$("#pcoded").pcodedmenu({
 					themelayout: 'vertical',
@@ -111,8 +114,13 @@
 						"state": "Permission",
 					}, {
 						"icon": "bi bi-person-fill-check",
+<<<<<<< HEAD
 						"name": "DB Level Permissions",
 						"state": "DBPermission",
+=======
+						"name": "Permissions Report",
+						"state": "PermReport",
+>>>>>>> 8e8cd5f44bd05e931263259a8a87e59f08556135
 					}]
 				},
 				{
@@ -148,6 +156,7 @@
 			scope.toggleSubmenu = function (item) {
 				item.expanded = !item.expanded;
 			}
+		
 		}
 	}
 })
