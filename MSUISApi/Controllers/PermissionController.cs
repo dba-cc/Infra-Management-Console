@@ -97,5 +97,96 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
+
+        [HttpPost]
+        public HttpResponseMessage GetDBPermissions([FromBody] String perm)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetDBPermissions", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", perm);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<DBPermission> permissionsList = new List<DBPermission>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        DBPermission permission = new DBPermission();
+                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
+                        permission.ConnectDB = Convert.ToBoolean(Dt.Rows[i]["ConnectDB"]);
+                        permission.CreateProcedure = Convert.ToBoolean(Dt.Rows[i]["CreateProcedure"]);
+                        permission.CreateTable = Convert.ToBoolean(Dt.Rows[i]["CreateTable"]);
+                        permission.CreateView = Convert.ToBoolean(Dt.Rows[i]["CreateView"]);
+                        permission.ExecutePerm = Convert.ToBoolean(Dt.Rows[i]["ExecutePerm"]);
+                        permission.ViewDefinition = Convert.ToBoolean(Dt.Rows[i]["ViewDefinition"]);
+                        permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
+                        permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
+                        permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
+                        permission.ReferencesPerm = Convert.ToBoolean(Dt.Rows[i]["ReferencesPerm"]);
+                        permissionsList.Add(permission);
+                    }
+                }
+                return Return.returnHttp("200", permissionsList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GrantDBPermissions(DBPermission dBPermission)
+        {
+            try
+            {
+                string UserName = Convert.ToString(dBPermission.UserName);
+                string DatabaseName = Convert.ToString(dBPermission.DatabaseName);
+                bool ConnectDB = Convert.ToBoolean(dBPermission.ConnectDB);
+                bool CreateProcedure = Convert.ToBoolean(dBPermission.CreateProcedure);
+                bool CreateTable = Convert.ToBoolean(dBPermission.CreateTable);
+                bool CreateView = Convert.ToBoolean(dBPermission.CreateView);
+                bool ExecutePerm = Convert.ToBoolean(dBPermission.ExecutePerm);
+                bool ViewDefinition = Convert.ToBoolean(dBPermission.ViewDefinition);
+                bool ReadPerm = Convert.ToBoolean(dBPermission.ReadPerm);
+                bool WritePerm = Convert.ToBoolean(dBPermission.WritePerm);
+                bool AlterPerm = Convert.ToBoolean(dBPermission.AlterPerm);
+                bool ReferencesPerm = Convert.ToBoolean(dBPermission.ReferencesPerm);
+
+                SqlCommand cmd = new SqlCommand("GrantDBPermissions", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", UserName);
+                cmd.Parameters.AddWithValue("@database", DatabaseName);
+                cmd.Parameters.AddWithValue("@connect", ConnectDB);
+                cmd.Parameters.AddWithValue("@create_procedure", CreateProcedure);
+                cmd.Parameters.AddWithValue("@create_table", CreateTable);
+                cmd.Parameters.AddWithValue("@create_view", CreateView);
+                cmd.Parameters.AddWithValue("@execute", ExecutePerm);
+                cmd.Parameters.AddWithValue("@view_definition", ViewDefinition);
+                cmd.Parameters.AddWithValue("@read", ReadPerm);
+                cmd.Parameters.AddWithValue("@write", WritePerm);
+                cmd.Parameters.AddWithValue("@alter", AlterPerm);
+                cmd.Parameters.AddWithValue("@references", ReferencesPerm);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "Permission Granted.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }

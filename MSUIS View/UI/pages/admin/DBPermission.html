@@ -1,0 +1,190 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="DBPermissionCtrl" ng-init="getPermission()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3>Database Permissions</h3>
+                    </div>                  
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="DBPermission">
+
+                            <div class="form-group row" ng-init="getUserList()">
+                                <div style="width:120px;" class="col-form-label">Username</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <span class="nullable">
+                                            <!--<div class="dropdown pull-right makePaymentDropdownMainDiv" auto-close="outsideClick">
+                                                <button class="btn btn-default dropdown-toggle makePaymentDropdownBtn" type="button" id="individualDrop" data-toggle="dropdown">search<span class="caret pull-right"></span></button>
+                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                <ul class="dropdown-menu makePaymentDropdownUlStyle" role="menu" aria-labelledby="individualDrop">
+                                                    <input disable-auto-close type="search" ng-model="User.UserName" class="makePaymentDropdownSearchBox" placeholder="Search"></input>
+                                                    <li role="presentation" ng-repeat="d.UserName as d.UserName for d in UserList | filter: User.UserName"><a role="menuitem" ng-click="selectEntity(User.UserName)">{{User.UserName}}</a></li>
+                                                </ul>
+                                            </div>-->
+                                            <select ng-model="User.UserName" ng-options="d.UserName as d.UserName for d in UserList" ng-change="initPermissions()" [value]="User.UserName" class="form-control" name="Userdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group row" ng-show="showDatabaselistflag" ng-init="getDatabaseList()">
+                                <div style="width:120px;" class="col-form-label">Database Name</div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Database.name" ng-options="d.name as d.name for d in DatabaseList" ng-change="initPermissions()" [value]="Database.name" class="form-control" name="Databasedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <!--<div class="form-group row">
+                <div class="col-sm-2">Table Name</div>
+                <div class="col-sm-6">
+                    <div>
+                        <span class="nullable">
+                            <select ng-model="Table.name" ng-options="d.name as d.name for d in TableList" [value]="Table.name" class="form-control" name="Tabledropdown" required>
+                                <option value="" disabled selected>-- select --</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2">Permissions</div>
+                <div class="col-sm-2">
+                    <div>
+                        <input type="checkbox" ng-model="Permission.ReadPerm" name="Read" ng-checked="PermissionList.ReadPerm">
+                        <label for="Read">Read</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div>
+                        <input type="checkbox" ng-model="Permission.WritePerm" name="Read" ng-checked="PermissionList.WritePerm">
+                        <label for="Write">Write</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div>
+                        <input type="checkbox" ng-model="Permission.AlterPerm" name="Read" ng-checked="PermissionList.AlterPerm">
+                        <label for="Alter">Alter</label>
+                    </div>
+                </div>
+            </div>-->
+                            <!--<div cla<!--ss="col-md-12 offset-md-2">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <button class="btn btn-success" ng-click="addWorker()">Update</button>
+                        <button class="btn btn-disabled disabled" ng-click="resetWorker()">Cancel</button>
+                    </div>
+                </div>
+            </div>-->
+                        </form>
+                    </div>
+                    <div class="card" ng-show="ShowPermissionsFlag">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="top-table">
+                                    <tr>
+                                        <th width="25%" style="text-align:center">Select All</th>
+                                        <th style="text-align:center; width: auto"><label for="connectdball">ConnectDB <input id="connectdball" type="checkbox" ng-model='checkboxConnectDB' ng-click="checkAllConnectDB(checkboxConnectDB)" name="masterconnectdbcheck" /></label></th>
+                                        <th style="text-align:center;"><label for="createprocedureall">Create Procedure <input id="createprocedureall" type="checkbox" ng-model='checkboxCreateProcedure' ng-click="checkAllCreateProcedure(checkboxCreateProcedure)" name="mastercreateprocedurecheck" /></label></th>
+                                        <th style="text-align:center;"><label for="createtableall">Create Table <input id="createtableall" type="checkbox" ng-model='checkboxCreateTable' ng-click="checkAllCreateTable(checkboxCreateTable)" name="mastercreatetablecheck" /></label></th>
+                                        <th style="text-align:center;"><label for="createviewall">Create View <input id="createviewall" type="checkbox" ng-model='checkboxCreateView' ng-click="checkAllCreateView(checkboxCreateView)" name="mastercreateviewcheck" /></label></th>
+                                        <th style="text-align:center;"><label for="executeall">Execute <input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" /></label></th>
+                                        <th style="text-align:center;"><label for="viewdefinitionall">View Definition <input id="viewdefinitionall" type="checkbox" ng-model='checkboxViewDefinition' ng-click="checkAllViewDefinition(checkboxViewDefinition)" name="masterviewdefinitioncheck" /></label></th>
+                                        <th style="text-align:center; width: auto"><label for="readall">Read <input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" /></label></th>
+                                        <th style="text-align:center;"><label for="writeall">Write <input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" /></label></th>
+                                        <th style="text-align:center;"><label for="alterall">Alter <input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" /></label></th>
+                                        <th style="text-align:center;"><label for="foreignkeyall">Foreign Key <input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" /></label></th>
+                                    </tr>
+                                </table>
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="PermissionParams" show-filter="true">
+
+                                    <tbody>
+
+                                        <tr ng-repeat="DBPermission in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Database Name'" filter="{DatabaseName: 'text'}" sortable="'DatabaseName'" style=" border-top: none;"><label>{{DBPermission.DatabaseName}}</label></td>
+
+
+                                            <td data-title="'Connect'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.ConnectDB" name="ConnectDB" ng-checked="DBPermission.ConnectDB" />
+                                            </td>
+
+                                            <td data-title="'Create Procedure'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.CreateProcedure" name="CreateProcedure" ng-checked="DBPermission.CreateProcedure" />
+                                            </td>
+
+                                            <td data-title="'Create Table'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.CreateTable" name="CreateTable" ng-checked="DBPermission.CreateTable">
+                                            </td>
+
+                                            <td data-title="'Create View'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.CreateView" name="CreateView" ng-checked="DBPermission.CreateView">
+                                            </td>
+
+                                            <td data-title="'Execute'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.ExecutePerm" name="Execute" ng-checked="DBPermission.ExecutePerm">
+                                            </td>
+
+                                            <td data-title="'View Definition'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.ViewDefinition" name="ViewDefinition" ng-checked="DBPermission.ViewDefinition">
+                                            </td>
+
+                                            <td data-title="'Read'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.ReadPerm" name="Read" ng-checked="DBPermission.ReadPerm">
+                                            </td>
+
+                                            <td data-title="'Write'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.WritePerm" name="Write" ng-checked="DBPermission.WritePerm">
+                                            </td>
+
+                                            <td data-title="'Alter'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.AlterPerm" name="Alter" ng-checked="DBPermission.AlterPerm">
+                                            </td>
+
+                                            <td data-title="'Foreign Key'" style="text-align: center;">
+                                                <input type="checkbox" ng-model="DBPermission.ReferencesPerm" name="ForeignKey" ng-checked="DBPermission.ReferencesPerm">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--<script type="text/ng-template" id="all.html">
+                <input type="checkbox" ng-model="Permission.checkboxItem" ng-click="selectAll()" />
+            </script>-->
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 offset-md-3">
+                        <div class="col-md-12 offset-md-2">
+                            <div class="form-group row" ng-show="UpdateFormFlag">
+                                <div class="col-sm-6">
+                                    <button class="tabledit-edit-button btn btn-primary waves-effect waves-light" ng-click="updatePermissions()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

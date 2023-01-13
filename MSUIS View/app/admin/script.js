@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/UserLogin"),
+    t.otherwise("/dashboard"),
 
 
         e.state("boxed", {
@@ -155,6 +155,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         parent: "plain",
         templateUrl: "UI/pages/admin/UserLogin.html",
         controller: "UserLoginCtrl"
+    });
+
+    e.state("DBPermission", {
+        url: "/DBPermission",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/DBPermission.html",
+        controller: "DBPermissionCtrl"
     });
 }])
 
