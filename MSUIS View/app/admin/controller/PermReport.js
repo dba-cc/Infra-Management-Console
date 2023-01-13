@@ -1,6 +1,10 @@
 ﻿app.controller('PermReportCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
-   
+
+    $scope.dropdown = function () {
+        $('.ui.dropdown').dropdown();
+    }
     $scope.initPermReport = function () {
+        console.log($scope.Database.name)
             $http({
                 method: 'POST',
                 url: 'api/PermReport/PermReport',
