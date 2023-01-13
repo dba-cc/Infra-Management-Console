@@ -1,4 +1,5 @@
 ﻿app.directive("sidenav", function ($rootScope) {
+	
 	return {
 		templateUrl: "UI/layouts/common/directives/sidenav.html",
 		restrict: "E",
@@ -41,6 +42,8 @@
 			e.toggleSubmenu = function(item) {
 				item.expanded = !item.expanded;
 			}
+
+			
 			if (!$rootScope.reloadPage) {
 				$("#pcoded").pcodedmenu({
 					themelayout: 'vertical',
@@ -148,6 +151,7 @@
 			scope.toggleSubmenu = function (item) {
 				item.expanded = !item.expanded;
 			}
+		
 		}
 	}
 })

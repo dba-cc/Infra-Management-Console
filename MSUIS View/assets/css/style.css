@@ -32,18 +32,15 @@ File: style.css
 }
 
 body {
-  background-color: #f3f3f3;
-  font-size: 0.875em;
-  /*overflow-x: hidden;*/
-   }
+    background-color: #f3f3f3;
+    font-size: 0.875em;
+    /*overflow-x: hidden;*/
+}
 
 ul {
   padding-left: 0;
   list-style-type: none;
   margin-bottom: 0; }
-parent-menu.ng-animate {
-    transition: height 0.5s ease-out;
-}
 
 * a {
     font-size: 14px;

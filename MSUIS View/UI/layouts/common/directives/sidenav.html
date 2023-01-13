@@ -30,7 +30,7 @@
             </div>
 
             <ul class="pcoded-item pcoded-left-item scrollbar" style="margin-top: 15px; overflow: scroll; max-height: 79vh; overflow-x: hidden;">
-                <li ng-class="{active: $state.includes(item.state)} scrollbar" class="parent-menu" ng-repeat="item in menuItems" ng-click="toggleSubmenu(item)" style="background: #8080801f; border-radius: 15px; margin-bottom: 5px; padding-bottom: 5px" ng-animate="{height: 'auto'}">
+                <li ng-class="{active: $state.includes(item.state)} scrollbar" class="parent-menu" ng-repeat="item in menuItems" ng-click="toggleSubmenu(item)" style="background: #8080801f; border-radius: 15px; margin-bottom: 5px; padding-bottom: 5px;">
                     <a ui-sref="{{item.state}}" style="border-radius: 15px; padding-top: 15px">
                         <span class="pcoded-micon"><i class="{{item.icon}}" style="font-size: 1.5rem;"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.widget.main" style="color:black">{{item.name}}</span>
@@ -49,4 +49,8 @@
             </ul>
         </div>
     </nav>
+    <script>
+        
+    </script>
 </div>
+;
