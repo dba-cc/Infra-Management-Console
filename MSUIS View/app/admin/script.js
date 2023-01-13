@@ -162,6 +162,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         templateUrl: "UI/pages/admin/UserLogin.html",
         controller: "UserLoginCtrl"
     });
+
+    e.state("DBPermission", {
+        url: "/DBPermission",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/DBPermission.html",
+        controller: "DBPermissionCtrl"
+    });
+
 }])
 
 app.filter('getById', function () {

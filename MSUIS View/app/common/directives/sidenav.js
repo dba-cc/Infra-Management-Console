@@ -113,6 +113,10 @@
 						"name": "User Permissions",
 						"state": "Permission",
 					}, {
+						"icon": "bi bi-person-fill-check",
+						"name": "DB Level Permissions",
+						"state": "DBPermission",
+					}, {
 						"icon": "bi bi-person-video2",
 						"name": "Permissions Report",
 						"state": "PermReport",
