@@ -21,7 +21,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/dashboard"),
+    t.otherwise("/UserLogin"),
 
 
         e.state("boxed", {
@@ -149,6 +149,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         templateUrl: "UI/pages/admin/CredentialAnalytics.html",
         controller: "CredentialAnalyticsCtrl"
     });
+
+    e.state("LockAnalysis", {
+        url: "/LockAnalysis",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/LockAnalysis.html",
+        controller: "LockAnalysisCtrl"
+    });
+
     e.state("PermReport", {
         url: "/PermReport",
         parent: "dashboard",

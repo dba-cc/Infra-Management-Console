@@ -164,6 +164,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AutoBackupController.cs" />
+    <Compile Include="Controllers\LockAnalysisController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\PermReportController.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Models\CredentialAnalysis.cs" />
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
+    <Compile Include="Models\Locks.cs" />
     <Compile Include="Models\PermReportDb.cs" />
     <Compile Include="Models\QueryHit.cs" />
     <Compile Include="Models\Permission.cs" />
