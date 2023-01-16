@@ -1,5 +1,9 @@
 ﻿app.controller('DBPermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
 
+    $scope.dropdown = function () {
+        $('.ui.dropdown').dropdown();
+    }
+
     $scope.getUserList = function () {
 
         $http({
