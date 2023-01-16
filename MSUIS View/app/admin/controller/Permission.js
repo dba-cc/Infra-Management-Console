@@ -1,5 +1,13 @@
 ﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+    $scope.dropdownUser = function () {
+        $('#userDropdown').dropdown();
+    }
+    $scope.dropdownDatabase = function () {
+        $('#dbDropdown').dropdown();
+    }
+    $scope.$watch('User.UserName', function (newValue, oldValue) {
+        console.log("ng-model value changed from " + oldValue + " to " + newValue);
+    });
     $scope.getUserList = function () {
 
         $http({
@@ -24,6 +32,7 @@
 
     $scope.showDatabaselist = function () {
         $scope.showDatabaselistflag = true;
+        console.log('List enabled.')
     }
 
     $scope.getDatabaseList = function () {
