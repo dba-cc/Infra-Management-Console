@@ -1,4 +1,4 @@
-var app = angular.module('SampleApp', ["ui.router", 'ngMessages', 'ngCookies', "ngMaterial", "ngTable", "ngFileUpload"]);
+var app = angular.module('SampleApp', ["ui.router", 'ngMessages', 'ngCookies', "ngMaterial", "ngTable", "ngFileUpload", "ngAnimate"]);
 
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {

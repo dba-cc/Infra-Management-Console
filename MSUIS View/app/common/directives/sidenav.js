@@ -1,161 +1,120 @@
 ﻿app.directive("sidenav", function ($rootScope) {
-	
-	return {
-		templateUrl: "UI/layouts/common/directives/sidenav.html",
-		restrict: "E",
-		replace: !0,
-		controller: ["$scope", function (e) {
-			
 
-			//e.menuItemList = [
-			//	{
-			//		"icon": "ti-view-grid",
-			//		"displayName": "User Management",
-			//		"state": "User",
-			//		"subitems": ['Submenu 1', 'Submenu 2']
-			//	},
-			//	{
-			//		"icon": "ti-view-grid",
-			//		"displayName": "Permissions",
-			//		"state": "Permission",
-			//		"subitems": ['Submenu 1', 'Submenu 2']
-			//	},
-			//	{
-			//		"icon": "ti-view-grid",
-			//		"displayName": "Backup Restore",
-			//		"state": "RestoreBackup",
-			//		"subitems": ['Submenu 1', 'Submenu 2']
-			//	},
-			//	{
-			//		"icon": "ti-view-grid",
-			//		"displayName": "Query Analytics",
-			//		"state": "QueryHit",
-			//		"subitems": ['Submenu 1', 'Submenu 2']
-			//	},
-			//	{
-			//		"icon": "ti-view-grid",
-			//		"displayName": "Credential Analytics",
-			//		"state": "CredentialAnalytics"
-			//	}
-			//]
+    return {
+        templateUrl: "UI/layouts/common/directives/sidenav.html",
+        restrict: "E",
+        replace: !0,
+        controller: ["$scope", function (e) {
 
-			e.toggleSubmenu = function(item) {
-				item.expanded = !item.expanded;
-			}
+            e.toggleSubmenu = function (item) {
+                item.expanded = !item.expanded;
+            }
 
-			
-			if (!$rootScope.reloadPage) {
-				$("#pcoded").pcodedmenu({
-					themelayout: 'vertical',
-					verticalMenuplacement: 'left',		// value should be left/right
-					verticalMenulayout: 'wide',   		// value should be wide/box/widebox
-					MenuTrigger: 'click',
-					SubMenuTrigger: 'click',
-					activeMenuClass: 'active',
-					ThemeBackgroundPattern: 'pattern2',
-					HeaderBackground: 'theme4',
-					LHeaderBackground: 'theme4',
-					NavbarBackground: 'theme4',
-					ActiveItemBackground: 'theme5',
-					SubItemBackground: 'theme2',
-					ActiveItemStyle: 'style0',
-					ItemBorder: true,
-					ItemBorderStyle: 'none',
-					SubItemBorder: true,
-					DropDownIconStyle: 'style3', // Value should be style1,style2,style3
-					FixedNavbarPosition: false,
-					FixedHeaderPosition: false,
-					collapseVerticalLeftHeader: true,
-					VerticalSubMenuItemIconStyle: 'style6',  // value should be style1,style2,style3,style4,style5,style6
-					VerticalNavigationView: 'view1',
-					verticalMenueffect: {
-						desktop: "shrink",
-						tablet: "overlay",
-						phone: "overlay",
-					},
-					defaultVerticalMenu: {
-						desktop: "expanded",	// value should be offcanvas/collapsed/expanded/compact/compact-acc/fullpage/ex-popover/sub-expanded
-						tablet: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
-						phone: "offcanvas",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
-					},
-					onToggleVerticalMenu: {
-						desktop: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
-						tablet: "expanded",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
-						phone: "expanded",			// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
-					},
 
-				});
-			}
+            if (!$rootScope.reloadPage) {
+                $("#pcoded").pcodedmenu({
+                    themelayout: 'vertical',
+                    verticalMenuplacement: 'left',		// value should be left/right
+                    verticalMenulayout: 'wide',   		// value should be wide/box/widebox
+                    MenuTrigger: 'click',
+                    SubMenuTrigger: 'click',
+                    activeMenuClass: 'active',
+                    ThemeBackgroundPattern: 'pattern2',
+                    HeaderBackground: 'theme4',
+                    LHeaderBackground: 'theme4',
+                    NavbarBackground: 'theme4',
+                    ActiveItemBackground: 'theme5',
+                    SubItemBackground: 'theme2',
+                    ActiveItemStyle: 'style0',
+                    ItemBorder: true,
+                    ItemBorderStyle: 'none',
+                    SubItemBorder: true,
+                    DropDownIconStyle: 'style3', // Value should be style1,style2,style3
+                    FixedNavbarPosition: false,
+                    FixedHeaderPosition: false,
+                    collapseVerticalLeftHeader: true,
+                    VerticalSubMenuItemIconStyle: 'style6',  // value should be style1,style2,style3,style4,style5,style6
+                    VerticalNavigationView: 'view1',
+                    verticalMenueffect: {
+                        desktop: "shrink",
+                        tablet: "overlay",
+                        phone: "overlay",
+                    },
+                    defaultVerticalMenu: {
+                        desktop: "expanded",	// value should be offcanvas/collapsed/expanded/compact/compact-acc/fullpage/ex-popover/sub-expanded
+                        tablet: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+                        phone: "offcanvas",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+                    },
+                    onToggleVerticalMenu: {
+                        desktop: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+                        tablet: "expanded",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+                        phone: "expanded",			// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+                    },
 
-			//e.tabActive = [],
-			//    e.$watch("tabActive", function () {
-			//        e.perfectSCrollbarObj && setTimeout(function () {
-			//            e.perfectSCrollbarObj.perfectScrollbar("update")
-			//        }, 100)
-			//    }, !0)
-		}],
-		link: function (scope, element, attrs) {
-			setTimeout(function () {
-				scope.perfectSCrollbarObj = element.find(".tab-content").perfectScrollbar()
-			}, 0)
+                });
+            }
+        }],
+        link: function (scope, element, attrs) {
+            setTimeout(function () {
+                scope.perfectSCrollbarObj = element.find(".tab-content").perfectScrollbar()
+            }, 0)
 
-			scope.menuItems = [
-				{
-					"icon": "bi bi-person-vcard-fill",
-					"name": "Identity & Access",
-					"hasSubmenu": true,
-					"subitems": [{
-						"icon": "bi bi-people-fill",
-						"name": "User Accounts",
-						"state": "User",
-					}, {
-						"icon": "bi bi-person-fill-check",
-						"name": "User Permissions",
-						"state": "Permission",
-					}, {
-						"icon": "bi bi-person-fill-check",
-						"name": "DB Level Permissions",
-						"state": "DBPermission",
-					}, {
-						"icon": "bi bi-person-video2",
-						"name": "Permissions Report",
-						"state": "PermReport",
-					}]
-				},
-				{
-					"icon": "bi bi-device-hdd-fill",
-					"name": "Manage Backups",
-					"hasSubmenu": true,
-					"subitems": [{
-						"icon": "bi bi-alarm-fill",
-						"name": "Auto Backup",
-						"state": "AutoBackup",
-					}, {
-						"icon": "bi bi-hdd-fill",
-						"name": "Restore Backup",
-						"state": "RestoreBackup",
-					}]
-				},
-				{
-					"icon": "bi bi-bar-chart-line-fill",
-					"name": "Analytics",
-					"hasSubmenu": true,
-					"subitems": [{
-						"icon": "bi bi-play-fill",
-						"name": "Query Analytics",
-						"state": "QueryHit",
-					}, {
-						"icon": "bi bi-person-lines-fill",
-						"name": "Credential Analytics",
-						"state": "CredentialAnalytics",
-					}]
-				}
-			]
+            scope.menuItems = [
+                {
+                    "icon": "bi bi-person-vcard-fill",
+                    "name": "Identity & Access",
+                    "hasSubmenu": true,
+                    "subitems": [{
+                        "icon": "bi bi-people-fill",
+                        "name": "User Accounts",
+                        "state": "User",
+                    }, {
+                        "icon": "bi bi-person-fill-check",
+                        "name": "User Permissions",
+                        "state": "Permission",
+                    }, {
+                        "icon": "bi bi-database-fill-lock",
+                        "name": "Database Permissions",
+                        "state": "DBPermission",
+                    }, {
+                        "icon": "bi bi-person-video2",
+                        "name": "Permissions Report",
+                        "state": "PermReport",
+                    }]
+                },
+                {
+                    "icon": "bi bi-device-hdd-fill",
+                    "name": "Manage Backups",
+                    "hasSubmenu": true,
+                    "subitems": [{
+                        "icon": "bi bi-alarm-fill",
+                        "name": "Auto Backup",
+                        "state": "AutoBackup",
+                    }, {
+                        "icon": "bi bi-hdd-fill",
+                        "name": "Restore Backup",
+                        "state": "RestoreBackup",
+                    }]
+                },
+                {
+                    "icon": "bi bi-bar-chart-line-fill",
+                    "name": "Analytics",
+                    "hasSubmenu": true,
+                    "subitems": [{
+                        "icon": "bi bi-play-fill",
+                        "name": "Query Analytics",
+                        "state": "QueryHit",
+                    }, {
+                        "icon": "bi bi-person-lines-fill",
+                        "name": "Credential Analytics",
+                        "state": "CredentialAnalytics",
+                    }]
+                }
+            ]
 
-			scope.toggleSubmenu = function (item) {
-				item.expanded = !item.expanded;
-			}
-		
-		}
-	}
+            scope.toggleSubmenu = function (item) {
+                item.expanded = !item.expanded;
+            }
+        }
+    }
 })

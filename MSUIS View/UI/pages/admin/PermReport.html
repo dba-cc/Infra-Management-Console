@@ -12,9 +12,9 @@
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getDatabaseList()">
-                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left" ng-change="initPermReport()">
+                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left">
                             <i class="database icon"></i>
-                            <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                            <input type="hidden" ng-change="initPermReport()" ng-model="Database.name" style="color: white; font-weight: bold;">
                             <div class="default text">Select Database</div>
                             <div class="menu">
                                 <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
