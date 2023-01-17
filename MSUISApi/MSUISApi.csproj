@@ -180,6 +180,7 @@
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />
+    <Compile Include="Models\SPPermission.cs" />
     <Compile Include="Models\PermReportDb.cs" />
     <Compile Include="Models\QueryHit.cs" />
     <Compile Include="Models\Permission.cs" />

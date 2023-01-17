@@ -73,6 +73,10 @@
                         "name": "User Permissions",
                         "state": "Permission",
                     }, {
+                        "icon": "bi bi-person-fill-check",
+                        "name": "SP Permissions",
+                        "state": "SPPermission",
+                    }, {
                         "icon": "bi bi-database-fill-lock",
                         "name": "Database Permissions",
                         "state": "DBPermission",
