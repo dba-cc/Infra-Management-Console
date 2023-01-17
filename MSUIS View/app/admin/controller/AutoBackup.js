@@ -2,12 +2,38 @@
 
     $rootScope.pageTitle = "Schedule Backup";
 
-    $scope.NewAddPage = function () {
-        $scope.ShowFormFlag = true;
-        $scope.ShowEditFlag = false;
+    $scope.newSchedule = {
+        "database": "",
+        "location": "",
+        "frequency": "DAILY",
+        "type": "FULL",
+        "time": "",
+        "day": ""
     }
 
-    var ProgrammeList = [];
+    $scope.dropdown = function () {
+        $('.ui.dropdown').dropdown();
+    }
+
+    $scope.setFrequency = function (frequency) {
+        if (frequency === 'daily') {
+            $("#daily").addClass("active").siblings().removeClass("active");
+            document.getElementById('dayDropdown').style.display = 'none'
+        } else {
+            $("#weekly").addClass("active").siblings().removeClass("active");
+            document.getElementById('dayDropdown').style.display = 'block'
+        }
+        $scope.newSchedule["frequency"] = frequency.toUpperCase()
+    }
+
+    $scope.setType = function (type) {
+        if (type === 'full') {
+            $("#full").addClass("active").siblings().removeClass("active");
+        } else {
+            $("#partial").addClass("active").siblings().removeClass("active")
+        }
+        $scope.newSchedule["type"] = type.toUpperCase()
+    }
     
     $scope.getDatabaseList = function () {
 
@@ -31,43 +57,23 @@
             });
     };
 
-    $scope.scheduleAutoBackup = function () {
-
-        var eleFreq = document.getElementsByClassName('freqRadio');
-        var eleType = document.getElementsByClassName('typeRadio');
-        var selectedFreq, selectedType;
-        for (i = 0; i < eleFreq.length; i++) {
-            if (eleFreq[i].checked)
-                selectedFreq = eleFreq[i].value;
-        }
-        for (i = 0; i < eleType.length; i++) {
-            if (eleType[i].checked)
-                selectedType = eleType[i].value;
-        }
-
-        var schedule = {
-            "database": document.getElementById('Databasedropdown').value.split(':')[1],
-            "location": document.getElementById('saveDir').value.replace(/\\\\/g, "\\"),
-            "frequency": selectedFreq,
-            "type": selectedType,
-            "time": document.getElementById('timepicker').value + ':00',
-            "day": document.getElementById('dayDropdown').value
-        }
-        console.log(schedule)
+    $scope.getBackupSchedules = function () {
 
         $http({
             method: 'POST',
-            url: 'api/AutoBackup/AutoBackupDatabase',
-            data: schedule,
+            url: 'api/AutoBackup/GetBackupSchedules',
             headers: { "Content-Type": 'application/json' }
         })
 
             .success(function (response) {
                 if (response.response_code == "201") {
-                    //$scope.DatabaseList = {};
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    //$scope.DatabaseList = response.obj;
+                    $scope.ScheduleParams = new NgTableParams({
+                    }, {
+                        dataset: response.obj
+                    });
                 }
 
             })
@@ -76,4 +82,50 @@
             });
     };
 
+
+    $scope.scheduleAutoBackup = function () {
+
+        $scope.newSchedule["database"] = document.getElementById('dbSelect').value
+        $scope.newSchedule["location"] = document.getElementById('saveDir').value
+        $scope.newSchedule["time"] = document.getElementById('timepicker').value + ':00'
+        if ($scope.newSchedule["frequency"] === 'WEEKLY') {
+            $scope.newSchedule["day"] = document.getElementById('daySelect').value
+        } else {
+            $scope.newSchedule["day"] = null
+        }
+
+        $http({
+            method: 'POST',
+            url: 'api/AutoBackup/AutoBackupDatabase',
+            data: $scope.newSchedule,
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    //$scope.DatabaseList = {};
+                    alert(response)
+                }
+                else {
+                    alert(response)
+                    //$scope.DatabaseList = response.obj;
+                }
+
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    $scope.showAddPopup = function () {
+        $('.addPopup').modal({
+            context: '#parent-container',
+            onHidden: function () {
+                document.getElementById('add-message-container').style.display = 'none';
+                document.getElementById('add-message').innerText = '';
+            }
+        }).modal('show');
+    };
+    $scope.hideAddForm = function () {
+        $('.addPopup').modal('hide');
+    };
 });
