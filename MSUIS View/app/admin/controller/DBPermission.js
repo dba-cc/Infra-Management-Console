@@ -1,5 +1,9 @@
 ﻿app.controller('DBPermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
 
+    $scope.dropdown = function () {
+        $('.ui.dropdown').dropdown();
+    }
+
     $scope.getUserList = function () {
 
         $http({
@@ -22,32 +26,6 @@
             });
     };
 
-    //$scope.showDatabaselist = function () {
-    //    $scope.showDatabaselistflag = true;
-    //}
-
-    //$scope.getDatabaseList = function () {
-
-    //    $http({
-    //        method: 'POST',
-    //        url: 'api/Database/GetDatabase',
-    //        headers: { "Content-Type": 'application/json' }
-    //    })
-
-    //        .success(function (response) {
-    //            if (response.response_code == "201") {
-    //                $scope.DatabaseList = {};
-    //            }
-    //            else {
-    //                $scope.DatabaseList = response.obj;
-    //            }
-
-    //        })
-    //        .error(function (res) {
-    //            $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-    //        });
-    //};
-
     $scope.initPermissions = function () {
 
         $http({
@@ -62,12 +40,12 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    $scope.ShowPermissionsFlag = true
-                    $scope.PermissionParams = new NgTableParams({
+                    $scope.ShowDBPermissionsFlag = true
+                    $scope.DBPermissionParams = new NgTableParams({
                     }, {
                         dataset: response.obj
                     });
-                    $scope.UpdateFormFlag = true;
+                    $scope.UpdateDBFormFlag = true;
                 }
 
             })
@@ -264,36 +242,4 @@
         }
         alert(resp.obj);
     };
-
-
-    //$scope.NewAddPage = function () {
-    //    $state.go('CompanyAdd');
-    //}
-
-    //$scope.backToList = function () {
-    //    $state.go('CompanyEdit');
-    //}
-
-    
-
-    //$scope.getProgramme = function () {
-    //    //alert("Faculty Details");
-    //    $http({
-    //        method: 'POST',
-    //        url: 'api/Department/ProgGet',
-    //        data: $scope.Department,
-    //        headers: { "Content-Type": 'application/json' }
-    //    })
-
-    //        .success(function (response) {
-    //            $scope.ProgList = response.obj;
-
-    //            //$scope.TestCountry = {
-    //            //};
-    //        })
-    //        .error(function (res) {
-    //            //alert(res);
-    //        });
-    //};
-
 });

@@ -1,0 +1,94 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="SPPermissionCtrl" ng-init="getPermission()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="parent-container">
+                <div class="card main-card">
+                    <div class="card-header" ng-init="getUserList()">
+                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdownUser()" style="float: left" id="userDropdown">
+                            <select class="ui search selection dropdown" ng-model="User.UserName" ng-click="dropdownUser()" ng-change="showDatabaselist()">
+                                <option class="item" ng-repeat="u in UserList" value="{{u.UserName}}">{{u.UserName}}</option>
+                            </select>
+                            <i class="user icon"></i>
+                            <input type="hidden" ng-model="User.UserName" style="color: white; font-weight: bold;">
+                            <div class="default text">Select User</div>
+                            <div class="menu transition hidden">
+                                <div class="item" ng-repeat="u in UserList" data-value="{{u.UserName}}">{{u.UserName}}</div>
+                            </div>
+                        </div>
+                        <div class="ui blue floating dropdown labeled search icon button" ng-show="showDatabaselistflag" ng-click="dropdownDatabase()" style="float: left" ng-init="getDatabaseList()" id="dbDropdown">
+                            <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdownDatabase()" ng-change="initPermissions()">
+                                <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                            </select>
+                            <i class="database icon"></i>
+                            <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                            <div class="default text">Select Database</div>
+                            <div class="menu">
+                                <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-person-fill-check" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Stored Procedure Permissions</h3>
+                    </div>
+
+                    <div class="card-block scrollbar" ng-show="ShowPermissionsFlag" id="table-parent-container">
+                        <div class="table-responsive">
+                            <table class="ui striped table green main-table selectable" id="top-table">
+                                <tr>
+                                    <th width="13%"></th>
+                                    <th width="35%" style="text-align: center; vertical-align: middle">Select All</th>
+                                    <th width="13%" style="text-align:center; width: auto"><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="13%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="13%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="13%" style="text-align:center;"><input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" style="width:25px; height:25px" ; vertical-align: middle /></th>
+
+                                </tr>
+                            </table>
+                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="PermissionParams" show-filter="true">
+
+                                <tbody>
+
+                                    <tr ng-repeat="SPPermission in $data">
+                                        <td width="13%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
+                                        <td width="35%" data-title="'SP Name'" filter="{SPName: 'text'}" sortable="'SPName'" style=" border-top: none;"><label>{{SPPermission.SPName}}</label></td>
+
+
+                                        <td width="13%" data-title="'Read'" style="text-align: center;">
+                                            <input type="checkbox" ng-model="SPPermission.ReadPerm" name="Read" ng-checked="SPPermission.ReadPerm" />
+                                        </td>
+
+                                        <td width="13%" data-title="'Execute'" style="text-align: center;">
+                                            <input type="checkbox" ng-model="SPPermission.ExecutePerm" name="Write" ng-checked="SPPermission.ExecutePerm">
+                                        </td>
+
+                                        <td width="13%" data-title="'Alter'" style="text-align: center;">
+                                            <input type="checkbox" ng-model="SPPermission.AlterPerm" name="Alter" ng-checked="SPPermission.AlterPerm">
+                                        </td>
+
+                                        <td width="13%" data-title="'Full Access'" style="text-align: center;">
+                                            <input type="checkbox" ng-model="SPPermission.FullAccessPerm" name="FullAccess" ng-checked="SPPermission.FullAccessPerm">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row-fluid" ng-show="UpdateFormFlag" style="float:right">
+                            <div class="ui green animated button" tabindex="0" ng-click="updatePermissions()">
+                                <div class="visible content">Update</div>
+                                <div class="hidden content">
+                                    <i class="check icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

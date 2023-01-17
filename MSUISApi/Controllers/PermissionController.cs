@@ -188,5 +188,83 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
+
+        [HttpPost]
+        public HttpResponseMessage GetSPPermissions([FromBody] String perm)
+        {
+            try
+            {
+                String[] str = perm.Split(' ');
+                SqlCommand cmd = new SqlCommand("GetSPPermissions", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", str[0]);
+                cmd.Parameters.AddWithValue("@databasename", str[1]);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<SPPermission> permissionsList = new List<SPPermission>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        SPPermission permission = new SPPermission();
+                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
+                        permission.SPName = Convert.ToString(Dt.Rows[i]["SPName"]);
+                        permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
+                        permission.ExecutePerm = Convert.ToBoolean(Dt.Rows[i]["ExecutePerm"]);
+                        permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
+                        permission.FullAccessPerm = Convert.ToBoolean(Dt.Rows[i]["FullAccessPerm"]);
+                        permissionsList.Add(permission);
+                    }
+                }
+                return Return.returnHttp("200", permissionsList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GrantSPPermission(SPPermission Obj)
+        {
+            try
+            {
+                string UserName = Convert.ToString(Obj.UserName);
+                string DatabaseName = Convert.ToString(Obj.DatabaseName);
+                string SPName = Convert.ToString(Obj.SPName);
+                bool ReadPerm = Convert.ToBoolean(Obj.ReadPerm);
+                bool ExecutePerm = Convert.ToBoolean(Obj.ExecutePerm);
+                bool AlterPerm = Convert.ToBoolean(Obj.AlterPerm);
+                bool FullAccessPerm = Convert.ToBoolean(Obj.FullAccessPerm);
+
+                SqlCommand cmd = new SqlCommand("GrantSPPermission", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", UserName);
+                cmd.Parameters.AddWithValue("@dbname", DatabaseName);
+                cmd.Parameters.AddWithValue("@spname", SPName);
+                cmd.Parameters.AddWithValue("@readPermission", ReadPerm);
+                cmd.Parameters.AddWithValue("@executePermission", ExecutePerm);
+                cmd.Parameters.AddWithValue("@alterPermission", AlterPerm);
+                cmd.Parameters.AddWithValue("@fullaccessPermission", FullAccessPerm);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "Permission Granted.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }

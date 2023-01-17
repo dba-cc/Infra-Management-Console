@@ -73,6 +73,10 @@
                         "name": "User Permissions",
                         "state": "Permission",
                     }, {
+                        "icon": "bi bi-person-fill-check",
+                        "name": "SP Permissions",
+                        "state": "SPPermission",
+                    }, {
                         "icon": "bi bi-database-fill-lock",
                         "name": "Database Permissions",
                         "state": "DBPermission",
@@ -108,6 +112,10 @@
                         "icon": "bi bi-person-lines-fill",
                         "name": "Credential Analytics",
                         "state": "CredentialAnalytics",
+                    },{
+                        "icon": "bi-file-lock2",
+                        "name": "Locks Analytics",
+                        "state": "LockAnalysis",
                     }]
                 }
             ]

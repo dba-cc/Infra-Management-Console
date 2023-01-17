@@ -149,6 +149,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         templateUrl: "UI/pages/admin/CredentialAnalytics.html",
         controller: "CredentialAnalyticsCtrl"
     });
+
+    e.state("LockAnalysis", {
+        url: "/LockAnalysis",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/LockAnalysis.html",
+        controller: "LockAnalysisCtrl"
+    });
+
     e.state("PermReport", {
         url: "/PermReport",
         parent: "dashboard",
@@ -168,6 +176,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         parent: "dashboard",
         templateUrl: "UI/pages/admin/DBPermission.html",
         controller: "DBPermissionCtrl"
+    });
+
+    e.state("SPPermission", {
+        url: "/SPPermission",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/SPPermission.html",
+        controller: "SPPermissionCtrl"
     });
 
 }])
