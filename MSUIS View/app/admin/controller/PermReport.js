@@ -4,7 +4,6 @@
         $('.ui.dropdown').dropdown();
     }
     $scope.initPermReport = function () {
-        console.log($scope.Database.name)
             $http({
                 method: 'POST',
                 url: 'api/PermReport/PermReport',

@@ -108,6 +108,10 @@
                         "icon": "bi bi-person-lines-fill",
                         "name": "Credential Analytics",
                         "state": "CredentialAnalytics",
+                    },{
+                        "icon": "bi-file-lock2",
+                        "name": "Locks Analytics",
+                        "state": "LockAnalysis",
                     }]
                 }
             ]

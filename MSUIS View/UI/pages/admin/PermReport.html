@@ -5,7 +5,7 @@
 </style>
 
 <!-- Page body start -->
-<div class="page-body" ng-controller="PermReportCtrl" ng-init="PermReport()">
+<div class="page-body" ng-controller="PermReportCtrl">
     <div class="row">
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
@@ -13,8 +13,11 @@
                 <div class="card main-card">
                     <div class="card-header" ng-init="getDatabaseList()">
                         <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left">
+                            <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdown()" ng-change="initPermReport()">
+                                <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                            </select>
                             <i class="database icon"></i>
-                            <input type="hidden" ng-change="initPermReport()" ng-model="Database.name" style="color: white; font-weight: bold;">
+                            <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
                             <div class="default text">Select Database</div>
                             <div class="menu">
                                 <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>

@@ -1,0 +1,45 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="LockAnalysisCtrl" ng-init="GetLocksAnalysis()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div id="parent-container">
+                <div class="card main-card">
+                    <div class="card-header">
+                        <div>
+                            <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi-file-lock2" style=" font-size: 1.5em; vertical-align: middle;margin-right:10px"></i>Locks Analytics</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-block scrollbar" id="table-parent-container">
+                        <div class="table-responsive">
+                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="LockParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="Locks in $data">
+                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'Host Name'" filter="{HostName: 'text'}" sortable="'HostName'" style=" border-top: none;"><label>{{Locks.HostName}}</label></td>
+                                        <td data-title="'Login'" filter="{Login: 'text'}" sortable="'Login'" style=" border-top: none;"><label>{{Locks.Login}}</label></td>
+                                        <td data-title="'Session Id'" filter="{spid: 'text'}" sortable="'spid'" style=" border-top: none;"><label>{{Locks.spid}}</label></td>
+                                        <td data-title="'Database'" filter="{Database: 'text'}" sortable="'Database'" style=" border-top: none;"><label>{{Locks.Database}}</label></td>
+                                        <td data-title="'TableID'" filter="{TableID: 'text'}" sortable="'TableID'" style=" border-top: none;"><label>{{Locks.TableID}}</label></td>
+                                        <td data-title="'Table Name'" filter="{TableName: 'text'}" sortable="'TableName'" style=" border-top: none;"><label>{{Locks.TableName}}</label></td>
+                                        <td data-title="'Lock Type'" filter="{LockType: 'text'}" sortable="'LockType'" style=" border-top: none;"><label>{{Locks.LockType}}</label></td>
+                                        <td data-title="'Lock Mode'" filter="{LockMode: 'text'}" sortable="'LockMode'" style=" border-top: none;"><label>{{Locks.LockMode}}</label></td>
+                                        <td data-title="'Status'" filter="{Status: 'text'}" sortable="'Status'" style=" border-top: none;"><label>{{Locks.Status}}</label></td>
+                                        <td data-title="'Lock Count'" filter="{LockCount: 'text'}" sortable="'LockCount'" style=" border-top: none;"><label>{{Locks.LockCount}}</label></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
