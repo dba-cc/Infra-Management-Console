@@ -82,6 +82,29 @@
             });
     };
 
+    $scope.deleteSchedule = function () {
+        $http({
+            method: 'POST',
+            url: 'api/AutoBackup/DeleteSchedule',
+            data: $scope.scheduleDelete,
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    showMessage(response.obj);
+                }
+                else {
+                    showMessage(response.obj);
+                    $scope.hideDeletePopup();
+                    $scope.getBackupSchedules();
+                }
+
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
 
     $scope.scheduleAutoBackup = function () {
 
@@ -91,7 +114,22 @@
         if ($scope.newSchedule["frequency"] === 'WEEKLY') {
             $scope.newSchedule["day"] = document.getElementById('daySelect').value
         } else {
-            $scope.newSchedule["day"] = null
+            $scope.newSchedule["day"] = ""
+        }
+
+        if (document.getElementById('daySelect').value === '? undefined:undefined ?' && $scope.newSchedule["frequency"] === 'WEEKLY') {
+            showMessage('Please select day of the week!')
+            return
+        }
+
+        if (document.getElementById('dbSelect').value === '? undefined:undefined ?') {
+            showMessage('Please select database!')
+            return
+        }
+
+        if (document.getElementById('saveDir').value === '') {
+            showMessage('Please enter directory!')
+            return
         }
 
         $http({
@@ -103,12 +141,12 @@
 
             .success(function (response) {
                 if (response.response_code == "201") {
-                    //$scope.DatabaseList = {};
-                    alert(response)
+                    showMessage(response.obj);
                 }
                 else {
-                    alert(response)
-                    //$scope.DatabaseList = response.obj;
+                    showMessage(response.obj);
+                    $scope.hideAddForm();
+                    $scope.getBackupSchedules();
                 }
 
             })
@@ -127,5 +165,18 @@
     };
     $scope.hideAddForm = function () {
         $('.addPopup').modal('hide');
+    };
+    $scope.showDeletePopup = function (schedule) {
+        $scope.scheduleDelete = {
+            database: schedule.DB,
+            frequency: schedule.Frequency,
+            type: schedule.BackupType.trim()
+        };
+        $('.deletePopup').modal({
+            context: '#parent-container'
+        }).modal('show');
+    }
+    $scope.hideDeletePopup = function () {
+        $('.deletePopup').modal('hide');
     };
 });

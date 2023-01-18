@@ -55,7 +55,7 @@
                         document.getElementById('add-message-container').style.display = 'flex'
                         document.getElementById('add-message').innerText = response.obj
                     } else {
-                        $scope.showMessage(response.obj)
+                        showMessage(response.obj)
                         $scope.User = {};
                         $scope.GetUser();
                         $scope.ShowFormFlag = false;
@@ -75,14 +75,6 @@
         $scope.GetUser();
     }
 
-    $scope.showMessage = function (message) {
-        document.getElementById('message').innerText = message
-        $('#message-container').transition('fade');
-        setTimeout(function () {
-            $('#message-container').transition('fade');
-        }, 5000);
-    }
-
     $scope.editUser = function () {
         $http({
             method: 'POST',
@@ -96,7 +88,7 @@
                     document.getElementById('edit-message').innerText = response.obj
                 }
                 else {
-                    $scope.showMessage(response.obj)
+                    showMessage(response.obj)
                     $scope.ShowEditFlag = false;
                     $scope.UserEdit = {};
                     $scope.GetUser();
@@ -126,7 +118,7 @@
                     $scope.resp = response.obj
                 }
                 else {
-                    $scope.showMessage(response.obj);
+                    showMessage(response.obj);
                     $scope.resp = response.obj
                     $scope.GetUser();
                 }

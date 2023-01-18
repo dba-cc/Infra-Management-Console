@@ -24,17 +24,42 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("AutoBackupDatabase", Con);
+                    SqlCommand cmd = new SqlCommand("AutoBackupDatabase", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DatabaseName", Obj.database);
                 cmd.Parameters.AddWithValue("@BackupLocation", Obj.location);
                 cmd.Parameters.AddWithValue("@Frequency", Obj.frequency);
                 cmd.Parameters.AddWithValue("@BackupType", Obj.type);
                 cmd.Parameters.AddWithValue("@BackupTime", Obj.time);
-                cmd.Parameters.AddWithValue("@DayForWeeklyBackup", Obj.day);
+                if (Obj.day != null)
+                {
+                    cmd.Parameters.AddWithValue("@DayForWeeklyBackup", Obj.day);
+                }
+                Con.Open();
                 cmd.ExecuteNonQuery();
                 Con.Close();
                 return Return.returnHttp("200", "AutoBackup Scheduled.", null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage DeleteSchedule(BackUp Obj)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteAutoBackup", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DatabaseName", Obj.database);
+                cmd.Parameters.AddWithValue("@Frequency", Obj.frequency);
+                cmd.Parameters.AddWithValue("@BackupType", Obj.type);
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                Con.Close();
+                return Return.returnHttp("200", "Schedule Deleted.", null);
             }
             catch (Exception e)
             {

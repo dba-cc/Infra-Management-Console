@@ -14,6 +14,28 @@
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
             <div id="parent-container">
+                <!--Delete popup-->
+                <div class="ui mini modal deletePopup" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Delete Schedule
+                    </div>
+                    <div class="content">
+                        <form class="ui tiny form">
+                            <div class="field">
+                                <label style="text-align: center;">Are you sure want to delete this schedule?</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <button class="ui labeled red icon button" ng-click="deleteSchedule()">
+                            <i class="trash alternate icon"></i>
+                            Delete
+                        </button>
+                        <button class="ui button" ng-click="hideDeletePopup()">No</button>
+                    </div>
+                </div>
+
                 <!--add schedule popup-->
                 <div class="ui large modal addPopup" id="inputPopup">
                     <i class="close icon"></i>
@@ -168,6 +190,14 @@
                                         <td data-title="'Next Run Date'" filter="{NextRunDate: 'text'}" sortable="'NextRunDate'" style=" border-top: none;"><label>{{Schedule.NextRunDate}}</label></td>
                                         <td data-title="'Next Run Time'" filter="{NextRunTime: 'text'}" sortable="'NextRunTime'" style=" border-top: none;"><label>{{Schedule.NextRunTime}}</label></td>
                                         <td data-title="'Enabled'" filter="{Enabled: 'text'}" sortable="'Enabled'" style=" border-top: none;"><label>{{Schedule.Enabled}}</label></td>
+                                        <td data-title="'Actions'" style=" border-top: none;">
+                                            <div layout="row">
+                                                <span flex></span>
+                                                <button class="ui icon red button" ng-click="showDeletePopup(Schedule)" data-inverted="" data-tooltip="Delete Schedule" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                    <i class="trash alternate icon"></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -207,15 +207,20 @@ input[type=number]::-webkit-outer-spin-button {
 #message-container {
     position: fixed;
     /* top: 16px; */
-    z-index: 99;
+    z-index: 2000;
     width: fit-content;
     /* right: 28%; */
-    bottom: 27px;
-    padding: 14px;
+    bottom: 41px;
+    padding-right: 117px;
     right: 31px;
     display: none;
 }
 
+#message {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1em;
+}
 .main-card {
     height: 96vh;
     max-height: 96vh;
