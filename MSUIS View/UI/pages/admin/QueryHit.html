@@ -5,19 +5,48 @@
 </style>
 
 <!-- Page body start -->
-<div class="page-body" ng-controller="QueryHitCtrl" ng-init="init()">
+<div class="page-body" ng-controller="QueryHitCtrl">
     <div class="row">
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
             <div class="parent-container">
-                <div class="card main-card">
-                    <div class="card-header">
-                        <form name="query">
-                            <div class="ui icon input" style="float: left">
-                                <input type="number" name="querycount" placeholder="Query Count" ng-model="Query.count" step="any" fdprocessedid="jktz0n" style="border-radius: 15px" required>
-                                <i name="fetch" type="button" ng-click="FetchQueryHitList()" class="inverted circular search green link icon"></i>
+                <!--Query popup-->
+                <div class="ui small modal" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Query
+                    </div>
+                    <div class="content">
+                        <form class="ui small form">
+                            <div class="field scrollbar">
+                                <textarea id="query" readonly class="ui textarea" style="font-family: monospace;"></textarea>
                             </div>
                         </form>
+                    </div>
+                    <div class="actions">
+                        <button class="ui button" ng-click="hidePopup()">Ok</button>
+                    </div>
+                </div>
+                <div class="card main-card">
+                    <div class="card-header">
+                        <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; padding-bottom: 14px;" ng-model="timeFormat" ng-change="changeFormat()">
+                            <select class="ui search selection dropdown" ng-model="timeFormat" ng-change="changeFormat()">
+                                <option class="item" value="Day">Day</option>
+                                <option class="item" value="Hour">Hour</option>
+                                <option class="item" value="Minute">Minute</option>
+                            </select>
+                            <i class="angle right icon"></i>
+                            <span class="text" style=" color: white; margin: 0">Select Format</span>
+                            <div class="menu">
+                                <div class="item" data-value="Day">Day</div>
+                                <div class="item" data-value="Hour">Hour</div>
+                                <div class="item" data-value="Minute">Minute</div>
+                            </div>
+                        </div>
+                        <div class="ui icon input" style="margin-left: 10px; float: left; display:none" id="timeInputDiv">
+                            <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style="border-radius: 15px" required>
+                            <i name="fetch" type="button" ng-click="FetchQueryHitList()" class="sync alternate green link icon"></i>
+                        </div>
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
                     </div>
                     <div class="card-block scrollbar" id="table-parent-container">
@@ -27,11 +56,16 @@
                                     <tr ng-repeat="QueryHit in $data">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
-                                        <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none;"><label>{{QueryHit.query}}</label></td>
-                                        <td data-title="'Number'" filter="{number: 'text'}" sortable="'number'" style=" border-top: none;"><label>{{QueryHit.number}}</label></td>
+                                        <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none;">
+                                                <button class="ui blue button" ng-click="showPopup(QueryHit.query)" style="width:100%; border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">View</button>
+                                        </td>
                                         <td data-title="'Object ID'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
                                         <td data-title="'DB Name'" filter="{dbname: 'text'}" sortable="'dbname'" style=" border-top: none;"><label>{{QueryHit.dbname}}</label></td>
                                         <td data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
+                                        <td data-title="'Max Worker Time'" filter="{max_worker_time: 'text'}" sortable="'max_worker_time'" style=" border-top: none;"><label>{{QueryHit.max_worker_time}} ms</label></td>
+                                        <td data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'" style=" border-top: none;"><label>{{QueryHit.last_worker_time}} ms</label></td>
+                                        <td data-title="'Max Elapsed Time'" filter="{max_elapsed_time: 'text'}" sortable="'max_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.max_elapsed_time}} ms</label></td>
+                                        <td data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
                                     </tr>
                                 </tbody>
                             </table>

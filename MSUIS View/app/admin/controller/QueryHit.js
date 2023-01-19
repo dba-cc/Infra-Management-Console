@@ -1,32 +1,13 @@
 ﻿app.controller('QueryHitCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
 
-    $scope.Query = {};
+    $scope.dropdown = function() {
+        $('.ui.dropdown').dropdown();
+    }
 
-    $scope.showQuerylistflag = true;
-
-    $scope.init = function () {
-        $http({
-            method: 'POST',
-            url: 'api/Analytics/GetQueryHit',
-            data: '5',
-            headers: { "Content-Type": 'application/json' }
-        })
-
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    $scope.QueryHitParams = new NgTableParams({
-                    }, {
-                        dataset: response.obj
-                    });
-                }
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-            });
-    };
+    $scope.changeFormat = function () {
+        document.getElementById('timeInput').placeholder = 'Number of ' + $scope.timeFormat + 's'
+        document.getElementById('timeInputDiv').style.display = 'flex'
+    }
 
     $scope.check = function () {
         if ($scope.query.querycount.$invalid) {
@@ -39,13 +20,14 @@
     };
 
     $scope.FetchQueryHitList = function () {
-
-        $scope.showQuerylistflag = true;
-
+        if ($scope.time === undefined) {
+            showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
+            return
+        }
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
-            data: $scope.Query.count,
+            data: '"' + $scope.timeFormat + ' ' + $scope.time + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -64,5 +46,14 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
 
+    };
+    $scope.showPopup = function (data) {
+        $('#inputPopup').modal({
+            context: '.parent-container'
+        }).modal('show');
+        document.getElementById('query').innerText = data
+    }
+    $scope.hidePopup = function () {
+        $('#inputPopup').modal('hide');
     };
 });
