@@ -12,14 +12,14 @@
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getUserList()">
-                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left" ng-change="initPermissions()">
+                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left">
                             <select class="ui search selection dropdown" ng-model="User.UserName" ng-click="dropdown()" ng-change="initPermissions()">
                                 <option class="item" ng-repeat="d in UserList" value="{{d.UserName}}">{{d.UserName}}</option>
                             </select>
                             <i class="database icon"></i>
                             <input type="hidden" ng-model="User.UserName" style="color: white; font-weight: bold;">
-                            <div class="default text">Select UserName</div>
-                            <div class="menu">
+                            <div class="default text">Select User</div>
+                            <div class="menu transition hidden">
                                 <div class="item" ng-repeat="d in UserList" data-value="{{d.UserName}}">{{d.UserName}}</div>
                             </div>
                         </div>
@@ -30,17 +30,18 @@
                         <div class="table-responsive">
                             <table class="ui striped table green main-table selectable" id="top-table">
                                 <tr>
-                                    <th width="25%" style="text-align:center">Select All</th>
-                                    <th style="text-align:center; width: auto"><label for="connectdball">ConnectDB <input id="connectdball" type="checkbox" ng-model='checkboxConnectDB' ng-click="checkAllConnectDB(checkboxConnectDB)" name="masterconnectdbcheck" /></label></th>
-                                    <th style="text-align:center;"><label for="createprocedureall">Create Procedure <input id="createprocedureall" type="checkbox" ng-model='checkboxCreateProcedure' ng-click="checkAllCreateProcedure(checkboxCreateProcedure)" name="mastercreateprocedurecheck" /></label></th>
-                                    <th style="text-align:center;"><label for="createtableall">Create Table <input id="createtableall" type="checkbox" ng-model='checkboxCreateTable' ng-click="checkAllCreateTable(checkboxCreateTable)" name="mastercreatetablecheck" /></label></th>
-                                    <th style="text-align:center;"><label for="createviewall">Create View <input id="createviewall" type="checkbox" ng-model='checkboxCreateView' ng-click="checkAllCreateView(checkboxCreateView)" name="mastercreateviewcheck" /></label></th>
-                                    <th style="text-align:center;"><label for="executeall">Execute <input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" /></label></th>
-                                    <th style="text-align:center;"><label for="viewdefinitionall">View Definition <input id="viewdefinitionall" type="checkbox" ng-model='checkboxViewDefinition' ng-click="checkAllViewDefinition(checkboxViewDefinition)" name="masterviewdefinitioncheck" /></label></th>
-                                    <th style="text-align:center; width: auto"><label for="readall">Read <input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" /></label></th>
-                                    <th style="text-align:center;"><label for="writeall">Write <input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" /></label></th>
-                                    <th style="text-align:center;"><label for="alterall">Alter <input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" /></label></th>
-                                    <th style="text-align:center;"><label for="foreignkeyall">Foreign Key <input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" /></label></th>
+                                    <th width="5%"></th>
+                                    <th width="20%" style="text-align: center; vertical-align: middle">Select All</th>
+                                    <th width="7%" style="text-align:center;"><input id="connectdball" type="checkbox" ng-model='checkboxConnectDB' ng-click="checkAllConnectDB(checkboxConnectDB)" name="masterconnectdbcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="createprocedureall" type="checkbox" ng-model='checkboxCreateProcedure' ng-click="checkAllCreateProcedure(checkboxCreateProcedure)" name="mastercreateprocedurecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="createtableall" type="checkbox" ng-model='checkboxCreateTable' ng-click="checkAllCreateTable(checkboxCreateTable)" name="mastercreatetablecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="createviewall" type="checkbox" ng-model='checkboxCreateView' ng-click="checkAllCreateView(checkboxCreateView)" name="mastercreateviewcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="viewdefinitionall" type="checkbox" ng-model='checkboxViewDefinition' ng-click="checkAllViewDefinition(checkboxViewDefinition)" name="masterviewdefinitioncheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
+                                    <th width="7%" style="text-align:center;"><input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
                                 </tr>
                             </table>
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="DBPermissionParams" show-filter="true">
@@ -52,43 +53,43 @@
                                         <td width="20%" data-title="'Database Name'" filter="{DatabaseName: 'text'}" sortable="'DatabaseName'" style=" border-top: none;"><label>{{DBPermission.DatabaseName}}</label></td>
 
 
-                                        <td data-title="'Connect'" style="text-align: center;">
+                                        <td width="7%" data-title="'Connect'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.ConnectDB" name="ConnectDB" ng-checked="DBPermission.ConnectDB" />
                                         </td>
 
-                                        <td data-title="'Create Procedure'" style="text-align: center;">
+                                        <td width="7%" data-title="'Create Procedure'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.CreateProcedure" name="CreateProcedure" ng-checked="DBPermission.CreateProcedure" />
                                         </td>
 
-                                        <td data-title="'Create Table'" style="text-align: center;">
+                                        <td width="7%" data-title="'Create Table'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.CreateTable" name="CreateTable" ng-checked="DBPermission.CreateTable">
                                         </td>
 
-                                        <td data-title="'Create View'" style="text-align: center;">
+                                        <td width="7%" data-title="'Create View'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.CreateView" name="CreateView" ng-checked="DBPermission.CreateView">
                                         </td>
 
-                                        <td data-title="'Execute'" style="text-align: center;">
+                                        <td width="7%" data-title="'Execute'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.ExecutePerm" name="Execute" ng-checked="DBPermission.ExecutePerm">
                                         </td>
 
-                                        <td data-title="'View Definition'" style="text-align: center;">
+                                        <td width="7%" data-title="'View Definition'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.ViewDefinition" name="ViewDefinition" ng-checked="DBPermission.ViewDefinition">
                                         </td>
 
-                                        <td data-title="'Read'" style="text-align: center;">
+                                        <td width="7%" data-title="'Read'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.ReadPerm" name="Read" ng-checked="DBPermission.ReadPerm">
                                         </td>
 
-                                        <td data-title="'Write'" style="text-align: center;">
+                                        <td width="7%" data-title="'Write'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.WritePerm" name="Write" ng-checked="DBPermission.WritePerm">
                                         </td>
 
-                                        <td data-title="'Alter'" style="text-align: center;">
+                                        <td width="7%" data-title="'Alter'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.AlterPerm" name="Alter" ng-checked="DBPermission.AlterPerm">
                                         </td>
 
-                                        <td data-title="'Foreign Key'" style="text-align: center;">
+                                        <td width="7%" data-title="'Foreign Key'" style="text-align: center;">
                                             <input type="checkbox" ng-model="DBPermission.ReferencesPerm" name="ForeignKey" ng-checked="DBPermission.ReferencesPerm">
                                         </td>
                                     </tr>

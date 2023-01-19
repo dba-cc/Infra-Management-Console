@@ -63,11 +63,11 @@
             value.checked = angular.element(document.getElementsByName('masterconnectdbcheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].ConnectDB = true;
+                $scope.DBPermissionParams.data[i].ConnectDB = true;
             else
-                $scope.PermissionParams.data[i].ConnectDB = false;
+                $scope.DBPermissionParams.data[i].ConnectDB = false;
         }
     };
 
@@ -78,11 +78,11 @@
             value.checked = angular.element(document.getElementsByName('mastercreateprocedurecheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].CreateProcedure = true;
+                $scope.DBPermissionParams.data[i].CreateProcedure = true;
             else
-                $scope.PermissionParams.data[i].CreateProcedure = false;
+                $scope.DBPermissionParams.data[i].CreateProcedure = false;
         }
     };
 
@@ -93,11 +93,11 @@
             value.checked = angular.element(document.getElementsByName('mastercreatetablecheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].CreateTable = true;
+                $scope.DBPermissionParams.data[i].CreateTable = true;
             else
-                $scope.PermissionParams.data[i].CreateTable = false;
+                $scope.DBPermissionParams.data[i].CreateTable = false;
         }
     };
 
@@ -108,11 +108,11 @@
             value.checked = angular.element(document.getElementsByName('mastercreateviewcheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].CreateView = true;
+                $scope.DBPermissionParams.data[i].CreateView = true;
             else
-                $scope.PermissionParams.data[i].CreateView = false;
+                $scope.DBPermissionParams.data[i].CreateView = false;
         }
     };
 
@@ -123,11 +123,11 @@
             value.checked = angular.element(document.getElementsByName('masterexecutecheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].ExecutePerm = true;
+                $scope.DBPermissionParams.data[i].ExecutePerm = true;
             else
-                $scope.PermissionParams.data[i].ExecutePerm = false;
+                $scope.DBPermissionParams.data[i].ExecutePerm = false;
         }
     };
 
@@ -138,11 +138,11 @@
             value.checked = angular.element(document.getElementsByName('masterviewdefinitioncheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].ViewDefinition = true;
+                $scope.DBPermissionParams.data[i].ViewDefinition = true;
             else
-                $scope.PermissionParams.data[i].ViewDefinition = false;
+                $scope.DBPermissionParams.data[i].ViewDefinition = false;
         }
     };
 
@@ -153,11 +153,11 @@
             value.checked = angular.element(document.getElementsByName('masterreadcheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if(value)
-                $scope.PermissionParams.data[i].ReadPerm = true;
+                $scope.DBPermissionParams.data[i].ReadPerm = true;
             else
-                $scope.PermissionParams.data[i].ReadPerm = false;
+                $scope.DBPermissionParams.data[i].ReadPerm = false;
         }
     };
 
@@ -168,11 +168,11 @@
             value.checked = angular.element(document.getElementsByName('masterwritecheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].WritePerm = true;
+                $scope.DBPermissionParams.data[i].WritePerm = true;
             else
-                $scope.PermissionParams.data[i].WritePerm = false;
+                $scope.DBPermissionParams.data[i].WritePerm = false;
         }
     };
 
@@ -183,11 +183,11 @@
             value.checked = angular.element(document.getElementsByName('masteraltercheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].AlterPerm = true;
+                $scope.DBPermissionParams.data[i].AlterPerm = true;
             else
-                $scope.PermissionParams.data[i].AlterPerm = false;
+                $scope.DBPermissionParams.data[i].AlterPerm = false;
         }
     };
 
@@ -198,11 +198,11 @@
             value.checked = angular.element(document.getElementsByName('masterforeignkeycheck'))[0].checked
         });
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
             if (value)
-                $scope.PermissionParams.data[i].ReferencesPerm = true;
+                $scope.DBPermissionParams.data[i].ReferencesPerm = true;
             else
-                $scope.PermissionParams.data[i].ReferencesPerm = false;
+                $scope.DBPermissionParams.data[i].ReferencesPerm = false;
         }
     };
 
@@ -211,8 +211,8 @@
 
         $scope.resp = null;
 
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            var abc = $scope.PermissionParams.data[i];
+        for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
+            var abc = $scope.DBPermissionParams.data[i];
 
             $http({
                 method: 'POST',
