@@ -24,14 +24,18 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("AutoBackupDatabase", Con);
+                    SqlCommand cmd = new SqlCommand("AutoBackupDatabase", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DatabaseName", Obj.database);
                 cmd.Parameters.AddWithValue("@BackupLocation", Obj.location);
                 cmd.Parameters.AddWithValue("@Frequency", Obj.frequency);
                 cmd.Parameters.AddWithValue("@BackupType", Obj.type);
                 cmd.Parameters.AddWithValue("@BackupTime", Obj.time);
-                cmd.Parameters.AddWithValue("@DayForWeeklyBackup", Obj.day);
+                if (Obj.day != null)
+                {
+                    cmd.Parameters.AddWithValue("@DayForWeeklyBackup", Obj.day);
+                }
+                Con.Open();
                 cmd.ExecuteNonQuery();
                 Con.Close();
                 return Return.returnHttp("200", "AutoBackup Scheduled.", null);
@@ -42,5 +46,61 @@ namespace MSUISApi.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage DeleteSchedule(BackUp Obj)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteAutoBackup", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DatabaseName", Obj.database);
+                cmd.Parameters.AddWithValue("@Frequency", Obj.frequency);
+                cmd.Parameters.AddWithValue("@BackupType", Obj.type);
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                Con.Close();
+                return Return.returnHttp("200", "Schedule Deleted.", null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetBackupSchedules()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetBackupSchedules", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<BackupSchedule> scheduleList = new List<BackupSchedule>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        BackupSchedule schedule = new BackupSchedule();
+                        schedule.DB = Convert.ToString(Dt.Rows[i]["DB"]);
+                        schedule.JobName = Convert.ToString(Dt.Rows[i]["JobName"]);
+                        schedule.Frequency = Convert.ToString(Dt.Rows[i]["Frequency"]);
+                        schedule.BackupType = Convert.ToString(Dt.Rows[i]["BackupType"]);
+                        schedule.NextRunDate = Convert.ToString(Dt.Rows[i]["NextRunDate"]);
+                        schedule.NextRunTime = Convert.ToString(Dt.Rows[i]["NextRunTime"]);
+                        schedule.Enabled = Convert.ToString(Dt.Rows[i]["ScheduleEnabled"]);
+                        scheduleList.Add(schedule);
+                    }
+                }
+                return Return.returnHttp("200", scheduleList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
+
 }

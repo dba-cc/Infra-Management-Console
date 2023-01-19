@@ -23,13 +23,16 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetQueryHit([FromBody]int count)
+        public HttpResponseMessage GetQueryHit([FromBody]String timeFormat_time)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("lasttop", Con);
+                String timeFormat = timeFormat_time.Split(' ')[0];
+                String time = timeFormat_time.Split(' ')[1];
+                SqlCommand cmd = new SqlCommand("lasttopv2", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@t", count.ToString());
+                cmd.Parameters.AddWithValue("@TimeFormat", timeFormat);
+                cmd.Parameters.AddWithValue("@t", time);
                 Da.SelectCommand = cmd;
 
                 Da.Fill(Dt);
@@ -44,11 +47,7 @@ namespace MSUISApi.Controllers
                         DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Time"]);
                         queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                         queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
-                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["number"])))
-                            queryhit.number = "NULL";
-                        else
-                            queryhit.number = Convert.ToString(Dt.Rows[i]["number"]);
-
+                        
                         if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["objectid"])))
                             queryhit.objectid = "NULL";
                         else
@@ -60,6 +59,10 @@ namespace MSUISApi.Controllers
                             queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBNAME"]);
 
                         queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
+                        queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
+                        queryhit.last_worker_time = Convert.ToInt64(Dt.Rows[i]["last_worker_time"]);
+                        queryhit.max_elapsed_time = Convert.ToInt64(Dt.Rows[i]["max_elapsed_time"]);
+                        queryhit.last_elapsed_time = Convert.ToInt64(Dt.Rows[i]["last_elapsed_time"]);
                         QueryHitList.Add(queryhit);
                     }
                 }

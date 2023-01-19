@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Models\BackUp.cs" />
     <Compile Include="Models\CredentialAnalysis.cs" />
+    <Compile Include="Models\BackupSchedule.cs" />
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />

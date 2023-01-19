@@ -73,7 +73,7 @@
                         "name": "User Permissions",
                         "state": "Permission",
                     }, {
-                        "icon": "bi bi-person-fill-check",
+                        "icon": "bi bi-braces-asterisk",
                         "name": "SP Permissions",
                         "state": "SPPermission",
                     }, {
