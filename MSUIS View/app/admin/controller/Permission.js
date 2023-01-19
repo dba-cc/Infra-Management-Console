@@ -91,6 +91,32 @@
 
 
     $scope.checkAllRead = function (value) {
+        //var selectedItems = data.filter(function (DBPermission) {
+        //    return DBPermission.ConnectDB.selected;
+        //});
+
+        //var currentPage = 1;
+        //var totalPages = 0;
+        //$scope.items = [];
+        //var getElements = function () {
+        //    $http.get("http://localhost:51207/index.html#/dashboard/Permission/table?page=" + currentPage).then(function (response) {
+        //        $scope.items = $scope.items.concat(response.data.data);
+        //        currentPage++;
+        //        console.log(response);
+        //        if (currentPage <= totalPages) {
+        //            getElements();
+        //        }
+        //    });
+        //}
+        //// get the total number of pages and the items of the first page
+        //$http.get("http://localhost:51207/index.html#/dashboard/Permission/table").then(function (response) {
+        //    totalPages = response.data.totalPages;
+        //    $scope.items = response.data.data;
+        //    currentPage++;
+        //    console.log(response);
+        //    getElements();
+        //});
+
         var cb = angular.element(document.getElementsByName('Read'))
         console.log(cb)
         angular.forEach(cb, function (value) {
