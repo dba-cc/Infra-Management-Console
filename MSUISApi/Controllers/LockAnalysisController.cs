@@ -57,5 +57,31 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+        public HttpResponseMessage KillSession([FromBody] string lockObj)
+        {
+            try
+            {
+                int sessionId = Convert.ToInt32(lockObj);
+                SqlCommand cmd = new SqlCommand("KillSession", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@sid", sessionId);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = lockObj + " has been successfully killed.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }
+
+
