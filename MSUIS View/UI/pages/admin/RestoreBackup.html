@@ -8,47 +8,27 @@
 <div class="page-body" ng-controller="RBCtrl" ng-init="getFiles()">
     <div class="row">
         <div class="col-sm-12">
-            <!-- Basic Form Inputs card start -->
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h3>Restore Backup</h3>
-                    </div>                  
-                </div>
+            <div class="parent-container">
+                <div class="card main-card">
+                    <div class="card-header">
 
-                <div class="card-block">
-
-                    <div class="col-md-12 offset-md-2">
-                        <form ng-model="RestoreBackup">
-
-                            <div class="form-group row" ng-init="getFiles()">
-                                <div class="col-sm-1.5 col-form-label">File Name</div>
-                                <div class="col-sm-7">
-                                    <div>
-                                        <span class="nullable">
-                                            <select ng-model="RB.FrDbName" ng-options="d.DbName as d.DbName for d in FileList" ng-change="showDatabaselist()" [value]="RB.DbName" class="form-control" name="Filedropdown" required>
-                                                <option value="" disabled selected>-- select --</option>
-                                            </select>
-                                        </span>
-                                    </div>
-
-                                </div>
-                                <!-- <div class="float-right"> <button type="button" ng-click="RestoreBackup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Restore</button></div>-->
+                        <div class="ui green floating dropdown labeled search icon button" ng-click="fileDropdown()" style="float: left">
+                            <select class="ui search selection dropdown" ng-model="FrDbName" ng-click="fileDropdown()" ng-change="showDatabaselist()">
+                                <option class="item" ng-repeat="f in FileList" value="{{f.DbName}}">{{f.DbName}}</option>
+                            </select>
+                            <i class="folder open icon"></i>
+                            <input type="hidden" ng-model="RB.FrDbName" style="color: white; font-weight: bold;">
+                            <div class="default text">Select Backup File</div>
+                            <div class="menu">
+                                <div class="item" ng-repeat="f in FileList" data-value="{{f.DbName}}">{{f.DbName}}</div>
                             </div>
-                            <div class="form-group row" ng-show="showDatabaselistflag" ng-init="getDatabaseList()">
-                                <div style="width:120px;" class="col-form-label">Database Name</div>
-                                <div class="col-sm-4">
-                                    <div>
-                                        <span class="nullable">
-                                            <input type="text" name="TODb" class="form-control" ng-model="RB.ToDbName" defaultValue=RB.FrDbName required />
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="float-right"> <button type="button" ng-click="RestoreBackup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Restore</button></div>
-                            </div>
-                           
-                        </form>
+                        </div>
+                        <div class="ui icon input" style="margin-left: 10px; float: left" ng-show="showDatabaselistflag">
+                            <input type="text" id="destDBInput" name="destDB" placeholder="Destination Database" ng-model="destDB" fdprocessedid="jktz0n" style="border-radius: 15px" required>
+                            <i name="fetch" type="button" ng-click="RestoreBackup()" class="chevron right green link icon"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="server icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Restore Backup</h3>
+                    </div>
                 </div>
             </div>
         </div>
