@@ -5,7 +5,7 @@
     }
 
     $scope.getUserList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
@@ -19,15 +19,16 @@
                 else {
                     $scope.UserList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
     $scope.initPermissions = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Permission/GetDBPermissions',
@@ -47,10 +48,11 @@
                     });
                     $scope.UpdateDBFormFlag = true;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
@@ -208,7 +210,7 @@
 
 
     $scope.updatePermissions = function () {
-
+        showLoadingScreen();
         $scope.resp = null;
 
         for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
@@ -232,11 +234,12 @@
                         //alert(response.obj);
                         resp = response;
                     }
-
+                    hideLoadingScreen();
                 })
                 .error(function (res) {
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                     resp = res;
+                    hideLoadingScreen();
                     //break;
                 });
         }

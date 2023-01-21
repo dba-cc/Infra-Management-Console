@@ -25,6 +25,7 @@
             showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
             return
         }
+        hideLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
@@ -42,13 +43,16 @@
                         dataset: response.obj
                     });
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 showMessage(res.obj);
+                hideLoadingScreen();
             });
 
     };
     $scope.initFetch = function () {
+        hideLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
@@ -65,9 +69,11 @@
                         dataset: response.obj
                     });
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 showMessage(res.obj);
+                hideLoadingScreen();
             });
 
     };

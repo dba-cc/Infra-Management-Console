@@ -4,6 +4,7 @@
         $('.ui.dropdown').dropdown();
     }
     $scope.initPermReport = function () {
+        showLoadingScreen();
             $http({
                 method: 'POST',
                 url: 'api/PermReport/PermReport',
@@ -21,14 +22,16 @@
                             dataset: response.obj
                         });
                     }
+                    hideLoadingScreen();
                 })
                 .error(function (res) {
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    hideLoadingScreen();
                 });
     };
 
     $scope.getDatabaseList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -42,10 +45,11 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 

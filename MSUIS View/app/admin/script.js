@@ -8,6 +8,14 @@ function showMessage(message) {
     }, 5000);
 }
 
+function showLoadingScreen() {
+    $('.loading-screen').addClass('active');
+}
+
+function hideLoadingScreen() {
+    $('.loading-screen').removeClass('active');
+}
+
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {
         request: function (config) {

@@ -5,11 +5,8 @@
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
     }
-    $scope.$watch('User.UserName', function (newValue, oldValue) {
-        console.log("ng-model value changed from " + oldValue + " to " + newValue);
-    });
     $scope.getUserList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
@@ -23,10 +20,11 @@
                 else {
                     $scope.UserList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
@@ -36,7 +34,7 @@
     }
 
     $scope.getDatabaseList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -50,15 +48,16 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
     $scope.initPermissions = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Permission/GetSPPermissions',
@@ -79,10 +78,11 @@
                     $scope.UpdateFormFlag = true;
                     //$scope.TableList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
 
         var table = angular.element(document.getElementById('example-2'))
@@ -152,7 +152,7 @@
 
 
     $scope.updatePermissions = function () {
-
+        showLoadingScreen();
         $scope.resp = null;
 
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
@@ -176,11 +176,14 @@
                         //alert(response.obj);
                         resp = response;
                     }
-
+                    if (i >= $scope.PermissionParams.data.length - 2) {
+                        hideLoadingScreen();
+                    }
                 })
                 .error(function (res) {
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                     resp = res;
+                    hideLoadingScreen();
                     //break;
                 });
         }

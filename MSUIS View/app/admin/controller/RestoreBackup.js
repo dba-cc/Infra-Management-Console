@@ -4,7 +4,7 @@
     }
 
     $scope.getFiles = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/RB/FCGet',
@@ -19,10 +19,11 @@
                     $scope.FileList = response.obj
                     console.log($scope.FileList)
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
 
         
@@ -33,6 +34,7 @@
             showMessage('Enter Destination Database!')
             return
         }
+        showLoadingScreen();
         var RB = {
             FrDbName: $scope.FrDbName,
             ToDbName: $scope.destDB
@@ -51,10 +53,11 @@
                 else {
                     showMessage(response.obj);
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 showMessage(res.obj);
+                hideLoadingScreen();
             });
     };
     $scope.showDatabaselist = function () {
@@ -62,7 +65,7 @@
     }
 
     $scope.getDatabaseList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -76,10 +79,11 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 

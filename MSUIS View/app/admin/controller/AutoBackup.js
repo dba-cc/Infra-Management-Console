@@ -36,7 +36,7 @@
     }
     
     $scope.getDatabaseList = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -50,15 +50,16 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
     $scope.getBackupSchedules = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/AutoBackup/GetBackupSchedules',
@@ -75,14 +76,16 @@
                         dataset: response.obj
                     });
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
     $scope.deleteSchedule = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/AutoBackup/DeleteSchedule',
@@ -99,15 +102,16 @@
                     $scope.hideDeletePopup();
                     $scope.getBackupSchedules();
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
     $scope.scheduleAutoBackup = function () {
-
+        showLoadingScreen();
         $scope.newSchedule["database"] = document.getElementById('dbSelect').value
         $scope.newSchedule["location"] = document.getElementById('saveDir').value
         $scope.newSchedule["time"] = document.getElementById('timepicker').value + ':00'
@@ -148,10 +152,11 @@
                     $scope.hideAddForm();
                     $scope.getBackupSchedules();
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
     $scope.showAddPopup = function () {

@@ -1,7 +1,7 @@
 ﻿app.controller('LockAnalysisCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
 
     $scope.GetLocksAnalysis = function () {
-
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/LockAnalysis/GetLock',
@@ -18,12 +18,15 @@
                         dataset: response.obj
                     });
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
     $scope.LockMaker = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/LockAnalysis/LockMaker',
@@ -31,9 +34,11 @@
         })
             .success(function (response) {
                 $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
         $scope.GetLocksAnalysis();
     };
@@ -46,12 +51,11 @@
     }
 
     $scope.hideKillPopup = function () {
-
         $('.deletePopup').modal('hide');
     };
 
     $scope.killLock = function () {
-        console.log($scope.killSession)
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/LockAnalysis/KillSession',
@@ -70,10 +74,12 @@
                     $scope.resp = response.obj
                     $scope.GetUser();
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $scope.resp = res.obj
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
         $scope.hideKillPopup();
         $scope.GetLocksAnalysis();

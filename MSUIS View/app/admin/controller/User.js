@@ -13,6 +13,7 @@
     };
 
     $scope.GetUser = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
@@ -30,14 +31,16 @@
                     });
 
                 }
-
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     }
 
     $scope.AddUser = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/User/CreateUser',
@@ -45,8 +48,6 @@
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
-                $rootScope.showLoading = false;
-
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
@@ -62,9 +63,11 @@
                         $scope.hideAddForm();
                     }
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
 
     }
@@ -76,6 +79,7 @@
     }
 
     $scope.editUser = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/User/EditUser',
@@ -95,14 +99,17 @@
                     $scope.ShowEditFlag = false;
                     $scope.hideEditForm()
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
     };
 
 
     $scope.deleteUser = function () {
+        showLoadingScreen();
         console.log($scope.userDelete)
         $http({
             method: 'POST',
@@ -122,10 +129,12 @@
                     $scope.resp = response.obj
                     $scope.GetUser();
                 }
+                hideLoadingScreen();
             })
             .error(function (res) {
                 $scope.resp = res.obj
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
             });
         $scope.hideDeletePopup();
         $scope.User = {};

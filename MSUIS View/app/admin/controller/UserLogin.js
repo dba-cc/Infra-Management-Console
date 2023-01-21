@@ -2,8 +2,6 @@
 
     $cookies.remove("id");
 
-    $rootScope.showLoading = false;
-
     $scope.loginObj = {};
 
     $scope.showPassword = false;
@@ -13,8 +11,6 @@
     };
 
     $scope.login = function () {
-
-        $rootScope.showLoading = false;
 
         if ($scope.loginObj.username === null || $scope.loginObj.username === undefined || $scope.loginObj.username === "" || $scope.loginObj.password === undefined || $scope.loginObj.password === null || $scope.loginObj.password === "") {
             $scope.message = 'Error! Username and password can\'t be empty.'
