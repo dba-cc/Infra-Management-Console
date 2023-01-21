@@ -23,6 +23,21 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
             });
     };
+    $scope.LockMaker = function () {
+        $http({
+            method: 'POST',
+            url: 'api/LockAnalysis/LockMaker',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+        $scope.GetLocksAnalysis();
+    };
+
     $scope.showKillPopup = function (data) {
         $scope.killSession = data;
         $('.deletePopup').modal({
@@ -66,4 +81,3 @@
     };
 
 });
-

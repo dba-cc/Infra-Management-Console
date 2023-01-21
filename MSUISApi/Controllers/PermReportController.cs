@@ -48,7 +48,7 @@ namespace MSUISApi.Controllers
                         pr.permissionstate = Convert.ToString(Dt.Rows[i]["Permission State"]);
                         pr.Class = Convert.ToString(Dt.Rows[i]["Class"]);
                         pr.objectname = Convert.ToString(Dt.Rows[i]["OBJECT NAME"]);
-                        pr.modifydate = Convert.ToDateTime(Dt.Rows[i]["Modify Date"]);
+                        pr.modifydate = Convert.ToString(Dt.Rows[i]["Modify Date"]);
                         PermList.Add(pr);
                     }
                 }

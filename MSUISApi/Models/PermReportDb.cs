@@ -20,6 +20,6 @@ namespace MSUISApi.Models
 
         public string objectname { get; set; }
 
-        public DateTime modifydate { get; set; }
+        public string modifydate { get; set; }
     }
 }
