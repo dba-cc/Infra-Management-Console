@@ -1,5 +1,6 @@
 ﻿app.controller('QueryHitCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
 
+
     $scope.dropdown = function() {
         $('.ui.dropdown').dropdown();
     }
@@ -33,7 +34,7 @@
 
             .success(function (response) {
                 if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    showMessage(response.obj);
                 }
                 else {
                     $scope.QueryHitParams = new NgTableParams({
@@ -43,7 +44,30 @@
                 }
             })
             .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                showMessage(res.obj);
+            });
+
+    };
+    $scope.initFetch = function () {
+        $http({
+            method: 'POST',
+            url: 'api/Analytics/GetQueryHit',
+            data: '"HOUR 1"',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code != "200") {
+                    showMessage(response.obj);
+                }
+                else {
+                    $scope.QueryHitParams = new NgTableParams({
+                    }, {
+                        dataset: response.obj
+                    });
+                }
+            })
+            .error(function (res) {
+                showMessage(res.obj);
             });
 
     };
