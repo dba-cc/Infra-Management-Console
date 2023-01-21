@@ -106,20 +106,20 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: #20bb40ad !important;
 }
 
+tr > td > label {
+    margin: 0 !important;
+}
+
+.ui.table td {
+    text-align: left !important;
+}
+
 .ui.table thead th {
     text-align: center !important;
 }
 
 .table td, .table th {
     vertical-align: middle !important;
-}
-
-tr>td>label {
-    margin: 0 !important;
-}
-
-.ui.table td {
-    text-align: left !important;
 }
 /*.animate-size-change {
     transition: all linear 0.5s;

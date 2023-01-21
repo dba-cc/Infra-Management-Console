@@ -81,6 +81,27 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage LockMaker()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("LockMaker", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                Con.Close();
+    
+                return Return.returnHttp("200", null, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }
 
