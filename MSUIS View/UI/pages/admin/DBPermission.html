@@ -12,7 +12,7 @@
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getUserList()">
-                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left">
+                        <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" style="float: left; padding-bottom: 14px;">
                             <select class="ui search selection dropdown" ng-model="User.UserName" ng-click="dropdown()" ng-change="initPermissions()">
                                 <option class="item" ng-repeat="d in UserList" value="{{d.UserName}}">{{d.UserName}}</option>
                             </select>
@@ -23,32 +23,34 @@
                                 <div class="item" ng-repeat="d in UserList" data-value="{{d.UserName}}">{{d.UserName}}</div>
                             </div>
                         </div>
+                        <div class="ui icon input" style="margin-left: 10px; float: left;" ng-show="ShowDBPermissionsFlag">
+                            <input type="text" id="dbFilterInput" name="filterDB" placeholder="Filter Database" ng-model="searchDBName" fdprocessedid="jktz0n" style="border-radius: 15px" required>
+                        </div>
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-database-fill-lock" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Database Permissions</h3>
                     </div>
 
                     <div class="card-block scrollbar" id="table-parent-container" ng-show="ShowDBPermissionsFlag">
                         <div class="table-responsive">
-                            <table class="ui striped table green main-table selectable" id="top-table">
-                                <tr>
-                                    <th width="5%"></th>
-                                    <th width="20%" style="text-align: center; vertical-align: middle">Select All</th>
-                                    <th width="7%" style="text-align:center;"><input id="connectdball" type="checkbox" ng-model='checkboxConnectDB' ng-click="checkAllConnectDB(checkboxConnectDB)" name="masterconnectdbcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="createprocedureall" type="checkbox" ng-model='checkboxCreateProcedure' ng-click="checkAllCreateProcedure(checkboxCreateProcedure)" name="mastercreateprocedurecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="createtableall" type="checkbox" ng-model='checkboxCreateTable' ng-click="checkAllCreateTable(checkboxCreateTable)" name="mastercreatetablecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="createviewall" type="checkbox" ng-model='checkboxCreateView' ng-click="checkAllCreateView(checkboxCreateView)" name="mastercreateviewcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="viewdefinitionall" type="checkbox" ng-model='checkboxViewDefinition' ng-click="checkAllViewDefinition(checkboxViewDefinition)" name="masterviewdefinitioncheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                    <th width="7%" style="text-align:center;"><input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                </tr>
-                            </table>
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="DBPermissionParams" show-filter="true">
-
+                                <thead>
+                                    <tr>
+                                        <th width="5%">Sr. No.</th>
+                                        <th width="20%" style="text-align: center; vertical-align: middle">Database</th>
+                                        <th width="7%" style="text-align:center;"><span>Connect</span><br /><br /><input id="connectdball" type="checkbox" ng-model='checkboxConnectDB' ng-click="checkAllConnectDB(checkboxConnectDB)" name="masterconnectdbcheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Create Procedure</span><br /><br /><input id="createprocedureall" type="checkbox" ng-model='checkboxCreateProcedure' ng-click="checkAllCreateProcedure(checkboxCreateProcedure)" name="mastercreateprocedurecheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Create Table</span><br /><br /><input id="createtableall" type="checkbox" ng-model='checkboxCreateTable' ng-click="checkAllCreateTable(checkboxCreateTable)" name="mastercreatetablecheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Create View</span><br /><br /><input id="createviewall" type="checkbox" ng-model='checkboxCreateView' ng-click="checkAllCreateView(checkboxCreateView)" name="mastercreateviewcheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Execute</span><br /><br /><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>View Definition</span><br /><br /><input id="viewdefinitionall" type="checkbox" ng-model='checkboxViewDefinition' ng-click="checkAllViewDefinition(checkboxViewDefinition)" name="masterviewdefinitioncheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Read</span><br /><br /><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Write</span><br /><br /><input id="writeall" type="checkbox" ng-model='checkboxWrite' ng-click="checkAllWrite(checkboxWrite)" name="masterwritecheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Alter</span><br /><br /><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                        <th width="7%" style="text-align:center;"><span>Foreign Key</span><br /><br /><input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" style="width: 20px; height: 20px; vertical-align: middle" /></th>
+                                    </tr>
+                                </thead>
                                 <tbody>
 
-                                    <tr ng-repeat="DBPermission in $data">
+                                    <tr ng-repeat="DBPermission in $data | filter:searchDBName">
                                         <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
                                         <td width="20%" data-title="'Database Name'" filter="{DatabaseName: 'text'}" sortable="'DatabaseName'" style=" border-top: none;"><label>{{DBPermission.DatabaseName}}</label></td>
 

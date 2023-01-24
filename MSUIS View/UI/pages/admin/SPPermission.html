@@ -47,30 +47,22 @@
                                     <th width="13%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
                                     <th width="13%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
                                     <th width="13%" style="text-align:center;"><input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" style="width:25px; height:25px" ; vertical-align: middle /></th>
-
                                 </tr>
                             </table>
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="PermissionParams" show-filter="true">
-
                                 <tbody>
-
                                     <tr ng-repeat="SPPermission in $data">
                                         <td width="13%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
                                         <td width="35%" data-title="'SP Name'" filter="{SPName: 'text'}" sortable="'SPName'" style=" border-top: none;"><label>{{SPPermission.SPName}}</label></td>
-
-
                                         <td width="13%" data-title="'Read'" style="text-align: center !important;">
                                             <input type="checkbox" ng-model="SPPermission.ReadPerm" name="Read" ng-checked="SPPermission.ReadPerm" />
                                         </td>
-
                                         <td width="13%" data-title="'Execute'" style="text-align: center !important;">
-                                            <input type="checkbox" ng-model="SPPermission.ExecutePerm" name="Write" ng-checked="SPPermission.ExecutePerm">
+                                            <input type="checkbox" ng-model="SPPermission.ExecutePerm" name="Execute" ng-checked="SPPermission.ExecutePerm">
                                         </td>
-
                                         <td width="13%" data-title="'Alter'" style="text-align: center !important;">
                                             <input type="checkbox" ng-model="SPPermission.AlterPerm" name="Alter" ng-checked="SPPermission.AlterPerm">
                                         </td>
-
                                         <td width="13%" data-title="'Full Access'" style="text-align: center !important;">
                                             <input type="checkbox" ng-model="SPPermission.FullAccessPerm" name="FullAccess" ng-checked="SPPermission.FullAccessPerm">
                                         </td>
