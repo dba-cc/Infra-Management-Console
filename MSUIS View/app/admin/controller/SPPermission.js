@@ -84,11 +84,7 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-
-        var table = angular.element(document.getElementById('example-2'))
-        angular.element(document.getElementById('top-table')).rows[0].cells[0].width = table.rows[0].cells[0].width
     };
-
 
     $scope.checkAllRead = function (value) {
         var cb = angular.element(document.getElementsByName('Read'))
@@ -105,7 +101,7 @@
         }
     };
 
-    $scope.checkAllWrite = function (value) {
+    $scope.checkAllExecute = function (value) {
         var cb = angular.element(document.getElementsByName('Execute'))
         console.log(cb)
         angular.forEach(cb, function (value) {
@@ -149,7 +145,6 @@
                 $scope.PermissionParams.data[i].FullAccessPerm = false;
         }
     };
-
 
     $scope.updatePermissions = function () {
         showLoadingScreen();

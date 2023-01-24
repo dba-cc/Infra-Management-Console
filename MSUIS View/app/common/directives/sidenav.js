@@ -120,7 +120,12 @@
                 }
             ]
 
-            scope.toggleSubmenu = function (item) {
+            scope.toggleSubmenu = function (item, menuItems) {
+                menuItems.forEach(function (otherMenu) {
+                    if (otherMenu != item) {
+                        otherMenu.expanded = false;
+                    }
+                })
                 item.expanded = !item.expanded;
             }
         }

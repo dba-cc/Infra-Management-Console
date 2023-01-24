@@ -56,8 +56,6 @@
             });
     };
 
-
-
     $scope.checkAllConnectDB = function (value) {
         var cb = angular.element(document.getElementsByName('ConnectDB'))
         console.log(cb)
