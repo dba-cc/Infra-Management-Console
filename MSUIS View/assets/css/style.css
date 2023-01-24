@@ -122,6 +122,16 @@ tr > td > label {
 .table td, .table th {
     vertical-align: middle !important;
 }
+
+.ui.table td.positive {
+    background: #cdefca !important;
+}
+.positive {
+    background: #cdefca !important;
+}
+.ui.table td.negative {
+    background: #efcece !important;
+}
 /*.animate-size-change {
     transition: all linear 0.5s;
     overflow: hidden;
