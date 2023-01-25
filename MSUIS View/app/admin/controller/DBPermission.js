@@ -3,7 +3,10 @@
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
-
+    $scope.toggleCheckbox = function (e) {
+        checkbox = e.currentTarget.children[0];
+        checkbox.click();
+    }
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({

@@ -126,11 +126,18 @@ tr > td > label {
 .ui.table td.positive {
     background: #cdefca !important;
 }
-.positive {
-    background: #cdefca !important;
-}
+
 .ui.table td.negative {
     background: #efcece !important;
+}
+
+.ui.table td {
+    line-height: 2.3em;
+}
+
+.checkbox.close {
+    float:none;
+    color: unset;
 }
 /*.animate-size-change {
     transition: all linear 0.5s;

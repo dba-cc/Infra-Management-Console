@@ -5,7 +5,10 @@
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
     }
-
+    $scope.toggleCheckbox = function (e) {
+        checkbox = e.currentTarget.children[0];
+        checkbox.click();
+    }
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({

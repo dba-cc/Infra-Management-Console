@@ -51,26 +51,30 @@
                                     <tr ng-repeat="SPPermission in $data | filter:searchSP">
                                         <td width="13%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
                                         <td width="35%" data-title="'SP Name'" filter="{SPName: 'text'}" sortable="'SPName'" style=" border-top: none;"><label>{{SPPermission.SPName}}</label></td>
-                                        <td width="13%" data-title="'Read'" style="text-align: center !important;" ng-class="{'positive' : SPPermission.ReadPerm, 'negative' : !SPPermission.ReadPerm}" class="selactable" >
-                                            <input type="checkbox" ng-model="SPPermission.ReadPerm" name="Read" ng-checked="SPPermission.ReadPerm" />
+                                        <td width="13%" data-title="'Read'" style="border-left: 2px solid #21ba45; text-align: center !important;" ng-class="{'positive' : SPPermission.ReadPerm, 'negative' : !SPPermission.ReadPerm}" class="selactable" ng-click="toggleCheckbox($event)">
+                                            <input style="display:none" type="checkbox" ng-model="SPPermission.ReadPerm" name="Read" ng-checked="SPPermission.ReadPerm" />
+                                            <i class="checkbox icon" ng-class="{'check' : SPPermission.ReadPerm, 'close' : !SPPermission.ReadPerm}"></i>
                                         </td>
-                                        <td width="13%" data-title="'Execute'" style="text-align: center !important;" ng-class="{'positive' : SPPermission.ExecutePerm, 'negative' : !SPPermission.ExecutePerm}" class="selactable">
-                                            <input type="checkbox" ng-model="SPPermission.ExecutePerm" name="Execute" ng-checked="SPPermission.ExecutePerm">
+                                        <td width="13%" data-title="'Execute'" style="text-align: center !important;" ng-class="{'positive' : SPPermission.ExecutePerm, 'negative' : !SPPermission.ExecutePerm}" class="selactable" ng-click="toggleCheckbox($event)">
+                                            <input style="display:none" type="checkbox" ng-model="SPPermission.ExecutePerm" name="Execute" ng-checked="SPPermission.ExecutePerm">
+                                            <i class="checkbox icon" ng-class="{'check' : SPPermission.ExecutePerm, 'close' : !SPPermission.ExecutePerm}"></i>
                                         </td>
-                                        <td width="13%" data-title="'Alter'" style="text-align: center !important;" class="selectable" ng-class="{'positive' : SPPermission.AlterPerm, 'negative' : !SPPermission.AlterPerm}">
-                                            <input type="checkbox" ng-model="SPPermission.AlterPerm" name="Alter" ng-checked="SPPermission.AlterPerm">
+                                        <td width="13%" data-title="'Alter'" style="text-align: center !important;" class="selectable" ng-class="{'positive' : SPPermission.AlterPerm, 'negative' : !SPPermission.AlterPerm}" ng-click="toggleCheckbox($event)">
+                                            <input style="display:none" type="checkbox" ng-model="SPPermission.AlterPerm" name="Alter" ng-checked="SPPermission.AlterPerm">
+                                            <i class="checkbox icon" ng-class="{'check' : SPPermission.AlterPerm, 'close' : !SPPermission.AlterPerm}"></i>
                                         </td>
-                                        <td width="13%" data-title="'Full Access'" style="text-align: center !important;" ng-class="{'positive' : SPPermission.FullAccessPerm, 'negative' : !SPPermission.FullAccessPerm}" class="selactable">
-                                            <input type="checkbox" ng-model="SPPermission.FullAccessPerm" name="FullAccess" ng-checked="SPPermission.FullAccessPerm">
+                                        <td width="13%" data-title="'Full Access'" style="text-align: center !important;" ng-class="{'positive' : SPPermission.FullAccessPerm, 'negative' : !SPPermission.FullAccessPerm}" class="selactable" ng-click="toggleCheckbox($event)">
+                                            <input style="display:none" type="checkbox" ng-model="SPPermission.FullAccessPerm" name="FullAccess" ng-checked="SPPermission.FullAccessPerm">
+                                            <i class="checkbox icon" ng-class="{'check' : SPPermission.FullAccessPerm, 'close' : !SPPermission.FullAccessPerm}"></i>
                                         </td>
                                     </tr>
                                     <tr style="background-color: rgba(128, 128, 128, 0.12) !important">
                                         <th width="13%"></th>
-                                        <th width="35%" style="text-align: center; vertical-align: middle">Select All</th>
-                                        <th width="13%" style="text-align:center; width: auto"><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                        <th width="13%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                        <th width="13%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="width: 25px; height: 25px; vertical-align: middle" /></th>
-                                        <th width="13%" style="text-align:center;"><input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" style="width:25px; height:25px" ; vertical-align: middle /></th>
+                                        <th width="35%" style="text-align: center; vertical-align: middle">Grant All</th>
+                                        <th width="13%" style="text-align:center; width: auto"><input id="readall" type="checkbox" ng-model='checkboxRead' ng-click="checkAllRead(checkboxRead)" name="masterreadcheck" style="vertical-align: middle" /></th>
+                                        <th width="13%" style="text-align:center;"><input id="executeall" type="checkbox" ng-model='checkboxExecute' ng-click="checkAllExecute(checkboxExecute)" name="masterexecutecheck" style="vertical-align: middle" /></th>
+                                        <th width="13%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="vertical-align: middle" /></th>
+                                        <th width="13%" style="text-align:center;"><input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" style="vertical-align: middle" /></th>
                                     </tr>
                                 </tbody>
                             </table>
