@@ -5,9 +5,10 @@
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
     }
-    $scope.$watch('User.UserName', function (newValue, oldValue) {
-        console.log("ng-model value changed from " + oldValue + " to " + newValue);
-    });
+    $scope.toggleCheckbox = function (e) {
+        checkbox = e.currentTarget.children[0];
+        checkbox.click();
+    }
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({

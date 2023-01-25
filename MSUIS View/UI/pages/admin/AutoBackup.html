@@ -37,13 +37,13 @@
                 </div>
 
                 <!--add schedule popup-->
-                <div class="ui large modal addPopup" id="inputPopup">
+                <div class="ui tiny modal addPopup" id="inputPopup">
                     <i class="close icon"></i>
-                    <div class="header">
+                    <div class="header" style="padding: 0; margin: 25px 15px 0 25px">
                         Add Schedule
                     </div>
                     <div class="content" style="max-height:fit-content">
-                        <form class="ui tiny form">
+                        <form class="ui mini form">
                             <div class="field">
                                 <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" ng-init="getDatabaseList()" style="float: left; margin-bottom: 1em">
                                     <select class="ui search selection dropdown" ng-model="Database.name" id="dbSelect">
@@ -59,13 +59,13 @@
                             </div>
                             <div class="field">
                                 <div class="fields">
-                                    <div class="fourteen wide field">
+                                    <div class="twelve wide field">
                                         <div class="ui big left icon input">
                                             <i class="folder open icon"></i>
                                             <input name="directory" autocomplete="off" placeholder="Backup Directory" id="saveDir" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" required />
                                         </div>
                                     </div>
-                                    <div class="two wide field">
+                                    <div class="four wide field">
                                         <div class="ui big left input">
                                             <input type="time" placeholder="Time" id="timepicker" value="00:00">
                                         </div>

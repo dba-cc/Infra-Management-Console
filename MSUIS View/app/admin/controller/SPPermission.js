@@ -5,6 +5,10 @@
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
     }
+    $scope.toggleCheckbox = function (e) {
+        checkbox = e.currentTarget.children[0];
+        checkbox.click();
+    }
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({
@@ -163,13 +167,14 @@
 
                 .success(function (response) {
                     if (response.response_code != "200") {
-                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        showMessage(response.obj);
                         resp = response;
                         //break;
                     }
                     else {
                         //alert(response.obj);
                         resp = response;
+                        showMessage(response.obj);
                     }
                     if (i >= $scope.PermissionParams.data.length - 2) {
                         hideLoadingScreen();
@@ -182,7 +187,7 @@
                     //break;
                 });
         }
-        alert(resp.obj);
+        showMessage(resp.obj);
     };
 
 });
