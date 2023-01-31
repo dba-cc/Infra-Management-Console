@@ -139,27 +139,16 @@ tr > td > label {
     float:none;
     color: unset;
 }
-/*.animate-size-change {
-    transition: all linear 0.5s;
-    overflow: hidden;
+
+.chart-container {
+    /*display:flex !important;*/
+    position: relative;
+    border-left: 2px solid green !important;
+    /*    height: 40vh;
+    width: 50vw*/
 }
 
-    .animate-size-change.ng-enter {
-        height: 0;
-    }
 
-    .animate-size-change.ng-enter-active {
-        height: 100px;
-    }
-
-    .animate-size-change.ng-leave {
-        height: 100px;
-    }
-
-    .animate-size-change.ng-leave-active {
-        height: 0;
-    }
-*/
 /**====== Custom css end ======**/
 /**  =====================
       Main-body css start
@@ -232,7 +221,12 @@ tr > td > label {
       Card-Layout css start
 ==========================  **/
 .card-block {
-  margin-top: 1.25rem; }
+  margin-top: 1.25rem !important; }
+
+.ui.grid > .column:not(.row), .ui.grid > .row > .column {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
 
 #message-container {
     position: fixed;
