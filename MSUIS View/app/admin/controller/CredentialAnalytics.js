@@ -18,7 +18,6 @@
                         dataset: response.obj
                     });
                     $scope.generateChart(response.obj);
-                    console.log(response.obj)
                 }
                 hideLoadingScreen();
             })
@@ -29,10 +28,8 @@
     };
 
     $scope.$watch("CredentialParams.filter()", function (newFilter) {
-        // Access the filtered data
         $timeout(function () {
             var filteredData = $scope.CredentialParams.data;
-            console.log("Filtered data: ", filteredData);
             $scope.generateChart(filteredData)
         });
     }, true);
