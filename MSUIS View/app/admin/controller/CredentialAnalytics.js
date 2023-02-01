@@ -1,5 +1,5 @@
-﻿app.controller('CredentialAnalyticsCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
-
+﻿app.controller('CredentialAnalyticsCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval, $timeout) {
+    $scope.CredentialParams = new NgTableParams({}, {});
     $scope.GetCredentialAnalytics = function () {
         showLoadingScreen();
         $http({
@@ -18,6 +18,7 @@
                         dataset: response.obj
                     });
                     $scope.generateChart(response.obj);
+                    console.log(response.obj)
                 }
                 hideLoadingScreen();
             })
@@ -27,6 +28,15 @@
             });
     };
 
+    $scope.$watch("CredentialParams.filter()", function (newFilter) {
+        // Access the filtered data
+        $timeout(function () {
+            var filteredData = $scope.CredentialParams.data;
+            console.log("Filtered data: ", filteredData);
+            $scope.generateChart(filteredData)
+        });
+    }, true);
+
     $scope.generateChart = function (data) {
         var loginNames = data.map(function (obj) {
             return obj.loginame.trim();
@@ -34,27 +44,29 @@
         var noOfConnections = data.map(function (obj) {
             return obj.noofconnections;
         });
-        var totalNoOfConnections = data.reduce((acc, item) => acc + item.noofconnections, 0);
+        var maxNoOfConnections = Math.max.apply(Math, data.map(function (obj) { return obj.noofconnections; }));
         var colors = data.map(function (obj) {
-            return $scope.generateColor(obj.noofconnections, totalNoOfConnections);
+            return $scope.generateColor(obj.noofconnections, maxNoOfConnections);
         });
-        const chart = document.getElementById('analytics-chart');
-
-        new Chart(chart, {
+        const chartCanvas = document.getElementById('analytics-chart');
+        if (typeof $scope.chart !== 'undefined') {
+            $scope.chart.destroy();
+        }
+        $scope.chart = new Chart(chartCanvas, {
             type: 'doughnut',
             data: {
                 labels: loginNames,
                 datasets: [{
                     label: ' # of Connections',
                     data: noOfConnections,
-                    borderWidth: 1,
+                    borderWidth: 5,
                     backgroundColor: colors,
-                    borderColor: 'rgb(22, 171, 57)',
+                    borderColor: 'white',
                 }]
             },
             options: {
                 maintainAspectRatio: false,
-                //responsive: true,
+                cutoutPercentage: 50,
                 plugins: {
                     legend: {
                         position: 'right',
@@ -68,8 +80,8 @@
         });
     }
 
-    $scope.generateColor = function (noOfConnections, totalNoOfConnections) {
-        var opacity = noOfConnections / totalNoOfConnections;
+    $scope.generateColor = function (noOfConnections, maxNoOfConnections) {
+        var opacity = noOfConnections / maxNoOfConnections;
         var color = "rgba(22, 171, 57, " + opacity + ")";
         return color;
     }
