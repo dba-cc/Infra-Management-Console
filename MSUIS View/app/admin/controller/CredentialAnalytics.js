@@ -46,8 +46,10 @@
             return $scope.generateColor(obj.noofconnections, maxNoOfConnections);
         });
         const chartCanvas = document.getElementById('analytics-chart');
+        const barChartCanvas = document.getElementById('analytics-chart-bar');
         if (typeof $scope.chart !== 'undefined') {
             $scope.chart.destroy();
+            $scope.barChart.destroy();
         }
         $scope.chart = new Chart(chartCanvas, {
             type: 'doughnut',
@@ -72,6 +74,38 @@
                         },
                     },
                    
+                }
+            }
+        });
+        $scope.barChart = new Chart(barChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: loginNames,
+                datasets: [{
+                    label: ' # of Connections',
+                    data: noOfConnections,
+                    borderWidth: 3,
+                    backgroundColor: '#27bc1a3b',
+                    borderColor: '#20bb40ad',
+                    fill: true
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutoutPercentage: 30,
+                plugins: {
+                    filler: {
+                        propagate: false,
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                        },
+                    },
+                },
+                interaction: {
+                    intersect: false,
                 }
             }
         });
