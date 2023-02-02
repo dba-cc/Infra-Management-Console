@@ -31,6 +31,45 @@ File: style.css
     font-family: "Open Sans", sans-serif;
 }
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
 body {
     background-color: #f3f3f3;
     font-size: 0.875em;
@@ -295,20 +334,25 @@ tr > td > label {
     /*display: none !important;*/
 }
 
-
-.card {
-    border-radius: 2px;
-    border-top: 4px solid #8CDDCD;
-    -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    padding: 15px;
-    border: 1px solid green;
-    border-radius: 15px;
-    background: white;
+.pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="none"] li:hover > a {
+    color: whitesmoke !important;
 }
+    .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="none"] li:hover > a span {
+        color: whitesmoke !important;
+    }
+    .card {
+        border-radius: 2px;
+        border-top: 4px solid #8CDDCD;
+        -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding: 15px;
+        border: 1px solid green;
+        border-radius: 15px;
+        background: white;
+    }
   .card .card-footer {
     background-color: #fff; }
     .card .card-header {
@@ -6111,20 +6155,36 @@ table tbody .border-bottom-info td {
   width: 84px; }
 
     .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu a {
-        margin: 0 !important;
+        
     }
 
-    .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu .bi.bi-caret-down-fill.ng-scope {
-        display: none !important;
-    }
+.pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .pcoded-navbar .sidebar_toggle a span {
+    display:none;
+}
+
+.pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu .bi.bi-caret-down-fill.ng-scope {
+    display: none !important;
+}
+.pcoded-navbar .sidebar_toggle a:hover {
+    background: #20bb40ad !important;
+}
 
     .sidebar_toggle a {
-        margin: -5px;
         line-height: 1;
+    }
+.pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .pcoded-navbar .pcoded-item {
+    margin-top: 21px !important;
+}
+    .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="none"] li > a {
+        margin: 5px 0 0 0 !important;
+    }
+    .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .pcoded-navbar .pcoded-item > li:first-child {
+        margin-top: 30px !important;
     }
 
 body.menu-collapsed label {
-  display: none; }
+    display: none;
+}
 body.menu-collapsed .slimScrollDiv,
 body.menu-collapsed .main-menu-content {
   overflow: visible !important; }
@@ -17136,7 +17196,9 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="solid"] li > a {
   border-bottom-style: solid; }
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="none"] li > a {
-  border: none; }
+  border: none;
+}
+
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="false"] > li > a {
   border-bottom-width: 0; }
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"] > li > a {
@@ -17474,7 +17536,7 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="collapsed"][vertical-effect="shrink"] .pcoded-header.iscollapsed .pcoded-right-header {
   margin-left: 90px; }
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="collapsed"][vertical-effect="shrink"] .pcoded-content {
-  margin-left: 90px; }
+  margin-left: 110px; }
 .pcoded[theme-layout="vertical"][vertical-placement="right"][vertical-nav-type="collapsed"][vertical-effect="shrink"] .pcoded-header .pcoded-right-header {
   margin-right: 285px; }
 .pcoded[theme-layout="vertical"][vertical-placement="right"][vertical-nav-type="collapsed"][vertical-effect="shrink"] .pcoded-header.iscollapsed .pcoded-left-header {
@@ -17948,7 +18010,7 @@ body.dark-layout {
   -ms-transform: rotateX(90deg);
   -moz-transform: rotateX(90deg);
   -o-transform: rotateX(90deg);
-  position: absolute; }
+}
 
 .pcoded[theme-layout="vertical"][vertical-nav-type="fullpage"] .pcoded-navbar .sidebar_toggle a {
   color: #f1f1f1;
@@ -17973,9 +18035,12 @@ body.dark-layout {
 
 .pcoded-navbar .sidebar_toggle a:hover {
   color: #fff; }
-
-.pcoded[theme-layout="vertical"][vertical-nav-type="fullpage"] .pcoded-navbar .pcoded-item > li.pcoded-hasmenu > a:after {
-  display: none; }
+    .pcoded-navbar .sidebar_toggle a:hover > i {
+        color: #fff !important;
+    } 
+    .pcoded[theme-layout="vertical"][vertical-nav-type="fullpage"] .pcoded-navbar .pcoded-item > li.pcoded-hasmenu > a:after {
+        display: none;
+    }
 .pcoded[theme-layout="vertical"][vertical-nav-type="fullpage"] .pcoded-navbar .pcoded-item > li.pcoded-trigger > a {
   background: transparent !important;
   border-bottom-color: transparent !important; }
