@@ -120,13 +120,18 @@
                 }
             ]
 
-            scope.toggleSubmenu = function (item, menuItems) {
-                menuItems.forEach(function (otherMenu) {
-                    if (otherMenu != item) {
-                        otherMenu.expanded = false;
-                    }
+            scope.slideUpMenu = function () {
+                $('.subitem').ready(function () {
+                    items = document.getElementsByClassName('subitem')
+                    $(items).slideUp()
                 })
-                item.expanded = !item.expanded;
+            }
+
+            scope.toggleSubmenu = function (item, menuItems, e) {
+                menus = e.currentTarget.parentNode.children;
+                $(e.currentTarget).siblings().children(":odd").slideUp()
+                submenus = e.currentTarget.children[1];
+                $(submenus).slideToggle(300);
             }
         }
     }
