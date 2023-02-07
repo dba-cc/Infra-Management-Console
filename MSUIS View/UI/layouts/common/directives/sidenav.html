@@ -21,7 +21,7 @@
                 <li ng-class="{active: $state.includes(item.state)} scrollbar" class="parent-menu" ng-repeat="item in menuItems" ng-click="toggleSubmenu(item, menuItems, $event)" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px;">
                     <a ui-sref="{{item.state}}" style="border-radius: 15px; padding-top: 15px" title="{{item.name}}">
                         <span class="pcoded-micon"><i class="{{item.icon}}" style="font-size: 1.5rem;"></i></span>
-                        <span class="pcoded-mtext" data-i18n="nav.widget.main" style="color:black">{{item.name}}</span>
+                        <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color:black">{{item.name}}</span></b>
                         <span class="pcoded-mcaret"><i ng-if="item.hasSubmenu && !item.expanded" style="float: right" class="bi bi-caret-down-fill"></i></span>
                     </a>
                     <ul class="pcoded-item pcoded-left-item subitem" on style="margin: 0 !important">

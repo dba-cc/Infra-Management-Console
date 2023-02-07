@@ -17161,7 +17161,8 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="solid"] li > a {
   border-bottom-style: solid; }
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"][item-border-style="none"] li > a {
-  border: none;
+    transition: background 0.5s ease-out;
+    border: none;
 }
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="false"] > li > a {
