@@ -2,30 +2,21 @@
 
     $rootScope.pageTitle = "Backup Restore";
 
-
     $scope.blueprint = {
         "FrDbName": "",
         "ToDbName": "",
         "bkLocation": "0"
-
     }
-
 
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
 
     $scope.nwloc = function () {
-        $scope.blueprint["bkLocation"] = '"' + document.getElementById('newloc').value + '"';
+        $scope.blueprint["bkLocation"] = '"' + document.getElementById('newloc').value.replace(/\\/g, '\\\\') + '"';
         console.log($scope.blueprint["bkLocation"])
         $scope.getFiles();
     }
-    /*   $scope.nwnme = function () {
-           $scope.blueprint["ToDbName"] = document.getElementById('nwdb').value;
-           console.log($scope.blueprint["ToDbName"])
-           $scope.getFiles();
-       }*/
-
 
     $scope.getFiles = function () {
         showLoadingScreen();
@@ -51,8 +42,6 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-
-
     };
     $scope.DbList = {};
     $scope.getDatabaseList = function () {
@@ -75,7 +64,7 @@
                     }, {
                         dataset: response.obj
                     });
-                    console.log(response.obj)
+
                     $scope.DbList = response.obj;
                 }
                 hideLoadingScreen();
@@ -96,7 +85,7 @@
 
         } else {
             $("#new").addClass("active").siblings().removeClass("active");
-            document.getElementById('loc').style.display = 'block';
+            document.getElementById('loc').style.display = 'flex';
             console.log($scope.location)
             $scope.blueprint["bkLocation"] = location
         }
@@ -109,23 +98,23 @@
             $("#exist").addClass("active").siblings().removeClass("active");
             document.getElementById('nwdb').style.display = 'none'
             document.getElementById('existingdbnme').style.display = 'block'
-            a = replaceFlag;
-
         } else {
             $("#newdb").addClass("active").siblings().removeClass("active")
             document.getElementById('nwdb').style.display = 'block'
             document.getElementById('existingdbnme').style.display = 'none'
         }
+        $scope.a = replaceFlag;
     }
 
     $scope.RestoreBackup = function () {
-        showLoadingScreen();
+        
         $scope.blueprint["FrDbName"] = document.getElementById('frDbName').value,
-            $scope.blueprint["bkLocation"] = document.getElementById('newloc').value
-        if (a === '1') {
+        $scope.blueprint["bkLocation"] = document.getElementById('newloc').value
+        console.log($scope.a)
+        if ($scope.a === '1') {
             $scope.blueprint["ToDbName"] = document.getElementById('toDbName').value;
         } else {
-            $scope.blueprint["ToDbName"] = document.getElementById('nwdb').value;
+            $scope.blueprint["ToDbName"] = document.getElementById('nwdbname').value;
         }
 
 
@@ -133,20 +122,9 @@
             showMessage('Please select database!')
             return
         }
-        /* if (replaceFlag === '1') {
-             $scope.blueprint["ToDbName"] = document.getElementById('toDbName').value
- 
-         }
-         else if (replaceFlag === '0') {
-             $scope.blueprint["ToDbName"] = document.getElementById('nwnm').value
- 
-         }*/
 
-
-        console.log($scope.blueprint["FrDbName"])
-        console.log($scope.blueprint["ToDbName"])
-        console.log($scope.blueprint["bkLocation"])
-
+        $scope.hideAddForm();
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/RB/RestoreBackup',
@@ -161,6 +139,7 @@
                 else {
                     showMessage(response.obj);
                 }
+                $scope.getDatabaseList();
                 hideLoadingScreen();
             })
             .error(function (res) {
