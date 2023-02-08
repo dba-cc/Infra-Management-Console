@@ -17528,9 +17528,11 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"][vertical-placement="right"][vertical-nav-type="collapsed"][vertical-effect="overlay"] .pcoded-content {
   margin-right: 90px; }
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item > li > a .pcoded-mtext {
-  opacity: 1;
-  visibility: visible;
-  position: absolute; }
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    transition: color 0.2s ease-out;
+}
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item li.pcoded-hasmenu > a:after {
   opacity: 1;
   visibility: visible; }

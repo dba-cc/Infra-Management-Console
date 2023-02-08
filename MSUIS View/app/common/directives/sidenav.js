@@ -123,7 +123,7 @@
             scope.slideUpMenu = function () {
                 $('.subitem').ready(function () {
                     items = document.getElementsByClassName('subitem')
-                    $(items).slideUp()
+                    $(items).hide().slideUp();
                 })
             }
 
