@@ -22,12 +22,13 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage FCGet()
+        public HttpResponseMessage RbFCGet([FromBody] String s)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("FCGet", Con);
+                SqlCommand cmd = new SqlCommand("RbFCGet", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Path", s);
                 Da.SelectCommand = cmd;
 
                 Da.Fill(Dt);
@@ -57,12 +58,11 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                string FrDbName = Convert.ToString(rb.FrDbName);
-                string ToDbName = Convert.ToString(rb.ToDbName);
                 SqlCommand cmd = new SqlCommand("RestoreBackup", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@dbFromName", FrDbName);
-                cmd.Parameters.AddWithValue("@dbToName", ToDbName);
+                cmd.Parameters.AddWithValue("@dbFromName", rb.FrDbName);
+                cmd.Parameters.AddWithValue("@dbToName", rb.ToDbName);
+                cmd.Parameters.AddWithValue("@bkLocation", rb.bkLocation);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
                 Con.Open();

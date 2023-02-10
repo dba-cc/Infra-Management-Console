@@ -79,12 +79,30 @@
                             usePointStyle: true,
                         },
                     },
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            drag: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'x',
+                        }
+                    }
                 },
                 interaction: {
                     intersect: false,
-                }
+                },
             }
         });
+    }
+
+    $scope.resetChart = function() {
+        $scope.chart.resetZoom();
     }
 
     $scope.FetchQueryHitList = function () {

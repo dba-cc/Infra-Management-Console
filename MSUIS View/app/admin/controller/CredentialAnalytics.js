@@ -35,29 +35,41 @@
     }, true);
 
     $scope.generateChart = function (data) {
-        var loginNames = data.map(function (obj) {
-            return obj.loginame.trim();
-        });
         var noOfConnections = data.map(function (obj) {
             return obj.noofconnections;
         });
-        var maxNoOfConnections = Math.max.apply(Math, data.map(function (obj) { return obj.noofconnections; }));
-        var colors = data.map(function (obj) {
-            return $scope.generateColor(obj.noofconnections, maxNoOfConnections);
+        var labels = data.map(function (obj) {
+            return obj.loginame.trim() + ' - ' + obj.dbname.trim();
         });
+
+        var colors = [
+            "rgba(2, 152, 154, 0.3)", // blueishgreen 1
+            "rgba(1, 205, 2, 0.3)", // green 1
+            "rgba(19, 66, 172, 0.3)", // blue 1
+
+            "rgba(53, 173, 174, 0.7)", // blueishgreen 2
+            "rgba(54, 214, 53, 0.7)", // green 2
+            "rgba(66, 102, 190, 0.7)", // blue 2
+
+            "rgba(104, 195, 196, 1)", //blueishgreen 3
+            "rgba(103, 225, 104, 1)", // green 3
+            "rgba(130, 152, 184, 1)" // blue 3 
+        ]
         const chartCanvas = document.getElementById('analytics-chart');
+        const barChartCanvas = document.getElementById('analytics-chart-bar');
         if (typeof $scope.chart !== 'undefined') {
             $scope.chart.destroy();
+            $scope.barChart.destroy();
         }
         $scope.chart = new Chart(chartCanvas, {
             type: 'doughnut',
             data: {
-                labels: loginNames,
+                labels: labels,
                 datasets: [{
                     label: ' # of Connections',
                     data: noOfConnections,
                     borderWidth: 5,
-                    backgroundColor: colors,
+                    backgroundColor: Object.values(colors),
                     borderColor: 'white',
                 }]
             },
@@ -75,11 +87,36 @@
                 }
             }
         });
-    }
-
-    $scope.generateColor = function (noOfConnections, maxNoOfConnections) {
-        var opacity = noOfConnections / maxNoOfConnections;
-        var color = "rgba(22, 171, 57, " + opacity + ")";
-        return color;
+        $scope.barChart = new Chart(barChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: ' # of Connections',
+                    data: noOfConnections,
+                    borderWidth: 3,
+                    backgroundColor: colors,
+                    fill: true
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutoutPercentage: 30,
+                plugins: {
+                    filler: {
+                        propagate: false,
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                        },
+                    },
+                },
+                interaction: {
+                    intersect: false,
+                }
+            }
+        });
     }
 });
