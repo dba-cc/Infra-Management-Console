@@ -100,7 +100,8 @@
         $scope.db = document.getElementById('dbname').value;
         if (document.getElementById('dbname').value == '? undefined:undefined ?') {
             $scope.db = 'DBAdmin';
-            showMessage('DBAdmin is selected in default database!')
+            document.getElementById('dbname').value = $scope.db;
+            $scope.dropdown();
         }
         console.log($scope.db)
         hideLoadingScreen();

@@ -11,12 +11,9 @@ namespace MSUISApi.Models
 
         public string query { get; set; }
 
-        public string number { get; set; }
-
         public string objectid { get; set; }
 
         public string dbname { get; set; }
-        public string db { get; set; }
         public Int64 execution_count { get; set; }
 
         public Int64 max_worker_time { get; set; }
