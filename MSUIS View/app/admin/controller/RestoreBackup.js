@@ -17,7 +17,9 @@
         console.log($scope.blueprint["bkLocation"])
         $scope.getFiles();
     }
-
+    $scope.defname = function () {
+        document.getElementById('nwdbname').value = document.getElementById('frDbName').value;
+    }
     $scope.getFiles = function () {
         showLoadingScreen();
         console.log($scope.blueprint["bkLocation"])

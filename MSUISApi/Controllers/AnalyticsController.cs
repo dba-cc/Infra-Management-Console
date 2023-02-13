@@ -29,10 +29,12 @@ namespace MSUISApi.Controllers
             {
                 String timeFormat = timeFormat_time.Split(' ')[0];
                 String time = timeFormat_time.Split(' ')[1];
+                String db = timeFormat_time.Split(' ')[2];
                 SqlCommand cmd = new SqlCommand("lasttopv2", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TimeFormat", timeFormat);
                 cmd.Parameters.AddWithValue("@t", time);
+                cmd.Parameters.AddWithValue("@db", db);
                 Da.SelectCommand = cmd;
 
                 Da.Fill(Dt);

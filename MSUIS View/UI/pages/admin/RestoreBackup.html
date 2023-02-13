@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" ng-init="getFiles()" style="width:100%; float: left; margin-bottom: 1em">
-                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName">
+                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName" ng-change="defname()">
                                     <option class="item" ng-repeat="f in FileList" value="{{f.DbName}}">{{f.DbName}}</option>
                                 </select>
                                 <i class="file icon"></i>
