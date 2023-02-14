@@ -17,7 +17,9 @@
         $scope.blueprint["bkLocation"] = '"' + document.getElementById('newloc').value.replace(/\\/g, '\\\\') + '"';
         $scope.getFiles();
     }
-
+    $scope.defname = function () {
+        document.getElementById('nwdbname').value = document.getElementById('frDbName').value;
+    }
     $scope.getFiles = function () {
         showLoadingScreen();
         $http({

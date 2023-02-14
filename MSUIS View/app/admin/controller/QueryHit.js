@@ -34,20 +34,7 @@
             return obj.last_worker_time;
         });
 
-        //var datetime = [
-        //    '2023-02-01 14:47:08', '2023-02-01 14:47:37', '2023-02-01 14:47:40', '2023-02-01 14:47:46', '2023-02-01 14:47:48', '2023-02-01 14:47:50',
-        //    '2023-02-01 14:47:57', '2023-02-01 14:47:57', '2023-02-01 14:47:59', '2023-02-01 14:48:14', '2023-02-01 14:48:16', '2023-02-01 14:48:22',
-        //    '2023-02-01 14:49:08', '2023-02-01 14:49:37', '2023-02-01 14:49:40', '2023-02-01 14:49:46', '2023-02-01 14:49:48', '2023-02-01 14:49:50',
-        //    '2023-02-01 14:49:57', '2023-02-01 14:49:57', '2023-02-01 14:49:59', '2023-02-01 14:49:14', '2023-02-01 14:49:16', '2023-02-01 14:49:22',
-        //    '2023-02-01 14:50:08', '2023-02-01 14:50:37', '2023-02-01 14:50:40', '2023-02-01 14:50:46', '2023-02-01 14:50:48', '2023-02-01 14:50:50',
-        //    '2023-02-01 14:50:57', '2023-02-01 14:50:57', '2023-02-01 14:50:59', '2023-02-01 14:51:14', '2023-02-01 14:51:16', '2023-02-01 14:51:22',
-        //    '2023-02-01 14:51:08', '2023-02-01 14:51:37', '2023-02-01 14:51:40', '2023-02-01 14:51:46', '2023-02-01 14:51:48', '2023-02-01 14:51:50',
-        //    '2023-02-01 14:51:57', '2023-02-01 14:51:57', '2023-02-01 14:51:59', '2023-02-01 14:52:14', '2023-02-01 14:52:16', '2023-02-01 14:52:22'
-        //]
-        //var lastWorkerTime = [
-        //    1262, 1956, 1930, 1193, 1957, 1475, 1809, 3131, 1913, 1350, 2273, 1194, 1262, 1956, 1930, 1193, 1957, 1475, 1809, 3131, 1913, 1350, 2273,
-        //    1194, 1262, 1956, 1930, 1193, 1957, 1475,1809,3131,9000,1350,2273,1194,1262,1956,1930,1193,1957,1475,1809, 3131, 1913, 1350, 2273, 1194
-        //]
+       
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
             $scope.chart.destroy();
@@ -109,11 +96,18 @@
             showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
             return
         }
+        $scope.db = document.getElementById('dbname').value;
+        if (document.getElementById('dbname').value == '? undefined:undefined ?') {
+            $scope.db = 'DBAdmin';
+            document.getElementById('dbname').value = $scope.db;
+            $scope.dropdown();
+        }
+        console.log($scope.db)
         hideLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
-            data: '"' + $scope.timeFormat + ' ' + $scope.time + '"',
+            data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -136,12 +130,35 @@
             });
     };
 
+    };
+    $scope.getDatabaseList = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/GetDatabase',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.DatabaseList = {};
+                }
+                else {
+                    $scope.DatabaseList = response.obj;
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
     $scope.initFetch = function () {
         hideLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
-            data: '"HOUR 1"',
+            data: '"HOUR 1 DBAdmin"',
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {

@@ -16,6 +16,7 @@ function hideLoadingScreen() {
     $('.loading-screen').removeClass('active');
 }
 
+
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {
         request: function (config) {
