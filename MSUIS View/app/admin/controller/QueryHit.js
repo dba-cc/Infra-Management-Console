@@ -1,8 +1,7 @@
-﻿app.controller('QueryHitCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval, $timeout) {
-
+﻿app.controller('QueryHitCtrl', function ($scope, $http, NgTableParams, $timeout) {
     $scope.QueryHitParams = new NgTableParams({}, {});
 
-    $scope.dropdown = function() {
+    $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
 
@@ -101,7 +100,7 @@
         });
     }
 
-    $scope.resetChart = function() {
+    $scope.resetChart = function () {
         $scope.chart.resetZoom();
     }
 
@@ -135,8 +134,8 @@
                 showMessage(res.obj);
                 hideLoadingScreen();
             });
-
     };
+
     $scope.initFetch = function () {
         hideLoadingScreen();
         $http({
@@ -162,14 +161,15 @@
                 showMessage(res.obj);
                 hideLoadingScreen();
             });
-
     };
+
     $scope.showPopup = function (data) {
         $('#inputPopup').modal({
             context: '.parent-container'
         }).modal('show');
         document.getElementById('query').innerText = data
     }
+
     $scope.hidePopup = function () {
         $('#inputPopup').modal('hide');
     };

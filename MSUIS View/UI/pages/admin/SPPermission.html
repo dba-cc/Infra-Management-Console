@@ -1,14 +1,6 @@
-﻿<style>
-    .md-dialog-is-showing {
-        top: auto !important;
-    }
-</style>
-
-<!-- Page body start -->
-<div class="page-body" ng-controller="SPPermissionCtrl" ng-init="getPermission()">
+﻿<div class="page-body" ng-controller="SPPermissionCtrl" ng-init="getPermission()">
     <div class="row">
         <div class="col-sm-12">
-            <!-- Basic Form Inputs card start -->
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getUserList()">
@@ -48,7 +40,7 @@
                         <div class="table-responsive">
                             <table class="ui striped celled table green main-table selectable" id="example-2" ng-table="PermissionParams" show-filter="true">
                                 <tbody>
-                                    <tr ng-repeat="SPPermission in $data | filter:searchSP">
+                                    <tr ng-repeat="SPPermission in $data">
                                         <td width="13%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="text-align: center; border-top: none;"><label>{{ $index + 1 }}</label></td>
                                         <td width="35%" data-title="'SP Name'" filter="{SPName: 'text'}" sortable="'SPName'" style=" border-top: none;"><label>{{SPPermission.SPName}}</label></td>
                                         <td width="13%" data-title="'Read'" style="border-left: 2px solid #21ba45; text-align: center !important;" ng-class="{'positive' : SPPermission.ReadPerm, 'negative' : !SPPermission.ReadPerm}" class="selactable" ng-click="toggleCheckbox($event)">

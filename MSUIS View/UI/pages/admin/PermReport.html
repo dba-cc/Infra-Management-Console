@@ -1,14 +1,6 @@
-﻿<style>
-    .md-dialog-is-showing {
-        top: auto !important;
-    }
-</style>
-
-<!-- Page body start -->
-<div class="page-body" ng-controller="PermReportCtrl">
+﻿<div class="page-body" ng-controller="PermReportCtrl">
     <div class="row">
         <div class="col-sm-12">
-            <!-- Basic Form Inputs card start -->
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getDatabaseList()">
@@ -36,7 +28,7 @@
                                         <td data-title="'Permission'" filter="{permission: 'text'}" sortable="'permission'" style=" border-top: none;"><label>{{PermVaR.permission}}</label></td>
                                         <td data-title="'Permission State'" filter="{permissionstate: 'text'}" sortable="'permissionstate'" style=" border-top: none;"><label>{{PermVaR.permissionstate}}</label></td>
                                         <td data-title="'Class'" filter="{Class: 'text'}" sortable="'Class'" style=" border-top: none;"><label>{{PermVaR.Class}}</label></td>
-                                       <!-- <td data-title="'Object Type'" filter="{objectname: 'text'}" sortable="'objectname'" style=" border-top: none;"><label>{{PermVaR.objectname}}</label></td>-->
+                                        <td data-title="'Object Type'" filter="{objectname: 'text'}" sortable="'objectname'" style=" border-top: none;"><label>{{PermVaR.objectname}}</label></td>
                                         <td data-title="'Modify Date'" filter="{modifydate: 'text'}" sortable="'modifydate'" style=" border-top: none;"><label>{{PermVaR.modifydate}}</label></td>
                                     </tr>
                                 </tbody>

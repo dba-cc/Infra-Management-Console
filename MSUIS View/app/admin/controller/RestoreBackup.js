@@ -1,6 +1,7 @@
-﻿app.controller('RBCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+﻿app.controller('RBCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Backup Restore";
+    $scope.DbList = {};
+    $scope.a;
 
     $scope.blueprint = {
         "FrDbName": "",
@@ -14,13 +15,11 @@
 
     $scope.nwloc = function () {
         $scope.blueprint["bkLocation"] = '"' + document.getElementById('newloc').value.replace(/\\/g, '\\\\') + '"';
-        console.log($scope.blueprint["bkLocation"])
         $scope.getFiles();
     }
 
     $scope.getFiles = function () {
         showLoadingScreen();
-        console.log($scope.blueprint["bkLocation"])
         $http({
             method: 'POST',
             url: 'api/RB/RbFCGet',
@@ -34,7 +33,6 @@
                 }
                 else {
                     $scope.FileList = response.obj
-                    console.log($scope.FileList)
                 }
                 hideLoadingScreen();
             })
@@ -43,10 +41,9 @@
                 hideLoadingScreen();
             });
     };
-    $scope.DbList = {};
+
     $scope.getDatabaseList = function () {
         showLoadingScreen();
-
 
         $http({
             method: 'POST',
@@ -55,7 +52,6 @@
         })
 
             .success(function (response) {
-
                 if (response.response_code == "201") {
                     $scope.DatabaseList = {};
                 }
@@ -68,13 +64,13 @@
                     $scope.DbList = response.obj;
                 }
                 hideLoadingScreen();
-
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
     };
+
     $scope.setLocation = function (location) {
         if (location === '0') {
             $("#def").addClass("active").siblings().removeClass("active");
@@ -82,17 +78,14 @@
             $scope.blueprint["bkLocation"] = "0";
             $scope.getFiles();
             $scope.getDatabaseList();
-
         } else {
             $("#new").addClass("active").siblings().removeClass("active");
             document.getElementById('loc').style.display = 'flex';
-            console.log($scope.location)
             $scope.blueprint["bkLocation"] = location
         }
         $scope.blueprint["bkLocation"] = location
-
     }
-    $scope.a;
+
     $scope.setRpflag = function (replaceFlag) {
         if (replaceFlag === '1') {
             $("#exist").addClass("active").siblings().removeClass("active");
@@ -107,16 +100,13 @@
     }
 
     $scope.RestoreBackup = function () {
-        
         $scope.blueprint["FrDbName"] = document.getElementById('frDbName').value,
         $scope.blueprint["bkLocation"] = document.getElementById('newloc').value
-        console.log($scope.a)
         if ($scope.a === '1') {
             $scope.blueprint["ToDbName"] = document.getElementById('toDbName').value;
         } else {
             $scope.blueprint["ToDbName"] = document.getElementById('nwdbname').value;
         }
-
 
         if (document.getElementById('frDbName').value == '? undefined:undefined ?') {
             showMessage('Please select database!')
@@ -157,8 +147,8 @@
             }
         }).modal('show');
     };
+
     $scope.hideAddForm = function () {
         $('.addPopup').modal('hide');
     };
-
 });

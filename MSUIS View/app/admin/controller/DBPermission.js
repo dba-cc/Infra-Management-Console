@@ -1,12 +1,13 @@
-﻿app.controller('DBPermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+﻿app.controller('DBPermissionCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
+
     $scope.toggleCheckbox = function (e) {
         checkbox = e.currentTarget.children[0];
         checkbox.click();
     }
+
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({
@@ -35,7 +36,7 @@
         $http({
             method: 'POST',
             url: 'api/Permission/GetDBPermissions',
-            data: '"'+$scope.User.UserName+'"',
+            data: '"' + $scope.User.UserName + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -157,7 +158,7 @@
         });
 
         for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
-            if(value)
+            if (value)
                 $scope.DBPermissionParams.data[i].ReadPerm = true;
             else
                 $scope.DBPermissionParams.data[i].ReadPerm = false;
@@ -209,19 +210,17 @@
         }
     };
 
-
     $scope.updatePermissions = function () {
         showLoadingScreen();
         $scope.resp = null;
 
         for (var i = 0; i < $scope.DBPermissionParams.data.length; i++) {
-            var abc = $scope.DBPermissionParams.data[i];
+            var data = $scope.DBPermissionParams.data[i];
 
             $http({
                 method: 'POST',
                 url: 'api/Permission/GrantDBPermissions',
-                data: abc,
-                //data: '"' + abc.UserName + ' ' + abc.DatabaseName + ' ' + abc.ReadPerm + ' ' + abc.WritePerm + ' ' + abc.AlterPerm + ' ' + abc.FullAccessPerm + '"',
+                data: data,
                 headers: { "Content-Type": 'application/json' }
             })
 
@@ -229,10 +228,8 @@
                     if (response.response_code != "200") {
                         $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                         resp = response;
-                        //break;
                     }
                     else {
-                        //alert(response.obj);
                         resp = response;
                     }
                     hideLoadingScreen();
@@ -241,7 +238,6 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                     resp = res;
                     hideLoadingScreen();
-                    //break;
                 });
         }
         alert(resp.obj);

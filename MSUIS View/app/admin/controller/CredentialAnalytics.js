@@ -1,5 +1,6 @@
-﻿app.controller('CredentialAnalyticsCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval, $timeout) {
+﻿app.controller('CredentialAnalyticsCtrl', function ($scope, $http, $rootScope, NgTableParams, $timeout) {
     $scope.CredentialParams = new NgTableParams({}, {});
+
     $scope.GetCredentialAnalytics = function () {
         showLoadingScreen();
         $http({
@@ -53,7 +54,7 @@
 
             "rgba(104, 195, 196, 1)", //blueishgreen 3
             "rgba(103, 225, 104, 1)", // green 3
-            "rgba(130, 152, 184, 1)" // blue 3 
+            "rgba(130, 152, 184, 1)" // blue 3
         ]
         const chartCanvas = document.getElementById('analytics-chart');
         const barChartCanvas = document.getElementById('analytics-chart-bar');
@@ -83,7 +84,6 @@
                             usePointStyle: true,
                         },
                     },
-                   
                 }
             }
         });

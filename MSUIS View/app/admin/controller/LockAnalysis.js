@@ -1,5 +1,4 @@
-﻿app.controller('LockAnalysisCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval) {
-
+﻿app.controller('LockAnalysisCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $scope.GetLocksAnalysis = function () {
         showLoadingScreen();
         $http({
@@ -25,6 +24,7 @@
                 hideLoadingScreen();
             });
     };
+
     $scope.LockMaker = function () {
         showLoadingScreen();
         $http({
@@ -63,7 +63,6 @@
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
-
                 $rootScope.showLoading = false;
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
@@ -83,7 +82,5 @@
             });
         $scope.hideKillPopup();
         $scope.GetLocksAnalysis();
-
     };
-
 });

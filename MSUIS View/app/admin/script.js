@@ -1,4 +1,4 @@
-var app = angular.module('SampleApp', ["ui.router", 'ngMessages', 'ngCookies', "ngMaterial", "ngTable", "ngFileUpload", "ngAnimate"]);
+var app = angular.module('Infra-ManagementConsole', ["ui.router", 'ngMessages', 'ngCookies', "ngMaterial", "ngTable", "ngFileUpload", "ngAnimate"]);
 
 function showMessage(message) {
     document.getElementById('message').innerText = message
@@ -20,12 +20,10 @@ app.factory('httpRequestInterceptor', function ($cookies) {
     return {
         request: function (config) {
             if (config.url.indexOf('api/') === 0) {
-
-                config.url = "https://localhost:44374/" + config.url;
-
+                //config.url = "https://localhost:44374/" + config.url;
+                config.url = "http://localhost:8080/api/" + config.url;
                 config.headers['token'] = $cookies.get("token");
                 config.headers['Content-Type'] = 'application/json';
-
             }
 
             return config;
@@ -34,16 +32,15 @@ app.factory('httpRequestInterceptor', function ($cookies) {
 });
 
 app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e, t, $httpProvider) {
-
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
     t.otherwise("/dashboard"),
 
-    e.state("boxed", {
-        url: "",
-        "abstract": !0,
-        templateUrl: "UI/layouts/common/boxed.html"
-    });
+        e.state("boxed", {
+            url: "",
+            "abstract": !0,
+            templateUrl: "UI/layouts/common/boxed.html"
+        });
 
     e.state("plain", {
         url: "",
@@ -134,7 +131,6 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         templateUrl: "UI/pages/admin/SPPermission.html",
         controller: "SPPermissionCtrl"
     });
-
 }])
 
 app.filter('getById', function () {
@@ -148,4 +144,3 @@ app.filter('getById', function () {
         return "none";
     }
 });
-

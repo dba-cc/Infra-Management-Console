@@ -1,5 +1,4 @@
-﻿app.controller('UserCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+﻿app.controller('UserCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "User Management";
 
     $scope.ClearUser = function () {
@@ -29,7 +28,6 @@
                     }, {
                         dataset: response.obj,
                     });
-
                 }
                 hideLoadingScreen();
             })
@@ -69,7 +67,6 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-
     }
 
     $scope.modifyUser = function (data) {
@@ -107,7 +104,6 @@
             });
     };
 
-
     $scope.deleteUser = function () {
         showLoadingScreen();
         console.log($scope.userDelete)
@@ -118,7 +114,6 @@
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
-
                 $rootScope.showLoading = false;
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
@@ -156,12 +151,15 @@
             }
         }).modal('show');
     };
+
     $scope.hideAddForm = function () {
         $('.addPopup').modal('hide');
     };
+
     $scope.hideEditForm = function () {
         $('.editPopup').modal('hide');
     };
+
     $scope.showEditPopup = function () {
         $('.editPopup').modal({
             context: '#parent-container',
@@ -171,6 +169,7 @@
             }
         }).modal('show');
     };
+
     $scope.hideDeletePopup = function () {
         $('.deletePopup').modal('hide');
     };
