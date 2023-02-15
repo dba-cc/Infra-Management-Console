@@ -1,5 +1,37 @@
-﻿app.controller('QueryHitCtrl', function ($scope, $http, NgTableParams, $timeout) {
+﻿app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams, $timeout) {
     $scope.QueryHitParams = new NgTableParams({}, {});
+
+    $scope.timeFormat = 'HOUR'
+    $scope.time = '1'
+    $scope.db = 'Query'
+
+    
+    $scope.o=false;
+    $scope.checkIt = function () {
+        if (!$scope.check) {
+            $scope.check = true;
+            document.getElementById('freq').style.display = 'flex'  
+            $scope.o = true;
+        } else {
+            $scope.check = false;   
+            document.getElementById('freq').style.display = 'none'
+            $scope.o = false;
+            $interval.cancel(p);
+            /*$scope.item = "";*/
+        }
+        console.log($scope.check)          
+    }
+    $scope.refreq = function () {
+        $scope.temp;
+        console.log($scope.temp)
+        if ($scope.o == true) {
+           var p= $interval(function () {
+                console.log("it works")
+                $scope.FetchQueryHitList();
+            }, $scope.temp);
+        }
+    }
+    
 
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
@@ -9,15 +41,8 @@
         document.getElementById('timeInput').placeholder = 'Number of ' + $scope.timeFormat + 's'
         document.getElementById('timeInputDiv').style.display = 'flex'
     }
+ 
 
-    $scope.check = function () {
-        if ($scope.query.querycount.$invalid) {
-            $scope.Show = true;
-        } else {
-            $scope.Show = false;
-            $scope.FetchQueryHitList();
-        }
-    };
 
     $scope.$watch("QueryHitParams.filter()", function (newFilter) {
         $timeout(function () {
@@ -98,11 +123,10 @@
         }
         $scope.db = document.getElementById('dbname').value;
         if (document.getElementById('dbname').value == '? undefined:undefined ?') {
-            $scope.db = 'DBAdmin';
+            $scope.db = 'Query';
             document.getElementById('dbname').value = $scope.db;
             $scope.dropdown();
         }
-        console.log($scope.db)
         hideLoadingScreen();
         $http({
             method: 'POST',
@@ -130,7 +154,6 @@
             });
     };
 
-    };
     $scope.getDatabaseList = function () {
         showLoadingScreen();
         $http({
@@ -150,32 +173,6 @@
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                hideLoadingScreen();
-            });
-    };
-    $scope.initFetch = function () {
-        hideLoadingScreen();
-        $http({
-            method: 'POST',
-            url: 'api/Analytics/GetQueryHit',
-            data: '"HOUR 1 DBAdmin"',
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    showMessage(response.obj);
-                }
-                else {
-                    $scope.QueryHitParams = new NgTableParams({
-                    }, {
-                        dataset: response.obj
-                    });
-                    $scope.generateChart(response.obj)
-                }
-                hideLoadingScreen();
-            })
-            .error(function (res) {
-                showMessage(res.obj);
                 hideLoadingScreen();
             });
     };
