@@ -50,15 +50,15 @@ namespace MSUISApi.Controllers
                         queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                         queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
                         
-                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["objectid"])))
-                            queryhit.objectid = "NULL";
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))
+                            queryhit.objectid = "No Name";
                         else
-                            queryhit.objectid = Convert.ToString(Dt.Rows[i]["objectid"]);
+                            queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
 
-                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBNAME"])))
-                            queryhit.dbname = "NULL";
+                        /*if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBNAME"])))
+                            queryhit.dbname = "Query";
                         else
-                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBNAME"]);
+                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBNAME"]);*/
 
                         queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
                         queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
