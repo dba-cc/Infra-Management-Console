@@ -10,13 +10,14 @@
     $scope.checkIt = function () {
         if (!$scope.check) {
             $scope.check = true;
-            document.getElementById('freq').style.display = 'flex'  
+            $('#freq').fadeIn();
+            
             $scope.o = true;
         } else {
             $scope.check = false;   
-            document.getElementById('freq').style.display = 'none'
+            $('#freq').fadeOut();
             $scope.o = false;
-            $interval.cancel(p);
+            $interval.cancel($scope.p);
             /*$scope.item = "";*/
         }
         console.log($scope.check)          
@@ -25,14 +26,13 @@
         $scope.temp;
         console.log($scope.temp)
         if ($scope.o == true) {
-           var p= $interval(function () {
+           $scope.p = $interval(function () {
                 console.log("it works")
                 $scope.FetchQueryHitList();
             }, $scope.temp);
         }
     }
     
-
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
