@@ -13,6 +13,7 @@
                 }
                 else {
                     $scope.LockParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

@@ -28,7 +28,7 @@ File: style.css
 ==========================  **/
 
 * {
-    font-family: "Open Sans", sans-serif;
+    /*font-family: "Open Sans", sans-serif;*/
 }
 
 body {
@@ -62,10 +62,15 @@ p {
 .media-left {
     padding-right: 20px;
 }
-
+.table {
+    margin-bottom: 0 !important;
+}
 .table-responsive {
     display: block;
-    overflow: auto;
+    max-height: 84vh;
+    border: 2px solid lightgrey !important;
+    border-radius: 15px;
+    overflow-y: overlay;
 }
 
 #inputPopup {
@@ -143,7 +148,7 @@ tr > td > label {
 }
 
 .ui.table td {
-    line-height: 2.5em;
+    line-height: 0.5em;
 }
 
 .checkbox.close {
@@ -280,9 +285,16 @@ tr > td > label {
 
 .main-table {
     border-radius: 15px !important;
-    border: 2px solid lightgrey !important;
+    border: 0px solid lightgrey !important;
 }
-
+thead {
+    position: sticky;
+    top: 0px;
+}
+tfoot {
+    position: sticky;
+    bottom: 0px;
+}
 .ui.table thead tr:first-child > th:first-child {
     border-radius: 15px 0 0 0 !important;
 }
@@ -7529,12 +7541,13 @@ table tbody .border-bottom-info td {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding: 20px;
+    padding: 0px;
 }
 
     .main-menu .main-menu-header .user-details {
         display: inline-block;
-        margin-left: 10px;
+        position: absolute;
+        padding-left: 27px;
     }
 
         .main-menu .main-menu-header .user-details #more-details {
@@ -7554,7 +7567,7 @@ table tbody .border-bottom-info td {
             }
 
             .main-menu .main-menu-header .user-details span:first-child {
-                margin-bottom: 5px;
+                margin-bottom: 0px;
             }
 
 .main-menu .main-menu-content .more-details {
@@ -7874,11 +7887,25 @@ table tbody .border-bottom-info td {
 .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu-content {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    /*transition: margin 0.3s ease-in-out;*/
+    /*transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;*/
 }
 
+    .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu-header .user-details span,
+    .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu-header .user-details div {
+        width: 0px !important;
+        padding-left: 0px !important;
+        overflow: hidden;
+    }
+
+.ui.striped.table tbody tr:last-child, .ui.striped.table tbody tr:last-child td:last-child {
+    border-radius: 0px 0 15px 0 !important;
+}
+    .ui.striped.table tbody tr:last-child, .ui.striped.table tbody tr:last-child td:first-child {
+        border-radius: 0px 0px 0px 15px !important;
+    }
+
     .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu-header img {
-        margin-left: -3px;
+        margin-left: -10px;
     }
 
 .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu {
@@ -22339,6 +22366,7 @@ body.dark-layout {
     .pcoded .pcoded-navbar .pcoded-item > li > a > .pcoded-micon {
         font-size: 15px;
         padding-right: 10px;
+        transition: color 0.3s ease-out, margin 0.3s ease-in-out;
     }
 
 .pcoded-inner-navbar {
@@ -22807,9 +22835,12 @@ body.dark-layout {
 }
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"] > li > a {
+    border: 1px solid lightgrey !important;
     border-bottom-width: 1px;
 }
-
+.ui.striped.table tbody tr td a:hover {
+    background: #1165a7 !important;
+}
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[subitem-border="false"] .pcoded-hasmenu .pcoded-submenu li > a {
     border-bottom-width: 0;
 }
@@ -23370,8 +23401,7 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item > li > a .pcoded-mtext {
     position: absolute;
     white-space: nowrap;
-    transition: color 0.2s ease-out;
-    transition: margin 0.3s ease-in-out;
+    transition: color 0.3s ease-out, margin 0.3s ease-in-out;
 }
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item li.pcoded-hasmenu > a:after {

@@ -25,6 +25,7 @@
                 }
                 else {
                     $scope.UserParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj,
                     });

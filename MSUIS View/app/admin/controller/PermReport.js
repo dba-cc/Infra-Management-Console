@@ -18,8 +18,9 @@
                 }
                 else {
                     $scope.PermReportParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
-                        dataset: response.obj
+                        dataset: response.obj,
                     });
                 }
                 hideLoadingScreen();

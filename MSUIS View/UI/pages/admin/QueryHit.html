@@ -32,60 +32,59 @@
                                 <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
                             </div>
                         </div>
-                            <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; padding-bottom: 14px;" ng-model="timeFormat" ng-change="changeFormat()">
-                                <select class="ui search selection dropdown" ng-model="timeFormat" ng-change="changeFormat()">
-                                    <option class="item" value="Day">Day</option>
-                                    <option class="item" value="Hour">Hour</option>
-                                    <option class="item" value="Minute">Minute</option>
-                                </select>
-                                <i class="angle right icon"></i>
-                                <span class="text" style=" color: white; margin: 0">Select Format</span>
-                                <div class="menu">
-                                    <div class="item" data-value="Day">Day</div>
-                                    <div class="item" data-value="Hour">Hour</div>
-                                    <div class="item" data-value="Minute">Minute</div>
-                                </div>
+                        <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; padding-bottom: 14px;" ng-model="timeFormat" ng-change="changeFormat()">
+                            <select class="ui search selection dropdown" ng-model="timeFormat" ng-change="changeFormat()">
+                                <option class="item" value="Day">Day</option>
+                                <option class="item" value="Hour">Hour</option>
+                                <option class="item" value="Minute">Minute</option>
+                            </select>
+                            <i class="angle right icon"></i>
+                            <span class="text" style=" color: white; margin: 0">Select Format</span>
+                            <div class="menu">
+                                <div class="item" data-value="Day">Day</div>
+                                <div class="item" data-value="Hour">Hour</div>
+                                <div class="item" data-value="Minute">Minute</div>
                             </div>
-                            <div class="ui icon input" style="margin-left: 10px; float: left; display:none" id="timeInputDiv">
-                                <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style="border-radius: 15px" required>
-                                <i name="fetch" type="button" ng-click="FetchQueryHitList()" class="sync alternate green link icon"></i>
-                            </div>
-                            <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px;" aria-hidden="false">
-                                <div class="ui labeled blue icon button" style="float: left; padding-bottom: 14px;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="resetChart()">
-                                    <i class="undo alternate icon"></i>
-                                    Reset Chart
-                                </div>
-                            </div>
-                            <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
                         </div>
-                        <div class="card-block scrollbar ui grid" id="table-parent-container" style=" height: 84vh; max-height: 84vh;">
-                            <div class="table-responsive" style=" height: 45vh; max-height: 45vh; width: 100%;">
+                        <div class="ui icon input" style="margin-left: 10px; float: left; display:none" id="timeInputDiv">
+                            <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style="border-radius: 15px" required>
+                            <i name="fetch" type="button" ng-click="FetchQueryHitList()" class="sync alternate green link icon"></i>
+                        </div>
+                        <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px;" aria-hidden="false">
+                            <div class="ui labeled blue icon button" style="float: left; padding-bottom: 14px;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="resetChart()">
+                                <i class="undo alternate icon"></i>
+                                Reset Chart
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
+                    </div>
+                    <div class="card-block scrollbar ui grid" id="table-parent-container" style=" height: 84vh; max-height: 84vh;">
+                        <div style="height: 46vh; max-height: 46vh; width: 100%">
+                            <div class="table-responsive" style="max-height: 46vh; width: 100%;">
                                 <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true">
                                     <tbody>
                                         <tr ng-repeat="QueryHit in $data">
                                             <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                             <td data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
-                                            <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none;">
-                                                <button class="ui blue button" ng-click="showPopup(QueryHit.query)" style="width:100%; border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">View</button>
+                                            <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none; display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
+                                                <a ng-click="showPopup(QueryHit.query)" style="color: white; width: 100%; border-radius: 15px; padding: 11px; background: #1678c2; align-self: center; text-align: center; border: 2px solid lightgrey; cursor: pointer; transition: background 0.5s ease-out; "><b>Review Query</b></a>
                                             </td>
                                             <td data-title="'Object ID'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
-                                           <!-- <td data-title="'DB Name'" filter="{dbname: 'text'}" sortable="'dbname'" style=" border-top: none;"><label>{{QueryHit.dbname}}</label></td>-->
                                             <td data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
-                                            <!--<td data-title="'Max Worker Time'" filter="{max_worker_time: 'text'}" sortable="'max_worker_time'" style=" border-top: none;"><label>{{QueryHit.max_worker_time}} ms</label></td>-->
                                             <td data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'" style=" border-top: none;"><label>{{QueryHit.last_worker_time}} ms</label></td>
-                                            <!--<td data-title="'Max Elapsed Time'" filter="{max_elapsed_time: 'text'}" sortable="'max_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.max_elapsed_time}} ms</label></td>-->
                                             <td data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="chart-item">
-                                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; margin-top: 15px; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
-                                    <canvas id="analytics-chart"></canvas>
-                                </div>
+                        </div>
+                        <div class="chart-item">
+                            <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; margin-top: 15px; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
+                                <canvas id="analytics-chart"></canvas>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

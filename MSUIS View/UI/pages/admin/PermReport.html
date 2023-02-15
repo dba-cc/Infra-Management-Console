@@ -17,13 +17,13 @@
                         </div>
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-person-video2" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Permission Report</h3>
                     </div>
-                    <div class="card-block scrollbar" id="table-parent-container">
+                    <div class="card-block" id="table-parent-container">
                         <div class="table-responsive">
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="PermReportParams" show-filter="true">
                                 <tbody>
                                     <tr ng-repeat="PermVaR in $data">
-                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                        <td data-title="'User Name'" filter="{username: 'text'}" sortable="'username'" style=" border-top: none;"><label>{{PermVaR.username}}</label></td>
+                                        <td data-title="'No.'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'Username'" filter="{username: 'text'}" sortable="'username'" style=" border-top: none;"><label>{{PermVaR.username}}</label></td>
                                         <td data-title="'User Type'" filter="{usertype: 'text'}" sortable="'usertype'" style=" border-top: none;"><label>{{PermVaR.usertype}}</label></td>
                                         <td data-title="'Permission'" filter="{permission: 'text'}" sortable="'permission'" style=" border-top: none;"><label>{{PermVaR.permission}}</label></td>
                                         <td data-title="'Permission State'" filter="{permissionstate: 'text'}" sortable="'permissionstate'" style=" border-top: none;"><label>{{PermVaR.permissionstate}}</label></td>

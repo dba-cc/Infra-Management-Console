@@ -59,6 +59,7 @@
                 }
                 else {
                     $scope.DatabaseList = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

@@ -47,6 +47,7 @@
                 else {
                     $scope.ShowDBPermissionsFlag = true
                     $scope.DBPermissionParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

@@ -1,4 +1,4 @@
-﻿<div class="page-body" ng-controller="UserCtrl" ng-init="GetUser()">
+﻿<div class="page-body" style="transition: transform 0.3s ease-out;" ng-controller="UserCtrl" ng-init="GetUser()">
     <div class="row">
         <div class="col-sm-12">
             <div id="parent-container">
@@ -118,16 +118,13 @@
                                     <tr ng-repeat="User in $data" style="border-radius: 15px !important">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style=" border-top: none;"><label>{{User.UserName}}</label></td>
-                                        <td data-title="'Actions'" style=" border-top: none;">
-                                            <div layout="row">
-                                                <span flex></span>
-                                                <button class="ui icon blue button" ng-click="modifyUser(User)" data-inverted="" data-tooltip="Edit User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
-                                                    <i class="pencil alternate icon"></i>
-                                                </button>
-                                                <button class="ui icon red button" ng-click="showDeletePopup(User)" data-inverted="" data-tooltip="Delete User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
-                                                    <i class="trash alternate icon"></i>
-                                                </button>      
-                                            </div>
+                                        <td data-title="'Actions'" style=" border-top: none; justify-content: end; display: flex;">
+                                            <button class="ui icon blue button" ng-click="modifyUser(User)" data-inverted="" data-tooltip="Edit User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                <i class="pencil alternate icon"></i>
+                                            </button>
+                                            <button class="ui icon red button" ng-click="showDeletePopup(User)" data-inverted="" data-tooltip="Delete User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                <i class="trash alternate icon"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>

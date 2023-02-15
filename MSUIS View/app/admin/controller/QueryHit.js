@@ -117,8 +117,9 @@
                 }
                 else {
                     $scope.QueryHitParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
-                        dataset: response.obj
+                        dataset: response.obj,
                     });
                     $scope.generateChart(response.obj)
                 }
@@ -130,7 +131,6 @@
             });
     };
 
-    };
     $scope.getDatabaseList = function () {
         showLoadingScreen();
         $http({
@@ -167,6 +167,7 @@
                 }
                 else {
                     $scope.QueryHitParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

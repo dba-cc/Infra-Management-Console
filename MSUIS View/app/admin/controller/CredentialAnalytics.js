@@ -15,6 +15,7 @@
                 }
                 else {
                     $scope.CredentialParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

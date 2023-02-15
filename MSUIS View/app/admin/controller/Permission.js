@@ -77,6 +77,7 @@
                 else {
                     $scope.ShowPermissionsFlag = true
                     $scope.PermissionParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

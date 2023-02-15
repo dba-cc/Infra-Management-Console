@@ -60,6 +60,8 @@
                                             <i class="checkbox icon" ng-class="{'check' : SPPermission.FullAccessPerm, 'close' : !SPPermission.FullAccessPerm}"></i>
                                         </td>
                                     </tr>
+                                </tbody>
+                                <tfoot>
                                     <tr style="background-color: rgba(128, 128, 128, 0.12) !important">
                                         <th width="13%"></th>
                                         <th width="35%" style="text-align: center; vertical-align: middle">Grant All</th>
@@ -68,7 +70,7 @@
                                         <th width="13%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="vertical-align: middle" /></th>
                                         <th width="13%" style="text-align:center;"><input id="fullaccessall" type="checkbox" ng-model='checkboxFullAccess' ng-click="checkAllFullAccess(checkboxFullAccess)" name="masterfullaccesscheck" style="vertical-align: middle" /></th>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
