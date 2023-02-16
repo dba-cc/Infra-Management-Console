@@ -55,12 +55,13 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetUser()
+        public HttpResponseMessage GetSystemUsersDB([FromBody] String db)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("GetUser", Con);
+                SqlCommand cmd = new SqlCommand("GetSystemUsersDB", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", db);
                 Da.SelectCommand = cmd;
 
                 Da.Fill(Dt);
@@ -73,10 +74,96 @@ namespace MSUISApi.Controllers
                     {
                         User user = new User();
                         user.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        user.LoginName = Convert.ToString(Dt.Rows[i]["LoginName"]);
+                        user.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["create_date"]);
                         UsersList.Add(user);
                     }
                 }
                 return Return.returnHttp("200", UsersList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreateUserWithoutLogin([FromBody] String str)
+        {
+            try
+            {
+                string[] arr = str.Split(' ');
+                SqlCommand cmd = new SqlCommand("CreateUserWithoutLogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", arr[0]);
+                cmd.Parameters.AddWithValue("@dbname", arr[1]);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "User Created Successfully.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreateUserForNewLogin ([FromBody] String str)
+        {
+            try
+            {
+                string[] arr = str.Split(' ');
+                SqlCommand cmd = new SqlCommand("CreateUserForNewLogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", arr[0]);
+                cmd.Parameters.AddWithValue("@dbname", arr[1]);
+                cmd.Parameters.AddWithValue("@loginname", arr[2]);
+                cmd.Parameters.AddWithValue("@password", arr[3]);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "User Created Successfully.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreateUserForExistingLogin([FromBody] String str)
+        {
+            try
+            {
+                string[] arr = str.Split(' ');
+                SqlCommand cmd = new SqlCommand("CreateUserForExistingLogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", arr[0]);
+                cmd.Parameters.AddWithValue("@dbname", arr[1]);
+                cmd.Parameters.AddWithValue("@loginname", arr[2]);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "User Created Successfully.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
             }
             catch (Exception e)
             {
@@ -143,14 +230,15 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage DeleteUser(User user)
+        public HttpResponseMessage DeleteUser([FromBody] String str)
         {
             try
             {
-                string UserName = Convert.ToString(user.UserName);
-                SqlCommand cmd = new SqlCommand("DeleteUser", Con);
+                String[] strarr = str.Split(' ');
+                SqlCommand cmd = new SqlCommand("DeleteUserDB", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@userName", UserName);
+                cmd.Parameters.AddWithValue("@userName", strarr[0]);
+                cmd.Parameters.AddWithValue("@dbname", strarr[1]);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();

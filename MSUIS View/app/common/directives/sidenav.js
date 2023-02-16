@@ -92,7 +92,7 @@
                     "hasSubmenu": true,
                     "subitems": [{
                         "icon": "bi bi-alarm-fill",
-                        "name": "Auto Backup",
+                        "name": "Schedule Backup",
                         "state": "AutoBackup",
                     }, {
                         "icon": "bi bi-hdd-fill",

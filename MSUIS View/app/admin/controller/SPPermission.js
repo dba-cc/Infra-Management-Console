@@ -174,7 +174,7 @@
                     else {
                         //alert(response.obj);
                         resp = response;
-                        showMessage(response.obj);
+                        //showMessage(response.obj);
                     }
                     if (i >= $scope.PermissionParams.data.length - 2) {
                         hideLoadingScreen();

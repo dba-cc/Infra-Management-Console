@@ -1,0 +1,153 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="UserCtrl" ng-init="GetUser()">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="parent-container">
+                <!--Delete popup-->
+                <div class="ui mini modal deletePopup" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Delete User
+                    </div>
+                    <div class="content">
+                        <form class="ui tiny form">
+                            <div class="field">
+                                <label style="text-align: center;">Are you sure want to delete this user?</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <button class="ui labeled red icon button" ng-click="deleteUser()">
+                            <i class="trash alternate icon"></i>
+                            Delete
+                        </button>
+                        <button class="ui button" ng-click="hideDeletePopup()">No</button>
+                    </div>
+                </div>
+
+                <!--add popup-->
+                <div class="ui mini modal addPopup" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Add User
+                    </div>
+                    <div class="content" style="max-height:fit-content">
+                        <form class="ui tiny form">
+                            <div class="field">
+                                <div class="ui big left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" name="Username" placeholder="Username" class="form-control" ng-model="User.UserName" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui big action left icon input">
+                                    <i class="lock icon"></i>
+                                    <input name="Password" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="User.UserPass" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}" />
+                                    <button type="button" class="ui icon button" ng-click="toggleShowPassword()">
+                                        <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ui red message" id="add-message-container" style="display:none">
+                                <div class="content">
+                                    <p id="add-message"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <div class="ui green animated button" ng-click="AddUser()" tabindex="0">
+                            <div class="visible content">Add</div>
+                            <div class="hidden content">
+                                <i class="plus icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--edit popup-->
+                <div class="ui mini modal editPopup" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Edit User
+                    </div>
+                    <div class="content">
+                        <form class="ui tiny form">
+                            <div class="field">
+                                <div class="ui big left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" name="Username" placeholder="Username" class="form-control" ng-model="UserEdit.UserName" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui big action left icon input">
+                                    <i class="lock icon"></i>
+                                    <input name="Password" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="UserEdit.UserPass" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}" />
+                                    <button type="button" class="ui icon button" ng-click="toggleShowPassword()">
+                                        <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ui red message" id="edit-message-container" style="display:none">
+                                <div class="content">
+                                    <p id="edit-message"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <div class="ui green animated button" ng-click="editUser()" tabindex="0">
+                            <div class="visible content">Edit</div>
+                            <div class="hidden content">
+                                <i class="pencil alternate icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Basic Form Inputs card start -->
+                <div class="card main-card">
+                    <div class="card-header">
+                        <button class="ui green labeled icon button" ng-click="showAddPopup()" style="float: left">
+                            <i class="plus icon"></i>
+                            Add User
+                        </button>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="user circle icon" style=" font-size: 1.5em; vertical-align: middle;"></i>User Management</h3>
+                    </div>
+                    <div class="card-block scrollbar" id="table-parent-container">
+                        <div class="table-responsive">
+                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="UserParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="User in $data" style="border-radius: 15px !important">
+                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style=" border-top: none;"><label>{{User.UserName}}</label></td>
+                                        <td data-title="'Actions'" style=" border-top: none;">
+                                            <div layout="row">
+                                                <span flex></span>
+                                                <button class="ui icon blue button" ng-click="modifyUser(User)" data-inverted="" data-tooltip="Edit User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                    <i class="pencil alternate icon"></i>
+                                                </button>
+                                                <button class="ui icon red button" ng-click="showDeletePopup(User)" data-inverted="" data-tooltip="Delete User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                    <i class="trash alternate icon"></i>
+                                                </button>      
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

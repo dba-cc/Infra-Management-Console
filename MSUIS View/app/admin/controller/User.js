@@ -2,9 +2,33 @@
 
     $rootScope.pageTitle = "User Management";
 
-    $scope.ClearUser = function () {
-        $scope.User.Username = '';
-        $scope.User.Password = '';
+    $scope.dropdownLoginType = function () {
+        $('#ltDropdown').dropdown();
+    }
+
+    $scope.dropdownLogin = function () {
+        $('#loginDropdown').dropdown();
+    }
+
+    $scope.dropdownDB = function () {
+        $('#dbDrop').dropdown();
+    }
+
+    $scope.options = [
+        { name: 'New Login' },
+        { name: 'Existing Login' },
+        { name: 'Without Login' }
+    ];
+
+    $scope.selectedOption = $scope.options[0];
+
+
+    $scope.showUserTableflag = false;
+    $scope.NewLoginFlag = false;
+    $scope.ExistingLoginFlag = false;
+
+    $scope.dropdownDatabase = function () {
+        $('#dbDropdown').dropdown();
     }
 
     $scope.showPassword = false;
@@ -12,11 +36,72 @@
         $scope.showPassword = !$scope.showPassword;
     };
 
+    $scope.changeLoginFlag = function () {
+        if ($scope.selectedOption == 'New Login') {
+            $scope.ExistingLoginFlag = false;
+            $scope.NewLoginFlag = true;
+        } else if ($scope.selectedOption == 'Existing Login') {
+            $scope.getLoginList();
+            $scope.NewLoginFlag = false;
+            $scope.ExistingLoginFlag = true;
+        } else {
+            $scope.NewLoginFlag = false;
+            $scope.ExistingLoginFlag = false;
+        }
+    };
+
+    $scope.getDatabaseList = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/GetDatabase',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.DatabaseList = {};
+                }
+                else {
+                    $scope.DatabaseList = response.obj;
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+
+    $scope.getLoginList = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Login/GetLogin',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.LoginList = {};
+                }
+                else {
+                    $scope.LoginList = response.obj;
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+
     $scope.GetUser = function () {
         showLoadingScreen();
         $http({
             method: 'POST',
-            url: 'api/User/GetUser',
+            url: 'api/User/GetSystemUsersDB',
+            data: '"' + $scope.Database.name + '"',
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
@@ -25,6 +110,7 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
+                    $scope.showUserTableflag = true;
                     $scope.UserParams = new NgTableParams({
                     }, {
                         dataset: response.obj,
@@ -41,35 +127,124 @@
 
     $scope.AddUser = function () {
         showLoadingScreen();
-        $http({
-            method: 'POST',
-            url: 'api/User/CreateUser',
-            data: $scope.User,
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    if (response.obj == 'Bad Password' || response.obj == 'Record already exists.') {
-                        document.getElementById('add-message-container').style.display = 'flex'
-                        document.getElementById('add-message').innerText = response.obj
-                    } else {
-                        showMessage(response.obj)
-                        $scope.User = {};
-                        $scope.GetUser();
-                        $scope.ShowFormFlag = false;
-                        $scope.hideAddForm();
-                    }
-                }
+        if ($scope.selectedOption == 'New Login') {
+            if ($scope.LoginName === '' || $scope.LoginName === undefined || $scope.LoginName === null || $scope.Password === '' || $scope.Password === undefined || $scope.Password === null) {
+                document.getElementById('add-message-container').style.display = 'flex'
+                document.getElementById('add-message').innerText = 'LoginName or Password are required!'
                 hideLoadingScreen();
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            } else {
+                if ($scope.UserName === '' || $scope.UserName === undefined || $scope.UserName === null) {
+                    document.getElementById('add-message-container').style.display = 'flex'
+                    document.getElementById('add-message').innerText = 'Username is required!'
+                    hideLoadingScreen();
+                } else {
+                    $http({
+                        method: 'POST',
+                        url: 'api/User/CreateUserForNewLogin',
+                        data: '"' + $scope.UserName + ' ' + $scope.DB.name + ' ' + $scope.LoginName + ' ' + $scope.Password + '"',
+                        headers: { "Content-Type": 'application/json' }
+                    })
+                        .success(function (response) {
+                            if (response.response_code != "200") {
+                                $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                            }
+                            else {
+                                if (response.obj == 'Password length must be 8 or more!' || response.obj == 'Password must contain punctuation characters!' || response.obj == 'Password must contain alphanumeric characters!' || response.obj == 'Login Already Exists!') {
+                                    document.getElementById('add-message-container').style.display = 'flex'
+                                    document.getElementById('add-message').innerText = response.obj
+                                } else {
+                                    showMessage(response.obj)
+                                    //$scope.User = {};
+                                    //$scope.GetUser();
+                                    $scope.ShowFormFlag = false;
+                                    $scope.hideAddForm();
+                                }
+                            }
+                            hideLoadingScreen();
+                        })
+                        .error(function (res) {
+                            $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                            hideLoadingScreen();
+                        });
+                }
+            }
+        } else if ($scope.selectedOption == 'Existing Login') {
+            if ($scope.UserName === '' || $scope.UserName === undefined || $scope.UserName === null) {
+                document.getElementById('add-message-container').style.display = 'flex'
+                document.getElementById('add-message').innerText = 'Username is required!'
                 hideLoadingScreen();
-            });
-
+            } else {
+                if ($scope.Login === '' || $scope.Login === undefined || $scope.Login === null) {
+                    document.getElementById('add-message-container').style.display = 'flex'
+                    document.getElementById('add-message').innerText = 'Select Login!'
+                    hideLoadingScreen();
+                } else {
+                    $http({
+                        method: 'POST',
+                        url: 'api/User/CreateUserForExistingLogin',
+                        data: '"' + $scope.UserName + ' ' + $scope.DB.name + ' ' + $scope.Login.name + '"',
+                        headers: { "Content-Type": 'application/json' }
+                    })
+                        .success(function (response) {
+                            if (response.response_code != "200") {
+                                $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                            }
+                            else {
+                                if (response.obj == 'User for selected login already exists in this DB!') {
+                                    document.getElementById('add-message-container').style.display = 'flex'
+                                    document.getElementById('add-message').innerText = response.obj
+                                } else {
+                                    showMessage(response.obj)
+                                    //$scope.User = {};
+                                    //$scope.GetUser();
+                                    $scope.ShowFormFlag = false;
+                                    $scope.hideAddForm();
+                                }
+                            }
+                            hideLoadingScreen();
+                        })
+                        .error(function (res) {
+                            $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                            hideLoadingScreen();
+                        });
+                }
+            }
+        } else {
+            if ($scope.UserName === '' || $scope.UserName === undefined || $scope.UserName === null) {
+                document.getElementById('add-message-container').style.display = 'flex'
+                document.getElementById('add-message').innerText = 'Username is required!'
+                hideLoadingScreen();
+            } else {
+                $http({
+                    method: 'POST',
+                    url: 'api/User/CreateUserWithoutLogin',
+                    data: '"' + $scope.UserName + ' ' + $scope.DB.name + '"',
+                    headers: { "Content-Type": 'application/json' }
+                })
+                    .success(function (response) {
+                        if (response.response_code != "200") {
+                            $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        }
+                        else {
+                            if (response.obj == 'User Already Exists!') {
+                                document.getElementById('add-message-container').style.display = 'flex'
+                                document.getElementById('add-message').innerText = response.obj
+                            } else {
+                                showMessage(response.obj)
+                                //$scope.User = {};
+                                //$scope.GetUser();
+                                $scope.ShowFormFlag = false;
+                                $scope.hideAddForm();
+                            }
+                        }
+                        hideLoadingScreen();
+                    })
+                    .error(function (res) {
+                        $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                        hideLoadingScreen();
+                    });
+            }
+        }
     }
 
     $scope.modifyUser = function (data) {
@@ -92,12 +267,17 @@
                     document.getElementById('edit-message').innerText = response.obj
                 }
                 else {
-                    showMessage(response.obj)
-                    $scope.ShowEditFlag = false;
-                    $scope.UserEdit = {};
-                    $scope.GetUser();
-                    $scope.ShowEditFlag = false;
-                    $scope.hideEditForm()
+                    if (response.obj == 'Bad Password') {
+                        document.getElementById('edit-message-container').style.display = 'flex'
+                        document.getElementById('edit-message').innerText = response.obj
+                    } else {
+                        showMessage(response.obj)
+                        $scope.ShowEditFlag = false;
+                        $scope.UserEdit = {};
+                        $scope.GetUser();
+                        $scope.ShowEditFlag = false;
+                        $scope.hideEditForm()
+                    }
                 }
                 hideLoadingScreen();
             })
@@ -110,11 +290,10 @@
 
     $scope.deleteUser = function () {
         showLoadingScreen();
-        console.log($scope.userDelete)
         $http({
             method: 'POST',
             url: 'api/User/DeleteUser',
-            data: $scope.userDelete,
+            data: '"' + $scope.userDelete.UserName + ' ' + $scope.Database.name + '"' ,
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {

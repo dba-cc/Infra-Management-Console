@@ -82,7 +82,8 @@
                 hideLoadingScreen();
             });
         $scope.hideKillPopup();
-        $scope.GetLocksAnalysis();
+        setTimeout($scope.GetLocksAnalysis() , 1000);
+        //$scope.GetLocksAnalysis();
 
     };
 

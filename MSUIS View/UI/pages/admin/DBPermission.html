@@ -86,7 +86,7 @@
                                             <i class="checkbox icon" ng-class="{'check' : DBPermission.AlterPerm, 'close' : !DBPermission.AlterPerm}"></i>
                                         </td>
 
-                                        <td width="7%" data-title="'Foreign Key'" style="text-align: center !important;" ng-class="{'positive' : DBPermission.ReferencesPerm, 'negative' : !DBPermission.ReferencesPerm}" class="selactable" ng-click="toggleCheckbox($event)">
+                                        <td width="7%" data-title="'References'" style="text-align: center !important;" ng-class="{'positive' : DBPermission.ReferencesPerm, 'negative' : !DBPermission.ReferencesPerm}" class="selactable" ng-click="toggleCheckbox($event)">
                                             <input style="display:none" type="checkbox" ng-model="DBPermission.ReferencesPerm" name="ForeignKey" ng-checked="DBPermission.ReferencesPerm">
                                             <i class="checkbox icon" ng-class="{'check' : DBPermission.ReferencesPerm, 'close' : !DBPermission.ReferencesPerm}"></i>
                                         </td>

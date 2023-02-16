@@ -165,6 +165,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AutoBackupController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LockAnalysisController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\RBController.cs" />
+    <Compile Include="Controllers\UserController - Copy.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -189,6 +191,7 @@
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\RB.cs" />
+    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Returns.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

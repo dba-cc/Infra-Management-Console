@@ -10,6 +10,7 @@ namespace MSUISApi.Models
         public Int32 Id { get; set; }
         public string UserName { get; set; }
         public string UserPass { get; set; }
+        public string LoginName { get; set; }
         public DateTime CreatedOn { get; set; }
 
     }
