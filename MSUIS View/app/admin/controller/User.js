@@ -172,7 +172,6 @@
                 document.getElementById('add-message-container').style.display = 'flex'
                 document.getElementById('add-message').innerText = 'Username is required!'
                 hideLoadingScreen();
-<<<<<<< HEAD
             } else {
                 if ($scope.Login === '' || $scope.Login === undefined || $scope.Login === null) {
                     document.getElementById('add-message-container').style.display = 'flex'
@@ -245,9 +244,6 @@
                     });
             }
         }
-=======
-            });
->>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
     }
 
     $scope.modifyUser = function (data) {

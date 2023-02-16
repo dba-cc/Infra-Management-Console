@@ -183,9 +183,6 @@
                     hideLoadingScreen();
                 });
         }
-<<<<<<< HEAD
-        showMessage(resp.obj);
-=======
->>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
+        alert(resp.obj);
     };
 });
