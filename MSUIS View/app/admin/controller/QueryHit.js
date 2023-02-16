@@ -1,8 +1,39 @@
-﻿app.controller('QueryHitCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $interval, $timeout) {
-
+﻿app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams, $timeout) {
     $scope.QueryHitParams = new NgTableParams({}, {});
 
-    $scope.dropdown = function() {
+    $scope.timeFormat = 'HOUR'
+    $scope.time = '1'
+    $scope.db = 'Query'
+
+    
+    $scope.o=false;
+    $scope.checkIt = function () {
+        if (!$scope.check) {
+            $scope.check = true;
+            $('#freq').fadeIn();
+            
+            $scope.o = true;
+        } else {
+            $scope.check = false;   
+            $('#freq').fadeOut();
+            $scope.o = false;
+            $interval.cancel($scope.p);
+            /*$scope.item = "";*/
+        }
+        console.log($scope.check)          
+    }
+    $scope.refreq = function () {
+        $scope.temp;
+        console.log($scope.temp)
+        if ($scope.o == true) {
+           $scope.p = $interval(function () {
+                console.log("it works")
+                $scope.FetchQueryHitList();
+            }, $scope.temp);
+        }
+    }
+    
+    $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
 
@@ -10,15 +41,8 @@
         document.getElementById('timeInput').placeholder = 'Number of ' + $scope.timeFormat + 's'
         document.getElementById('timeInputDiv').style.display = 'flex'
     }
+ 
 
-    $scope.check = function () {
-        if ($scope.query.querycount.$invalid) {
-            $scope.Show = true;
-        } else {
-            $scope.Show = false;
-            $scope.FetchQueryHitList();
-        }
-    };
 
     $scope.$watch("QueryHitParams.filter()", function (newFilter) {
         $timeout(function () {
@@ -35,20 +59,7 @@
             return obj.last_worker_time;
         });
 
-        //var datetime = [
-        //    '2023-02-01 14:47:08', '2023-02-01 14:47:37', '2023-02-01 14:47:40', '2023-02-01 14:47:46', '2023-02-01 14:47:48', '2023-02-01 14:47:50',
-        //    '2023-02-01 14:47:57', '2023-02-01 14:47:57', '2023-02-01 14:47:59', '2023-02-01 14:48:14', '2023-02-01 14:48:16', '2023-02-01 14:48:22',
-        //    '2023-02-01 14:49:08', '2023-02-01 14:49:37', '2023-02-01 14:49:40', '2023-02-01 14:49:46', '2023-02-01 14:49:48', '2023-02-01 14:49:50',
-        //    '2023-02-01 14:49:57', '2023-02-01 14:49:57', '2023-02-01 14:49:59', '2023-02-01 14:49:14', '2023-02-01 14:49:16', '2023-02-01 14:49:22',
-        //    '2023-02-01 14:50:08', '2023-02-01 14:50:37', '2023-02-01 14:50:40', '2023-02-01 14:50:46', '2023-02-01 14:50:48', '2023-02-01 14:50:50',
-        //    '2023-02-01 14:50:57', '2023-02-01 14:50:57', '2023-02-01 14:50:59', '2023-02-01 14:51:14', '2023-02-01 14:51:16', '2023-02-01 14:51:22',
-        //    '2023-02-01 14:51:08', '2023-02-01 14:51:37', '2023-02-01 14:51:40', '2023-02-01 14:51:46', '2023-02-01 14:51:48', '2023-02-01 14:51:50',
-        //    '2023-02-01 14:51:57', '2023-02-01 14:51:57', '2023-02-01 14:51:59', '2023-02-01 14:52:14', '2023-02-01 14:52:16', '2023-02-01 14:52:22'
-        //]
-        //var lastWorkerTime = [
-        //    1262, 1956, 1930, 1193, 1957, 1475, 1809, 3131, 1913, 1350, 2273, 1194, 1262, 1956, 1930, 1193, 1957, 1475, 1809, 3131, 1913, 1350, 2273,
-        //    1194, 1262, 1956, 1930, 1193, 1957, 1475,1809,3131,9000,1350,2273,1194,1262,1956,1930,1193,1957,1475,1809, 3131, 1913, 1350, 2273, 1194
-        //]
+       
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
             $scope.chart.destroy();
@@ -101,7 +112,7 @@
         });
     }
 
-    $scope.resetChart = function() {
+    $scope.resetChart = function () {
         $scope.chart.resetZoom();
     }
 
@@ -110,11 +121,17 @@
             showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
             return
         }
+        $scope.db = document.getElementById('dbname').value;
+        if (document.getElementById('dbname').value == '? undefined:undefined ?') {
+            $scope.db = 'Query';
+            document.getElementById('dbname').value = $scope.db;
+            $scope.dropdown();
+        }
         hideLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQueryHit',
-            data: '"' + $scope.timeFormat + ' ' + $scope.time + '"',
+            data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -124,8 +141,9 @@
                 }
                 else {
                     $scope.QueryHitParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
-                        dataset: response.obj
+                        dataset: response.obj,
                     });
                     $scope.generateChart(response.obj)
                 }
@@ -135,41 +153,38 @@
                 showMessage(res.obj);
                 hideLoadingScreen();
             });
-
     };
-    $scope.initFetch = function () {
-        hideLoadingScreen();
+
+    $scope.getDatabaseList = function () {
+        showLoadingScreen();
         $http({
             method: 'POST',
-            url: 'api/Analytics/GetQueryHit',
-            data: '"HOUR 1"',
+            url: 'api/Database/GetDatabase',
             headers: { "Content-Type": 'application/json' }
         })
+
             .success(function (response) {
-                if (response.response_code != "200") {
-                    showMessage(response.obj);
+                if (response.response_code == "201") {
+                    $scope.DatabaseList = {};
                 }
                 else {
-                    $scope.QueryHitParams = new NgTableParams({
-                    }, {
-                        dataset: response.obj
-                    });
-                    $scope.generateChart(response.obj)
+                    $scope.DatabaseList = response.obj;
                 }
                 hideLoadingScreen();
             })
             .error(function (res) {
-                showMessage(res.obj);
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-
     };
+
     $scope.showPopup = function (data) {
         $('#inputPopup').modal({
             context: '.parent-container'
         }).modal('show');
         document.getElementById('query').innerText = data
     }
+
     $scope.hidePopup = function () {
         $('#inputPopup').modal('hide');
     };

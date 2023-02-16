@@ -1,15 +1,4 @@
-﻿<style>
-    .md-dialog-is-showing {
-        top: auto !important;
-    }
-
-    .button-size {
-        width: 11rem !important;
-    }
-</style>
-
-<!-- Page body start -->
-<div class="page-body" ng-controller="RBCtrl" ng-init="getDatabaseList()">
+﻿<div class="page-body" ng-controller="RBCtrl" ng-init="getDatabaseList()">
     <div class="row">
         <div class="col-sm-12">
             <div id="parent-container">
@@ -44,7 +33,6 @@
                                                 <div class="ui left icon action input" style="display:none" id="loc">
                                                     <i class="green link folder open icon"></i>
                                                     <input style="" name="fileloc" autocomplete="off" placeholder="Enter Backup Location" id="newloc" class="form-control" ng-keydown="$event.keyCode === 13 && nwloc()" required />
-                                                    <!--<i name="fetch" type="button" ng-click="newloc()" class="chevron right green link icon"></i>-->
                                                     <button class="ui icon button" ng-click="nwloc()">
                                                         <i class="right arrow icon"></i>
                                                     </button>
@@ -55,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" ng-init="getFiles()" style="width:100%; float: left; margin-bottom: 1em">
-                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName">
+                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName" ng-change="defname()">
                                     <option class="item" ng-repeat="f in FileList" value="{{f.DbName}}">{{f.DbName}}</option>
                                 </select>
                                 <i class="file icon"></i>
@@ -98,8 +86,7 @@
                                                 <p>Creating a new Database</p>
                                                 <div class="ui left icon input" style="display:none" id="nwdb">
                                                     <i class="bi bi-database-fill-gear icon"></i>
-                                                    <input style="width:100%" name="fileloc" autocomplete="off" placeholder="New Database Name" id="nwdbname" class="form-control" required />
-                                                    <!--<i name="fetch" type="button" ng-click="newloc()" class="chevron right green link icon"></i>-->
+                                                    <input type="text" style="width:100%" name="fileloc" autocomplete="off" placeholder="New Database Name" id="nwdbname" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +110,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Basic Form Inputs card start -->
                 <div class="card main-card">
                     <div class="ui float message" id="message-container">
                         <div class="content">

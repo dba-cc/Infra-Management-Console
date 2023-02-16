@@ -1,5 +1,4 @@
-﻿app.controller('UserLoginCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog) {
-
+﻿app.controller('UserLoginCtrl', function ($scope, $state, $cookies) {
     $cookies.remove("id");
 
     $scope.loginObj = {};
@@ -11,7 +10,6 @@
     };
 
     $scope.login = function () {
-
         if ($scope.loginObj.username === null || $scope.loginObj.username === undefined || $scope.loginObj.username === "" || $scope.loginObj.password === undefined || $scope.loginObj.password === null || $scope.loginObj.password === "") {
             $scope.message = 'Error! Username and password can\'t be empty.'
             $('#error-message').transition('fade in');
@@ -28,4 +26,3 @@
         }
     };
 });
-

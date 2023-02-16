@@ -1,5 +1,4 @@
-﻿app.controller('AutoBackupCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+﻿app.controller('AutoBackupCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Schedule Backup";
 
     $scope.newSchedule = {
@@ -34,7 +33,7 @@
         }
         $scope.newSchedule["type"] = type.toUpperCase()
     }
-    
+
     $scope.getDatabaseList = function () {
         showLoadingScreen();
         $http({
@@ -72,6 +71,7 @@
                 }
                 else {
                     $scope.ScheduleParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });

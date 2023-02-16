@@ -1,14 +1,6 @@
-﻿<style>
-    .md-dialog-is-showing {
-        top: auto !important;
-    }
-</style>
-
-<!-- Page body start -->
-<div class="page-body" ng-controller="DBPermissionCtrl">
+﻿<div class="page-body" ng-controller="DBPermissionCtrl">
     <div class="row">
         <div class="col-sm-12">
-            <!-- Basic Form Inputs card start -->
             <div class="parent-container">
                 <div class="card main-card">
                     <div class="card-header" ng-init="getUserList()">
@@ -91,6 +83,8 @@
                                             <i class="checkbox icon" ng-class="{'check' : DBPermission.ReferencesPerm, 'close' : !DBPermission.ReferencesPerm}"></i>
                                         </td>
                                     </tr>
+                                </tbody>
+                                <tfoot>
                                     <tr style="background-color: rgba(128, 128, 128, 0.12) !important">
                                         <th width="5%"></th>
                                         <th width="20%" style="text-align: center; vertical-align: middle">Grant All</th>
@@ -105,7 +99,7 @@
                                         <th width="7%" style="text-align:center;"><input id="alterall" type="checkbox" ng-model='checkboxAlter' ng-click="checkAllAlter(checkboxAlter)" name="masteraltercheck" style="vertical-align: middle " /></th>
                                         <th width="7%" style="text-align:center;"><input id="foreignkeyall" type="checkbox" ng-model='checkboxForeignKey' ng-click="checkAllForeignKey(checkboxForeignKey)" name="masterforeignkeycheck" style="vertical-align: middle " /></th>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

@@ -1,15 +1,12 @@
 ﻿app.directive("sidenav", function ($rootScope) {
-
     return {
         templateUrl: "UI/layouts/common/directives/sidenav.html",
         restrict: "E",
         replace: !0,
         controller: ["$scope", function (e) {
-
             e.toggleSubmenu = function (item) {
                 item.expanded = !item.expanded;
             }
-
 
             if (!$rootScope.reloadPage) {
                 $("#pcoded").pcodedmenu({
@@ -50,14 +47,10 @@
                         tablet: "expanded",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
                         phone: "expanded",			// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
                     },
-
                 });
             }
         }],
-        link: function (scope, element, attrs) {
-            setTimeout(function () {
-                scope.perfectSCrollbarObj = element.find(".tab-content").perfectScrollbar()
-            }, 0)
+        link: function (scope, element, attrs) {    
 
             scope.menuItems = [
                 {
@@ -112,7 +105,7 @@
                         "icon": "bi bi-person-lines-fill",
                         "name": "Credential Analytics",
                         "state": "CredentialAnalytics",
-                    },{
+                    }, {
                         "icon": "bi-file-lock2",
                         "name": "Locks Analytics",
                         "state": "LockAnalysis",

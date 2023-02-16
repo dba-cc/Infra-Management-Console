@@ -1,5 +1,4 @@
-﻿app.controller('UserCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
-
+﻿app.controller('UserCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "User Management";
 
     $scope.dropdownLoginType = function () {
@@ -112,10 +111,10 @@
                 else {
                     $scope.showUserTableflag = true;
                     $scope.UserParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj,
                     });
-
                 }
                 hideLoadingScreen();
             })
@@ -173,6 +172,7 @@
                 document.getElementById('add-message-container').style.display = 'flex'
                 document.getElementById('add-message').innerText = 'Username is required!'
                 hideLoadingScreen();
+<<<<<<< HEAD
             } else {
                 if ($scope.Login === '' || $scope.Login === undefined || $scope.Login === null) {
                     document.getElementById('add-message-container').style.display = 'flex'
@@ -245,6 +245,9 @@
                     });
             }
         }
+=======
+            });
+>>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
     }
 
     $scope.modifyUser = function (data) {
@@ -287,7 +290,6 @@
             });
     };
 
-
     $scope.deleteUser = function () {
         showLoadingScreen();
         $http({
@@ -297,7 +299,6 @@
             headers: { "Content-Type": 'application/json' }
         })
             .success(function (response) {
-
                 $rootScope.showLoading = false;
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
@@ -335,12 +336,15 @@
             }
         }).modal('show');
     };
+
     $scope.hideAddForm = function () {
         $('.addPopup').modal('hide');
     };
+
     $scope.hideEditForm = function () {
         $('.editPopup').modal('hide');
     };
+
     $scope.showEditPopup = function () {
         $('.editPopup').modal({
             context: '#parent-container',
@@ -350,6 +354,7 @@
             }
         }).modal('show');
     };
+
     $scope.hideDeletePopup = function () {
         $('.deletePopup').modal('hide');
     };

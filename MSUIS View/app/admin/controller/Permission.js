@@ -1,14 +1,16 @@
-﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $scope.dropdownUser = function () {
         $('#userDropdown').dropdown();
     }
+
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
     }
+
     $scope.toggleCheckbox = function (e) {
-        checkbox = e.currentTarget.children[0];
-        checkbox.click();
+        angular.element(e.currentTarget.children)[0].click();
     }
+
     $scope.getUserList = function () {
         showLoadingScreen();
         $http({
@@ -64,7 +66,7 @@
         $http({
             method: 'POST',
             url: 'api/Permission/GetPermissionsByUser',
-            data: '"'+$scope.User.UserName+' '+$scope.Database.name+'"',
+            data: '"' + $scope.User.UserName + ' ' + $scope.Database.name + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -75,11 +77,11 @@
                 else {
                     $scope.ShowPermissionsFlag = true
                     $scope.PermissionParams = new NgTableParams({
+                        count: response.obj.length
                     }, {
                         dataset: response.obj
                     });
                     $scope.UpdateFormFlag = true;
-                    //$scope.TableList = response.obj;
                 }
                 hideLoadingScreen();
             })
@@ -87,39 +89,9 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-
-        var table = angular.element(document.getElementById('example-2'))
-        angular.element(document.getElementById('top-table')).rows[0].cells[0].width = table.rows[0].cells[0].width
     };
 
-
     $scope.checkAllRead = function (value) {
-        //var selectedItems = data.filter(function (DBPermission) {
-        //    return DBPermission.ConnectDB.selected;
-        //});
-
-        //var currentPage = 1;
-        //var totalPages = 0;
-        //$scope.items = [];
-        //var getElements = function () {
-        //    $http.get("http://localhost:51207/index.html#/dashboard/Permission/table?page=" + currentPage).then(function (response) {
-        //        $scope.items = $scope.items.concat(response.data.data);
-        //        currentPage++;
-        //        console.log(response);
-        //        if (currentPage <= totalPages) {
-        //            getElements();
-        //        }
-        //    });
-        //}
-        //// get the total number of pages and the items of the first page
-        //$http.get("http://localhost:51207/index.html#/dashboard/Permission/table").then(function (response) {
-        //    totalPages = response.data.totalPages;
-        //    $scope.items = response.data.data;
-        //    currentPage++;
-        //    console.log(response);
-        //    getElements();
-        //});
-
         var cb = angular.element(document.getElementsByName('Read'))
         console.log(cb)
         angular.forEach(cb, function (value) {
@@ -127,7 +99,7 @@
         });
 
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            if(value)
+            if (value)
                 $scope.PermissionParams.data[i].ReadPerm = true;
             else
                 $scope.PermissionParams.data[i].ReadPerm = false;
@@ -179,18 +151,17 @@
         }
     };
 
-
     $scope.updatePermissions = function () {
         showLoadingScreen();
         $scope.resp = null;
 
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            var abc = $scope.PermissionParams.data[i];
+            var data = $scope.PermissionParams.data[i];
 
             $http({
                 method: 'POST',
                 url: 'api/Permission/GrantPermission',
-                data: '"' + abc.UserName + ' ' + abc.DatabaseName + ' ' + abc.TableName + ' ' + abc.ReadPerm + ' ' + abc.WritePerm + ' ' + abc.AlterPerm + ' ' + abc.FullAccessPerm + '"',
+                data: '"' + data.UserName + ' ' + data.DatabaseName + ' ' + data.TableName + ' ' + data.ReadPerm + ' ' + data.WritePerm + ' ' + data.AlterPerm + ' ' + data.FullAccessPerm + '"',
                 headers: { "Content-Type": 'application/json' }
             })
 
@@ -198,10 +169,8 @@
                     if (response.response_code != "200") {
                         $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                         resp = response;
-                        //break;
                     }
                     else {
-                        //alert(response.obj);
                         resp = response;
                     }
                     if (i >= $scope.PermissionParams.data.length - 2) {
@@ -212,41 +181,11 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                     resp = res;
                     hideLoadingScreen();
-                    //break;
                 });
         }
+<<<<<<< HEAD
         showMessage(resp.obj);
+=======
+>>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
     };
-
-
-    //$scope.NewAddPage = function () {
-    //    $state.go('CompanyAdd');
-    //}
-
-    //$scope.backToList = function () {
-    //    $state.go('CompanyEdit');
-    //}
-
-    
-
-    //$scope.getProgramme = function () {
-    //    //alert("Faculty Details");
-    //    $http({
-    //        method: 'POST',
-    //        url: 'api/Department/ProgGet',
-    //        data: $scope.Department,
-    //        headers: { "Content-Type": 'application/json' }
-    //    })
-
-    //        .success(function (response) {
-    //            $scope.ProgList = response.obj;
-
-    //            //$scope.TestCountry = {
-    //            //};
-    //        })
-    //        .error(function (res) {
-    //            //alert(res);
-    //        });
-    //};
-
 });

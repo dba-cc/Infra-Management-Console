@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<style>
     .md-dialog-is-showing {
         top: auto !important;
@@ -10,6 +11,9 @@
 
 <!-- Page body start -->
 <div class="page-body" ng-controller="UserCtrl">
+=======
+﻿<div class="page-body" style="transition: transform 0.3s ease-out;" ng-controller="UserCtrl" ng-init="GetUser()">
+>>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
     <div class="row">
         <div class="col-sm-12">
             <div id="parent-container">
@@ -164,7 +168,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Basic Form Inputs card start -->
                 <div class="card main-card">
                     <div class="card-header">
 
@@ -194,6 +197,7 @@
                                     <tr ng-repeat="User in $data" style="border-radius: 15px !important">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style=" border-top: none;"><label>{{User.UserName}}</label></td>
+<<<<<<< HEAD
                                         <td data-title="'Login Name'" filter="{LoginName: 'text'}" sortable="'LoginName'" style=" border-top: none;"><label>{{User.LoginName}}</label></td>
                                         <td data-title="'Create Date'" filter="{Create Date: 'text'}" sortable="'Create Date'" style=" border-top: none;"><label>{{ User.CreatedOn.slice(6, -2) | date: 'yyyy-MM-dd HH:mm:ss' }}</label></td>
                                         <td data-title="'Actions'" style=" border-top: none;">
@@ -203,6 +207,15 @@
                                                     <i class="trash alternate icon"></i>
                                                 </button>      
                                             </div>
+=======
+                                        <td data-title="'Actions'" style=" border-top: none; justify-content: end; display: flex;">
+                                            <button class="ui icon blue button" ng-click="modifyUser(User)" data-inverted="" data-tooltip="Edit User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                <i class="pencil alternate icon"></i>
+                                            </button>
+                                            <button class="ui icon red button" ng-click="showDeletePopup(User)" data-inverted="" data-tooltip="Delete User '{{User.UserName}}'" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                <i class="trash alternate icon"></i>
+                                            </button>
+>>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
                                         </td>
                                     </tr>
                                 </tbody>
