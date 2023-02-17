@@ -82,12 +82,7 @@
                 hideLoadingScreen();
             });
         $scope.hideKillPopup();
-<<<<<<< HEAD
         setTimeout($scope.GetLocksAnalysis() , 1000);
-        //$scope.GetLocksAnalysis();
-
-=======
         $scope.GetLocksAnalysis();
->>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
     };
 });
