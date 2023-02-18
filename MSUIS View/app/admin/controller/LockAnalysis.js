@@ -1,4 +1,38 @@
-﻿app.controller('LockAnalysisCtrl', function ($scope, $http, $rootScope, NgTableParams) {
+﻿app.controller('LockAnalysisCtrl', function ($scope, $interval, $http, $rootScope, NgTableParams) {
+
+
+    $scope.o = false;
+    $scope.checkIt = function () {
+        if (!$scope.check) {
+            $scope.check = true;
+            $('#freq').fadeIn();
+
+            $scope.o = true;
+        } else {
+            $scope.check = false;
+            $('#freq').fadeOut();
+            $scope.o = false;
+            $interval.cancel($scope.p);
+            /*$scope.item = "";*/
+        }
+        console.log($scope.check)
+    }
+    $scope.refreq = function () {
+        $scope.temp;
+        console.log($scope.temp)
+        if ($scope.o == true) {
+            $scope.p = $interval(function () {
+                console.log("it works")
+                $scope.GetLocksAnalysis();
+            }, $scope.temp);
+        }
+    }
+
+    $scope.dropdown = function () {
+        $('.ui.dropdown').dropdown();
+    }
+
+
     $scope.GetLocksAnalysis = function () {
         showLoadingScreen();
         $http({
@@ -72,7 +106,6 @@
                 else {
                     showMessage(response.obj);
                     $scope.resp = response.obj
-                    $scope.GetUser();
                 }
                 hideLoadingScreen();
             })

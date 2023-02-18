@@ -22,12 +22,8 @@ app.factory('httpRequestInterceptor', function ($cookies) {
         request: function (config) {
             if (config.url.indexOf('api/') === 0) {
 
-                config.url = "https://localhost:44374/" + config.url;
-//<<<<<<< HEAD
-//                //config.url = "http://localhost:8080/MSUISApi/" + config.url;
-//=======
-//                //config.url = "http://localhost:8080/" + config.url;
-//>>>>>>> b811bc2a14e1df19f006ecb815fdd067147973ae
+                /*config.url = "https://localhost:44374/" + config.url;*/
+                config.url = "http://localhost:8081/" + config.url;
 
                 config.headers['token'] = $cookies.get("token");
                 config.headers['Content-Type'] = 'application/json';
