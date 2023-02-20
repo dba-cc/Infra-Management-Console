@@ -70,7 +70,7 @@
                 datasets: [{
                     label: ' # of Connections',
                     data: noOfConnections,
-                    borderWidth: 5,
+                    borderWidth: 0,
                     backgroundColor: Object.values(colors),
                     borderColor: 'white',
                 }]

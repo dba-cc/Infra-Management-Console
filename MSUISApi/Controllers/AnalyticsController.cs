@@ -51,7 +51,7 @@ namespace MSUISApi.Controllers
                         queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
                         
                         if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))
-                            queryhit.objectid = "No Name";
+                            queryhit.objectid = "Query";
                         else
                             queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
 
