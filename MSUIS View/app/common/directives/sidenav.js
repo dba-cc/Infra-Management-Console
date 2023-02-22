@@ -63,7 +63,7 @@
                         "state": "User",
                     }, {
                         "icon": "bi bi-person-fill-check",
-                        "name": "User Permissions",
+                        "name": "Table Permissions",
                         "state": "Permission",
                     }, {
                         "icon": "bi bi-braces-asterisk",

@@ -21,7 +21,33 @@
 
     $scope.selectedOption = $scope.options[0];
 
+    $scope.options2 = [
+        { name: 'Logins' },
+        { name: 'Users' },
+    ];
 
+    $scope.selectedOption = $scope.options[0];
+    $scope.selectedOption2 = $scope.options2[0];
+
+    $scope.dropdownshowUsers = function () {
+        $('#suDropdown').dropdown();
+    }
+
+    $scope.changeFlags = function () {
+        if ($scope.selectedOption2 == 'Logins') {
+            $scope.ShowLogin = true;
+            $scope.ShowUser = false;
+            $scope.showLoginList();
+            $scope.showUserTableflag = false;
+        } else {
+            $scope.ShowLogin = false;
+            $scope.ShowUser = true;
+        }
+    };
+
+
+    $scope.ShowLogin = false;
+    $scope.ShowUser = false;
     $scope.showUserTableflag = false;
     $scope.NewLoginFlag = false;
     $scope.ExistingLoginFlag = false;
@@ -95,6 +121,34 @@
             });
     };
 
+    $scope.showLoginList = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Login/ShowLogin',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.showLoginTableflag = true;
+                    $scope.LoginParams = new NgTableParams({
+                        count: response.obj.length
+                    }, {
+                        dataset: response.obj,
+                    });
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+
     $scope.GetUser = function () {
         showLoadingScreen();
         $http({
@@ -123,6 +177,44 @@
                 hideLoadingScreen();
             });
     }
+
+
+    $scope.AddLogin = function () {
+        if ($scope.Login.LoginName === '' || $scope.Login.LoginName === undefined || $scope.Login.LoginName === null || $scope.Login.LoginPassword === '' || $scope.Login.LoginPassword === undefined || $scope.Login.LoginPassword === null) {
+            document.getElementById('add-message-container-login').style.display = 'flex'
+            document.getElementById('add-message-login').innerText = 'LoginName or Password are required!'
+        } else {
+            showLoadingScreen();
+                $http({
+                    method: 'POST',
+                    url: 'api/Login/CreateLogin',
+                    data: '"' + $scope.Login.LoginName + ' ' + $scope.Login.LoginPassword + '"',
+                    headers: { "Content-Type": 'application/json' }
+                })
+                    .success(function (response) {
+                        if (response.response_code != "200") {
+                            $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        }
+                        else {
+                            if (response.obj == 'Password length must be 8 or more!' || response.obj == 'Password must contain punctuation characters!' || response.obj == 'Password must contain alphanumeric characters!' || response.obj == 'Login Already Exists!') {
+                                document.getElementById('add-message-container-login').style.display = 'flex'
+                                document.getElementById('add-message-login').innerText = response.obj
+                            } else {
+                                showMessage(response.obj)
+                                $scope.ShowFormFlag = false;
+                                $scope.hideAddLoginForm();
+                                $scope.showLoginList();
+                            }
+                        }
+                        hideLoadingScreen();
+                    })
+                    .error(function (res) {
+                        $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                        hideLoadingScreen();
+                    });
+            }
+    };
+
 
     $scope.AddUser = function () {
         showLoadingScreen();
@@ -246,46 +338,6 @@
         }
     }
 
-    $scope.modifyUser = function (data) {
-        $scope.showEditPopup();
-        $scope.UserEdit = data;
-        $scope.GetUser();
-    }
-
-    $scope.editUser = function () {
-        showLoadingScreen();
-        $http({
-            method: 'POST',
-            url: 'api/User/EditUser',
-            data: $scope.UserEdit,
-            headers: { "Content-Type": 'application/json' }
-        })
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    document.getElementById('edit-message-container').style.display = 'flex'
-                    document.getElementById('edit-message').innerText = response.obj
-                }
-                else {
-                    if (response.obj == 'Bad Password') {
-                        document.getElementById('edit-message-container').style.display = 'flex'
-                        document.getElementById('edit-message').innerText = response.obj
-                    } else {
-                        showMessage(response.obj)
-                        $scope.ShowEditFlag = false;
-                        $scope.UserEdit = {};
-                        $scope.GetUser();
-                        $scope.ShowEditFlag = false;
-                        $scope.hideEditForm()
-                    }
-                }
-                hideLoadingScreen();
-            })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                hideLoadingScreen();
-            });
-    };
-
     $scope.deleteUser = function () {
         showLoadingScreen();
         $http({
@@ -303,7 +355,7 @@
                 else {
                     showMessage(response.obj);
                     $scope.resp = response.obj
-                    $scope.GetUser();
+                    $scope.showLoginList();
                 }
                 hideLoadingScreen();
             })
@@ -312,9 +364,79 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-        $scope.hideDeletePopup();
+        $scope.hideDeleteLoginPopup();
         $scope.User = {};
         $scope.GetUser()
+    };
+
+
+    $scope.modifyLogin = function (data) {
+        $scope.showEditLoginPopup();
+        $scope.LoginEdit = data;
+        //$scope.GetUser();
+    }
+    $scope.editLogin = function () {
+        if ($scope.LoginEdit.password === '' || $scope.LoginEdit.password === undefined || $scope.LoginEdit.password === null) {
+            document.getElementById('edit-message-container-login').style.display = 'flex'
+            document.getElementById('edit-message-login').innerText = 'Password is required!'
+        } else {
+            showLoadingScreen();
+            $http({
+                method: 'POST',
+                url: 'api/Login/EditLogin',
+                data: '"' + $scope.LoginEdit.name + ' ' + $scope.LoginEdit.password + '"',
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        if (response.obj == 'Password length must be 8 or more!' || response.obj == 'Password must contain punctuation characters!' || response.obj == 'Password must contain alphanumeric characters!' || response.obj == 'Login does not Exists!') {
+                            document.getElementById('edit-message-container-login').style.display = 'flex'
+                            document.getElementById('edit-message-login').innerText = response.obj
+                        } else {
+                            showMessage(response.obj)
+                            //$scope.ShowFormFlag = false;
+                            $scope.hideEditLoginForm();
+                            $scope.LoginEdit = {}
+                        }
+                    }
+                    hideLoadingScreen();
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    hideLoadingScreen();
+                });
+        }
+        
+    };
+
+    $scope.deleteLogin = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Login/DeleteLogin',
+            data: '"' + $scope.loginDelete.name + '"',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    $scope.resp = response.obj
+                }
+                else {
+                    showMessage(response.obj);
+                    $scope.showLoginList();
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+        $scope.hideDeleteLoginPopup();
     };
 
     $scope.showDeletePopup = function (data) {
@@ -353,5 +475,46 @@
 
     $scope.hideDeletePopup = function () {
         $('.deletePopup').modal('hide');
+    };
+
+
+
+    $scope.showAddLoginPopup = function () {
+        $('.addLoginPopup').modal({
+            context: '#parent-container',
+            onHidden: function () {
+                document.getElementById('add-message-container-login').style.display = 'none';
+                document.getElementById('add-message-login').innerText = '';
+            }
+        }).modal('show');
+    };
+
+    $scope.hideAddLoginForm = function () {
+        $('.addLoginPopup').modal('hide');
+    };
+
+    $scope.showEditLoginPopup = function () {
+        $('.editloginPopup').modal({
+            context: '#parent-container',
+            onHidden: function () {
+                document.getElementById('edit-message-container-login').style.display = 'none';
+                document.getElementById('edit-message-login').innerText = '';
+            }
+        }).modal('show');
+    };
+
+    $scope.hideEditLoginForm = function () {
+        $('.editloginPopup').modal('hide');
+    };
+
+    $scope.showDeleteLoginPopup = function (data) {
+        $scope.loginDelete = data;
+        $('.deleteloginPopup').modal({
+            context: '#parent-container'
+        }).modal('show');
+    };
+
+    $scope.hideDeleteLoginPopup = function () {
+        $('.deleteloginPopup').modal('hide');
     };
 });

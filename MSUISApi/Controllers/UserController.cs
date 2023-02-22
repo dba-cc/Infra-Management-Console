@@ -21,6 +21,37 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
+        public HttpResponseMessage GetUser()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetUser", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<User> UsersList = new List<User>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        User user = new User();
+                        user.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        UsersList.Add(user);
+                    }
+                }
+                return Return.returnHttp("200", UsersList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+
+        [HttpPost]
         public HttpResponseMessage UserLogin([FromBody] String user)
         {
             try
