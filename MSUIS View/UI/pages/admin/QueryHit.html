@@ -163,15 +163,15 @@
                                     <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true">
                                         <tbody>
                                             <tr ng-repeat="QueryHit in $data">
-                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                                <td data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
-                                                <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none; display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
-                                                    <a ng-click="showPopup(QueryHit.query)" style="color: white; width: 100%; border-radius: 15px; padding: 11px; background: #1678c2; align-self: center; text-align: center; border: 2px solid lightgrey; cursor: pointer; transition: background 0.5s ease-out; "><b>Review Query</b></a>
+                                                <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
+                                                <td  data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none; display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
+                                                    <label title="{{QueryHit.query}}" ng-click="showPopup(QueryHit.query)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}</label>
                                                 </td>
-                                                <td data-title="'Object ID'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
-                                                <td data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
-                                                <td data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'" style=" border-top: none;"><label>{{QueryHit.last_worker_time}} ms</label></td>
-                                                <td data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
+                                                <td  width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
+                                                <td width="10%"  data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
+                                                <td  width="10%" data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'" style=" border-top: none;"><label>{{QueryHit.last_worker_time}} ms</label></td>
+                                                <td  width="10%" data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
                                             </tr>
                                         </tbody>
                                     </table>

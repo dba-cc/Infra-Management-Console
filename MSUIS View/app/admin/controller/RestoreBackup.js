@@ -49,7 +49,7 @@
 
         $http({
             method: 'POST',
-            url: 'api/Database/GetDatabase',
+            url: 'api/Database/GetDatabasewithNOC',
             headers: { "Content-Type": 'application/json' }
         })
 

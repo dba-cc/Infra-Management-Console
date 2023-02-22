@@ -117,6 +117,7 @@
     }
 
     $scope.FetchQueryHitList = function () {
+
         if ($scope.time === undefined) {
             showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
             return

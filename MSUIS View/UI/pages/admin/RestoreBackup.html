@@ -130,6 +130,7 @@
                                     <tr ng-repeat="Schedule in $data">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'Database'" filter="{name: 'text'}" sortable="'name'" style=" border-top: none;"><label>{{Schedule.name}}</label></td>
+                                        <td data-title="'State'" filter="{noc: 'text'}" sortable="'noc'" style=" border-top: none;" ><label>{{Schedule.noc}}</label></td>
                                     </tr>
                                 </tbody>
                             </table>
