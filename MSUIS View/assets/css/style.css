@@ -252,7 +252,9 @@ tr > td > label {
       Card-Layout css start
 ==========================  **/
 .card-block {
+    box-shadow: 0 16px 15px #aaaaaa;
     margin-top: 1.25rem !important;
+    border-radius: 15px;
 }
 
 .ui.grid > .column:not(.row), .ui.grid > .row > .column {
@@ -22843,6 +22845,7 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"] > li > a {
     border: 1px solid lightgrey !important;
     border-bottom-width: 1px;
+    box-shadow: 0 6px 15px #aaaaaa;
 }
 .ui.striped.table tbody tr td a:hover {
     background: #1165a7 !important;

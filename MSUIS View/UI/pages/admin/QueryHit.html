@@ -158,10 +158,10 @@
                             <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
                         </div>
                     <div style="background-color: white">
-                        <div class="card-block scrollbar ui grid" id="table-parent-container" style=" height: 84vh; max-height: 84vh;">
+                        <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
                             <div style="height: 46vh; max-height: 46vh; width: 100%">
-                                <div class="table-responsive" style="max-height: 46vh; width: 100%;">
-                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true">
+                                <div class="table-responsive" style="max-height: 46vh; width: 100%; box-shadow: 0 16px 15px #aaaaaa">
+                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="QueryHit in $data">
                                                 <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
@@ -179,7 +179,7 @@
                                 </div>
                             </div>
                             <div class="chart-item">
-                                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; margin-top: 15px; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
+                                <div style="box-shadow: 0 16px 15px #aaaaaa; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
                                     <canvas id="analytics-chart"></canvas>
                                 </div>
                             </div>
