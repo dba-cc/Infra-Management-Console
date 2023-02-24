@@ -30,7 +30,7 @@ The Infra-Management Console also includes analytics features, allowing administ
 
 |     Query Analytics     |     Login Analytics     |
 | :------------------: | :------------------: |
-| ![query-analytics-1](https://user-images.githubusercontent.com/79157299/221140679-e70e65a8-3f70-458d-8891-3fad0ecdb414.jpg) | ![cred-analytics](https://user-images.githubusercontent.com/79157299/221140743-bc68f17c-ebf6-4175-9406-30eaca25a271.jpg) |
+| ![query-analytics-1](https://user-images.githubusercontent.com/79157299/221162929-bbf7d3bc-1ec9-40f5-a988-248758216fbd.jpg) | ![cred-analytics](https://user-images.githubusercontent.com/79157299/221140743-bc68f17c-ebf6-4175-9406-30eaca25a271.jpg) |
 
 ## Usage
 To use the Infra-Management Console, you will need to restore the DBAdmin.bak file to your Microsoft SQL Server. Once the database is restored, you can then deploy the front-end and API to your server.
