@@ -7,6 +7,7 @@ namespace MSUISApi.Models
 {
     public class QueryHit
     {
+        public string ctime { get; set; }
         public string time { get; set; }
 
         public string query { get; set; }

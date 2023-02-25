@@ -22,7 +22,7 @@ namespace MSUISApi.Controllers
 
 
 
-        [HttpPost]
+        /*[HttpPost]
         public HttpResponseMessage GetQueryHit([FromBody]String timeFormat_time)
         {
             try
@@ -55,10 +55,10 @@ namespace MSUISApi.Controllers
                         else
                             queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
 
-                        /*if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBNAME"])))
+                        *//*if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBNAME"])))
                             queryhit.dbname = "Query";
                         else
-                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBNAME"]);*/
+                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBNAME"]);*//*
 
                         queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
                         queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
@@ -69,6 +69,72 @@ namespace MSUISApi.Controllers
                     }
                 }
                 return Return.returnHttp("200", QueryHitList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }*/
+        [HttpPost]
+        public HttpResponseMessage GetQueryHit([FromBody] String timeFormat_time)
+        {
+            try
+            {
+                int page = Convert.ToInt32(timeFormat_time.Split(' ')[3]);
+                int pageSize = 100; // Number of items per page
+                int startIndex = (page - 1) * pageSize;
+                int endIndex = startIndex + pageSize - 1;
+
+                String timeFormat = timeFormat_time.Split(' ')[0];
+                String time = timeFormat_time.Split(' ')[1];
+                String db = timeFormat_time.Split(' ')[2];
+                SqlCommand cmd = new SqlCommand("lasttopv2", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TimeFormat", timeFormat);
+                cmd.Parameters.AddWithValue("@t", time);
+                cmd.Parameters.AddWithValue("@db", db);
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<QueryHit> QueryHitList = new List<QueryHit>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = startIndex; i <= endIndex && i < Dt.Rows.Count; i++)
+                    {
+                        QueryHit queryhit = new QueryHit();
+                        DateTime myDateTime1 = Convert.ToDateTime(Dt.Rows[i]["CTime"]);
+                        queryhit.ctime = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Time"]);
+                        queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");                        
+                        queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
+
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))
+                            queryhit.objectid = "Query";
+                        else
+                            queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
+
+                        queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
+                        queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
+                        queryhit.last_worker_time = Convert.ToInt64(Dt.Rows[i]["last_worker_time"]);
+                        queryhit.max_elapsed_time = Convert.ToInt64(Dt.Rows[i]["max_elapsed_time"]);
+                        queryhit.last_elapsed_time = Convert.ToInt64(Dt.Rows[i]["last_elapsed_time"]);
+                        QueryHitList.Add(queryhit);
+                    }
+                }
+
+                int totalPages = (int)Math.Ceiling((double)Dt.Rows.Count / pageSize);
+                var pagedResult = new
+                {
+                    totalPages = totalPages,
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalResults = Dt.Rows.Count,
+                    data = QueryHitList
+                };
+
+                return Return.returnHttp("200", pagedResult, null);
             }
             catch (Exception e)
             {
@@ -101,6 +167,41 @@ namespace MSUISApi.Controllers
                     }
                 }
                 return Return.returnHttp("200", CredentialAnalysisList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }[HttpPost]
+        public HttpResponseMessage GetQHGraph([FromBody] String var)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("lasttop_graph", Con);
+                String timeFormat = var;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@var", var);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+                cmd.CommandTimeout = 0;
+
+                Da.Fill(Dt);
+
+                List<QH_Graph> qhgraphList = new List<QH_Graph>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        QH_Graph qhgraph = new QH_Graph();
+                        qhgraph.query = Convert.ToString(Dt.Rows[i]["Query"]);
+                        DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Date"]);
+                        qhgraph.time= myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        qhgraph.execution_count = Convert.ToInt64(Dt.Rows[i]["EXCount"]);
+                        qhgraphList.Add(qhgraph);
+                    }
+                }
+                return Return.returnHttp("200", qhgraphList, null);
             }
             catch (Exception e)
             {
