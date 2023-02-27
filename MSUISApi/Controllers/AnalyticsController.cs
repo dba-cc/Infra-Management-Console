@@ -23,10 +23,15 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetQueryHit([FromBody]String timeFormat_time)
+        public HttpResponseMessage GetQueryHit([FromBody] String timeFormat_time)
         {
             try
             {
+                int page = Convert.ToInt32(timeFormat_time.Split(' ')[3]);
+                int pageSize = 100; // Number of items per page
+                int startIndex = (page - 1) * pageSize;
+                int endIndex = startIndex + pageSize - 1;
+
                 String timeFormat = timeFormat_time.Split(' ')[0];
                 String time = timeFormat_time.Split(' ')[1];
                 String db = timeFormat_time.Split(' ')[2];
@@ -43,13 +48,13 @@ namespace MSUISApi.Controllers
 
                 if (Dt.Rows.Count > 0)
                 {
-                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    for (int i = startIndex; i <= endIndex && i < Dt.Rows.Count; i++)
                     {
                         QueryHit queryhit = new QueryHit();
                         DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Time"]);
                         queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                         queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
-                        
+
                         if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))
                             queryhit.objectid = "Query";
                         else
@@ -68,13 +73,25 @@ namespace MSUISApi.Controllers
                         QueryHitList.Add(queryhit);
                     }
                 }
-                return Return.returnHttp("200", QueryHitList, null);
+
+                int totalPages = (int)Math.Ceiling((double)Dt.Rows.Count / pageSize);
+                var pagedResult = new
+                {
+                    totalPages = totalPages,
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalResults = Dt.Rows.Count,
+                    data = QueryHitList
+                };
+
+                return Return.returnHttp("200", pagedResult, null);
             }
             catch (Exception e)
             {
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
 
         [HttpPost]
         public HttpResponseMessage GetCredentialAnalysis()

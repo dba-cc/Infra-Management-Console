@@ -129,31 +129,42 @@
             $scope.dropdown();
         }
         hideLoadingScreen();
-        $http({
-            method: 'POST',
-            url: 'api/Analytics/GetQueryHit',
-            data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
-            headers: { "Content-Type": 'application/json' }
-        })
 
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    showMessage(response.obj);
-                }
-                else {
-                    $scope.QueryHitParams = new NgTableParams({
-                        count: response.obj.length
-                    }, {
-                        dataset: response.obj,
-                    });
-                    $scope.generateChart(response.obj)
-                }
-                hideLoadingScreen();
+        var pageNum = 1; // set initial page number to 1
+        var totalData = []; // create empty array to store all data
+
+        function fetchPage(pageNum) {
+            $http({
+                method: 'POST',
+                url: 'api/Analytics/GetQueryHit',
+                data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db + ' ' + pageNum + '"',
+                headers: { "Content-Type": 'application/json' }
             })
-            .error(function (res) {
-                showMessage(res.obj);
-                hideLoadingScreen();
-            });
+                .success(function (response) {
+                    if (response.response_code != "200") {
+                        showMessage(response.obj);
+                    }
+                    else {
+                        totalData = totalData.concat(response.obj); // append data to totalData array
+                        if (response.obj.length > 0) { // if there is more data, fetch next page
+                            fetchPage(pageNum + 1);
+                        } else { // if no more data, update table params with totalData
+                            $scope.QueryHitParams.settings({
+                                dataset: totalData,
+                                counts: [] // disable page size options
+                            });
+                            $scope.generateChart(totalData);
+                        }
+                    }
+                    hideLoadingScreen();
+                })
+                .error(function (res) {
+                    showMessage(res.obj);
+                    hideLoadingScreen();
+                });
+        }
+
+        fetchPage(pageNum); // start fetching first page
     };
 
     $scope.getDatabaseList = function () {

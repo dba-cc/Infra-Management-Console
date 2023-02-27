@@ -21,14 +21,14 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetUser()
+        public HttpResponseMessage GetUser([FromBody] String db)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand("GetUser", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 Da.SelectCommand = cmd;
-
+                cmd.Parameters.AddWithValue("@dbname", db);
                 Da.Fill(Dt);
 
                 List<User> UsersList = new List<User>();

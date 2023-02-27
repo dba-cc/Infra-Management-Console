@@ -2,9 +2,11 @@
     <nav class="pcoded-navbar" id="main-navbar" pcoded-header-position="relative" style="background-color: white; border-radius:15px; margin:15px; height: auto; max-height: 96vh">
         <div class="pcoded-inner-navbar main-menu sidebar-main-screen sidebar-expanded" style="cursor: default;background-color: white; border-radius: 15px; border: 1px solid green; height: auto; max-height: 96vh; padding-top: 30px">
             <div style="" class="parent-menu">
-                <div class="sidebar_toggle" style="float: left"><a style=" padding-right: 18px !important; background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; padding: 15px"><i class="bars icon" style="padding-left: 6px !important; color: green; padding: 4px"></i><span class="pcoded-mtext" style="margin-left: 4px">Collapse</span></a></div>
+                <div class="sidebar_toggle" style="float: left"><a style=" box-shadow: 0 6px 15px #aaaaaa; transition: background-color 0.3s ease-out; padding-right: 18px !important; background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; padding: 15px">
+                    <i class="bars icon" style=" transition: color 0.3s ease-out; padding-left: 6px !important; color: green; padding: 4px"></i>
+                    <span class="pcoded-mtext" style="margin-left: 4px">Collapse</span></a></div>
             </div>
-            <div class="main-menu-header" style="background-color: #20bb40ad; border-radius: 15px; margin: 50px 15px 15px 15px; transition: margin 0.3s ease-in-out ">
+            <div class="main-menu-header" style="background-color: #20bb40ad; border-radius: 15px; margin: 50px 15px 0px 15px; transition: margin 0.3s ease-in-out ">
                 <div style="display: flex; translate: 28% 0%; padding: 20px 0 18px 0">
                     <img style="transition: margin 0.3s ease-in-out; border-radius: 50%; z-index: 9; " class="img-70" src="assets/images/user.png" alt="User-Profile-Image">
                     <div class="user-details" style="transition: margin 0.3s ease-in-out">
@@ -18,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <ul class="pcoded-item pcoded-left-item scrollbar" style="margin-top: 15px; overflow: scroll; max-height: 75vh; overflow-x: hidden;">
+            <ul class="pcoded-item pcoded-left-item scrollbar" style="padding-top: 15px; overflow: scroll; max-height: 75vh; overflow-x: hidden;">
                 <li ng-class="{active: $state.includes(item.state)}" class="parent-menu" ng-repeat="item in menuItems" ng-click="toggleSubmenu(item, menuItems, $event)" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px;">
                     <a style="border-radius: 15px; padding-top: 15px" title="{{item.name}}">
                         <span class="pcoded-micon"><i class="{{item.icon}}" style="font-size: 1.5rem;"></i></span>

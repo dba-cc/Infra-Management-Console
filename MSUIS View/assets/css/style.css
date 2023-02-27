@@ -68,11 +68,17 @@ p {
 .table-responsive {
     display: block;
     max-height: 84vh;
-    border: 2px solid lightgrey !important;
     border-radius: 15px;
     overflow-y: overlay;
 }
-
+.ui.table.selectable > tbody > tr:hover {
+    background-color: #20bb408f !important;
+    box-shadow: 0px 10px 10px lightgrey !important;
+    color: white !important;
+}
+.ui.table.selectable > tbody > tr {
+    transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
+}
 #inputPopup {
     /*position: fixed;*/
     max-height: fit-content;
@@ -252,7 +258,7 @@ tr > td > label {
       Card-Layout css start
 ==========================  **/
 .card-block {
-    box-shadow: 0 16px 15px #aaaaaa;
+    box-shadow: 0 6px 15px #aaaaaa;
     margin-top: 1.25rem !important;
     border-radius: 15px;
 }
@@ -329,8 +335,7 @@ tfoot {
 }
 
 .ui.striped.table tbody tr:nth-child(2n) {
-    background-color: #27bc1a3b !important;
-    border-radius: 15px !important;
+    background-color: #27bc1a3b;
 }
 
 .ng-table-pager .ng-scope {
@@ -7903,13 +7908,6 @@ table tbody .border-bottom-info td {
         width: 0px !important;
         padding-left: 0px !important;
         overflow: hidden;
-    }
-
-.ui.striped.table tbody tr:last-child, .ui.striped.table tbody tr:last-child td:last-child {
-    border-radius: 0px 0 15px 0 !important;
-}
-    .ui.striped.table tbody tr:last-child, .ui.striped.table tbody tr:last-child td:first-child {
-        border-radius: 0px 0px 0px 15px !important;
     }
 
     .pcoded[theme-layout="vertical"][vertical-nav-type="collapsed"] .main-menu-header img {
@@ -22374,7 +22372,7 @@ body.dark-layout {
     .pcoded .pcoded-navbar .pcoded-item > li > a > .pcoded-micon {
         font-size: 15px;
         padding-right: 10px;
-        transition: color 0.3s ease-out, margin 0.3s ease-in-out;
+        transition: color 0.3s ease-out, margin 0.3s ease-out;
     }
 
 .pcoded-inner-navbar {
@@ -22843,7 +22841,6 @@ body.dark-layout {
 }
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"] > li > a {
-    border: 1px solid lightgrey !important;
     border-bottom-width: 1px;
     box-shadow: 0 6px 15px #aaaaaa;
 }
@@ -23410,7 +23407,7 @@ body.dark-layout {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item > li > a .pcoded-mtext {
     position: absolute;
     white-space: nowrap;
-    transition: color 0.3s ease-out, margin 0.3s ease-in-out;
+    transition: color 0.3s ease-out, margin 0.3s ease-out;
 }
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item li.pcoded-hasmenu > a:after {

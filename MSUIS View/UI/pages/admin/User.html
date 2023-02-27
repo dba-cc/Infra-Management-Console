@@ -273,7 +273,7 @@
                         <div class="table-responsive">
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="UserParams" show-filter="true">
                                 <tbody>
-                                    <tr ng-repeat="User in $data" style="border-radius: 15px !important">
+                                    <tr ng-repeat="User in $data">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style=" border-top: none;"><label>{{User.UserName}}</label></td>
                                         <td data-title="'Login Name'" filter="{LoginName: 'text'}" sortable="'LoginName'" style=" border-top: none;"><label>{{User.LoginName}}</label></td>
@@ -296,7 +296,7 @@
                         <div class="table-responsive">
                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="LoginParams" show-filter="true">
                                 <tbody>
-                                    <tr ng-repeat="Login in $data" style="border-radius: 15px !important">
+                                    <tr ng-repeat="Login in $data">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'Login Name'" filter="{name: 'text'}" sortable="'name'" style=" border-top: none;"><label>{{Login.name}}</label></td>
                                         <td data-title="'Create Date'" filter="{create_date: 'text'}" sortable="'create_date'" style=" border-top: none;"><label>{{ Login.create_date.slice(6, -2) | date: 'yyyy-MM-dd HH:mm:ss' }}</label></td>
