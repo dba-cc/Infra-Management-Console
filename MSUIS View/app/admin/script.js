@@ -23,11 +23,7 @@ app.factory('httpRequestInterceptor', function ($cookies) {
             if (config.url.indexOf('api/') === 0) {
 
                 config.url = "https://localhost:44374/" + config.url;
-<<<<<<< HEAD
                 //config.url = "http://localhost:8081/" + config.url;
-=======
-                //config.url = "http://localhost:8080/Api/" + config.url;
->>>>>>> a7d9a78a3a61640a93d634c53261830a8704d769
 
                 config.headers['token'] = $cookies.get("token");
                 config.headers['Content-Type'] = 'application/json';
