@@ -91,6 +91,7 @@
                     <div class="card-header">
                         <div class="ui green floating dropdown labeled search icon button" style="float: left; padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList()" id="dblist">
                             <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
+                               <!-- <option class="item" value="">Select Database</option>-->
                                 <option class="item" value="Query">Query</option>
                                 <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
                             </select>
@@ -98,6 +99,7 @@
                             <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
                             <div class="default text">Select Database</div>
                             <div class="menu">
+                               <!-- <div class="item" data-value="">Select Database</div>-->
                                 <div class="item" data-value="Query">Query</div>
                                 <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
                             </div>
@@ -167,7 +169,7 @@
                                                 <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                                 <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
                                                 <td  data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none; display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
-                                                    <label title="{{QueryHit.query}}" ng-click="showPopup(QueryHit.query)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}</label>
+                                                    <label title="{{QueryHit.query}}" ng-click="qhgraph(QueryHit)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}</label>
                                                 </td>
                                                 <td  width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
                                                 <td width="10%"  data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>

@@ -185,7 +185,11 @@
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\TablePermission.cs" />
+=======
+    <Compile Include="Models\QH_Graph.cs" />
+>>>>>>> b98fb01f881cedb35b8904b147bef33a022bf406
     <Compile Include="Models\SPPermission.cs" />
     <Compile Include="Models\PermReportDb.cs" />
     <Compile Include="Models\QueryHit.cs" />
