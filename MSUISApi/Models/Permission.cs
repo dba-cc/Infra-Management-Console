@@ -7,15 +7,12 @@ namespace MSUISApi.Models
 {
     public class Permission
     {
-        public Int32 UserPermId { get; set; }
-        public string UserName { get; set; }
-        public string DatabaseName { get; set; }
         public string TableName { get; set; }
-        public bool ReadPerm { get; set; }
-        public bool WritePerm { get; set; }
-        public bool AlterPerm { get; set; }
-        public bool FullAccessPerm { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }   
+        public bool SELECT { get; set; }
+        public bool INSERT { get; set; }
+        public bool UPDATE { get; set; }
+        public bool DELETE { get; set; }
+        public bool ALTER { get; set; }
+        public bool CONTROL { get; set; }   
     }
 }

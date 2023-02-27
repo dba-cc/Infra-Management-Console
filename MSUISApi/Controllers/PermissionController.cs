@@ -25,7 +25,7 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                String[] str = perm.Split(' ');
+                String[] str = perm.Split(',');
                 SqlCommand cmd = new SqlCommand("GetPermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", str[0]);
@@ -40,13 +40,13 @@ namespace MSUISApi.Controllers
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
                         Permission permission = new Permission();
-                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
-                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
                         permission.TableName = Convert.ToString(Dt.Rows[i]["TableName"]);
-                        permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
-                        permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
-                        permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
-                        permission.FullAccessPerm = Convert.ToBoolean(Dt.Rows[i]["FullAccessPerm"]);
+                        permission.SELECT = Convert.ToBoolean(Dt.Rows[i]["SELECT"]);
+                        permission.INSERT = Convert.ToBoolean(Dt.Rows[i]["INSERT"]);
+                        permission.UPDATE = Convert.ToBoolean(Dt.Rows[i]["UPDATE"]);
+                        permission.DELETE = Convert.ToBoolean(Dt.Rows[i]["DELETE"]);
+                        permission.ALTER = Convert.ToBoolean(Dt.Rows[i]["ALTER"]);
+                        permission.CONTROL = Convert.ToBoolean(Dt.Rows[i]["CONTROL"]);
                         permissionsList.Add(permission);
                     }
                 }
@@ -59,28 +59,26 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GrantPermission([FromBody] String Obj)
+        public HttpResponseMessage UpdateTablePermissions(TablePermission Obj)
         {
             try
             {
-                String[] str = Obj.Split(' ');
-                string UserName = Convert.ToString(str[0]);
-                string DatabaseName = Convert.ToString(str[1]);
-                string TableName = Convert.ToString(str[2]);
-                bool ReadPerm = Convert.ToBoolean(str[3]);
-                bool WritePerm = Convert.ToBoolean(str[4]);
-                bool AlterPerm = Convert.ToBoolean(str[5]);
-                bool FullAccessPerm = Convert.ToBoolean(str[6]);
 
-                SqlCommand cmd = new SqlCommand("GrantPermission", Con);
+                string UserName = Convert.ToString(Obj.user);
+                string DatabaseName = Convert.ToString(Obj.database);
+                string table = Convert.ToString(Obj.table);
+
+                SqlCommand cmd = new SqlCommand("UpdateTablePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", UserName);
-                cmd.Parameters.AddWithValue("@dbname", DatabaseName);
-                cmd.Parameters.AddWithValue("@tablename", TableName);
-                cmd.Parameters.AddWithValue("@readPermission", ReadPerm);
-                cmd.Parameters.AddWithValue("@writePermission", WritePerm);
-                cmd.Parameters.AddWithValue("@alterPermission", AlterPerm);
-                cmd.Parameters.AddWithValue("@fullaccessPermission", FullAccessPerm);
+                cmd.Parameters.AddWithValue("@user", UserName);
+                cmd.Parameters.AddWithValue("@database", DatabaseName);
+                cmd.Parameters.AddWithValue("@table", table);
+                cmd.Parameters.AddWithValue("@select", Obj.SELECT.HasValue ? Obj.SELECT : null);
+                cmd.Parameters.AddWithValue("@alter", Obj.ALTER.HasValue ? Obj.ALTER : null);
+                cmd.Parameters.AddWithValue("@insert", Obj.INSERT.HasValue ? Obj.INSERT : null);
+                cmd.Parameters.AddWithValue("@update", Obj.UPDATE.HasValue ? Obj.UPDATE : null);
+                cmd.Parameters.AddWithValue("@delete", Obj.DELETE.HasValue ? Obj.DELETE: null);
+                cmd.Parameters.AddWithValue("@control", Obj.CONTROL.HasValue ? Obj.CONTROL : null);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();
@@ -191,15 +189,15 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetSPPermissions([FromBody] String perm)
+        public HttpResponseMessage GetStoredProcedurePermissions([FromBody] String perm)
         {
             try
             {
-                String[] str = perm.Split(' ');
-                SqlCommand cmd = new SqlCommand("GetSPPermissions", Con);
+                String[] str = perm.Split(',');
+                SqlCommand cmd = new SqlCommand("GetStoredProcedurePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", str[0]);
-                cmd.Parameters.AddWithValue("@databasename", str[1]);
+                cmd.Parameters.AddWithValue("@user", str[0]);
+                cmd.Parameters.AddWithValue("@database", str[1]);
                 Da.SelectCommand = cmd;
                 Da.Fill(Dt);
 
@@ -210,13 +208,11 @@ namespace MSUISApi.Controllers
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
                         SPPermission permission = new SPPermission();
-                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
-                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
-                        permission.SPName = Convert.ToString(Dt.Rows[i]["SPName"]);
-                        permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
-                        permission.ExecutePerm = Convert.ToBoolean(Dt.Rows[i]["ExecutePerm"]);
-                        permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
-                        permission.FullAccessPerm = Convert.ToBoolean(Dt.Rows[i]["FullAccessPerm"]);
+                        permission.SPName = Convert.ToString(Dt.Rows[i]["PROCEDURE_NAME"]);
+                        permission.EXECUTE = Convert.ToBoolean(Dt.Rows[i]["EXECUTE"]);
+                        permission.ALTER = Convert.ToBoolean(Dt.Rows[i]["ALTER"]);
+                        permission.VIEWDEFINITION = Convert.ToBoolean(Dt.Rows[i]["VIEW DEFINITION"]);
+                        permission.CONTROL = Convert.ToBoolean(Dt.Rows[i]["CONTROL"]);
                         permissionsList.Add(permission);
                     }
                 }
@@ -229,27 +225,23 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GrantSPPermission(SPPermission Obj)
+        public HttpResponseMessage UpdateStoredProcedurePermissions(SPPermission Obj)
         {
             try
             {
-                string UserName = Convert.ToString(Obj.UserName);
-                string DatabaseName = Convert.ToString(Obj.DatabaseName);
+                string UserName = Convert.ToString(Obj.user);
+                string DatabaseName = Convert.ToString(Obj.database);
                 string SPName = Convert.ToString(Obj.SPName);
-                bool ReadPerm = Convert.ToBoolean(Obj.ReadPerm);
-                bool ExecutePerm = Convert.ToBoolean(Obj.ExecutePerm);
-                bool AlterPerm = Convert.ToBoolean(Obj.AlterPerm);
-                bool FullAccessPerm = Convert.ToBoolean(Obj.FullAccessPerm);
 
-                SqlCommand cmd = new SqlCommand("GrantSPPermission", Con);
+                SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", UserName);
-                cmd.Parameters.AddWithValue("@dbname", DatabaseName);
-                cmd.Parameters.AddWithValue("@spname", SPName);
-                cmd.Parameters.AddWithValue("@readPermission", ReadPerm);
-                cmd.Parameters.AddWithValue("@executePermission", ExecutePerm);
-                cmd.Parameters.AddWithValue("@alterPermission", AlterPerm);
-                cmd.Parameters.AddWithValue("@fullaccessPermission", FullAccessPerm);
+                cmd.Parameters.AddWithValue("@user", UserName);
+                cmd.Parameters.AddWithValue("@database", DatabaseName);
+                cmd.Parameters.AddWithValue("@storedProcedure", SPName);
+                cmd.Parameters.AddWithValue("@execute", Obj.EXECUTE.HasValue ? Obj.EXECUTE : null);
+                cmd.Parameters.AddWithValue("@alter", Obj.ALTER.HasValue ? Obj.ALTER : null);
+                cmd.Parameters.AddWithValue("@viewDefinition", Obj.VIEWDEFINITION.HasValue ? Obj.VIEWDEFINITION : null);
+                cmd.Parameters.AddWithValue("@control", Obj.CONTROL.HasValue ? Obj.CONTROL : null);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();

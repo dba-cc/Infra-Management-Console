@@ -1,4 +1,6 @@
 ﻿app.controller('SPPermissionCtrl', function ($scope, $http, $rootScope, NgTableParams) {
+    $scope.showUserDropdown = false
+    $scope.modifiedPermissions = {}
     $scope.dropdownUser = function () {
         $('#userDropdown').dropdown();
     }
@@ -7,9 +9,15 @@
         $('#dbDropdown').dropdown();
     }
 
-    $scope.toggleCheckbox = function (e) {
+    $scope.toggleCheckbox = function (e, sp, permission) {
         checkbox = e.currentTarget.children[0];
         checkbox.click();
+        setTimeout(function() {
+            if ($scope.modifiedPermissions[sp] == undefined) {
+                $scope.modifiedPermissions[sp] = {};
+            }
+            $scope.modifiedPermissions[sp][permission] = e.currentTarget.children[1].classList.contains('check')
+        }, 100)
     }
 
     $scope.getUserList = function () {
@@ -17,15 +25,17 @@
         $http({
             method: 'POST',
             url: 'api/User/GetUser',
+            data: '"' + $scope.Database.name + '"',
             headers: { "Content-Type": 'application/json' }
         })
-
             .success(function (response) {
-                if (response.response_code == "201") {
-                    $scope.UserList = {};
+                $rootScope.showLoading = false;
+                if (response.response_code != "200") {
+                    $scope.UserList = {}
                 }
                 else {
-                    $scope.UserList = response.obj;
+                    $scope.UserList = response.obj
+                    $scope.showUserDropdown = true
                 }
                 hideLoadingScreen();
             })
@@ -33,7 +43,7 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
-    };
+    }
 
     $scope.showDatabaselist = function () {
         $scope.showDatabaselistflag = true;
@@ -64,10 +74,13 @@
 
     $scope.initPermissions = function () {
         showLoadingScreen();
+        var user = $scope.User.UserName;
+        var db = $scope.Database.name;
+        var data = '"' + String.raw`${user}` + ',' + String.raw`${db}` + '"';
         $http({
             method: 'POST',
-            url: 'api/Permission/GetSPPermissions',
-            data: '"' + $scope.User.UserName + ' ' + $scope.Database.name + '"',
+            url: 'api/Permission/GetStoredProcedurePermissions',
+            data: data,
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -92,95 +105,90 @@
             });
     };
 
-    $scope.checkAllRead = function (value) {
-        var cb = angular.element(document.getElementsByName('Read'))
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masterreadcheck'))[0].checked
-        });
-
+    $scope.checkAllControl = function (value) { 
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            if (value)
-                $scope.PermissionParams.data[i].ReadPerm = true;
-            else
-                $scope.PermissionParams.data[i].ReadPerm = false;
+            $scope.PermissionParams.data[i].CONTROL = value.currentTarget.checked;
+            if ($scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] == undefined) {
+                $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] = {}
+            }
+            $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName].CONTROL = value.currentTarget.checked
         }
     };
 
     $scope.checkAllExecute = function (value) {
-        var cb = angular.element(document.getElementsByName('Execute'))
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masterexecutecheck'))[0].checked
-        });
-
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            if (value)
-                $scope.PermissionParams.data[i].ExecutePerm = true;
-            else
-                $scope.PermissionParams.data[i].ExecutePerm = false;
+            $scope.PermissionParams.data[i].EXECUTE = value.currentTarget.checked;
+            if ($scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] == undefined) {
+                $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] = {}
+            }
+            $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName].EXECUTE = value.currentTarget.checked
         }
     };
 
     $scope.checkAllAlter = function (value) {
-        var cb = angular.element(document.getElementsByName('Alter'))
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masteraltercheck'))[0].checked
-        });
-
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            if (value)
-                $scope.PermissionParams.data[i].AlterPerm = true;
-            else
-                $scope.PermissionParams.data[i].AlterPerm = false;
+            $scope.PermissionParams.data[i].ALTER = value.currentTarget.checked;
+            if ($scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] == undefined) {
+                $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] = {}
+            }
+            $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName].ALTER = value.currentTarget.checked
         }
     };
 
-    $scope.checkAllFullAccess = function (value) {
-        var cb = angular.element(document.getElementsByName('FullAccess'))
-        angular.forEach(cb, function (value) {
-            value.checked = angular.element(document.getElementsByName('masterfullaccesscheck'))[0].checked
-        });
-
+    $scope.checkAllViewdefinition = function (value) {
         for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            if (value)
-                $scope.PermissionParams.data[i].FullAccessPerm = true;
-            else
-                $scope.PermissionParams.data[i].FullAccessPerm = false;
+            $scope.PermissionParams.data[i].VIEWDEFINITION = value.currentTarget.checked;
+            if ($scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] == undefined) {
+                $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName] = {}
+            }
+            $scope.modifiedPermissions[$scope.PermissionParams.data[i].SPName].VIEWDEFINITION = value.currentTarget.checked
         }
     };
 
     $scope.updatePermissions = function () {
         showLoadingScreen();
-        $scope.resp = null;
-
-        for (var i = 0; i < $scope.PermissionParams.data.length; i++) {
-            var data = $scope.PermissionParams.data[i];
-
+        var success_count = 0;
+        var error_count = 0;
+        for (sp in $scope.modifiedPermissions) {
+            var data = {
+                'user': $scope.User.UserName,
+                'database': $scope.Database.name,
+                'SPName': sp,
+                'EXECUTE': $scope.modifiedPermissions[sp].EXECUTE != undefined ? $scope.modifiedPermissions[sp].EXECUTE : null,
+                'ALTER': $scope.modifiedPermissions[sp].ALTER != undefined ? $scope.modifiedPermissions[sp].ALTER : null,
+                'CONTROL': $scope.modifiedPermissions[sp].CONTROL != undefined ? $scope.modifiedPermissions[sp].CONTROL : null,
+                'VIEWDEFINITION': $scope.modifiedPermissions[sp].VIEWDEFINITION != undefined ? $scope.modifiedPermissions[sp].VIEWDEFINITION : null,
+            }
             $http({
                 method: 'POST',
-                url: 'api/Permission/GrantSPPermission',
+                url: 'api/Permission/UpdateStoredProcedurePermissions',
                 data: data,
                 headers: { "Content-Type": 'application/json' }
             })
 
                 .success(function (response) {
                     if (response.response_code != "200") {
-                        showMessage(response.obj);
-                        resp = response;
+                        error_count++;
+                        if (Object.keys($scope.modifiedPermissions).length - 1 == success_count + error_count) {
+                            hideLoadingScreen();
+                            showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
+                        }
+                    } else {
+                        success_count++;
                     }
-                    else {
-                        resp = response;
-                        //showMessage(response.obj);
-                    }
-                    if (i >= $scope.PermissionParams.data.length - 2) {
+                    if (Object.keys($scope.modifiedPermissions).length == success_count + error_count) {
                         hideLoadingScreen();
+                        showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
                     }
                 })
                 .error(function (res) {
+                    error_count++;
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                    resp = res;
-                    hideLoadingScreen();
-                });
+                    if (Object.keys($scope.modifiedPermissions).length - 1 == success_count + error_count) {
+                        hideLoadingScreen();
+                        showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
+                    }
+                }); 
         }
-        showMessage(resp.obj);
     };
 });
