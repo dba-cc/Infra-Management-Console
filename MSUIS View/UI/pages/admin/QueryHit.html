@@ -1,6 +1,6 @@
 ﻿<style>
 
-   .tgl {
+    .tgl {
         display: none;
     }
 
@@ -65,6 +65,57 @@
         .tgl-skewed:checked + .tgl-btn:after {
             left: 0;
         }
+
+    /table css/
+    tr > td > label {
+        margin: 0 !important;
+    }
+
+    .ui.table td {
+        text-align: left !important;
+    }
+
+    .ui.table thead th {
+        text-align: center !important;
+    }
+
+    .table td, .table th {
+        vertical-align: middle !important;
+    }
+
+    .ui.table td {
+        line-height: 0.5em;
+    }
+
+    .table {
+        margin-bottom: 0 !important;
+    }
+
+    .table-responsive {
+        display: block;
+        max-height: 84vh;
+        border: 2px solid lightgrey !important;
+        border-radius: 15px;
+        overflow-y: overlay;
+    }
+
+    .activerow {     
+        font-weight: 900;
+        box-shadow: 0px 1.6px 7.8px rgba(0, 0, 0, 0.086),
+            0px 3.4px 17.2px rgba(0, 0, 0, 0.127),
+            0px 5.8px 28.8px rgba(0, 0, 0, 0.157),
+            0px 8.7px 43.4px rgba(0, 0, 0, 0.182),
+            0px 12.5px 62.6px rgba(0, 0, 0, 0.205),
+            0px 17.7px 88.6px rgba(0, 0, 0, 0.228),
+            0px 25.1px 125.7px rgba(0, 0, 0, 0.253),
+            0px 36.5px 182.5px rgba(0, 0, 0, 0.283),
+            0px 56.3px 281.3px rgba(0, 0, 0, 0.324),
+            0px 100px 500px rgba(0, 0, 0, 0.41);
+    }
+
+        .activerow:hover {
+            background-color: lightgray;
+        }
 </style>
 <div class="page-body" ng-controller="QueryHitCtrl" ng-init="FetchQueryHitList()">
     <div class="row">
@@ -89,9 +140,9 @@
                 </div>
                 <div class="card main-card">
                     <div class="card-header">
-                        <div class="ui green floating dropdown labeled search icon button" style="float: left; padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList()" id="dblist">
+                        <div class="ui green floating dropdown labeled search icon button" style="float: left; padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
                             <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
-                               <!-- <option class="item" value="">Select Database</option>-->
+                                <!-- <option class="item" value="">Select Database</option>-->
                                 <option class="item" value="Query">Query</option>
                                 <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
                             </select>
@@ -99,7 +150,7 @@
                             <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
                             <div class="default text">Select Database</div>
                             <div class="menu">
-                               <!-- <div class="item" data-value="">Select Database</div>-->
+                                <!-- <div class="item" data-value="">Select Database</div>-->
                                 <div class="item" data-value="Query">Query</div>
                                 <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
                             </div>
@@ -133,63 +184,63 @@
                                 Refresh
                                 <i class="sync alternate white link icon"></i>
                             </div>
-                            </div>
-                            <div class="row-fluid" style="float: left;" aria-hidden="false">
-                                <input class='tgl tgl-skewed' id='cb3' type='checkbox' ng-checked="check">
-                                <div class='ui tgl-btn button' style=" transition: background 0.5s ease-out;" data-tg-off='Auto Refresh Off' data-tg-on='Auto Refresh On' ng-click="checkIt()" ng-model="check"></div>
-                            </div>
-                            <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; display: none; padding-bottom: 14px" id="freq" padding-bottom: 14px;" ng-model="temp">
-                                <select class="ui search selection dropdown" ng-model="temp" ng-change="refreq()">
-                                    <option class="item" value="10000">10 Sec</option>
-                                    <option class="item" value="30000">30 Sec</option>
-                                    <option class="item" value="60000">1 Minute</option>
-                                    <option class="item" value="180000">3 Minute</option>
-                                    <option class="item" value="300000">5 Minute</option>
-                                </select>
-                                <i class="refresh icon"></i>
-                                <span class="text" style=" color: white; margin: 0">Auto Refresh Freq</span>
-                                <div class="menu">
-
-                                    <div class="item" data-value="10000 Sec">10 Sec</div>
-                                    <div class="item" data-value="30000">30 Sec</div>
-                                    <div class="item" data-value="60000">1 Minute</div>
-                                    <div class="item" data-value="180000">3 Minute</div>
-                                    <div class="item" data-value="300000">5 Minute</div>
-                                </div>
-                            </div>
-                            <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
                         </div>
+                        <div class="row-fluid" style="float: left;" aria-hidden="false">
+                            <input class='tgl tgl-skewed' id='cb3' type='checkbox' ng-checked="check">
+                            <div class='ui tgl-btn button' style=" transition: background 0.5s ease-out;" data-tg-off='Auto Refresh Off' data-tg-on='Auto Refresh On' ng-click="checkIt()" ng-model="check"></div>
+                        </div>
+                        <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; display: none; padding-bottom: 14px" id="freq" padding-bottom: 14px;" ng-model="temp">
+                            <select class="ui search selection dropdown" ng-model="temp" ng-change="refreq()">
+                                <option class="item" value="10000">10 Sec</option>
+                                <option class="item" value="30000">30 Sec</option>
+                                <option class="item" value="60000">1 Minute</option>
+                                <option class="item" value="180000">3 Minute</option>
+                                <option class="item" value="300000">5 Minute</option>
+                            </select>
+                            <i class="refresh icon"></i>
+                            <span class="text" style=" color: white; margin: 0">Auto Refresh Freq</span>
+                            <div class="menu">
+
+                                <div class="item" data-value="10000 Sec">10 Sec</div>
+                                <div class="item" data-value="30000">30 Sec</div>
+                                <div class="item" data-value="60000">1 Minute</div>
+                                <div class="item" data-value="180000">3 Minute</div>
+                                <div class="item" data-value="300000">5 Minute</div>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="play circle icon" style="font-size: 1.5em; vertical-align: middle; margin-right: 10px"></i>Query Analytics</h3>
+                    </div>
                     <div style="background-color: white">
                         <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
                             <div style="height: 46vh; max-height: 46vh; width: 100%">
-                                <div class="table-responsive" style="max-height: 46vh; width: 100%; box-shadow: 0 6px 15px #aaaaaa">
+                                <div class="table-responsive" style="max-height: 46vh; width: 100%; box-shadow: 0 16px 15px #aaaaaa">
                                     <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="QueryHit in $data">
-                                                <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                                <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'" style=" border-top: none;"><label>{{QueryHit.time}}</label></td>
-                                                <td  data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style=" border-top: none; display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
+                                                <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
+                                                <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'"><label>{{QueryHit.time}}</label></td>
+                                                <td data-title="'Query'" ng-click="toggleCheckbox($event)" filter="{query: 'text'}" sortable="'Query'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
                                                     <label title="{{QueryHit.query}}" ng-click="qhgraph(QueryHit)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}</label>
                                                 </td>
-                                                <td  width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'" style=" border-top: none;"><label>{{QueryHit.objectid}}</label></td>
-                                                <td width="10%"  data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'" style=" border-top: none;"><label>{{QueryHit.execution_count}}</label></td>
-                                                <td  width="10%" data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'" style=" border-top: none;"><label>{{QueryHit.last_worker_time}} ms</label></td>
-                                                <td  width="10%" data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'" style=" border-top: none;"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
+                                                <td width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'"><label>{{QueryHit.objectid}}</label></td>
+                                                <td width="10%" data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'"><label>{{QueryHit.execution_count}}</label></td>
+                                                <td width="10%" data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'"><label>{{QueryHit.last_worker_time}} ms</label></td>
+                                                <td width="10%" data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="chart-item">
-                                <div style="box-shadow: 0 6px 15px #aaaaaa; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
+                                <div style="box-shadow: 0 16px 15px #aaaaaa; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; border: 2px solid lightgrey; border-radius: 15px; padding: 15px; background: white ">
                                     <canvas id="analytics-chart"></canvas>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

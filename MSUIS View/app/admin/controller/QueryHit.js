@@ -5,34 +5,32 @@
     $scope.time = '1'
     $scope.db = 'Query'
 
-    
-    $scope.o=false;
+
+    $scope.o = false;
     $scope.checkIt = function () {
         if (!$scope.check) {
             $scope.check = true;
             $('#freq').fadeIn();
-            
+
             $scope.o = true;
         } else {
-            $scope.check = false;   
+            $scope.check = false;
             $('#freq').fadeOut();
             $scope.o = false;
             $interval.cancel($scope.p);
-            /*$scope.item = "";*/
+            document.getElementById('freq').value = "";
+            /$scope.item = "";/
         }
-        console.log($scope.check)          
     }
     $scope.refreq = function () {
         $scope.temp;
-        console.log($scope.temp)
         if ($scope.o == true) {
-           $scope.p = $interval(function () {
-                console.log("it works")
+            $scope.p = $interval(function () {
                 $scope.FetchQueryHitList();
             }, $scope.temp);
         }
     }
-    
+
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
@@ -41,7 +39,7 @@
         document.getElementById('timeInput').placeholder = 'Number of ' + $scope.timeFormat + 's'
         document.getElementById('timeInputDiv').style.display = 'flex'
     }
- 
+
 
 
     $scope.$watch("QueryHitParams.filter()", function (newFilter) {
@@ -52,52 +50,54 @@
     }, true);
 
 
-  /*  $scope.FetchQueryHitList = function () {
+    /*  $scope.FetchQueryHitList = function () {
+  
+          if ($scope.time === undefined) {
+              showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
+              return
+          }
+          //*if (document.getElementById('dbname').value != "") {//*
+              $scope.db = document.getElementById('dbname').value;
+         // }//
+          *//*else {
+        $scope.db = 'Query';
+        document.getElementById('dbname').value = $scope.db;
+    }//
+    if (document.getElementById('dbname').value == '? undefined:undefined ?') {
+        $scope.db = 'Query';
+        document.getElementById('dbname').value = $scope.db;
+        $scope.dropdown();
+    }
+    hideLoadingScreen();
+    $http({
+        method: 'POST',
+        url: 'api/Analytics/GetQueryHit',
+        data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
+        headers: { "Content-Type": 'application/json' }
+    })
 
-        if ($scope.time === undefined) {
-            showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
-            return
-        }
-        *//*if (document.getElementById('dbname').value != "") {*//*
-            $scope.db = document.getElementById('dbname').value;
-       *//* }*//*
-        *//*else {
-            $scope.db = 'Query';
-            document.getElementById('dbname').value = $scope.db;
-        }*//*
-        if (document.getElementById('dbname').value == '? undefined:undefined ?') {
-            $scope.db = 'Query';
-            document.getElementById('dbname').value = $scope.db;
-            $scope.dropdown();
-        }
-        hideLoadingScreen();
-        $http({
-            method: 'POST',
-            url: 'api/Analytics/GetQueryHit',
-            data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
-            headers: { "Content-Type": 'application/json' }
+        .success(function (response) {
+            if (response.response_code != "200") {
+                showMessage(response.obj);
+            }
+            else {
+                $scope.QueryHitParams = new NgTableParams({
+                    count: response.obj.length
+                }, {
+                    dataset: response.obj,
+                });
+                $scope.generateChart(response.obj)
+            }
+            hideLoadingScreen();
         })
+        .error(function (res) {
+            showMessage(res.obj);
+            hideLoadingScreen();
+        });
+};*/
 
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    showMessage(response.obj);
-                }
-                else {
-                    $scope.QueryHitParams = new NgTableParams({
-                        count: response.obj.length
-                    }, {
-                        dataset: response.obj,
-                    });
-                    $scope.generateChart(response.obj)
-                }
-                hideLoadingScreen();
-            })
-            .error(function (res) {
-                showMessage(res.obj);
-                hideLoadingScreen();
-            });
-    };*/
     $scope.FetchQueryHitList = function () {
+        showLoadingScreen();
 
         if ($scope.time === undefined) {
             showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
@@ -109,11 +109,11 @@
             document.getElementById('dbname').value = $scope.db;
             $scope.dropdown();
         }
-        hideLoadingScreen();
+        // 
 
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data
-        
+
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
@@ -126,28 +126,25 @@
                         showMessage(response.obj);
                     }
                     else {
-                        
+
                         totalData = totalData.concat(response.obj.data);// append data to totalData array
                         if (response.obj.data.length > 0) { // if there is more data, fetch next page
 
-                           
+
                             fetchPage(pageNum + 1);
                         } else { // if no more data, update table params with totalData
                             $scope.QueryHitParams = new NgTableParams({
-                                count:totalData.length
+                                count: totalData.length
                             }, {
-                                dataset: totalData, 
-                       
-                            });
-                            /*$scope.QueryHitParams.settings({
                                 dataset: totalData,
-                                counts: [] // disable page size options
-                                
-                            });*/
+
+                            });
                             $scope.generateChart(totalData);
+                            hideLoadingScreen();
+
                         }
                     }
-                    hideLoadingScreen();
+
                 })
                 .error(function (res) {
                     showMessage(res.obj);
@@ -159,7 +156,6 @@
     };
 
     $scope.getDatabaseList = function () {
-        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -173,30 +169,43 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-                hideLoadingScreen();
+                //hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
     };
+    $scope.activator = null;
+
+    $scope.toggleCheckbox = function (e) {
+        //  angular.element(e.currentTarget.children)[0].click();
+        if ($scope.activator != null) {
+            //$scope.activator = null;
+            $scope.activator.classList.remove('activerow');
+        }
+        $scope.activator = e.currentTarget.parentNode;
+        e.currentTarget.parentNode.classList.add('activerow');
+    }
+
     $scope.qhgraph = function (data) {
-        showLoadingScreen();        
+        showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQHGraph',
-            data:'"'+data.ctime+'"',
+            data: '"' + data.ctime + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
             .success(function (response) {
                 if (response.response_code == "201") {
-                   // $scope.DatabaseList = {};
+                    // $scope.DatabaseList = {};
                 }
                 else {
-                   // $scope.DatabaseList = response.obj;
-                    console.log(response.obj)
+                    // $scope.DatabaseList = response.obj;
+
                     $scope.generateQueryChart(response.obj)
+
                 }
                 hideLoadingScreen();
             })
@@ -213,7 +222,7 @@
         var execution_count = data.map(function (obj) {
             return obj.execution_count;
         });
-        console.log(data)
+
 
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
@@ -265,6 +274,7 @@
                 },
             }
         });
+
     }
 
 
@@ -275,7 +285,6 @@
         var lastWorkerTime = data.map(function (obj) {
             return obj.last_worker_time;
         });
-        console.log(data)
 
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
@@ -333,13 +342,13 @@
         $scope.chart.resetZoom();
     }
 
-  /*  $scope.showPopup = function (data) {
-        $('#inputPopup').modal({
-            context: '.parent-container'
-        }).modal('show');
-        document.getElementById('query').innerText = data
-
-    }*/
+    /*  $scope.showPopup = function (data) {
+          $('#inputPopup').modal({
+              context: '.parent-container'
+          }).modal('show');
+          document.getElementById('query').innerText = data
+  
+      }*/
 
     $scope.hidePopup = function () {
         $('#inputPopup').modal('hide');
