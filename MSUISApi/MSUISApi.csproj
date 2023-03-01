@@ -182,9 +182,14 @@
     <Compile Include="Models\CredentialAnalysis.cs" />
     <Compile Include="Models\BackupSchedule.cs" />
     <Compile Include="Models\Database _NOC.cs" />
+    <Compile Include="Models\DBRole.cs" />
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />
+<<<<<<< HEAD
+    <Compile Include="Models\TablePermission.cs" />
+=======
+>>>>>>> a7d9a78a3a61640a93d634c53261830a8704d769
     <Compile Include="Models\QH_Graph.cs" />
     <Compile Include="Models\SPPermission.cs" />
     <Compile Include="Models\PermReportDb.cs" />

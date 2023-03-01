@@ -71,7 +71,7 @@
                         "state": "SPPermission",
                     }, {
                         "icon": "bi bi-database-fill-lock",
-                        "name": "Database Permissions",
+                        "name": "Database Roles",
                         "state": "DBPermission",
                     }, {
                         "icon": "bi bi-person-video2",
