@@ -20,9 +20,9 @@
         }, 100)
     }
 
-    $scope.showDatabaselist = function () {
+/*    $scope.showDatabaselist = function () {
         $scope.showDatabaselistflag = true;
-    }
+    }*/
 
     $scope.GetUser = function () {
         showLoadingScreen();

@@ -97,7 +97,7 @@ namespace MSUISApi.Controllers
             try
             {
                 int page = Convert.ToInt32(timeFormat_time.Split(' ')[3]);
-                int pageSize = 100; // Number of items per page
+                int pageSize = 70; // Number of items per page
                 int startIndex = (page - 1) * pageSize;
                 int endIndex = startIndex + pageSize - 1;
 
@@ -110,7 +110,7 @@ namespace MSUISApi.Controllers
                 cmd.Parameters.AddWithValue("@t", time);
                 cmd.Parameters.AddWithValue("@db", db);
                 Da.SelectCommand = cmd;
-
+                cmd.CommandTimeout = 0;
                 Da.Fill(Dt);
 
                 List<QueryHit> QueryHitList = new List<QueryHit>();
@@ -130,6 +130,11 @@ namespace MSUISApi.Controllers
                             queryhit.objectid = "Query";
                         else
                             queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
+
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBName"])))
+                            queryhit.dbname = "Query";
+                        else
+                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBName"]);
 
                         queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
                         queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
@@ -194,9 +199,11 @@ namespace MSUISApi.Controllers
             try
             {
                 SqlCommand cmd = new SqlCommand("lasttop_graph", Con);
-                String timeFormat = var;
+                String timeFormat = var.Split(',')[0];
+                String db = var.Split(',')[1];
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@var", var);
+                cmd.Parameters.AddWithValue("@var", timeFormat);
+                cmd.Parameters.AddWithValue("@db", db);
                 cmd.CommandType = CommandType.StoredProcedure;
                 Da.SelectCommand = cmd;
                 cmd.CommandTimeout = 0;
