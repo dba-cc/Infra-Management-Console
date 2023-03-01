@@ -98,39 +98,29 @@ namespace MSUISApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage GetDBPermissions([FromBody] String perm)
+        public HttpResponseMessage GetDBRoles([FromBody] String db)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("GetDBPermissions", Con);
+                SqlCommand cmd = new SqlCommand("GetDBRoles", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", perm);
+                cmd.Parameters.AddWithValue("@dbname", db);
                 Da.SelectCommand = cmd;
                 Da.Fill(Dt);
 
-                List<DBPermission> permissionsList = new List<DBPermission>();
+                List<DBRole> roleList = new List<DBRole>();
 
                 if (Dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < Dt.Rows.Count; i++)
                     {
-                        DBPermission permission = new DBPermission();
-                        permission.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
-                        permission.DatabaseName = Convert.ToString(Dt.Rows[i]["DatabaseName"]);
-                        permission.ConnectDB = Convert.ToBoolean(Dt.Rows[i]["ConnectDB"]);
-                        permission.CreateProcedure = Convert.ToBoolean(Dt.Rows[i]["CreateProcedure"]);
-                        permission.CreateTable = Convert.ToBoolean(Dt.Rows[i]["CreateTable"]);
-                        permission.CreateView = Convert.ToBoolean(Dt.Rows[i]["CreateView"]);
-                        permission.ExecutePerm = Convert.ToBoolean(Dt.Rows[i]["ExecutePerm"]);
-                        permission.ViewDefinition = Convert.ToBoolean(Dt.Rows[i]["ViewDefinition"]);
-                        permission.ReadPerm = Convert.ToBoolean(Dt.Rows[i]["ReadPerm"]);
-                        permission.WritePerm = Convert.ToBoolean(Dt.Rows[i]["WritePerm"]);
-                        permission.AlterPerm = Convert.ToBoolean(Dt.Rows[i]["AlterPerm"]);
-                        permission.ReferencesPerm = Convert.ToBoolean(Dt.Rows[i]["ReferencesPerm"]);
-                        permissionsList.Add(permission);
+                        DBRole role = new DBRole();
+                        role.Role = Convert.ToString(Dt.Rows[i]["role_name"]);
+                        role.Users = Convert.ToString(Dt.Rows[i]["member_names"]);
+                        roleList.Add(role);
                     }
                 }
-                return Return.returnHttp("200", permissionsList, null);
+                return Return.returnHttp("200", roleList, null);
             }
             catch (Exception e)
             {
@@ -139,46 +129,55 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GrantDBPermissions(DBPermission dBPermission)
+        public HttpResponseMessage GetPossibleRoles([FromBody] String db)
         {
             try
             {
-                string UserName = Convert.ToString(dBPermission.UserName);
-                string DatabaseName = Convert.ToString(dBPermission.DatabaseName);
-                bool ConnectDB = Convert.ToBoolean(dBPermission.ConnectDB);
-                bool CreateProcedure = Convert.ToBoolean(dBPermission.CreateProcedure);
-                bool CreateTable = Convert.ToBoolean(dBPermission.CreateTable);
-                bool CreateView = Convert.ToBoolean(dBPermission.CreateView);
-                bool ExecutePerm = Convert.ToBoolean(dBPermission.ExecutePerm);
-                bool ViewDefinition = Convert.ToBoolean(dBPermission.ViewDefinition);
-                bool ReadPerm = Convert.ToBoolean(dBPermission.ReadPerm);
-                bool WritePerm = Convert.ToBoolean(dBPermission.WritePerm);
-                bool AlterPerm = Convert.ToBoolean(dBPermission.AlterPerm);
-                bool ReferencesPerm = Convert.ToBoolean(dBPermission.ReferencesPerm);
-
-                SqlCommand cmd = new SqlCommand("GrantDBPermissions", Con);
+                SqlCommand cmd = new SqlCommand("GetPossibleRoles", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@username", UserName);
-                cmd.Parameters.AddWithValue("@database", DatabaseName);
-                cmd.Parameters.AddWithValue("@connect", ConnectDB);
-                cmd.Parameters.AddWithValue("@create_procedure", CreateProcedure);
-                cmd.Parameters.AddWithValue("@create_table", CreateTable);
-                cmd.Parameters.AddWithValue("@create_view", CreateView);
-                cmd.Parameters.AddWithValue("@execute", ExecutePerm);
-                cmd.Parameters.AddWithValue("@view_definition", ViewDefinition);
-                cmd.Parameters.AddWithValue("@read", ReadPerm);
-                cmd.Parameters.AddWithValue("@write", WritePerm);
-                cmd.Parameters.AddWithValue("@alter", AlterPerm);
-                cmd.Parameters.AddWithValue("@references", ReferencesPerm);
+                cmd.Parameters.AddWithValue("@dbname", db);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<DBRole> roleList = new List<DBRole>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        DBRole role = new DBRole();
+                        role.Role = Convert.ToString(Dt.Rows[i]["Role"]);
+                        roleList.Add(role);
+                    }
+                }
+                return Return.returnHttp("200", roleList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GrantDBRole([FromBody] String data)
+        {
+            try
+            {
+                String[] str = data.Split(' ');
+                string databaseName = Convert.ToString(str[0]);
+                string roleName = Convert.ToString(str[1]);
+                string userName = Convert.ToString(str[2]);
+
+                SqlCommand cmd = new SqlCommand("GrantDatabaseRoleToUser", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@databaseName", databaseName);
+                cmd.Parameters.AddWithValue("@roleName", roleName);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();
                 string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
                 Con.Close();
-                if (string.Equals(strMessage, "TRUE"))
-                {
-                    strMessage = "Permission Granted.";
-                }
                 return Return.returnHttp("200", strMessage.ToString(), null);
             }
             catch (Exception e)
@@ -187,6 +186,33 @@ namespace MSUISApi.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage DropUserFromRole([FromBody] String data)
+        {
+            try
+            {
+                String[] str = data.Split(' ');
+                string databaseName = Convert.ToString(str[0]);
+                string roleName = Convert.ToString(str[1]);
+                string userName = Convert.ToString(str[2]);
+
+                SqlCommand cmd = new SqlCommand("RevokeDatabaseRoleToUser", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@databaseName", databaseName);
+                cmd.Parameters.AddWithValue("@roleName", roleName);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
 
         [HttpPost]
         public HttpResponseMessage GetStoredProcedurePermissions([FromBody] String perm)
