@@ -186,7 +186,10 @@
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\TablePermission.cs" />
+=======
+>>>>>>> a7d9a78a3a61640a93d634c53261830a8704d769
     <Compile Include="Models\QH_Graph.cs" />
     <Compile Include="Models\SPPermission.cs" />
     <Compile Include="Models\PermReportDb.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\RB.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\TablePermission.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Returns.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
