@@ -113,7 +113,7 @@
 
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data
-
+        console.log(totalData)
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
@@ -123,15 +123,19 @@
             })
                 .success(function (response) {
                     if (response.response_code != "200") {
+
                         showMessage(response.obj);
+                        
                     }
                     else {
 
                         totalData = totalData.concat(response.obj.data);// append data to totalData array
                         if (response.obj.data.length > 0) { // if there is more data, fetch next page
-
-
-                            fetchPage(pageNum + 1);
+                           
+                            setTimeout(function () {
+                                fetchPage(pageNum + 1);
+                            },0)
+                            
                         } else { // if no more data, update table params with totalData
                             $scope.QueryHitParams = new NgTableParams({
                                 count: totalData.length
@@ -193,7 +197,7 @@
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQHGraph',
-            data: '"' + data.ctime + '"',
+            data: '"' + data.ctime + ',' + data.dbname +'"',
             headers: { "Content-Type": 'application/json' }
         })
 
