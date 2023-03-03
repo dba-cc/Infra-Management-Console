@@ -19,7 +19,8 @@ File: style.css
 	- Pages
 		-	Loader page, Invoice, Tasklist, Task detail, Range-slider, Counter, Maintenance, Color, FAQ, Progress, Panels & wells, Contact card, Auth pages, Flag
 		-	Gallery, Products pages, Widget, Email, Social timeline, Datatable, Chat, Blog, Wizard, CRM dashboard, Task board, Issue list, Chartlist, X-editable
-		-	Home chat, Dashboard 1-2-3-4
+		
+    -	Home chat, Dashboard 1-2-3-4
 	- Responsive media class
 
 ============= */
@@ -225,8 +226,10 @@ tr > td > label {
     width: 100%;
     height: 35vh;
     bottom: 15px;
+    max-height: 35vh;
     position: absolute;
 }
+
 
 /**====== Custom css end ======**/
 /**  =====================
