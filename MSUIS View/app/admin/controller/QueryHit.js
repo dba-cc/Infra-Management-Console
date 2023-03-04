@@ -290,8 +290,6 @@
             });
             document.getElementsByClassName('down')[0].classList.add('up');
             document.getElementsByClassName('down')[0].classList.remove('down');
-            document.getElementById('table-container').style.maxHeight = '76vh';
-            document.getElementById('table-container').style.height = '76vh';
             document.getElementsByClassName('table-responsive')[0].style.maxHeight = '76vh';
         } else {
             document.getElementById('chart-parent').style.padding = '15px';
@@ -300,8 +298,6 @@
             });
             document.getElementsByClassName('up')[0].classList.add('down');
             document.getElementsByClassName('up')[0].classList.remove('up');
-            document.getElementById('table-container').style.height = '46vh';
-            document.getElementById('table-container').style.maxHeight = '46vh';
             document.getElementsByClassName('table-responsive')[0].style.maxHeight = '46vh';
         }
         $('#resetChartButton').fadeToggle();
