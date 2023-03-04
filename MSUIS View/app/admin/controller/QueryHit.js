@@ -1,10 +1,10 @@
 ﻿app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams, $timeout) {
     $scope.QueryHitParams = new NgTableParams({}, {});
 
+    $scope.filterType = 'rel';
     $scope.timeFormat = 'MINUTE'
     $scope.time = '1'
     $scope.db = 'Query'
-
 
     $scope.o = false;
     $scope.checkIt = function () {
@@ -26,7 +26,7 @@
         $scope.temp;
         if ($scope.o == true) {
             $scope.p = $interval(function () {
-                $scope.FetchQueryHitList();
+                $scope.filterQueries();
             }, $scope.temp);
         }
     }
@@ -96,20 +96,74 @@
         });
 };*/
 
-    $scope.FetchQueryHitList = function () {
+    $scope.FetchQueryHitListWithAbs = function () {
         showLoadingScreen();
 
-        if ($scope.time === undefined) {
-            showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
-            return
-        }
         $scope.db = document.getElementById('dbname').value;
         if (document.getElementById('dbname').value == '? undefined:undefined ?') {
             $scope.db = 'Query';
             document.getElementById('dbname').value = $scope.db;
             $scope.dropdown();
         }
-        // 
+
+        var pageNum = 1; // set initial page number to 1
+        var totalData = []; // create empty array to store all data
+        console.log(totalData)
+        function fetchPage(pageNum) {
+            $http({
+                method: 'POST',
+                url: 'api/Analytics/GetQueryHitWithAbsRange',
+                data: '"' + document.getElementById('fromDate').value + ' ' + document.getElementById('fromDate').value + ' ' + $scope.db + ' ' + pageNum + '"',
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code != "200") {
+
+                        showMessage(response.obj);
+
+                    }
+                    else {
+
+                        totalData = totalData.concat(response.obj.data);// append data to totalData array
+                        if (response.obj.data.length > 0) { // if there is more data, fetch next page
+
+                            setTimeout(function () {
+                                fetchPage(pageNum + 1);
+                            }, 0)
+
+                        } else { // if no more data, update table params with totalData
+                            $scope.QueryHitParams = new NgTableParams({
+                                count: totalData.length
+                            }, {
+                                dataset: totalData,
+
+                            });
+                            $scope.generateChart(totalData);
+                            hideLoadingScreen();
+
+                        }
+                    }
+
+                })
+                .error(function (res) {
+                    showMessage(res.obj);
+                    hideLoadingScreen();
+                });
+        }
+
+        fetchPage(pageNum); // start fetching first page
+    };
+
+    $scope.FetchQueryHitList = function () {
+        showLoadingScreen();
+
+        $scope.db = document.getElementById('dbname').value;
+        if (document.getElementById('dbname').value == '? undefined:undefined ?') {
+            $scope.db = 'Query';
+            document.getElementById('dbname').value = $scope.db;
+            $scope.dropdown();
+        }
+
 
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data
@@ -367,13 +421,72 @@
         $scope.chart.resetZoom();
     }
 
-    /*  $scope.showPopup = function (data) {
+    $scope.showPopup = function () {
           $('#inputPopup').modal({
               context: '.parent-container'
-          }).modal('show');
-          document.getElementById('query').innerText = data
-  
-      }*/
+          }).modal('show');  
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        var day = ('0' + currentDate.getDate()).slice(-2);
+        document.getElementById('fromDate').max = year + '-' + month + '-' + day;
+        document.getElementById('toDate').max = year + '-' + month + '-' + day;
+      }
+
+    $scope.toggleFilterType = function (type) {
+        if (type == 'abs') {
+            document.getElementById('rel-div').style.borderColor = 'lightgray'
+            document.getElementById('abs-div').style.borderColor = 'green'
+            document.getElementById('fromDate').disabled = false
+            document.getElementById('toDate').disabled = false
+            document.getElementById('timeInput').disabled = true
+            document.getElementById('formatInputDiv').style.pointerEvents = 'none'
+            $('#formatInputDiv').removeClass('green')
+        } else {
+            document.getElementById('abs-div').style.borderColor = 'lightgray'
+            document.getElementById('rel-div').style.borderColor = 'green'
+            document.getElementById('fromDate').disabled = true
+            document.getElementById('toDate').disabled = true
+            document.getElementById('timeInput').disabled = false
+            document.getElementById('formatInputDiv').style.pointerEvents = 'auto'
+            $('#formatInputDiv').addClass('green')
+        }
+    } 
+
+    $scope.filterQueries = function () { 
+        if (document.getElementsByName('filtertype')[0].checked) {
+            $scope.filterType = 'rel'
+        } else {
+            $scope.filterType = 'abs'
+        }
+        if ($scope.filterType == 'abs') {
+            if (document.getElementById('fromDate').value == '' || document.getElementById('toDate').value == '') {
+                showMessage('Enter date range!');
+                return;
+            }
+            var fromDate = new Date($scope.fromDate);
+            var year = fromDate.getFullYear();
+            var month = ('0' + (fromDate.getMonth() + 1)).slice(-2);
+            var day = ('0' + fromDate.getDate()).slice(-2);
+            $scope.fromDate = year + '-' + month + '-' + day;
+
+            var toDate = new Date($scope.toDate);
+            var year = toDate.getFullYear();
+            var month = ('0' + (toDate.getMonth() + 1)).slice(-2);
+            var day = ('0' + toDate.getDate()).slice(-2);
+            $scope.toDate = year + '-' + month + '-' + day;
+            console.log($scope.toDate)
+            $scope.hidePopup();
+            $scope.FetchQueryHitListWithAbs();
+        } else {
+            if ($scope.time === undefined) {
+                showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
+                return
+            }
+            $scope.hidePopup();
+            $scope.FetchQueryHitList();
+        }
+    }
 
     $scope.hidePopup = function () {
         $('#inputPopup').modal('hide');

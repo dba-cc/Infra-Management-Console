@@ -112,59 +112,80 @@
         <div class="col-sm-12">
             <div class="parent-container">
                 <!--Query popup-->
-                <div class="ui small modal" id="inputPopup">
+                <div class="ui mini modal" id="inputPopup">
                     <i class="close icon"></i>
                     <div class="header">
-                        Query
+                        Filter
                     </div>
                     <div class="content">
-                        <form class="ui small form">
-                            <div class="field scrollbar">
-                                <textarea id="query" readonly class="ui textarea" style="font-family: monospace;"></textarea>
+                        <form class="ui mini form">
+                            <div class="field">
+                                <div class="ui green floating dropdown labeled search icon button" style=" padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
+                                    <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
+                                        <option class="item" value="Query">Query</option>
+                                        <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                                    </select>
+                                    <i class="bi bi-database-fill-check icon"></i>
+                                    <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                                    <div class="default text">Select Database</div>
+                                    <div class="menu">
+                                        <div class="item" data-value="Query">Query</div>
+                                        <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid green; border-radius: 15px; padding: 15px;" id="rel-div">
+                                <div>
+                                    <input ng-click="toggleFilterType('rel')" type="radio" checked name="filtertype" style="margin-top: 4px !important;position: fixed;"><label style="margin-left: 20px !important; margin-top: 2px !important; font-size: 13px;"><b>Relative</b></label>
+                                </div>
+                                <div>
+                                    <div class="field" style="display: flex; ">
+                                        <div id="formatInputDiv" class="ui green floating mini dropdown labeled icon button" ng-click="dropdown()" style="margin: 10px;float: left;" ng-model="timeFormat" ng-change="changeFormat()">
+                                            <select class="ui search selection dropdown" ng-model="timeFormat" ng-change="changeFormat()">
+                                                <option class="item" value="Day">Day</option>
+                                                <option class="item" value="Hour">Hour</option>
+                                                <option class="item" value="Minute">Minute</option>
+                                            </select>
+                                            <i class="angle right icon"></i>
+                                            <span class="text" style=" color: white; margin: 0">Select Format</span>
+                                            <div class="menu">
+                                                <div class="item" data-value="Day">Day</div>
+                                                <div class="item" data-value="Hour">Hour</div>
+                                                <div class="item" data-value="Minute">Minute</div>
+                                            </div>
+                                        </div>
+                                        <div class="ui icon input" style="float: left; display:none" id="timeInputDiv">
+                                            <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style=" height: 35px; margin-top: 7px; border-radius: 15px" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid lightgray; border-radius: 15px; padding: 15px; margin-top: 10px" id="abs-div">
+                                <div>
+                                    <input ng-click="toggleFilterType('abs')" type="radio" name="filtertype" style="margin-top: 4px !important;position: fixed;"><label style="margin-left: 20px !important; margin-top: 2px !important; font-size: 13px;"><b>Absolute</b></label>
+                                </div>
+                                <div>
+                                    <div class="field" style="display: flex; ">
+                                        <label style=" font-size: 12px; margin: 8px;">From</label><input id="fromDate" disabled type="date" style="width: 107px;" ng-model="fromDate"/>
+                                        <label style=" font-size: 12px; margin: 8px;">to</label><input id="toDate" disabled type="date" style="width: 107px;" ng-model="toDate"/>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="actions">
-                        <button class="ui button" ng-click="hidePopup()">Ok</button>
+                        <button class="ui button" ng-click="hidePopup()">Cancel</button>
+                        <button class="ui button" ng-click="filterQueries()">Apply</button>
                     </div>
                 </div>
                 <div class="card main-card">
                     <div class="card-header">
-                        <div class="ui green floating dropdown labeled search icon button" style="float: left; padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
-                            <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
-                                <!-- <option class="item" value="">Select Database</option>-->
-                                <option class="item" value="Query">Query</option>
-                                <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
-                            </select>
-                            <i class="bi bi-database-fill-check icon"></i>
-                            <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
-                            <div class="default text">Select Database</div>
-                            <div class="menu">
-                                <!-- <div class="item" data-value="">Select Database</div>-->
-                                <div class="item" data-value="Query">Query</div>
-                                <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                            <div class="ui dropdown blue labeled icon button" ng-click="showPopup()" style="float: left; padding-bottom: 14px;">
+                                Filter
+                                <i class="filter icon"></i>
                             </div>
-                        </div>
-                        <div class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left; padding-bottom: 14px;" ng-model="timeFormat" ng-change="changeFormat()">
-                            <select class="ui search selection dropdown" ng-model="timeFormat" ng-change="changeFormat()">
-                                <option class="item" value="Day">Day</option>
-                                <option class="item" value="Hour">Hour</option>
-                                <option class="item" value="Minute">Minute</option>
-                            </select>
-                            <i class="angle right icon"></i>
-                            <span class="text" style=" color: white; margin: 0">Select Format</span>
-                            <div class="menu">
-                                <div class="item" data-value="Day">Day</div>
-                                <div class="item" data-value="Hour">Hour</div>
-                                <div class="item" data-value="Minute">Minute</div>
-                            </div>
-                        </div>
-                        <div class="ui icon input" style="margin-left: 10px; float: left; display:none" id="timeInputDiv">
-                            <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style="border-radius: 15px" required>
-                            <i name="fetch" type="button" ng-click="FetchQueryHitList()" class="sync alternate green link icon"></i>
-                        </div>
-                        <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px;" aria-hidden="false">
-                            <div class="ui dropdown labeled icon button" ng-click="FetchQueryHitList()" style="float: left; padding-bottom: 14px;">
+                        <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 7px;" aria-hidden="false">
+                            <div class="ui dropdown labeled icon button" ng-click="filterQueries()" style="float: left; padding-bottom: 14px;">
                                 Refresh
                                 <i class="sync alternate white link icon"></i>
                             </div>

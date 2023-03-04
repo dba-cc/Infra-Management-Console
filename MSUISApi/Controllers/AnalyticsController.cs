@@ -164,6 +164,78 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetQueryHitWithAbsRange([FromBody] String timeFormat_time)
+        {
+            try
+            {
+                int page = Convert.ToInt32(timeFormat_time.Split(' ')[3]);
+                int pageSize = 70; // Number of items per page
+                int startIndex = (page - 1) * pageSize;
+                int endIndex = startIndex + pageSize - 1;
+
+                String timeFormat = timeFormat_time.Split(' ')[0];
+                String time = timeFormat_time.Split(' ')[1];
+                String db = timeFormat_time.Split(' ')[2];
+                SqlCommand cmd = new SqlCommand("lasttopv2absoluterange", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@from", timeFormat);
+                cmd.Parameters.AddWithValue("@to", time);
+                cmd.Parameters.AddWithValue("@db", db);
+                Da.SelectCommand = cmd;
+                cmd.CommandTimeout = 0;
+                Da.Fill(Dt);
+
+                List<QueryHit> QueryHitList = new List<QueryHit>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = startIndex; i <= endIndex && i < Dt.Rows.Count; i++)
+                    {
+                        QueryHit queryhit = new QueryHit();
+                        DateTime myDateTime1 = Convert.ToDateTime(Dt.Rows[i]["CTime"]);
+                        queryhit.ctime = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Time"]);
+                        queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
+
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))
+                            queryhit.objectid = "Query";
+                        else
+                            queryhit.objectid = Convert.ToString(Dt.Rows[i]["Object Name"]);
+
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["DBName"])))
+                            queryhit.dbname = "Query";
+                        else
+                            queryhit.dbname = Convert.ToString(Dt.Rows[i]["DBName"]);
+
+                        queryhit.execution_count = Convert.ToInt64(Dt.Rows[i]["execution_count"]);
+                        queryhit.max_worker_time = Convert.ToInt64(Dt.Rows[i]["max_worker_time"]);
+                        queryhit.last_worker_time = Convert.ToInt64(Dt.Rows[i]["last_worker_time"]);
+                        queryhit.max_elapsed_time = Convert.ToInt64(Dt.Rows[i]["max_elapsed_time"]);
+                        queryhit.last_elapsed_time = Convert.ToInt64(Dt.Rows[i]["last_elapsed_time"]);
+                        QueryHitList.Add(queryhit);
+                    }
+                }
+
+                int totalPages = (int)Math.Ceiling((double)Dt.Rows.Count / pageSize);
+                var pagedResult = new
+                {
+                    totalPages = totalPages,
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalResults = Dt.Rows.Count,
+                    data = QueryHitList
+                };
+
+                return Return.returnHttp("200", pagedResult, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage GetCredentialAnalysis()
         {
             try
