@@ -120,7 +120,7 @@
                     <div class="content">
                         <form class="ui mini form">
                             <div class="field">
-                                <div class="ui green floating dropdown labeled search icon button" style=" padding-bottom: 14px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
+                                <div class="ui green floating dropdown labeled search icon button" style=" padding-bottom: 10px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
                                     <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
                                         <option class="item" value="Query">Query</option>
                                         <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
@@ -174,8 +174,15 @@
                         </form>
                     </div>
                     <div class="actions">
-                        <button class="ui button" ng-click="hidePopup()">Cancel</button>
-                        <button class="ui button" ng-click="filterQueries()">Apply</button>
+                        <div class="ui button" ng-click="hidePopup()" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                        </div>
+                        <div class="ui green animated button" ng-click="filterQueries()" tabindex="0" style="margin-top: -5px;">
+                            <div class="visible content">Apply</div>
+                            <div class="hidden content">
+                                <i class="check icon"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card main-card">
@@ -217,7 +224,7 @@
                     </div>
                     <div style="background-color: white; height: 56vh;">
                         <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
-                            <div style="height: 46vh; max-height: 46vh; width: 100%; transition: height 0.3s ease-out" id="table-container">
+                            <div style="height: 46vh; max-height: 46vh; width: 100%; transition: height 0.3s ease-out, padding 0.3s ease-out" id="table-container">
                                 <div class="table-responsive" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 6px 15px #aaaaaa; transition: max-height 0.3s ease-out">
                                     <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
                                         <tbody>
@@ -242,12 +249,25 @@
                                         <div class="ui blue icon button" style="float: left;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="resetChart()">
                                             <i class="undo alternate icon"></i>
                                         </div>
-                                        <div class="ui icon button" style="float: right;" id="toggleChartButton" fdprocessedid="yem6kv" ng-click="toggleChart()">
-                                            <i class="angle down icon"></i>
+
+                                        <div class="buttonset"  style="float: right;">
+                                            <button class="buttonset-button" ng-click="changeView('hide', $event)">
+                                                <i class="bi bi-square"></i>
+                                            </button>
+                                            <button class="buttonset-button active" id="split-view-button" ng-click="changeView('half', $event)" style="transform: rotate(270deg);">
+                                                <i class="bi bi-square-half"></i>
+                                            </button>
+                                            <button class="buttonset-button" ng-click="changeView('full', $event)">
+                                                <i class="bi bi-square-fill"></i>
+                                            </button>
                                         </div>
+
+                                        <!--<div class="ui icon button" style="float: right;" id="toggleChartButton" fdprocessedid="yem6kv" ng-click="toggleChart()">
+                                            <i class="angle down icon"></i>
+                                        </div>-->
                                     </div>
-                                    <div style="width: 100%; height: 83%; padding-top: 10px; max-height: 30vh" id="chart-div">
-                                        <canvas id="analytics-chart"></canvas>
+                                    <div style="width: 100%; height: 83%; padding-top: 10px;" id="chart-div">
+                                        <canvas id="analytics-chart" style=" position: absolute; bottom: 15px;"></canvas>
                                     </div>
                                 </div>
                             </div>

@@ -223,13 +223,42 @@ tr > td > label {
 }
 
 .chart-item {
+    z-index: 9;
     width: 100%;
     height: 35vh;
     bottom: 15px;
-    max-height: 35vh;
     position: absolute;
 }
 
+.buttonset {
+    display: block;
+    border-radius: 0.285714rem;
+    overflow: hidden;
+}
+
+.buttonset-button {
+    margin: 0;
+    border-radius: 0;
+    width: 2.4rem;
+    transition: background-color 0.3s ease-out;
+    padding: 0;
+    height: 2.4rem;
+    border: none;
+}
+
+    .buttonset-button:not(.active) {
+        background-color: #d9d9d9;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .buttonset-button.active {
+        background-color: #bbbbbb;
+        color: #FFFFFF;
+    }
+
+.buttonset-button:focus {
+    outline: 0 !important;
+}
 
 /**====== Custom css end ======**/
 /**  =====================

@@ -108,12 +108,11 @@
 
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data
-        console.log(totalData)
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
                 url: 'api/Analytics/GetQueryHitWithAbsRange',
-                data: '"' + document.getElementById('fromDate').value + ' ' + document.getElementById('fromDate').value + ' ' + $scope.db + ' ' + pageNum + '"',
+                data: '"' + document.getElementById('fromDate').value + ' ' + document.getElementById('toDate').value + ' ' + $scope.db + ' ' + pageNum + '"',
                 headers: { "Content-Type": 'application/json' }
             })
                 .success(function (response) {
@@ -156,7 +155,7 @@
 
     $scope.FetchQueryHitList = function () {
         showLoadingScreen();
-
+        $scope.changeView('half', null)
         $scope.db = document.getElementById('dbname').value;
         if (document.getElementById('dbname').value == '? undefined:undefined ?') {
             $scope.db = 'Query';
@@ -167,7 +166,6 @@
 
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data
-        console.log(totalData)
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
@@ -214,6 +212,7 @@
     };
 
     $scope.getDatabaseList = function () {
+
         $http({
             method: 'POST',
             url: 'api/Database/GetDatabase',
@@ -302,6 +301,7 @@
             options: {
                 maintainAspectRatio: false,
                 cutoutPercentage: 50,
+                responsive: true,
                 plugins: {
                     filler: {
                         propagate: false,
@@ -385,6 +385,7 @@
             options: {
                 maintainAspectRatio: false,
                 cutoutPercentage: 50,
+                responsive: true,
                 plugins: {
                     filler: {
                         propagate: false,
@@ -475,7 +476,6 @@
             var month = ('0' + (toDate.getMonth() + 1)).slice(-2);
             var day = ('0' + toDate.getDate()).slice(-2);
             $scope.toDate = year + '-' + month + '-' + day;
-            console.log($scope.toDate)
             $scope.hidePopup();
             $scope.FetchQueryHitListWithAbs();
         } else {
@@ -485,6 +485,41 @@
             }
             $scope.hidePopup();
             $scope.FetchQueryHitList();
+        }
+    }
+
+    $scope.changeView = function (view, event) {
+        if (event != null) {
+            $('.buttonset-button').siblings().removeClass('active');
+            event.currentTarget.classList.add('active')
+        }
+        document.getElementsByClassName('chart-item')[0].style.height = 'auto'
+        if (view == 'hide') {
+            document.getElementById('chart-parent').style.padding = 0;
+            $('#chart-parent').animate({
+                height: "50px"
+            });
+            document.getElementById('analytics-chart').style.display = 'none'
+            document.getElementsByClassName('table-responsive')[0].style.maxHeight = '76vh';
+            document.getElementById('table-container').style.padding = '0 1rem';
+            $('#resetChartButton').fadeOut();
+        } else if (view == 'half') {
+            document.getElementById('chart-parent').style.padding = '15px';
+            $('#chart-parent').animate({
+                height: "35vh"
+            });
+            document.getElementById('analytics-chart').style.display = 'block'
+            document.getElementsByClassName('table-responsive')[0].style.maxHeight = '46vh';
+            document.getElementById('table-container').style.padding = '0 1rem';
+            $('#resetChartButton').fadeIn();
+        } else {
+            document.getElementById('chart-parent').style.padding = '15px';
+            document.getElementById('analytics-chart').style.display = 'block'
+            $('#chart-parent').animate({
+                height: "84vh"
+            });
+            document.getElementById('table-container').style.padding = '40px 40px';
+            $('#resetChartButton').fadeIn();
         }
     }
 
