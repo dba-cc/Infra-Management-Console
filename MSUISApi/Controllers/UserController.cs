@@ -105,7 +105,10 @@ namespace MSUISApi.Controllers
                     {
                         User user = new User();
                         user.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
-                        user.LoginName = Convert.ToString(Dt.Rows[i]["LoginName"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["LoginName"])))
+                            user.LoginName = "-";
+                        else
+                            user.LoginName = Convert.ToString(Dt.Rows[i]["LoginName"]);
                         user.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["create_date"]);
                         UsersList.Add(user);
                     }

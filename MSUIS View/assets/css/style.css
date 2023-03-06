@@ -19,7 +19,8 @@ File: style.css
 	- Pages
 		-	Loader page, Invoice, Tasklist, Task detail, Range-slider, Counter, Maintenance, Color, FAQ, Progress, Panels & wells, Contact card, Auth pages, Flag
 		-	Gallery, Products pages, Widget, Email, Social timeline, Datatable, Chat, Blog, Wizard, CRM dashboard, Task board, Issue list, Chartlist, X-editable
-		-	Home chat, Dashboard 1-2-3-4
+		
+    -	Home chat, Dashboard 1-2-3-4
 	- Responsive media class
 
 ============= */
@@ -39,6 +40,40 @@ body {
 
 .close {
     color: red !important;
+}
+
+.tag {
+    cursor: default !important;
+    margin: 0 5px !important;
+}
+.ui.table tr .tag:hover {
+    box-shadow: 1px 0px 23px 5px black !important;
+    transition: box-shadow 0.3s ease-out, transform 0.1s ease-out !important;
+    z-index: 9 !important;
+    transform: scale(1.03);
+    position: relative;
+}
+
+.ui.labeled.button:not(.icon) {
+    border-radius: 15px !important;
+    margin: 2px !important;
+}
+
+.ui[class*="left labeled"].button > .label div {
+    padding: 2px 0 0 5px;
+}
+
+.ui[class*="left labeled"].button > .label {
+    border-radius: 15px 15px 15px 15px !important;
+}
+
+td[data-title="\'Users\'"] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ui[class*="left labeled"].button > .button {
+    border-radius: 0px 15px 15px 0px !important;
 }
 
 ul {
@@ -108,9 +143,26 @@ p {
     z-index: 1030 !important;
 }
 
+.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
+    margin: 0 !important;
+}
+
+.ui[class*="left labeled"].button > .label {
+    color: black !important;
+    background-color: #e9e9e9
+}
+
+.ui[class*="left labeled"].button > .label:hover {
+        background-color: white !important;
+}
+
 .ui.search.dropdown > input.search {
     color: white;
     font-weight: bold;
+}
+
+.ui.selection.active.dropdown .menu {
+    height: 100px !important;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -171,8 +223,41 @@ tr > td > label {
 }
 
 .chart-item {
+    z-index: 9;
     width: 100%;
     height: 35vh;
+    bottom: 15px;
+    position: absolute;
+}
+
+.buttonset {
+    display: block;
+    border-radius: 0.285714rem;
+    overflow: hidden;
+}
+
+.buttonset-button {
+    margin: 0;
+    border-radius: 0;
+    width: 2.4rem;
+    transition: background-color 0.3s ease-out;
+    padding: 0;
+    height: 2.4rem;
+    border: none;
+}
+
+    .buttonset-button:not(.active) {
+        background-color: #d9d9d9;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .buttonset-button.active {
+        background-color: #bbbbbb;
+        color: #FFFFFF;
+    }
+
+.buttonset-button:focus {
+    outline: 0 !important;
 }
 
 /**====== Custom css end ======**/

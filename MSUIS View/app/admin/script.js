@@ -1,5 +1,8 @@
 var app = angular.module('Infra-ManagementConsole', ["ui.router", 'ngMessages', 'ngCookies', "ngMaterial", "ngTable", "ngFileUpload", "ngAnimate"]);
 
+$('.loader-circle').hide();
+$('.loading-screen').hide();
+
 function showMessage(message) {
     document.getElementById('message').innerText = message
     $('#message-container').transition('fade');
@@ -9,11 +12,13 @@ function showMessage(message) {
 }
 
 function showLoadingScreen() {
-    $('.loading-screen').addClass('active');
+    $('.loading-screen').fadeIn();
+    $('.loader-circle').fadeIn();
 }
 
 function hideLoadingScreen() {
-    $('.loading-screen').removeClass('active');
+    $('.loader-circle').fadeOut()
+    $('.loading-screen').fadeOut();
 }
 
 
