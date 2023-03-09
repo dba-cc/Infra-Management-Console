@@ -5,8 +5,14 @@
     $scope.timeFormat = 'MINUTE'
     $scope.time = '1'
     $scope.db = 'Query'
+    $scope.chartfactor = 'Time'
 
+    var executionCount = [];
+    var lastElapsedTime = [];
+    var lastWorkerTime = [];
+    var sr_no = [];
     $scope.o = false;
+
     $scope.checkIt = function () {
         if (!$scope.check) {
             $scope.check = true;
@@ -22,6 +28,7 @@
             /$scope.item = "";/
         }
     }
+
     $scope.refreq = function () {
         $scope.temp;
         if ($scope.o == true) {
@@ -40,61 +47,12 @@
         document.getElementById('timeInputDiv').style.display = 'flex'
     }
 
-
-
     $scope.$watch("QueryHitParams.filter()", function (newFilter) {
         $timeout(function () {
             var filteredData = $scope.QueryHitParams.data;
             $scope.generateChart(filteredData)
         });
     }, true);
-
-
-    /*  $scope.FetchQueryHitList = function () {
-  
-          if ($scope.time === undefined) {
-              showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
-              return
-          }
-          //*if (document.getElementById('dbname').value != "") {//*
-              $scope.db = document.getElementById('dbname').value;
-         // }//
-          *//*else {
-        $scope.db = 'Query';
-        document.getElementById('dbname').value = $scope.db;
-    }//
-    if (document.getElementById('dbname').value == '? undefined:undefined ?') {
-        $scope.db = 'Query';
-        document.getElementById('dbname').value = $scope.db;
-        $scope.dropdown();
-    }
-    hideLoadingScreen();
-    $http({
-        method: 'POST',
-        url: 'api/Analytics/GetQueryHit',
-        data: '"' + $scope.timeFormat + ' ' + $scope.time + ' ' + $scope.db +'"',
-        headers: { "Content-Type": 'application/json' }
-    })
-
-        .success(function (response) {
-            if (response.response_code != "200") {
-                showMessage(response.obj);
-            }
-            else {
-                $scope.QueryHitParams = new NgTableParams({
-                    count: response.obj.length
-                }, {
-                    dataset: response.obj,
-                });
-                $scope.generateChart(response.obj)
-            }
-            hideLoadingScreen();
-        })
-        .error(function (res) {
-            showMessage(res.obj);
-            hideLoadingScreen();
-        });
-};*/
 
     $scope.FetchQueryHitListWithAbs = function () {
         showLoadingScreen();
@@ -106,8 +64,8 @@
             $scope.dropdown();
         }
 
-        var pageNum = 1; // set initial page number to 1
-        var totalData = []; // create empty array to store all data
+        var pageNum = 1;
+        var totalData = [];
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
@@ -123,14 +81,14 @@
                     }
                     else {
 
-                        totalData = totalData.concat(response.obj.data);// append data to totalData array
-                        if (response.obj.data.length > 0) { // if there is more data, fetch next page
+                        totalData = totalData.concat(response.obj.data);
+                        if (response.obj.data.length > 0) {
 
                             setTimeout(function () {
                                 fetchPage(pageNum + 1);
                             }, 0)
 
-                        } else { // if no more data, update table params with totalData
+                        } else {
                             $scope.QueryHitParams = new NgTableParams({
                                 count: totalData.length
                             }, {
@@ -150,7 +108,7 @@
                 });
         }
 
-        fetchPage(pageNum); // start fetching first page
+        fetchPage(pageNum);
     };
 
     
@@ -164,8 +122,13 @@
             $scope.dropdown();
         }
 
+<<<<<<< HEAD
         var pageNum = 1; // set initial page number to 1
         var totalData = []; // create empty array to store all data   
+=======
+        var pageNum = 1;
+        var totalData = [];
+>>>>>>> 3a8a89635d69f4f42101243c6467e83b103cae5a
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
@@ -177,18 +140,18 @@
                     if (response.response_code != "200") {
 
                         showMessage(response.obj);
-                        
+
                     }
                     else {
 
-                        totalData = totalData.concat(response.obj.data);// append data to totalData array
-                        if (response.obj.data.length > 0) { // if there is more data, fetch next page
-                           
+                        totalData = totalData.concat(response.obj.data);
+                        if (response.obj.data.length > 0) {
+
                             setTimeout(function () {
                                 fetchPage(pageNum + 1);
-                            },0)
-                            
-                        } else { // if no more data, update table params with totalData
+                            }, 0)
+
+                        } else {
                             $scope.QueryHitParams = new NgTableParams({
                                 count: totalData.length
                             }, {
@@ -208,8 +171,8 @@
                 });
         }
 
-        fetchPage(pageNum); // start fetching first page
-    };
+        fetchPage(pageNum);
+    }
 
     $scope.getDatabaseList = function () {
 
@@ -226,7 +189,6 @@
                 else {
                     $scope.DatabaseList = response.obj;
                 }
-                //hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
@@ -235,14 +197,19 @@
     };
     $scope.activator = null;
 
-    $scope.toggleCheckbox = function (e) {
-        //  angular.element(e.currentTarget.children)[0].click();
+    $scope.toggleCheckbox = function (data, e) {
         if ($scope.activator != null) {
-            //$scope.activator = null;
             $scope.activator.classList.remove('activerow');
+            $scope.activator = null;
+            $scope.generateChart(null);
+            $scope.changeFactor();
+            $('#factor-div').fadeIn();
+            return;
         }
-        $scope.activator = e.currentTarget.parentNode;
-        e.currentTarget.parentNode.classList.add('activerow');
+        $scope.activator = e.currentTarget.parentNode.parentNode;
+        e.currentTarget.parentNode.parentNode.classList.add('activerow');
+        $('#factor-div').fadeOut();
+        $scope.qhgraph(data);
     }
 
     $scope.qhgraph = function (data) {
@@ -250,17 +217,15 @@
         $http({
             method: 'POST',
             url: 'api/Analytics/GetQHGraph',
-            data: '"' + data.ctime + ',' + data.dbname +'"',
+            data: '"' + data.ctime + ',' + data.dbname + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
             .success(function (response) {
                 if (response.response_code == "201") {
-                    // $scope.DatabaseList = {};
+                    $scope.DatabaseList = {};
                 }
                 else {
-                    // $scope.DatabaseList = response.obj;
-
                     $scope.generateQueryChart(response.obj)
 
                 }
@@ -279,7 +244,6 @@
         var execution_count = data.map(function (obj) {
             return obj.execution_count;
         });
-
 
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
@@ -358,21 +322,32 @@
     }
 
     $scope.generateChart = function (data) {
-        var datetime = data.map(function (obj) {
-            return obj.time.trim();
-        });
-        var lastWorkerTime = data.map(function (obj) {
-            return obj.last_worker_time;
-        });
-
+        
+        if (data != null) {
+            var sr_no_count = 0;
+            sr_no = data.map(function (obj) {
+                return sr_no_count++;
+            });
+            lastWorkerTime = data.map(function (obj) {
+                return obj.last_worker_time;
+            });
+            lastElapsedTime = data.map(function (obj) {
+                return obj.last_elapsed_time;
+            });
+            executionCount = data.map(function (obj) {
+                return obj.execution_count;
+            });
+        }
+        
         const chartCanvas = document.getElementById('analytics-chart');
         if (typeof $scope.chart !== 'undefined') {
             $scope.chart.destroy();
         }
+
         $scope.chart = new Chart(chartCanvas, {
             type: 'line',
             data: {
-                labels: datetime,
+                labels: sr_no,
                 datasets: [{
                     label: ' Last Worker Time (ms)',
                     data: lastWorkerTime,
@@ -380,12 +355,26 @@
                     backgroundColor: '#27bc1a3b',
                     borderColor: '#20bb40ad',
                     fill: true
+                }, {
+                    label: ' Last Elapsed Time (ms)',
+                    data: lastElapsedTime,
+                    borderWidth: 3,
+                    backgroundColor: '#2185D03B',
+                    borderColor: '#2185D0AD',
+                    fill: true
                 }]
             },
             options: {
                 maintainAspectRatio: false,
                 cutoutPercentage: 50,
                 responsive: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 500,
+                        }
+                    }
+                },
                 plugins: {
                     filler: {
                         propagate: false,
@@ -423,16 +412,16 @@
     }
 
     $scope.showPopup = function () {
-          $('#inputPopup').modal({
-              context: '.parent-container'
-          }).modal('show');  
+        $('#inputPopup').modal({
+            context: '.parent-container'
+        }).modal('show');
         var currentDate = new Date();
         var year = currentDate.getFullYear();
         var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
         var day = ('0' + currentDate.getDate()).slice(-2);
         document.getElementById('fromDate').max = year + '-' + month + '-' + day;
         document.getElementById('toDate').max = year + '-' + month + '-' + day;
-      }
+    }
 
     $scope.toggleFilterType = function (type) {
         if (type == 'abs') {
@@ -452,9 +441,13 @@
             document.getElementById('formatInputDiv').style.pointerEvents = 'auto'
             $('#formatInputDiv').addClass('green')
         }
-    } 
+    }
 
-    $scope.filterQueries = function () { 
+    $scope.filterQueries = function () {
+        if ($scope.Database == undefined) {
+            showMessage('Select Database!');
+            return;
+        }
         if (document.getElementsByName('filtertype')[0].checked) {
             $scope.filterType = 'rel'
         } else {
@@ -477,6 +470,8 @@
             var day = ('0' + toDate.getDate()).slice(-2);
             $scope.toDate = year + '-' + month + '-' + day;
             $scope.hidePopup();
+            var db = $scope.Database.name == 'Query' ? 'System Queries' : 'Database : ' + $scope.Database.name
+            document.getElementById('filter-label').innerText = db + ', From ' + $scope.fromDate + ' To ' + $scope.toDate
             $scope.FetchQueryHitListWithAbs();
         } else {
             if ($scope.time === undefined) {
@@ -484,6 +479,9 @@
                 return
             }
             $scope.hidePopup();
+            var db = $scope.Database.name == 'Query' ? 'System Queries' : 'Database : ' + $scope.Database.name
+            var timeFormat = $scope.time == '1' ? $scope.timeFormat : $scope.timeFormat + 's'
+            document.getElementById('filter-label').innerText = db + ', Past ' + $scope.time + ' ' + timeFormat 
             $scope.FetchQueryHitList();
         }
     }
@@ -492,6 +490,10 @@
         if (event != null) {
             $('.buttonset-button').siblings().removeClass('active');
             event.currentTarget.classList.add('active')
+        } else {
+            document.getElementById('split-view-button').classList.add('active');
+            document.getElementById('hideChartButton').classList.remove('active');
+            document.getElementById('fullChartButton').classList.remove('active');
         }
         document.getElementsByClassName('chart-item')[0].style.height = 'auto'
         if (view == 'hide') {
@@ -502,7 +504,7 @@
             document.getElementById('analytics-chart').style.display = 'none'
             document.getElementsByClassName('table-responsive')[0].style.maxHeight = '76vh';
             document.getElementById('table-container').style.padding = '0 1rem';
-            $('#resetChartButton').fadeOut();
+            $('#chart-options').fadeOut();
         } else if (view == 'half') {
             document.getElementById('chart-parent').style.padding = '15px';
             $('#chart-parent').animate({
@@ -511,7 +513,7 @@
             document.getElementById('analytics-chart').style.display = 'block'
             document.getElementsByClassName('table-responsive')[0].style.maxHeight = '46vh';
             document.getElementById('table-container').style.padding = '0 1rem';
-            $('#resetChartButton').fadeIn();
+            $('#chart-options').fadeIn();
         } else {
             document.getElementById('chart-parent').style.padding = '15px';
             document.getElementById('analytics-chart').style.display = 'block'
@@ -519,7 +521,47 @@
                 height: "84vh"
             });
             document.getElementById('table-container').style.padding = '40px 40px';
-            $('#resetChartButton').fadeIn();
+            $('#chart-options').fadeIn();
+        }
+    }
+
+    $scope.changeFactor = function () {
+        if ($scope.chartfactor == 'Count') { 
+            var dataset = {
+                 label: ' Execution Count',
+                 data: executionCount,
+                 borderWidth: 3,
+                 backgroundColor: '#DB28283B',
+                 borderColor: '#DB2828AD',
+                 fill: true
+            }
+            $scope.chart.data.datasets = []
+            $scope.chart.data.datasets.push(dataset);
+            $scope.chart.options.scales.y.ticks.stepSize = 1;
+            $scope.chart.update();
+            console.log($scope.chart.data.datasets);
+        } else if ($scope.chartfactor == 'Time') {
+            var dataset = [
+                {
+                    label: ' Last Worker Time (ms)',
+                    data: lastWorkerTime,
+                    borderWidth: 3,
+                    backgroundColor: '#27bc1a3b',
+                    borderColor: '#20bb40ad',
+                    fill: true
+                }, {
+                    label: ' Last Elapsed Time (ms)',
+                    data: lastElapsedTime,
+                    borderWidth: 3,
+                    backgroundColor: '#2185D03B',
+                    borderColor: '#2185D0AD',
+                    fill: true
+                }
+            ]
+            $scope.chart.data.datasets = []
+            $scope.chart.data.datasets = dataset;
+            $scope.chart.options.scales.y.ticks.stepSize = 500;
+            $scope.chart.update();
         }
     }
 

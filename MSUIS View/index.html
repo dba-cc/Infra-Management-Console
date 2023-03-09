@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -138,4 +139,162 @@
         </div>
     </div>
 </body>
+=======
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Infra-Management Console</title>
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="Styles/Semantic-UI-CSS/semantic.min.css" />
+
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+    <script src="scripts/angular/angular.min.js"></script>
+    <script src="scripts/angular/angular-ui-router.min.js"></script>
+
+    <script src="scripts/angular/ng-file-upload.min.js"></script>
+    <script src="scripts/angular/ng-table.js"></script>
+    <script src="scripts/angular/angular-cookies.min.js"></script>
+    <script src="scripts/angular/angular-aria.min.js"></script>
+    <script src="scripts/angular/angular-messages.min.js"></script>
+
+    <script src="scripts/angular/angular-material.min.js"></script>
+    <script src="scripts/angular/angular-animate.min.js"></script>
+
+    <script src="app/admin/script.js"></script>
+
+    <script src="app/common/directives/sidenav.js"></script>
+    <script src="app/admin/controller/dashboard.js"></script>
+    <script src="app/admin/controller/User.js"></script>
+    <script src="app/admin/controller/Permission.js"></script>
+    <script src="app/admin/controller/SPPermission.js"></script>
+    <script src="app/admin/controller/DBPermission.js"></script>
+    <script src="app/admin/controller/RestoreBackup.js"></script>
+    <script src="app/admin/controller/PermReport.js"></script>
+    <script src="app/admin/controller/AutoBackup.js"></script>
+    <script src="app/admin/controller/QueryHit.js"></script>
+    <script src="app/admin/controller/CredentialAnalytics.js"></script>
+    <script src="app/admin/controller/LockAnalysis.js"></script>
+    <script src="app/admin/controller/UserLogin.js"></script>
+
+    <script type="text/javascript" src="bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+
+    <script type="text/javascript" src="bower_components/i18next/js/i18next.min.js"></script>
+    <script type="text/javascript" src="bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+    <script src="assets/js/pcoded.min.js"></script>
+
+    <script src="Styles/Semantic-UI-CSS/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.0/chartjs-plugin-zoom.min.js" integrity="sha512-B6F98QATBNaDHSE7uANGo5h0mU6fhKCUD+SPAY7KZDxE8QgZw9rewDtNiu3mbbutYDWOKT3SPYD8qDBpG2QnEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <style>
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            z-index: 9999;
+            top: 45%;
+            position: relative;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+        }
+
+        .loader-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .loader-block {
+            display: inline-block;
+            width: 10px;
+            height: 40px;
+            margin: 3px;
+            border-radius: 15px;
+            background-color: #20bb40ad;
+            animation: loader_562 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+            .loader-block:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .loader-block:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .loader-block:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            .loader-block:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+
+            .loader-block:nth-child(5) {
+                animation-delay: 0.5s;
+            }
+
+        @keyframes loader_562 {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+                background-color: #20bb40;
+            }
+
+            20% {
+                transform: scale(1, 2.5);
+                box-shadow: 0 0 50px rgba(255, 255, 255, 0.7);
+            }
+
+            40% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+    </style>
+</head>
+
+<body ng-app="Infra-ManagementConsole">
+    <div class="ui blurring segment" style="margin: 0px; padding: 0; border: 0; border-radius: 0; width: 100%; height: 100%; position: absolute">
+        <div class="ui dimmer active loading-screen" style="z-index: 1030; background-color: black !important; opacity: 0.7">
+        </div>
+        <div class="loader">
+            <div class="loader-inner loader-circle">
+                <div class="loader-block"></div>
+                <div class="loader-block"></div>
+                <div class="loader-block"></div>
+                <div class="loader-block"></div>
+                <div class="loader-block"></div>
+            </div>
+        </div>
+
+    </div>
+    <div ui-view="">
+    </div>
+    <div class="ui float message" id="message-container">
+        <div class="content">
+            <p id="message"></p>
+        </div>
+    </div>
+</body>
+>>>>>>> 3a8a89635d69f4f42101243c6467e83b103cae5a
 </html>
