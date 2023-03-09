@@ -153,6 +153,7 @@
         fetchPage(pageNum); // start fetching first page
     };
 
+    
     $scope.FetchQueryHitList = function () {
         showLoadingScreen();
         $scope.changeView('half', null)
@@ -163,9 +164,8 @@
             $scope.dropdown();
         }
 
-
         var pageNum = 1; // set initial page number to 1
-        var totalData = []; // create empty array to store all data
+        var totalData = []; // create empty array to store all data   
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
