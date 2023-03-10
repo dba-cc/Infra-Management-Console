@@ -122,13 +122,8 @@
             $scope.dropdown();
         }
 
-<<<<<<< HEAD
-        var pageNum = 1; // set initial page number to 1
-        var totalData = []; // create empty array to store all data   
-=======
         var pageNum = 1;
         var totalData = [];
->>>>>>> 3a8a89635d69f4f42101243c6467e83b103cae5a
         function fetchPage(pageNum) {
             $http({
                 method: 'POST',
