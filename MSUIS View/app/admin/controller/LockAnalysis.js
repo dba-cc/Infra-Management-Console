@@ -12,37 +12,38 @@
             $scope.check = false;
             $('#freq').fadeOut();
             $scope.o = false;
-            $interval.cancel($scope.p);
-            $interval.cancel($scope.c);
-            document.getElementById('placeholder').innerText = 'Auto Refresh Freq'
+            $interval.cancel($scope.plocklock);
+            $interval.cancel($scope.clocklock);
+            document.getElementById('placeholderforlock').innerText = 'Auto Refresh Freq'
             /*$scope.item = "";*/
         }
         console.log($scope.check)
     }
-    $scope.refreq = function () {
-        $interval.cancel($scope.c);
-        $interval.cancel($scope.p);
-        //clearInterval($scope.p);
-        // $scope.temp;        
+    $scope.refreqforlock = function () {
+        $interval.cancel($scope.clock);
+        $interval.cancel($scope.plock);
+        //clearInterval($scope.plock);
+        // $scope.templock;        
         if ($scope.o == true) { // check if auto refresh is on or off
-            $scope.tep($scope.temp);
-            $scope.p = $interval(function () {
-                $interval.cancel($scope.c);
-                console.log($scope.temp)
+            $scope.tepforlock($scope.templock);
+            $scope.plock = $interval(function () {
+                $interval.cancel($scope.clock);
+                console.log($scope.templock)
                 $scope.GetLocksAnalysis();
-                $scope.tep($scope.temp)
-                $scope.filterQueries();
-            }, $scope.temp);
+
+                $scope.tepforlock($scope.templock)
+                $scope.GetLocksAnalysis();
+            }, $scope.templock);
         }
     }
 
-    $scope.tep = function (b) {
+    $scope.tepforlock = function (b) {
         var a = (b / 1000);
         /* var minutes = Math.floor(a / 60);
          var seconds = a % 60; 
          console.log( minutes +' : '+ seconds )*/
-        $scope.c = $interval(function () {
-            document.getElementById('placeholder').innerText = ' ' + --a + ' sec';
+        $scope.clock = $interval(function () {
+            document.getElementById('placeholderforlock').innerText = ' ' + --a + ' sec';
             /* document.getElementById('placeholder').innerText = ' ' + minutes + ' : ' + --seconds + ' sec';*/
         }, 1000);
     }
