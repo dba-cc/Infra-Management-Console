@@ -30,7 +30,6 @@
                 $interval.cancel($scope.c);
                 console.log($scope.temp)
                 $scope.GetLocksAnalysis();
-
                 $scope.tep($scope.temp)
                 $scope.filterQueries();
             }, $scope.temp);
