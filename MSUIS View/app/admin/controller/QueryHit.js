@@ -2,7 +2,7 @@
     $scope.QueryHitParams = new NgTableParams({}, {});
 
     $scope.filterType = 'rel';
-    $scope.timeFormat = 'MINUTE'
+    $scope.timeFormat = 'Minute'
     $scope.time = '1'
     $scope.db = 'Query'
     $scope.chartfactor = 'Time'
@@ -460,8 +460,7 @@
 
     $scope.filterQueries = function () {
         if ($scope.Database == undefined) {
-            showMessage('Select Database!');
-            return;
+            $scope.Database = { name:'Query'}
         }
         if (document.getElementsByName('filtertype')[0].checked) {
             $scope.filterType = 'rel'
@@ -485,7 +484,12 @@
             var day = ('0' + toDate.getDate()).slice(-2);
             $scope.toDate = year + '-' + month + '-' + day;
             $scope.hidePopup();
-            var db = $scope.Database.name == 'Query' ? 'System Queries' : 'Database : ' + $scope.Database.name
+            var db;
+            if ($scope.Database.name == 'Query' || $scope.Database.name == undefined) {
+                db = 'System Queries'
+            } else {
+                db = 'Database : ' + $scope.Database.name
+            } 
             document.getElementById('filter-label').innerText = db + ', From ' + $scope.fromDate + ' To ' + $scope.toDate
             $scope.FetchQueryHitListWithAbs();
         } else {
