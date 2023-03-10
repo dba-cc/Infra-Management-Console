@@ -24,18 +24,39 @@
             $('#freq').fadeOut();
             $scope.o = false;
             $interval.cancel($scope.p);
+            $interval.cancel($scope.c);
+            document.getElementById('placeholder').innerText = 'Auto Refresh Freq'
             document.getElementById('freq').value = "";
             /$scope.item = "";/
         }
     }
 
     $scope.refreq = function () {
-        $scope.temp;
-        if ($scope.o == true) {
+        $interval.cancel($scope.c);
+        $interval.cancel($scope.p);
+        //clearInterval($scope.p);
+        // $scope.temp;        
+        if ($scope.o == true) { // check if auto refresh is on or off
+            $scope.tep($scope.temp);
             $scope.p = $interval(function () {
+                $interval.cancel($scope.c);
+                console.log($scope.temp)
+                $scope.FetchQueryHitList();
+                $scope.tep($scope.temp)
                 $scope.filterQueries();
             }, $scope.temp);
         }
+    }
+
+    $scope.tep = function (b) {
+        var a = (b / 1000);
+        /* var minutes = Math.floor(a / 60);
+         var seconds = a % 60; 
+         console.log( minutes +' : '+ seconds )*/
+        $scope.c = $interval(function () {
+            document.getElementById('placeholder').innerText = ' ' + --a + ' sec';
+            /* document.getElementById('placeholder').innerText = ' ' + minutes + ' : ' + --seconds + ' sec';*/
+        }, 1000);
     }
 
     $scope.dropdown = function () {
