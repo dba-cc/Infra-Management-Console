@@ -314,28 +314,6 @@
 
     }
 
-    $scope.toggleChart = function () {
-        document.getElementsByClassName('chart-item')[0].style.height = 'auto'
-        if (document.getElementById('chart-parent').style.padding != '0px') {
-            document.getElementById('chart-parent').style.padding = 0;
-            $('#chart-parent').animate({
-                height: "50px"
-            });
-            document.getElementsByClassName('down')[0].classList.add('up');
-            document.getElementsByClassName('down')[0].classList.remove('down');
-            document.getElementsByClassName('table-responsive')[0].style.maxHeight = '76vh';
-        } else {
-            document.getElementById('chart-parent').style.padding = '15px';
-            $('#chart-parent').animate({
-                height: "35vh"
-            });
-            document.getElementsByClassName('up')[0].classList.add('down');
-            document.getElementsByClassName('up')[0].classList.remove('up');
-            document.getElementsByClassName('table-responsive')[0].style.maxHeight = '46vh';
-        }
-        $('#resetChartButton').fadeToggle();
-    }
-
     $scope.generateChart = function (data) {
         
         if (data != null) {

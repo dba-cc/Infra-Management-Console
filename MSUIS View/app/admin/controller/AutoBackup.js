@@ -82,6 +82,34 @@
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
             });
+        $scope.GetAutoBackupLogs()
+    };
+
+    $scope.GetAutoBackupLogs = function () {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/AutoBackup/GetAutoBackupLogs',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.LogParams = new NgTableParams({
+                        count: response.obj.length
+                    }, {
+                        dataset: response.obj
+                    });
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
     };
 
     $scope.deleteSchedule = function () {
@@ -159,6 +187,31 @@
                 hideLoadingScreen();
             });
     };
+
+    $scope.showLog = false;
+    $scope.changeView = function () {
+        $scope.showLog = !$scope.showLog
+        console.log($scope.showLog)
+        document.getElementsByClassName('chart-item')[0].style.height = 'auto'
+        if (!$scope.showLog) {
+            document.getElementById('chart-parent').style.padding = 0;
+            $('#chart-parent').animate({
+                height: "50px"
+            });
+            document.getElementsByClassName('table-responsive')[0].style.maxHeight = '76vh';
+            document.getElementById('table-container').style.padding = '0 1rem';
+            $('#chart-options').fadeOut();
+        } else {
+            document.getElementById('chart-parent').style.padding = '15px';
+            $('#chart-parent').animate({
+                height: "84vh"
+            });
+            document.getElementById('table-container').style.padding = '40px 40px';
+            $('#chart-options').fadeIn();
+        }
+    }
+
+
     $scope.showAddPopup = function () {
         $('.addPopup').modal({
             context: '#parent-container',

@@ -166,30 +166,67 @@
                         </button>
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="clock icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Schedule Backup</h3>
                     </div>
-                    <div class="card-block scrollbar" id="table-parent-container">
-                        <div class="table-responsive">
-                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="ScheduleParams" show-filter="true">
-                                <tbody>
-                                    <tr ng-repeat="Schedule in $data">
-                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                        <td data-title="'Database'" filter="{DB: 'text'}" sortable="'DB'" style=" border-top: none;"><label>{{Schedule.DB}}</label></td>
-                                        <td data-title="'Job Name'" filter="{JobName: 'text'}" sortable="'JobName'" style=" border-top: none;"><label>{{Schedule.JobName}}</label></td>
-                                        <td data-title="'Frequency'" filter="{Frequency: 'text'}" sortable="'Frequency'" style=" border-top: none;"><label>{{Schedule.Frequency}}</label></td>
-                                        <td data-title="'Backup Type'" filter="{BackupType: 'text'}" sortable="'BackupType'" style=" border-top: none;"><label>{{Schedule.BackupType}}</label></td>
-                                        <td data-title="'Next Run Date'" filter="{NextRunDate: 'text'}" sortable="'NextRunDate'" style=" border-top: none;"><label>{{Schedule.NextRunDate}}</label></td>
-                                        <td data-title="'Next Run Time'" filter="{NextRunTime: 'text'}" sortable="'NextRunTime'" style=" border-top: none;"><label>{{Schedule.NextRunTime}}</label></td>
-                                        <td data-title="'Enabled'" filter="{Enabled: 'text'}" sortable="'Enabled'" style=" border-top: none;"><label>{{Schedule.Enabled}}</label></td>
-                                        <td data-title="'Actions'" style=" border-top: none;">
-                                            <div layout="row">
-                                                <span flex></span>
-                                                <button class="ui icon red button" ng-click="showDeletePopup(Schedule)" data-inverted="" data-tooltip="Delete Schedule" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
-                                                    <i class="trash alternate icon"></i>
-                                                </button>
+
+                    <div style="background-color: white; height: 56vh;">
+                        <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
+                            <div style="height: 46vh; max-height: 46vh; width: 100%; transition: height 0.3s ease-out, padding 0.3s ease-out" id="table-container">
+                                <div class="table-responsive" style="max-height: 76vh; height: auto; width: 100%; box-shadow: 0 6px 15px #aaaaaa; transition: max-height 0.3s ease-out">
+                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="ScheduleParams" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="Schedule in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Database'" filter="{DB: 'text'}" sortable="'DB'" style=" border-top: none;"><label>{{Schedule.DB}}</label></td>
+                                                <td data-title="'Job Name'" filter="{JobName: 'text'}" sortable="'JobName'" style=" border-top: none;"><label>{{Schedule.JobName}}</label></td>
+                                                <td data-title="'Frequency'" filter="{Frequency: 'text'}" sortable="'Frequency'" style=" border-top: none;"><label>{{Schedule.Frequency}}</label></td>
+                                                <td data-title="'Backup Type'" filter="{BackupType: 'text'}" sortable="'BackupType'" style=" border-top: none;"><label>{{Schedule.BackupType}}</label></td>
+                                                <td data-title="'Next Run Date'" filter="{NextRunDate: 'text'}" sortable="'NextRunDate'" style=" border-top: none;"><label>{{Schedule.NextRunDate}}</label></td>
+                                                <td data-title="'Next Run Time'" filter="{NextRunTime: 'text'}" sortable="'NextRunTime'" style=" border-top: none;"><label>{{Schedule.NextRunTime}}</label></td>
+                                                <td data-title="'Enabled'" filter="{Enabled: 'text'}" sortable="'Enabled'" style=" border-top: none;"><label>{{Schedule.Enabled}}</label></td>
+                                                <td data-title="'Actions'" style=" border-top: none;">
+                                                    <div layout="row">
+                                                        <span flex></span>
+                                                        <button class="ui icon red button" ng-click="showDeletePopup(Schedule)" data-inverted="" data-tooltip="Delete Schedule" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                            <i class="trash alternate icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="chart-item" style=" height: auto;">
+                                <div style="box-shadow: 0 6px 15px #aaaaaa; width: 100%; height: 50px; transition: padding 0.3s ease-out 0s; border-radius: 15px; background: white; overflow: hidden;" id="chart-parent">
+                                    <div class="card-header" style="height: 50px !important; padding: 7px 20px;">
+                                        <div id="chart-options">
+                                            <div class="ui blue icon button" style="float: left;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="GetAutoBackupLogs()">
+                                                <i class="undo alternate icon"></i>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </div>
+                                        <div class="ui icon button" style="float: right;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="changeView()">
+                                            <i class="angle icon" ng-class="{'down' : showLog, 'up' : !showLog}"></i>
+                                        </div>
+                                        <h3 style="text-align: center;margin-bottom: 0; margin-top: 0px; padding-top: 6px">Logs</h3>
+                                    </div>
+                                    <div style="float: left; width: 100%; height: 93%; padding-top: 10px;" id="chart-div">
+                                        <div class="table-responsive" style=" border: 2px solid lightgrey; max-height: 100%">
+                                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="LogParams">
+                                                <tbody>
+                                                    <tr ng-repeat="Log in $data">
+                                                        <td data-title="'Job'"><label>{{Log.JobName}}</label></td>
+                                                        <td data-title="'Step'"><label>{{Log.StepName}}</label></td>
+                                                        <td data-title="'Status'" style=" display: flex; justify-content: center;" >
+                                                            <i title="{{Log.RunStatus}}" style="font-size: 1.3rem; width: 100%; height: 100%;" class="icon" ng-class="{'Succeeded' : 'bi bi-check-lg', 'Failed' : 'bi bi-x', 'Retry' : 'bi bi-arrow-clockwise', 'Cancelled' : 'bi bi-x-circle', 'In Progress' : 'bi bi-clock'}[Log.RunStatus]"></i>
+                                                        </td>
+                                                        <td data-title="'Date/Time'"><label>{{Log.RunDateTime}}</label></td>
+                                                        <td data-title="'Message'"><label title="{{Log.Message}}">{{Log.Message  | limitTo:135}}...</label></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -50,7 +50,7 @@
                 });
             }
         }],
-        link: function (scope, element, attrs) {    
+        link: function (scope, element, attrs, $interval) {    
 
             scope.menuItems = [
                 {
@@ -126,6 +126,7 @@
                 submenus = e.currentTarget.children[1];
                 $(submenus).slideToggle(300);
             }
+
         }
     }
 })
