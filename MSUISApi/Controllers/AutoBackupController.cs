@@ -101,6 +101,39 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage GetAutoBackupLogs()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetAutoBackupLogs", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<AutoBackupLog> scheduleList = new List<AutoBackupLog>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        AutoBackupLog schedule = new AutoBackupLog();
+                        schedule.JobName = Convert.ToString(Dt.Rows[i]["Job Name"]);
+                        schedule.StepName = Convert.ToString(Dt.Rows[i]["Step Name"]);
+                        schedule.RunStatus = Convert.ToString(Dt.Rows[i]["Run Status"]);
+                        schedule.RunDateTime = Convert.ToString(Dt.Rows[i]["Run Date/Time"]);
+                        schedule.Message = Convert.ToString(Dt.Rows[i]["Message"]);
+                        scheduleList.Add(schedule);
+                    }
+                }
+                return Return.returnHttp("200", scheduleList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 
 }

@@ -29,7 +29,7 @@
                     </a>
                     <ul class="pcoded-item pcoded-left-item subitem" on style="margin: 0 !important">
                         <li ng-repeat="subitem in item.subitems" ng-init="slideUpMenu()" ng-class="{active: $state.includes(item.state)}" style="margin: 0 !important">
-                            <a ui-sref="{{subitem.state}}" style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}">
+                            <a ui-sref="{{subitem.state}}"  style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}">
                                 <span class="pcoded-micon"><i class="{{subitem.icon}}" style="font-size: 1.5rem;"></i></span>
                                 <span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black;">{{subitem.name}}</span>
                                 <span class="pcoded-mcaret"></span>

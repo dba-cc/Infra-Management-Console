@@ -1,0 +1,8 @@
+*.vsidx
+*.cache
+*.suo
+*.csproj
+*.dll
+*.dll.config
+*.config
+*.pdb
