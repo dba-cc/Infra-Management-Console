@@ -70,6 +70,7 @@ namespace MSUISApi.Controllers
                         Login login = new Login();
                         login.name = Convert.ToString(Dt.Rows[i]["name"]);
                         login.create_date = Convert.ToDateTime(Dt.Rows[i]["create_date"]);
+                        login.modify_date = Convert.ToDateTime(Dt.Rows[i]["modify_date"]);
                         LoginList.Add(login);
                     }
                 }

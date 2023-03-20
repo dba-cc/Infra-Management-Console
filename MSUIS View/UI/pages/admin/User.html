@@ -300,6 +300,7 @@
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'Login Name'" filter="{name: 'text'}" sortable="'name'" style=" border-top: none;"><label>{{Login.name}}</label></td>
                                         <td data-title="'Create Date'" filter="{create_date: 'text'}" sortable="'create_date'" style=" border-top: none;"><label>{{ Login.create_date.slice(6, -2) | date: 'yyyy-MM-dd HH:mm:ss' }}</label></td>
+                                        <td data-title="'Modify Date'" filter="{modify_date: 'text'}" sortable="'modify_date'" style=" border-top: none;"><label>{{ Login.modify_date.slice(6, -2) | date: 'yyyy-MM-dd HH:mm:ss' }}</label></td>
                                         <td data-title="'Actions'" style=" border-top: none;">
                                             <div layout="row">
                                                 <span flex></span>

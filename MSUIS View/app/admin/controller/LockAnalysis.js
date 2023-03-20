@@ -12,8 +12,8 @@
             $scope.check = false;
             $('#freq').fadeOut();
             $scope.o = false;
-            $interval.cancel($scope.plocklock);
-            $interval.cancel($scope.clocklock);
+            $interval.cancel($scope.plock);
+            $interval.cancel($scope.clock);
             document.getElementById('placeholderforlock').innerText = 'Auto Refresh Freq'
             /*$scope.item = "";*/
         }
@@ -30,7 +30,6 @@
                 $interval.cancel($scope.clock);
                 console.log($scope.templock)
                 $scope.GetLocksAnalysis();
-
                 $scope.tepforlock($scope.templock)
                 $scope.GetLocksAnalysis();
             }, $scope.templock);
