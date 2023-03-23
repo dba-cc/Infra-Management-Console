@@ -270,6 +270,9 @@
                     document.getElementById('add-message').innerText = 'Select Login!'
                     hideLoadingScreen();
                 } else {
+                    //var login = $scope.Login.name;
+                    //login = login.replace(/\\/g, "\\\\");
+                    //$console.log(login);
                     $http({
                         method: 'POST',
                         url: 'api/User/CreateUserForExistingLogin',

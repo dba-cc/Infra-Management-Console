@@ -59,6 +59,44 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetTablePermissionsByDBRoles([FromBody] String perm)
+        {
+            try
+            {
+                String[] str = perm.Split(',');
+                SqlCommand cmd = new SqlCommand("GetDBRolePermission", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", str[0]);
+                cmd.Parameters.AddWithValue("@databasename", str[1]);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<Permission> permissionsList = new List<Permission>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        Permission permission = new Permission();
+                        permission.TableName = Convert.ToString(Dt.Rows[i]["TableName"]);
+                        permission.SELECT = Convert.ToBoolean(Dt.Rows[i]["SELECT"]);
+                        permission.INSERT = Convert.ToBoolean(Dt.Rows[i]["INSERT"]);
+                        permission.UPDATE = Convert.ToBoolean(Dt.Rows[i]["UPDATE"]);
+                        permission.DELETE = Convert.ToBoolean(Dt.Rows[i]["DELETE"]);
+                        permission.ALTER = Convert.ToBoolean(Dt.Rows[i]["ALTER"]);
+                        permission.CONTROL = Convert.ToBoolean(Dt.Rows[i]["CONTROL"]);
+                        permissionsList.Add(permission);
+                    }
+                }
+                return Return.returnHttp("200", permissionsList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage UpdateTablePermissions(TablePermission Obj)
         {
             try
@@ -221,6 +259,42 @@ namespace MSUISApi.Controllers
             {
                 String[] str = perm.Split(',');
                 SqlCommand cmd = new SqlCommand("GetStoredProcedurePermissions", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@user", str[0]);
+                cmd.Parameters.AddWithValue("@database", str[1]);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                List<SPPermission> permissionsList = new List<SPPermission>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        SPPermission permission = new SPPermission();
+                        permission.SPName = Convert.ToString(Dt.Rows[i]["PROCEDURE_NAME"]);
+                        permission.EXECUTE = Convert.ToBoolean(Dt.Rows[i]["EXECUTE"]);
+                        permission.ALTER = Convert.ToBoolean(Dt.Rows[i]["ALTER"]);
+                        permission.VIEWDEFINITION = Convert.ToBoolean(Dt.Rows[i]["VIEW DEFINITION"]);
+                        permission.CONTROL = Convert.ToBoolean(Dt.Rows[i]["CONTROL"]);
+                        permissionsList.Add(permission);
+                    }
+                }
+                return Return.returnHttp("200", permissionsList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetSPDBRolesPermissions([FromBody] String perm)
+        {
+            try
+            {
+                String[] str = perm.Split(',');
+                SqlCommand cmd = new SqlCommand("GetSPDBRolesPermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@user", str[0]);
                 cmd.Parameters.AddWithValue("@database", str[1]);
