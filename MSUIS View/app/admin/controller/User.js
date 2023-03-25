@@ -36,12 +36,15 @@
     $scope.changeFlags = function () {
         if ($scope.selectedOption2 == 'Logins') {
             $scope.ShowLogin = true;
+            $scope.showSystemLogin = true;
+            $scope.showSystemUser = false;
             $scope.ShowUser = false;
             $scope.showLoginList();
             $scope.showUserTableflag = false;
         } else {
             $scope.ShowLogin = false;
-            $scope.ShowUser = true;
+            $scope.ShowUser = true
+            $scope.showSystemLogin = false;
         }
     };
 
@@ -51,6 +54,11 @@
     $scope.showUserTableflag = false;
     $scope.NewLoginFlag = false;
     $scope.ExistingLoginFlag = false;
+    $scope.showSystemLogin = false;
+    $scope.showSystemUser = false;
+
+    $scope.checkLogin = false;
+    $scope.checkUser = false;
 
     $scope.dropdownDatabase = function () {
         $('#dbDropdown').dropdown();
@@ -121,11 +129,26 @@
             });
     };
 
+    $scope.CheckLogin = function () {
+        if ($scope.checkLogin) {
+            $scope.checkLogin = false;
+        } else {
+            $scope.checkLogin = true;
+        }
+        $scope.showLoginList();
+    };
+
     $scope.showLoginList = function () {
         showLoadingScreen();
+        var api = '';
+        if ($scope.checkLogin) {
+            api = 'api/Login/ShowSystemLogin';
+        } else {
+            api = 'api/Login/ShowLogin';
+        }
         $http({
             method: 'POST',
-            url: 'api/Login/ShowLogin',
+            url: api,
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -149,11 +172,27 @@
             });
     };
 
+    $scope.CheckUser = function () {
+        if ($scope.checkUser) {
+            $scope.checkUser = false;
+        } else {
+            $scope.checkUser = true;
+        }
+        $scope.GetUser();
+    };
+
     $scope.GetUser = function () {
         showLoadingScreen();
+        $scope.showSystemUser = true;
+        var api = '';
+        if ($scope.checkUser) {
+            api = 'api/User/ShowSystemUsers';
+        } else {
+            api = 'api/User/GetSystemUsersDB';
+        }
         $http({
             method: 'POST',
-            url: 'api/User/GetSystemUsersDB',
+            url: api,
             data: '"' + $scope.Database.name + '"',
             headers: { "Content-Type": 'application/json' }
         })

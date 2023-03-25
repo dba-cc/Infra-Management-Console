@@ -83,6 +83,38 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage ShowSystemLogin()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("ShowSystemLogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<Login> LoginList = new List<Login>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        Login login = new Login();
+                        login.name = Convert.ToString(Dt.Rows[i]["name"]);
+                        login.create_date = Convert.ToDateTime(Dt.Rows[i]["create_date"]);
+                        login.modify_date = Convert.ToDateTime(Dt.Rows[i]["modify_date"]);
+                        LoginList.Add(login);
+                    }
+                }
+                return Return.returnHttp("200", LoginList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage CreateLogin([FromBody] String str)
         {
             try
