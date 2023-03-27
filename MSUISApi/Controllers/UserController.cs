@@ -90,7 +90,43 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("GetSystemUsersDB", Con);
+                SqlCommand cmd = new SqlCommand("ShowUsers", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", db);
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<User> UsersList = new List<User>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        User user = new User();
+                        user.UserName = Convert.ToString(Dt.Rows[i]["UserName"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["LoginName"])))
+                            user.LoginName = "-";
+                        else
+                            user.LoginName = Convert.ToString(Dt.Rows[i]["LoginName"]);
+                        user.CreatedOn = Convert.ToDateTime(Dt.Rows[i]["create_date"]);
+                        UsersList.Add(user);
+                    }
+                }
+                return Return.returnHttp("200", UsersList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ShowSystemUsers([FromBody] String db)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("ShowSystemUsers", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@dbname", db);
                 Da.SelectCommand = cmd;

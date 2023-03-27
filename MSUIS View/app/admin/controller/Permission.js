@@ -1,6 +1,8 @@
 ﻿app.controller('PermissionCtrl', function ($scope, $http, $rootScope, NgTableParams) {
-    $scope.showUserDropdown = false
+    $scope.showUserDropdown = false;
+    $scope.showDBRolesCheck = false;
     $scope.modifiedPermissions = {}
+    $scope.check = true;
     $scope.dropdownUser = function () {
         $('#userDropdown').dropdown();
     }
@@ -74,35 +76,69 @@
 
     $scope.initPermissions = function () {
         showLoadingScreen();
+        $scope.showDBRolesCheck = true;
         var user = $scope.User.UserName;
+        user = user.replace(/\\/g, "\\\\");
         var db = $scope.Database.name;
         var data = '"' + String.raw`${user}` + ',' + String.raw`${db}` + '"';
-        $http({
-            method: 'POST',
-            url: 'api/Permission/GetPermissionsByUser',
-            data: data,
-            headers: { "Content-Type": 'application/json' }
-        })
-
-            .success(function (response) {
-                if (response.response_code != "200") {
-                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-                }
-                else {
-                    $scope.ShowPermissionsFlag = true
-                    $scope.PermissionParams = new NgTableParams({
-                        count: response.obj.length
-                    }, {
-                        dataset: response.obj
-                    });
-                    $scope.UpdateFormFlag = true;
-                }
-                hideLoadingScreen();
+        if ($scope.check) {
+            $scope.check = false;
+            $http({
+                method: 'POST',
+                url: 'api/Permission/GetPermissionsByUser',
+                data: data,
+                headers: { "Content-Type": 'application/json' }
             })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                hideLoadingScreen();
-            });
+
+                .success(function (response) {
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        $scope.ShowPermissionsFlag = true
+                        $scope.PermissionParams = new NgTableParams({
+                            count: response.obj.length
+                        }, {
+                            dataset: response.obj
+                        });
+                        $scope.UpdateFormFlag = true;
+                    }
+                    hideLoadingScreen();
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    hideLoadingScreen();
+                });
+        } else {
+            $scope.check = true;
+            $http({
+                method: 'POST',
+                url: 'api/Permission/GetTablePermissionsByDBRoles',
+                data: data,
+                headers: { "Content-Type": 'application/json' }
+            })
+
+                .success(function (response) {
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        $scope.ShowPermissionsFlag = true
+                        $scope.PermissionParams = new NgTableParams({
+                            count: response.obj.length
+                        }, {
+                            dataset: response.obj
+                        });
+                        $scope.UpdateFormFlag = true;
+                    }
+                    hideLoadingScreen();
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    hideLoadingScreen();
+                });
+        }
+        
     };
 
     $scope.checkAllSelect = function (value) {

@@ -30,7 +30,6 @@
                 $interval.cancel($scope.clock);
                 console.log($scope.templock)
                 $scope.GetLocksAnalysis();
-
                 $scope.tepforlock($scope.templock)
                 $scope.GetLocksAnalysis();
             }, $scope.templock);

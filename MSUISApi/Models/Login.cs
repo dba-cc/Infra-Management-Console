@@ -9,5 +9,6 @@ namespace MSUISApi.Models
     {
         public string name { get; set; }
         public DateTime create_date { get; set; }
+        public DateTime modify_date { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams, $timeout) {
+app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams, $timeout) {
     $scope.QueryHitParams = new NgTableParams({}, {});
 
     $scope.filterType = 'rel';
