@@ -210,6 +210,14 @@ tr > td > label {
     line-height: 0.5em;
 }
 
+.active-menu {
+    background-color: lightgrey !important;
+}
+
+    .active-menu:hover {
+        background-color: #BEBEBE !important;
+    }
+
 .checkbox.close {
     float: none;
     color: unset;

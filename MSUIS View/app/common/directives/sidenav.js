@@ -120,13 +120,17 @@
                 })
             }
 
-            scope.toggleSubmenu = function (item, menuItems, e) {
-                menus = e.currentTarget.parentNode.children;
-                $(e.currentTarget).siblings().children(":odd").slideUp()
-                submenus = e.currentTarget.children[1];
+            scope.toggleSubmenu = function (e) {
+                $(e.currentTarget).parent().siblings().children(":odd").slideUp()
+                submenus = e.currentTarget.parentNode.children[1];
                 $(submenus).slideToggle(300);
             }
 
+            scope.active = function (e) {
+                $(e.currentTarget).parent().siblings().children().removeClass('active-menu')
+                $(e.currentTarget).parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
+                e.currentTarget.classList.add('active-menu')
+            }
         }
     }
 })

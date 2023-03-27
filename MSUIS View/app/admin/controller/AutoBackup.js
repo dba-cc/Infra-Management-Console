@@ -1,6 +1,6 @@
 ﻿app.controller('AutoBackupCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Schedule Backup";
-
+    $('#chart-options').fadeOut();
     $scope.newSchedule = {
         "database": "",
         "location": "",
@@ -191,7 +191,6 @@
     $scope.showLog = false;
     $scope.changeView = function () {
         $scope.showLog = !$scope.showLog
-        console.log($scope.showLog)
         document.getElementsByClassName('chart-item')[0].style.height = 'auto'
         if (!$scope.showLog) {
             document.getElementById('chart-parent').style.padding = 0;

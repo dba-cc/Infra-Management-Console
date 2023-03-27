@@ -21,15 +21,15 @@
                 </div>
             </div>
             <ul class="pcoded-item pcoded-left-item scrollbar" style="padding-top: 15px; overflow: scroll; max-height: 75vh; overflow-x: hidden;">
-                <li ng-class="{active: $state.includes(item.state)}" class="parent-menu" ng-repeat="item in menuItems" ng-click="toggleSubmenu(item, menuItems, $event)" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px;">
-                    <a style="border-radius: 15px; padding-top: 15px" title="{{item.name}}">
+                <li ng-class="{active: $state.includes(item.state)}" class="parent-menu" ng-repeat="item in menuItems" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px;">
+                    <a style="border-radius: 15px; padding-top: 15px" title="{{item.name}}" ng-click="toggleSubmenu($event)">
                         <span class="pcoded-micon"><i class="{{item.icon}}" style="font-size: 1.5rem;"></i></span>
                         <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color:black;">{{item.name}}</span></b>
                         <span class="pcoded-mcaret"><i ng-if="item.hasSubmenu && !item.expanded" style="position: absolute; left: 201px" class="bi bi-caret-down-fill"></i></span>
                     </a>
-                    <ul class="pcoded-item pcoded-left-item subitem" on style="margin: 0 !important">
+                    <ul class="pcoded-item pcoded-left-item subitem" on style="margin: 0 !important; padding-bottom: 5px !important">
                         <li ng-repeat="subitem in item.subitems" ng-init="slideUpMenu()" ng-class="{active: $state.includes(item.state)}" style="margin: 0 !important">
-                            <a ui-sref="{{subitem.state}}"  style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}">
+                            <a ui-sref="{{subitem.state}}"  style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}" ng-click="active($event)">
                                 <span class="pcoded-micon"><i class="{{subitem.icon}}" style="font-size: 1.5rem;"></i></span>
                                 <span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black;">{{subitem.name}}</span>
                                 <span class="pcoded-mcaret"></span>
