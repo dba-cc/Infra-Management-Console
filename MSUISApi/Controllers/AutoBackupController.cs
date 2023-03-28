@@ -86,8 +86,8 @@ namespace MSUISApi.Controllers
                         BackupSchedule schedule = new BackupSchedule();
                         schedule.DB = Convert.ToString(Dt.Rows[i]["DB"]);
                         schedule.JobName = Convert.ToString(Dt.Rows[i]["JobName"]);
-                        schedule.Frequency = Convert.ToString(Dt.Rows[i]["Frequency"]);
-                        schedule.BackupType = Convert.ToString(Dt.Rows[i]["BackupType"]);
+                        //schedule.Frequency = Convert.ToString(Dt.Rows[i]["Frequency"]);
+                        //schedule.BackupType = Convert.ToString(Dt.Rows[i]["BackupType"]);
                         schedule.NextRunDate = Convert.ToString(Dt.Rows[i]["NextRunDate"]);
                         schedule.NextRunTime = Convert.ToString(Dt.Rows[i]["NextRunTime"]);
                         schedule.Enabled = Convert.ToString(Dt.Rows[i]["ScheduleEnabled"]);
