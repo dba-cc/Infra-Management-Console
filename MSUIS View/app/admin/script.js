@@ -51,6 +51,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         "abstract": !0,
         templateUrl: "UI/layouts/common/boxed.html"
     });
+    e.state("Settings", {
+        url: "/Settings",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/Settings.html",
+        controller: "SettingsCtrl"
+    });
 
     e.state("plain", {
         url: "",

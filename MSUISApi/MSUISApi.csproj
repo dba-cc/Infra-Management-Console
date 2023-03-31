@@ -173,7 +173,7 @@
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\RBController.cs" />
-    <Compile Include="Controllers\UserController - Copy.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -187,6 +187,7 @@
     <Compile Include="Models\FC.cs" />
     <Compile Include="Models\DBPermission.cs" />
     <Compile Include="Models\Locks.cs" />
+    <Compile Include="Models\def_loc.cs" />
     <Compile Include="Models\TablePermission.cs" />
     <Compile Include="Models\QH_Graph.cs" />
     <Compile Include="Models\SPPermission.cs" />
