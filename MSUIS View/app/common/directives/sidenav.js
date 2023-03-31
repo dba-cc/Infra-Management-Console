@@ -133,4 +133,8 @@
             }
         }
     }
+
+    scope.click = function () {
+
+    }
 })
