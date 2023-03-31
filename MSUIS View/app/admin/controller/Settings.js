@@ -8,6 +8,10 @@
         $scope.getlocd("dloc");        
     }
 
+    $scope.toggleDefaultLocations = function () {
+        $('#options').slideToggle()
+    }
+
     $scope.checkIt = function () {
         if (!$scope.check) {
             $scope.check = true;

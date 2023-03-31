@@ -21,6 +21,19 @@ function hideLoadingScreen() {
     $('.loading-screen').fadeOut();
 }
 
+function toggleSettings() {
+    $('.settings').fadeToggle();
+}
+
+function toggleDarkMode() {
+    if (document.querySelector(':root').style.getPropertyValue('--invert') == '0' || document.querySelector(':root').style.getPropertyValue('--invert') == '') {
+        document.querySelector(':root').style.setProperty('--invert', '0.9')
+        document.querySelector(':root').style.setProperty('--hue', '180deg')
+    } else {
+        document.querySelector(':root').style.setProperty('--invert', '0')
+        document.querySelector(':root').style.setProperty('--hue', '0deg')
+    }
+}
 
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {

@@ -1,5 +1,48 @@
 ﻿<style>
-    .md-dialog-is-showing {
+    .checkbox {
+        display: none;
+    }
+
+    .slider {
+        width: 60px;
+        height: 30px;
+        background-color: lightgray;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        border: 4px solid transparent;
+        transition: .3s;
+        box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.25) inset;
+        cursor: pointer;
+        margin-top: -5px;
+    }
+
+        .slider::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            transform: translateX(-30px);
+            border-radius: 20px;
+            transition: .3s;
+            box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+        }
+
+    .checkbox:checked ~ .slider::before {
+        transform: translateX(30px);
+        box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+    }
+
+    .checkbox:checked ~ .slider {
+        background-color: green;
+    }
+
+    .checkbox:active ~ .slider::before {
+        transform: translate(0);
+    }
+    /*.md-dialog-is-showing {
         top: auto !important;
     }
 
@@ -8,12 +51,11 @@
     }
 
     .switch {
-        --switch-width: 3.5em;
+        --switch-width: 3.6em;
         --switch-height: calc(var(--switch-width) / 2);
         --left-ball-color: green;
         --right-ball-color: #F0F0F0;
         width: var(--switch-width);
-        height: var(--switch-height);
         border-radius: calc(var(--switch-height) / 2);
         background-color: var(--left-ball-color);
         position: relative;
@@ -94,27 +136,27 @@
 
             .switch input:checked ~ .switcher:before {
                 display: none;
-            }
- 
+            }*/
+
 
     /* The switch - the box around the slider */
-    .switch {
+    /*.switch {
         font-size: 17px;
         position: relative;
         display: inline-block;
         width: 3.5em;
         height: 2em;
-    }
+    }*/
 
         /* Hide default HTML checkbox */
-        .switch input {
+        /*.switch input {
             opacity: 0;
             width: 0;
             height: 0;
-        }
+        }*/
 
     /* The slider */
-    .slider {
+    /*.slider {
         position: absolute;
         cursor: pointer;
         top: 0;
@@ -140,16 +182,16 @@
         }
 
     input:checked + .slider {
-        background-color: green;
+        background-color: green;*/
         /*box-shadow: inset 2px 5px 10px rgb(0, 0, 0);*/
-    }
+    /*}
 
         input:checked + .slider:before {
             transform: translateX(2.8em) rotate(360deg);
-        }
-/*submit button */
-    .btn {
-    }
+        }*/
+    /*submit button */
+    /*.btn {
+    }*/
 </style>
 
 <!-- Page body start -->
@@ -158,8 +200,6 @@
         <div class="col-sm-12">
             <div id="parent-container">
 
-
-                <!--add popup-->
                 <!--Delete protection password popup-->
                 <div class="ui mini modal addLoginPopup" id="inputPopup">
                     <i class="close icon"></i>
@@ -203,56 +243,100 @@
                     <div class="card-header">
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="setting icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Settings</h3>
                     </div>
-                    <div class="card card-block">                       
-                         <div class="">
-                           <h2 class="">Deletion Protection</h2>
-                           <div>
-                               <span>Database</span>
-                               <p class="" style="color:grey">
-                                   Enable/Disable the protection on deleting a database
-                                   <div class=" switch" ng-click="checkIt()" style="display:inline-block; vertical-align:middle; ">
-                                       <input type="checkbox" ng-checked="check">
-                                       <div class="left"></div>
-                                       <div class="right"></div>
-                                       <div class=" switcher"></div>
-                                   </div>
-                               </p>
-                               <span>Table</span>
-                               <p class="" style="color:grey">Enable/Disable the protection on deleting a table</p>                                   
-                                   <div class=" switch" ng-click="checkIt_table()" style="display:inline-block; vertical-align:middle; ">
-                                       <input type="checkbox" ng-checked="check_table">
-                                       <div class="left"></div>
-                                       <div class="right"></div>
-                                       <div class=" switcher"></div>
-                                   </div>
-                               
-                           </div>
-                         </div>
-                         <div class="">
-                             <h2 class="">Default locations</h2>
-                             <!--<input style="display:inline-block" type="checkbox" ng-model="all">-->
-                             <p class="" style="color:grey">Click here to add new default locations:</p> <label class="switch">
-                                <input ng-model="all" type="checkbox" ng-checked="true">
-                                <span class="slider"></span>
-                            </label>
-                             <br />
-                             <span ng-disabled="all">Restore file locations</span>
-                             <div class="ui left icon input" ng-disabled="all" style="width: 75%">
-                                 <i class="gray folder icon" ng-disabled="all"></i>
-                                 <input ng-disabled="all" name="fileloc" autocomplete="off" id="rloc" class="form-control" required />
-                                 <!--<input ng-disabled="all" name="fileloc" autocomplete="off" id="rloc" ng-attr-placeholder="{{somevalue_r}}" class="form-control" required />-->
-                             </div>
-                             <br />
-                             <span ng-disabled="all">MSSQL mdf/ldf</span>
-                             <div class="ui left icon input" ng-disabled="all" style="width:75%">
-                                 <i class="gray folder icon" ng-disabled="all"></i>
-                                 <input ng-disabled="all" name="fileloc" autocomplete="off" id="dloc" class="form-control" required />
-                                 <!--<input ng-disabled="all" name="fileloc" autocomplete="off" id="dloc" ng-attr-placeholder="{{somevalue_d}}" class="form-control" required />-->
-                             </div>
-                             <div class="actions">
-                                 <button ng-disabled="all" ng-click="submit()" class="btn">Submit</button>
-                             </div>
-                         </div>
+                    <div class="card card-block" style=" overflow: scroll; overflow-x: hidden;">
+
+                        <div class="table-responsive" style="height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; overflow-y: unset">
+                            <div class="card-header" style="margin: 15px">
+                                <h3>Deletion Protection</h3>
+                            </div>
+                            <table class="ui striped table green main-table selectable">
+                                <tbody>
+                                    <tr>
+                                        <td width="95%">
+                                            <h5>Database</h5><br /><br />
+                                            <span>Enable/Disable the protection on deleting a database</span>
+                                        </td>
+                                        <td>
+                                            <label class="switch" style="float:right">
+                                                <input type="checkbox" ng-checked="check" ng-click="checkIt()" class="checkbox">
+                                                <div class="slider"></div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Table</h5><br /><br />
+                                            <span>Enable/Disable the protection on deleting a table</span>
+                                        </td>
+                                        <td>
+                                            <label class="switch" style="float:right" >
+                                                <input type="checkbox" ng-checked="check_table" ng-click="checkIt_table()" class="checkbox">
+                                                <div class="slider" ></div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div style="border-radius: 15px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; margin: 15px 0">
+                            <div class="card-header" style="margin: 15px">
+                                <h3>Default locations</h3>
+                            </div>
+                            <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px;">
+                                <h5 style="color:grey">Set custom default locations</h5>
+                                <label class="switch" style="float:right">
+                                    <input type="checkbox" ng-model="all" class="checkbox">
+                                    <div class="slider" ng-click="toggleDefaultLocations()"></div>
+                                </label>
+                            </div>
+
+                            <div id="options" style=" margin: 15px; padding: 15px;">
+                                <div class="form-group">
+                                    <label for="rloc">Restore file location</label><br />
+                                    <div class="ui left icon input" style="width: 100%">
+                                        <i class="gray folder icon"></i>
+                                        <input type="text" name="fileloc" autocomplete="off" id="rloc" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="dloc">MSSQL mdf/ldf</label><br />
+                                    <div class="ui left icon input" style="width: 100%">
+                                        <i class="gray folder icon"></i>
+                                        <input type="text" name="fileloc" autocomplete="off" id="dloc" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div style="float: right; margin-bottom: 15px">
+                                    <div class="ui green animated button" tabindex="0" ng-click="submit()">
+                                        <div class="visible content">Update</div>
+                                        <div class="hidden content">
+                                            <i class="check icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div style="border-radius: 15px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div class="card-header" style="margin: 15px">
+                                <h3>Appearance</h3>
+                            </div>
+                            <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px;">
+                                <h5 style="color:grey">Dark Theme</h5>
+                                <label class="switch" style="float:right">
+                                    <input type="checkbox" class="checkbox">
+                                    <div class="slider" onclick="toggleDarkMode()"></div>
+                                </label>
+                                <!--<label class="switch" style="float:right">
+                                    <input type="checkbox" class="input">
+                                    <span class="slider" onclick="toggleDarkMode()"></span>
+                                </label>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
