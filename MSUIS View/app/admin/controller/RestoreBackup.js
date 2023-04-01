@@ -78,12 +78,14 @@
         if (location === '0') {
             $("#def").addClass("active").siblings().removeClass("active");
             document.getElementById('loc').style.display = 'none'
+            document.getElementById('locnote').style.display = 'none';
             $scope.blueprint["bkLocation"] = "0";
             $scope.getFiles();
             $scope.getDatabaseList();
         } else {
             $("#new").addClass("active").siblings().removeClass("active");
             document.getElementById('loc').style.display = 'flex';
+            document.getElementById('locnote').style.display = 'flex';
             $scope.blueprint["bkLocation"] = location
         }
         $scope.blueprint["bkLocation"] = location

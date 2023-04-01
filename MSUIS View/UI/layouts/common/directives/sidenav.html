@@ -2,10 +2,20 @@
     <nav class="pcoded-navbar" id="main-navbar" pcoded-header-position="relative" style="background-color: white; border-radius:15px; margin:15px; height: auto; max-height: 96vh">
         <div class="pcoded-inner-navbar main-menu sidebar-main-screen sidebar-expanded" style="cursor: default;background-color: white; border-radius: 15px; border: 1px solid green; height: auto; max-height: 96vh; padding-top: 30px">
             <div style="" class="parent-menu">
-                <div class="sidebar_toggle" style="float: left"><a style=" box-shadow: 0 6px 15px #aaaaaa; transition: background-color 0.3s ease-out; padding-right: 18px !important; background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; padding: 15px">
-                    <i class="bars icon" style=" transition: color 0.3s ease-out; padding-left: 6px !important; color: green; padding: 4px"></i>
-                    <span class="pcoded-mtext" style="margin-left: 4px">Collapse</span></a></div>
+                <div class="sidebar_toggle" style="float: left">
+                    <a onclick="toggleSettings()" style=" box-shadow: 0 0px 5px #aaaaaa; transition: background-color 0.3s ease-out; padding-right: 18px !important; background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; padding: 15px">
+                        <i class="bars icon" style=" transition: color 0.3s ease-out; padding-left: 6px !important; color: green; padding: 4px"></i>
+                        <span class="pcoded-mtext" style="margin-left: 4px">Collapse</span>
+                    </a>
+                </div>
+                <!-- setting here is a placeholder -->
+                <div style="float: right">
+                    <a ng-click="removeActivePages()" class="settings" ui-sref="Settings" style=" box-shadow: 0 0px 5px #aaaaaa; transition: background-color 0.3s ease-out; padding-right: 18px !important; background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; padding: 15px">
+                        <i class="large setting icon" style=" transition: color 0.3s ease-out; padding-left: 6px !important; color: green;"></i>
+                    </a>
+                </div>
             </div>
+
             <div class="main-menu-header" style="background-color: #20bb40ad; border-radius: 15px; margin: 50px 15px 0px 15px; transition: margin 0.3s ease-in-out ">
                 <div style="display: flex; translate: 28% 0%; padding: 20px 0 18px 0">
                     <img style="transition: margin 0.3s ease-in-out; border-radius: 50%; z-index: 9; " class="img-70" src="assets/images/user.png" alt="User-Profile-Image">
@@ -29,7 +39,7 @@
                     </a>
                     <ul class="pcoded-item pcoded-left-item subitem" on style="margin: 0 !important; padding-bottom: 5px !important">
                         <li ng-repeat="subitem in item.subitems" ng-init="slideUpMenu()" ng-class="{active: $state.includes(item.state)}" style="margin: 0 !important">
-                            <a ui-sref="{{subitem.state}}"  style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}" ng-click="active($event)">
+                            <a ui-sref="{{subitem.state}}" style="border-radius: 15px; margin: 5px 10px 5px 10px; " title="{{subitem.name}}" ng-click="active($event)">
                                 <span class="pcoded-micon"><i class="{{subitem.icon}}" style="font-size: 1.5rem;"></i></span>
                                 <span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black;">{{subitem.name}}</span>
                                 <span class="pcoded-mcaret"></span>

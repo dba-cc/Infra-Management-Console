@@ -131,6 +131,14 @@
                 $(e.currentTarget).parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
                 e.currentTarget.classList.add('active-menu')
             }
+
+            scope.removeActivePages = function () {
+                $('a').parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
+            }
         }
+    }
+
+    scope.click = function () {
+
     }
 })
