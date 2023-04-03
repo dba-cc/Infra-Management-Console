@@ -132,7 +132,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         fetchPage(pageNum);
     };
 
-    $scope.FetchQueryHitList = function () {
+  $scope.FetchQueryHitList = function () {
         showLoadingScreen();
         $scope.changeView('half', null)
         $scope.db = document.getElementById('dbname').value;
@@ -157,8 +157,9 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
                         showMessage(response.obj);
 
                     }
-                    else {
 
+                    else {
+                        console.log(response.obj)
                         totalData = totalData.concat(response.obj.data);
                         if (response.obj.data.length > 0) {
 
