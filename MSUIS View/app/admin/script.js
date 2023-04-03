@@ -29,10 +29,16 @@ function toggleDarkMode() {
     if (document.querySelector(':root').style.getPropertyValue('--invert') == '0' || document.querySelector(':root').style.getPropertyValue('--invert') == '') {
         document.querySelector(':root').style.setProperty('--invert', '0.9')
         document.querySelector(':root').style.setProperty('--hue', '180deg')
+        localStorage.setItem('theme', 'dark');
     } else {
         document.querySelector(':root').style.setProperty('--invert', '0')
         document.querySelector(':root').style.setProperty('--hue', '0deg')
+        localStorage.setItem('theme', 'light');
     }
+}
+
+if (localStorage.getItem('theme') == 'dark') {
+    toggleDarkMode();
 }
 
 app.factory('httpRequestInterceptor', function ($cookies) {

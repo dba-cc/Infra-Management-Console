@@ -6,6 +6,9 @@
         $scope.getTrigStatus();
         $scope.getlocr("rloc");
         $scope.getlocd("dloc");        
+        if (localStorage.getItem('theme') == 'dark') {
+            document.getElementById('themeCheckbox').checked = true
+        }
     }
 
     $scope.toggleDefaultLocations = function () {
@@ -21,7 +24,6 @@
             $scope.check = false;
             $scope.setTrigToggle(0);
         }
-        console.log($scope.check)
     }
     $scope.checkIt_table = function () {
         if (!$scope.check_table) {
