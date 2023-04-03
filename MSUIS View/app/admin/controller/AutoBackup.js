@@ -75,6 +75,7 @@
                     }, {
                         dataset: response.obj
                     });
+                    $scope.jobs = response.obj.map(({ JobName }) => ({ JobName }));
                 }
                 hideLoadingScreen();
             })
@@ -111,6 +112,15 @@
                 hideLoadingScreen();
             });
     };
+
+    $scope.checkExistingJob = function (jobName) {
+        for (var i = 0; i < $scope.jobs.length; i++) {
+            if ($scope.jobs[i].JobName == jobName) {
+                return true
+            }
+        }
+        return false
+    }
 
     $scope.deleteSchedule = function () {
         showLoadingScreen();
@@ -163,6 +173,14 @@
             showMessage('Please enter directory!')
             return
         }
+
+        var jobName = $scope.newSchedule["frequency"].toLowerCase().charAt(0).toUpperCase() + $scope.newSchedule["frequency"].toLowerCase().slice(1) + ' ' + $scope.newSchedule["type"] + ' Backup - ' + $scope.newSchedule["database"];
+        if ($scope.checkExistingJob(jobName) && document.getElementById('add-message-container').style.display == 'none') {
+            document.getElementById('add-message-container').style.display = 'flex';
+            document.getElementById('add-message').innerText = 'The schedule for this database already exists. Click again to overwrite it.';
+            hideLoadingScreen()
+            return
+        }         
 
         $http({
             method: 'POST',
