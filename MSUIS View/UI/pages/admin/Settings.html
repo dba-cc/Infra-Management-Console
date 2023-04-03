@@ -42,156 +42,11 @@
     .checkbox:active ~ .slider::before {
         transform: translate(0);
     }
-    /*.md-dialog-is-showing {
-        top: auto !important;
+
+    .eight.wide.column {
+        padding: 0 !important;
+        margin: 0
     }
-
-    .button-size {
-        width: 11rem !important;
-    }
-
-    .switch {
-        --switch-width: 3.6em;
-        --switch-height: calc(var(--switch-width) / 2);
-        --left-ball-color: green;
-        --right-ball-color: #F0F0F0;
-        width: var(--switch-width);
-        border-radius: calc(var(--switch-height) / 2);
-        background-color: var(--left-ball-color);
-        position: relative;
-        overflow: hidden;
-    }
-
-        .switch input[type="checkbox"] {
-            width: 100%;
-            position: absolute;
-            height: 100%;
-            margin: 0;
-            opacity: 0;
-        }
-
-        .switch .left {
-            position: absolute;
-            width: calc(var(--switch-width) / 3);
-            height: calc(var(--switch-height) / 1.5);
-            background-color: var(--left-ball-color);
-            border-radius: 50%;
-            left: calc((var(--switch-height) - (var(--switch-height) / 1.5)) / 2);
-            top: calc((var(--switch-height) - (var(--switch-height) / 1.5)) / 2);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .switch .right {
-            position: absolute;
-            width: calc(var(--switch-width) / 3);
-            height: calc(var(--switch-height) / 1.5);
-            background-color: var(--right-ball-color);
-            border-radius: 50%;
-            right: calc((var(--switch-height) - (var(--switch-height) / 1.5)) / 2);
-            top: calc((var(--switch-height) - (var(--switch-height) / 1.5)) / 2);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .switch .switcher {
-            position: absolute;
-            width: calc(100% + var(--switch-width) / 3);
-            height: 100%;
-            background-color: var(--right-ball-color);
-            z-index: 1;
-            left: calc(-50% + var(--switch-width) / (3 * 2));
-            pointer-events: none;
-            transition: left 500ms ease;
-            border-top-left-radius: calc(var(--switch-width) / 3);
-            border-bottom-left-radius: calc(var(--switch-width) / 3);
-        }
-
-            .switch .switcher:before {
-                position: absolute;
-                content: '';
-                width: calc(var(--switch-width) / 3);
-                height: 100%;
-                background-color: var(--left-ball-color);
-                display: block;
-                border-bottom-right-radius: 50%;
-                border-top-right-radius: 50%;
-                z-index: 2;
-            }
-
-            .switch .switcher:after {
-                position: absolute;
-                content: '';
-                width: calc(var(--switch-width) / 3);
-                height: 100%;
-                background-color: var(--right-ball-color);
-                display: block;
-                border-bottom-left-radius: 50%;
-                border-top-left-radius: 50%;
-            }
-
-        .switch input:checked ~ .switcher {
-            left: 100%;
-        }
-
-            .switch input:checked ~ .switcher:before {
-                display: none;
-            }*/
-
-
-    /* The switch - the box around the slider */
-    /*.switch {
-        font-size: 17px;
-        position: relative;
-        display: inline-block;
-        width: 3.5em;
-        height: 2em;
-    }*/
-
-        /* Hide default HTML checkbox */
-        /*.switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }*/
-
-    /* The slider */
-    /*.slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
-        transition: .4s;
-        border-radius: 5px;
-    }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 1.4em;
-            width: 0.1em;
-            border-radius: 0px;
-            left: 0.3em;
-            bottom: 0.3em;
-            background-color: white;
-            transition: .4s;
-        }
-
-    input:checked + .slider {
-        background-color: green;*/
-        /*box-shadow: inset 2px 5px 10px rgb(0, 0, 0);*/
-    /*}
-
-        input:checked + .slider:before {
-            transform: translateX(2.8em) rotate(360deg);
-        }*/
-    /*submit button */
-    /*.btn {
-    }*/
 </style>
 
 <!-- Page body start -->
@@ -244,43 +99,46 @@
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="setting icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Settings</h3>
                     </div>
                     <div class="card card-block" style=" overflow: scroll; overflow-x: hidden;">
-
-                        <div class="table-responsive" style="height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; overflow-y: unset">
-                            <div class="card-header" style="margin: 15px">
-                                <h3>Deletion Protection</h3>
+                        <div class="ui grid">
+                            <div class="eight wide column" style="padding-left: 15px !important">
+                                <div style="padding:15px; margin: 15px 7.5px 15px 0px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; border-radius: 15px">
+                                    <div class="card-header">
+                                        <h3>Deletion Protection</h3>
+                                    </div>
+                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px 0">
+                                        <h5>Database</h5><br /><br />
+                                        <span>Enable/Disable the protection on deleting a database</span>
+                                        <label class="switch" style="float:right">
+                                            <input type="checkbox" ng-checked="check" ng-click="checkIt()" class="checkbox">
+                                            <div class="slider"></div>
+                                        </label>
+                                    </div>
+                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; ">
+                                        <h5>Table</h5><br /><br />
+                                        <span>Enable/Disable the protection on deleting a table</span>
+                                        <label class="switch" style="float:right">
+                                            <input type="checkbox" ng-checked="check_table" ng-click="checkIt_table()" class="checkbox">
+                                            <div class="slider"></div>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <table class="ui striped table green main-table selectable">
-                                <tbody>
-                                    <tr>
-                                        <td width="95%">
-                                            <h5>Database</h5><br /><br />
-                                            <span>Enable/Disable the protection on deleting a database</span>
-                                        </td>
-                                        <td>
-                                            <label class="switch" style="float:right">
-                                                <input type="checkbox" ng-checked="check" ng-click="checkIt()" class="checkbox">
-                                                <div class="slider"></div>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Table</h5><br /><br />
-                                            <span>Enable/Disable the protection on deleting a table</span>
-                                        </td>
-                                        <td>
-                                            <label class="switch" style="float:right" >
-                                                <input type="checkbox" ng-checked="check_table" ng-click="checkIt_table()" class="checkbox">
-                                                <div class="slider" ></div>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="eight wide column" style="padding-right: 15px !important">
+                                <div style="padding: 15px; margin: 15px 0px 15px 7.5px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; border-radius: 15px ">
+                                    <div class="card-header">
+                                        <h3>Appearance</h3>
+                                    </div>
+                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px 0">
+                                        <h5 style="color:grey">Dark Theme</h5>
+                                        <label class="switch" style="float:right">
+                                            <input type="checkbox" class="checkbox">
+                                            <div class="slider" onclick="toggleDarkMode()"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-
-                        <div style="border-radius: 15px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; margin: 15px 0">
+                        <div style="border-radius: 15px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; margin-top: 7.5px">
                             <div class="card-header" style="margin: 15px">
                                 <h3>Default locations</h3>
                             </div>
@@ -317,24 +175,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-
-                        <div style="border-radius: 15px; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa;">
-                            <div class="card-header" style="margin: 15px">
-                                <h3>Appearance</h3>
-                            </div>
-                            <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px;">
-                                <h5 style="color:grey">Dark Theme</h5>
-                                <label class="switch" style="float:right">
-                                    <input type="checkbox" class="checkbox">
-                                    <div class="slider" onclick="toggleDarkMode()"></div>
-                                </label>
-                                <!--<label class="switch" style="float:right">
-                                    <input type="checkbox" class="input">
-                                    <span class="slider" onclick="toggleDarkMode()"></span>
-                                </label>-->
                             </div>
                         </div>
                     </div>
