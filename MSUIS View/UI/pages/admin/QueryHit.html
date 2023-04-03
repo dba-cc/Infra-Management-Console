@@ -232,6 +232,9 @@
                                                 <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'"><label>{{QueryHit.time}}</label></td>
                                                 <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
                                                     <label title="{{QueryHit.query}}" ng-click="toggleCheckbox(QueryHit, $event)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}...</label>
+                                                    <button type="button" class="ui icon button" style="float: right" ng-click="copyQuery(QueryHit.query)">
+                                                        <i class="copy icon"></i>
+                                                    </button>
                                                 </td>
                                                 <td width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'"><label>{{QueryHit.objectid}}</label></td>
                                                 <td width="10%" data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'"><label>{{QueryHit.execution_count}}</label></td>
@@ -263,6 +266,14 @@
                                                         <div class="item" data-value="Count">Count</div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div style=" width: 92%; align-items: center; position: absolute; justify-content: center; display: none;" id="selectedQueryTextDiv">
+                                            <div class="ui big action left input" style="float: left; height: 35px; width: 65%">
+                                                <input name="query" autocomplete="off" required type="text" disabled id="selectedQueryText" style="font-family: monospace; font-size: 12px;"/>
+                                                <button type="button" class="ui icon button" ng-click="copyQuery(null)">
+                                                    <i class="copy icon"></i>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="buttonset" style="float: right;">
