@@ -230,16 +230,17 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             $scope.generateChart(null);
             $scope.changeFactor();
             $('#factor-div').fadeIn();
-            document.getElementById('selectedQueryText').innerText = '';
+            document.getElementById('selectedQueryText').value = '';
             document.getElementById('selectedQueryTextDiv').style.display = 'none';
             return;
         }
         $scope.activator = e.currentTarget.parentNode.parentNode;
         e.currentTarget.parentNode.parentNode.classList.add('activerow');
         $('#factor-div').fadeOut();
-        document.getElementById('selectedQueryText').innerText = data.query;
+        document.getElementById('selectedQueryText').value = data.query;
         document.getElementById('selectedQueryTextDiv').style.display = 'flex';
         $scope.qhgraph(data);
+        //console.log(data.query)
     }
 
     $scope.qhgraph = function (data) {

@@ -1,14 +1,16 @@
 ﻿app.controller('SettingsCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Settings";
-    $scope.all = true;
+    //$scope.all = false;
    
     $scope.initfun = function () {
+        $scope.toggleDefaultLocations();
         $scope.getTrigStatus();
         $scope.getlocr("rloc");
         $scope.getlocd("dloc");        
         if (localStorage.getItem('theme') == 'dark') {
             document.getElementById('themeCheckbox').checked = true
         }
+        
     }
 
     $scope.toggleDefaultLocations = function () {
