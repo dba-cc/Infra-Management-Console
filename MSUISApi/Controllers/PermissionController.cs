@@ -325,23 +325,53 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateStoredProcedurePermissions(SPPermission Obj)
+        public HttpResponseMessage UpdateStoredProcedurePermissions(List<SPPermission> Obj)
         {
             try
             {
-                string UserName = Convert.ToString(Obj.user);
-                string DatabaseName = Convert.ToString(Obj.database);
-                string SPName = Convert.ToString(Obj.SPName);
+                string UserName, DatabaseName, SPName;
+                DataTable paramSets = new DataTable();
 
-                SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissions", Con);
+                DataColumn username = new DataColumn("username", typeof(string));
+                username.MaxLength = 255;
+                paramSets.Columns.Add(username);
+
+                DataColumn databasename = new DataColumn("databasename", typeof(string));
+                databasename.MaxLength = 255;
+                paramSets.Columns.Add(databasename);
+
+                DataColumn storedprocedure = new DataColumn("storedprocedure", typeof(string));
+                storedprocedure.MaxLength = 255;
+                paramSets.Columns.Add(storedprocedure);
+
+                DataColumn executebit = new DataColumn("executebit", typeof(bool));
+                paramSets.Columns.Add(executebit);
+
+                DataColumn alterbit = new DataColumn("alterbit", typeof(bool));
+                paramSets.Columns.Add(alterbit);
+
+                DataColumn viewdefinitionbit = new DataColumn("viewdefinitionbit", typeof(bool));
+                paramSets.Columns.Add(viewdefinitionbit);
+
+                DataColumn controlbit = new DataColumn("controlbit", typeof(bool));
+                paramSets.Columns.Add(controlbit);
+
+
+                SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissionsTEST", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@user", UserName);
-                cmd.Parameters.AddWithValue("@database", DatabaseName);
-                cmd.Parameters.AddWithValue("@storedProcedure", SPName);
-                cmd.Parameters.AddWithValue("@execute", Obj.EXECUTE.HasValue ? Obj.EXECUTE : null);
-                cmd.Parameters.AddWithValue("@alter", Obj.ALTER.HasValue ? Obj.ALTER : null);
-                cmd.Parameters.AddWithValue("@viewDefinition", Obj.VIEWDEFINITION.HasValue ? Obj.VIEWDEFINITION : null);
-                cmd.Parameters.AddWithValue("@control", Obj.CONTROL.HasValue ? Obj.CONTROL : null);
+
+                foreach (SPPermission sPPermission in Obj)
+                {
+                    UserName = Convert.ToString(sPPermission.user);
+                    DatabaseName = Convert.ToString(sPPermission.database);
+                    SPName = Convert.ToString(sPPermission.SPName);
+                    paramSets.Rows.Add(UserName, DatabaseName, SPName, sPPermission.EXECUTE.HasValue ? sPPermission.EXECUTE : null, sPPermission.ALTER.HasValue ? sPPermission.ALTER : null, sPPermission.VIEWDEFINITION.HasValue ? sPPermission.VIEWDEFINITION : null, sPPermission.CONTROL.HasValue ? sPPermission.CONTROL : null);
+                }
+
+                SqlParameter param = cmd.Parameters.AddWithValue("@set", paramSets);
+                param.SqlDbType = SqlDbType.Structured;
+                param.TypeName = "SPSet";
+
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();
