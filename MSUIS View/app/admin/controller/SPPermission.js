@@ -196,24 +196,20 @@
             spdatalist.push(data);
         }
 
-        $http({
-            method: 'POST',
-            url: 'api/Permission/UpdateStoredProcedurePermissions',
-            data: spdatalist,
-            headers: { "Content-Type": 'application/json' }
-        })
-
-            .success(function (response) {
-                hideLoadingScreen();
-                if (response.response_code != "200") {
-                    showMessage(response.showMessage)
-                } else {
-                    showMessage('Permissions Updated')
-                }
+            $http({
+                method: 'POST',
+                url: 'api/Permission/UpdateStoredProcedurePermissions',
+                data: spdatalist,
+                headers: { "Content-Type": 'application/json' }
             })
-            .error(function (res) {
-                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                hideLoadingScreen();
-            });
+
+                .success(function (response) {
+                    hideLoadingScreen();
+                    showMessage(response.obj);
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    hideLoadingScreen();
+                }); 
     };
 });

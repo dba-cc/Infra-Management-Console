@@ -97,7 +97,7 @@ namespace MSUISApi.Controllers
             try
             {
                 int page = Convert.ToInt32(timeFormat_time.Split(' ')[3]);
-                int pageSize = 70; // Number of items per page
+                int pageSize = 7000; // Number of items per page
                 int startIndex = (page - 1) * pageSize;
                 int endIndex = startIndex + pageSize - 1;
 
@@ -123,7 +123,7 @@ namespace MSUISApi.Controllers
                         DateTime myDateTime1 = Convert.ToDateTime(Dt.Rows[i]["CTime"]);
                         queryhit.ctime = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
                         DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["Time"]);
-                        queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");                        
+                        queryhit.time = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
                         queryhit.query = Convert.ToString(Dt.Rows[i]["Query"]);
 
                         if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["Object Name"])))

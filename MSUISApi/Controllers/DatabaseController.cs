@@ -85,6 +85,123 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetDBWithStates()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetDBWithStates", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<Database_NOC> DatabaseList = new List<Database_NOC>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        Database_NOC database = new Database_NOC();
+                        database.name = Convert.ToString(Dt.Rows[i]["name"]);
+                        database.noc = Convert.ToString(Dt.Rows[i]["state_desc"]);
+                        DatabaseList.Add(database);
+                    }
+                }
+                return Return.returnHttp("200", DatabaseList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage StartDB([FromBody] String str)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DBON", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName", str);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "True"))
+                {
+                    strMessage = "Database Started Successfully.";
+                } else if (string.Equals(strMessage, "False"))
+                {
+                    strMessage = "Database failed to start.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage StopDB([FromBody] String str)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DBOff", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName", str);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "True"))
+                {
+                    strMessage = "Database Stopped Successfully.";
+                }
+                else if (string.Equals(strMessage, "False"))
+                {
+                    strMessage = "Database failed to stop.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RestartDB([FromBody] String str)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DBRestart", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName", str);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "True"))
+                {
+                    strMessage = "Database Restarted Successfully.";
+                }
+                else if (string.Equals(strMessage, "False"))
+                {
+                    strMessage = "Database failed to Restart.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage CreateDatabase([FromBody] String str)
         {
             try

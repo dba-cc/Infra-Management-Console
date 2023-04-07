@@ -5,6 +5,7 @@
         public string ToDbName { get; set; }
         public string FrDbName { get; set; }
         public string bkLocation { get; set; }
+        public int type { get; set; }
 
     }
 }

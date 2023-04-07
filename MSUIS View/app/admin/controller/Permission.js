@@ -203,8 +203,7 @@
 
     $scope.updatePermissions = function () {
         showLoadingScreen();
-        var success_count = 0;
-        var error_count = 0;
+        var tabledatalist = [];
         for (table in $scope.modifiedPermissions) {
             var data = {
                 'user': $scope.User.UserName,
@@ -217,36 +216,24 @@
                 'ALTER': $scope.modifiedPermissions[table].ALTER != undefined ? $scope.modifiedPermissions[table].ALTER : null,
                 'CONTROL': $scope.modifiedPermissions[table].CONTROL != undefined ? $scope.modifiedPermissions[table].CONTROL : null
             }
+            tabledatalist.push(data);
+        }
+
+       
             $http({
                 method: 'POST',
                 url: 'api/Permission/UpdateTablePermissions',
-                data: data,
+                data: tabledatalist,
                 headers: { "Content-Type": 'application/json' }
             })
 
                 .success(function (response) {
-                    if (response.response_code != "200") {
-                        error_count++;
-                        if (Object.keys($scope.modifiedPermissions).length - 1 == success_count + error_count) {
-                            hideLoadingScreen();
-                            showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
-                        }
-                    } else {
-                        success_count++;
-                    }
-                    if (Object.keys($scope.modifiedPermissions).length == success_count + error_count) {
-                        hideLoadingScreen();
-                        showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
-                    }
+                    hideLoadingScreen();
+                    showMessage(response.obj);
                 })
                 .error(function (res) {
-                    error_count++;
                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-                    if (Object.keys($scope.modifiedPermissions).length - 1 == success_count + error_count) {
-                        hideLoadingScreen();
-                        showMessage('Permission Update : ' + success_count + ' Succeed, ' + error_count + ' Failed.')
-                    }
+                    hideLoadingScreen();
                 });
-        }
     };
 });

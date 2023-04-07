@@ -47,15 +47,13 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage DeleteSchedule(BackUp Obj)
+        public HttpResponseMessage DeleteSchedule([FromBody] String jobname)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand("DeleteAutoBackup", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DatabaseName", Obj.database);
-                cmd.Parameters.AddWithValue("@Frequency", Obj.frequency);
-                cmd.Parameters.AddWithValue("@BackupType", Obj.type);
+                cmd.Parameters.AddWithValue("@jobname", jobname);
                 Con.Open();
                 cmd.ExecuteNonQuery();
                 Con.Close();

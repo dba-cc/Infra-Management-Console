@@ -127,7 +127,7 @@
         $http({
             method: 'POST',
             url: 'api/AutoBackup/DeleteSchedule',
-            data: $scope.scheduleDelete,
+            data: '"'+$scope.scheduleDelete+'"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -242,11 +242,7 @@
         $('.addPopup').modal('hide');
     };
     $scope.showDeletePopup = function (schedule) {
-        $scope.scheduleDelete = {
-            database: schedule.DB,
-            frequency: schedule.Frequency,
-            type: schedule.BackupType.trim()
-        };
+        $scope.scheduleDelete = schedule;
         $('.deletePopup').modal({
             context: '#parent-container'
         }).modal('show');

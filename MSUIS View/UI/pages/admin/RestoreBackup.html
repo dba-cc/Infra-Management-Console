@@ -12,6 +12,42 @@
                         <form class="ui mini form">
                             <div class="field">
                                 <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
+                                    <h4>File Extension</h4>
+
+                                    <div class="ui grid">
+
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item active" ng-click="setextension('0')" id="bak">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bak</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bak file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item" ng-click="setextension('1')" id="bacpac">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bacpac</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bacpac file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
                                     <h4>Backup File Location</h4>
                                     <div class="ui big middle aligned selection list">
                                         <div class="item active" ng-click="setLocation('0')" id="def">
@@ -111,30 +147,103 @@
                         </div>
                     </div>
                 </div>
-                <div class="card main-card">
+                <div class="card main-card" style=" background-image: none !important;">
                     <div class="ui float message" id="message-container">
                         <div class="content">
                             <p id="message"></p>
                         </div>
                     </div>
                     <div class="card-header">
-                        <button class="ui green labeled icon button" ng-click="showAddPopup()" style="float: left">
-                            <i class="bi bi-folder-symlink-fill icon"></i>
-                            Restore  Backup
-                        </button>
-                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-hdd-fill" style=" font-size: 1.5em; vertical-align: middle; margin-right: 0.5rem"></i>Restore Backup</h3>
+                        <div class="ui icon input" style="float: left;">
+                            <input type="text" placeholder="Search Database" ng-model="searchDB" fdprocessedid="jktz0n" style=" height: 35px; border-radius: 15px" required>
+                        </div>
+                        <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px">
+                            <button class="ui green labeled icon button" ng-click="showAddPopup()" style="float: left">
+                                <i class="bi bi-folder-symlink-fill icon"></i>
+                                Restore Database
+                            </button>
+                        </div>
+
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-database-fill" style=" font-size: 1.5em; vertical-align: middle; margin-right: 0.5rem"></i>Manage Database</h3>
                     </div>
-                    <div class="card-block scrollbar" id="table-parent-container">
-                        <div class="table-responsive">
-                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="DatabaseList" show-filter="true">
-                                <tbody>
-                                    <tr ng-repeat="Schedule in $data">
-                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                        <td data-title="'Database'" filter="{name: 'text'}" sortable="'name'" style=" border-top: none;"><label>{{Schedule.name}}</label></td>
-                                        <td data-title="'State'" filter="{noc: 'text'}" sortable="'noc'" style=" border-top: none;" ><label>{{Schedule.noc}}</label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="ui grid">
+                        <div class="twelve wide column">
+                            <div class="card-header" style=" margin-top: 30px;">
+                                <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px">Online : {{onlineCount}}</h3>
+                            </div>
+                            <div class="card-block" style="max-height: 76vh; height: 76vh; background-color: white;">
+                                <div class="ui two stackable cards" style="overflow-y: auto; background: white; align-items: center; border-radius: 15px; justify-content: center; display: flex; padding: 15px; margin: 15px 0px; max-height: inherit; ">
+                                    <div class="ui card zoomable-cards" style=" width: 19rem; border-radius: 15px !important; min-width:19rem" ng-repeat="DB in DbList | filter:{name: searchDB} | filter:{noc: 'ONLINE'}">
+                                        <div class="card" style="border-radius: 15px !important; border: 1px solid green; border-top: 1px solid green !important;">
+                                            <div class="ui grid">
+                                                <div class="five wide column" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bi bi-database-fill" style=" font-size: 4rem; color: lightgrey"></i>
+                                                </div>
+                                                <div class="eleven wide column" style="padding: 0 !important;">
+                                                    <div class="content">
+                                                        <div class="header"><h4 style=" padding: 15px 0 0 0;">{{DB.name}}</h4></div>
+                                                        <div class="description" style="margin: 10px 0;">
+                                                            <i class="circle green icon"></i>
+                                                            {{DB.noc}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="ui bottom attached button" style="display: flex; padding: 0; width: 100% !important; justify-content: center; align-items: center; border-radius: 15px 0;">
+                                                        <!--<button class="ui button" style="border-radius: 15px 0 0 0">
+                                                            <i class="play icon"></i>
+                                                        </button>-->
+                                                        <button class="ui button" ng-click="stopDB(DB.name)">
+                                                            <i class="stop icon"></i>
+                                                        </button>
+                                                        <button class="ui button" style="border-radius: 0 0 15px 0" ng-click="restartDB(DB.name)">
+                                                            <i class="refresh icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="four wide column">
+                            <div class="card-header" style=" margin-top: 30px;">
+                                <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px">Offline : {{offlineCount}}</h3>
+                            </div>
+                            <div class="card-block" style="max-height: 76vh; height: 76vh; background-color: white; border-radius: 15px">
+                                <div class="ui two stackable cards " style="overflow-y: auto; background: white; align-items: center; border-radius: 15px; justify-content: center; display: flex; padding: 15px; margin: 15px 0px; max-height: inherit; ">
+                                    <div class="ui card zoomable-cards" style=" width: 19rem; border-radius: 15px !important; min-width:19rem" ng-repeat="DB in DbList | filter: { name: searchDB } | filter:{noc: 'OFFLINE'} as result">
+                                        <div class="card" style="border-radius: 15px !important; border: 1px solid green; border-top: 1px solid green !important;">
+                                            <div class="ui grid">
+                                                <div class="five wide column" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bi bi-database-fill" style=" font-size: 4rem; color: lightgrey"></i>
+                                                </div>
+                                                <div class="eleven wide column" style="padding: 0 !important;">
+                                                    <div class="content">
+                                                        <div class="header"><h4 style=" padding: 15px 0 0 0;">{{DB.name}}</h4></div>
+                                                        <div class="description" style="margin: 10px 0;">
+                                                            <i class="circle icon" style="color: lightgray"></i>
+                                                            {{DB.noc}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="ui bottom attached button" style="display: flex; padding: 0; width: 100% !important; justify-content: center; align-items: center; border-radius: 15px 0; ">
+                                                        <button class="ui button" style="border-radius: 15px 0 0 0" ng-click="startDB(DB.name)">
+                                                            <i class="play icon"></i>
+                                                        </button>
+                                                        <!--<button class="ui button">
+                                                            <i class="stop icon"></i>
+                                                        </button>-->
+                                                        <!--<button class="ui button" style="border-radius: 0 0 15px 0" ng-click="RestartDB(DB.name)">
+                                                            <i class="refresh icon"></i>
+                                                        </button>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

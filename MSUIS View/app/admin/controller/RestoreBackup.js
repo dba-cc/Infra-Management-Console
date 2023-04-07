@@ -1,12 +1,12 @@
-﻿app.controller('RBCtrl', function ($scope, $http, $rootScope, NgTableParams) {
+﻿app.controller('RBCtrl', function ($scope, $http, $rootScope, NgTableParams, $filter) {
     $rootScope.pageTitle = "Backup Restore";
     $scope.DbList = {};
     $scope.a;
-
     $scope.blueprint = {
         "FrDbName": "",
         "ToDbName": "",
-        "bkLocation": "0"
+        "bkLocation": "0",
+        "type":"0"
     }
 
     $scope.dropdown = function () {
@@ -14,18 +14,33 @@
     }
 
     $scope.nwloc = function () {
-        $scope.blueprint["bkLocation"] = '"' + document.getElementById('newloc').value.replace(/\\/g, '\\\\') + '"';
+        //console.log($scope.blueprint["bkLocation"])
+        $scope.blueprint["bkLocation"] = document.getElementById('newloc').value;
+        console.log($scope.blueprint["bkLocation"])
+        console.log($scope.blueprint["type"])
+        
+        $scope.blueprint["bkLocation"] =document.getElementById('newloc').value.replace(/\\/g, '\\\\');
         $scope.getFiles();
+        console.log($scope.blueprint["bkLocation"])
+        
     }
+
     $scope.defname = function () {
         document.getElementById('nwdbname').value = document.getElementById('frDbName').value;
     }
+
+    $scope.showDBOptions = function () {
+        $('.ui.button').popup({
+            boundary: 'body'
+        });
+    }
+
     $scope.getFiles = function () {
         showLoadingScreen();
         $http({
             method: 'POST',
             url: 'api/RB/RbFCGet',
-            data: $scope.blueprint["bkLocation"],
+            data: '"'+$scope.blueprint["bkLocation"]+' '+$scope.blueprint["type"]+'"',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -46,10 +61,9 @@
 
     $scope.getDatabaseList = function () {
         showLoadingScreen();
-
         $http({
             method: 'POST',
-            url: 'api/Database/GetDatabasewithNOC',
+            url: 'api/Database/GetDBWithStates',
             headers: { "Content-Type": 'application/json' }
         })
 
@@ -65,6 +79,8 @@
                     });
 
                     $scope.DbList = response.obj;
+                    $scope.onlineCount = $filter('filter')($scope.DbList, { name: $scope.searchDB, noc: 'ONLINE' }).length;
+                    $scope.offlineCount = $filter('filter')($scope.DbList, { name: $scope.searchDB, noc: 'OFFLINE' }).length;
                 }
                 hideLoadingScreen();
             })
@@ -86,9 +102,10 @@
             $("#new").addClass("active").siblings().removeClass("active");
             document.getElementById('loc').style.display = 'flex';
             document.getElementById('locnote').style.display = 'flex';
-            $scope.blueprint["bkLocation"] = location
+           // $scope.blueprint["bkLocation"] = loca'"' + document.getElementById('newloc').value.replace(/\\/g, '\\\\') + '"';tion
         }
-        $scope.blueprint["bkLocation"] = location
+       // $scope.blueprint["bkLocation"] = location
+        
     }
 
     $scope.setRpflag = function (replaceFlag) {
@@ -103,10 +120,25 @@
         }
         $scope.a = replaceFlag;
     }
+    $scope.setextension = function (extensioneFlag) {
+        if (extensioneFlag === '0') {
+            $("#bak").addClass("active")
+            $("#bacpac").removeClass("active");
+            $scope.blueprint["type"] = "0";
+            $scope.getFiles();
+
+        } else {
+            $("#bacpac").addClass("active")
+            $("#bak").removeClass("active")
+            $scope.blueprint["type"] = "1";
+            $scope.getFiles();
+        }
+        //$scope.extension = extensioneFlag;
+    }
 
     $scope.RestoreBackup = function () {
-        $scope.blueprint["FrDbName"] = document.getElementById('frDbName').value,
-        $scope.blueprint["bkLocation"] = document.getElementById('newloc').value
+        $scope.blueprint["FrDbName"] = document.getElementById('frDbName').value
+        //$scope.blueprint["bkLocation"] = document.getElementById('newloc').value
         if ($scope.a === '1') {
             $scope.blueprint["ToDbName"] = document.getElementById('toDbName').value;
         } else {
@@ -156,4 +188,67 @@
     $scope.hideAddForm = function () {
         $('.addPopup').modal('hide');
     };
+
+    $scope.stopDB = function (database) {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/StopDB',
+            data: '"' + database + '"',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                showMessage(response.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            });
+    }
+
+    $scope.startDB = function (database) {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/StartDB',
+            data: '"' + database + '"',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                showMessage(response.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            });
+    }
+
+    $scope.restartDB = function (database) {
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/RestartDB',
+            data: '"' + database + '"',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                showMessage(response.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                $scope.getDatabaseList();
+                hideLoadingScreen();
+            });
+    }
 });
