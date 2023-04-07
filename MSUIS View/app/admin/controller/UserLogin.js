@@ -23,7 +23,6 @@
                     $scope.logindetails = {};
                 }
                 else {
-                    debugger
                     
                     if (response.obj === "True") {
                         $state.go('dashboard')

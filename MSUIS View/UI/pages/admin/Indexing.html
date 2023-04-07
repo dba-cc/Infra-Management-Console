@@ -135,7 +135,8 @@
                                         <td width="21%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none;"><label>{{Indexing.tablename}}</label></td>
                                         <td width="21%" data-title="'Equality columns'" sortable="'equalitycol'" style=" border-top: none; "><label>{{Indexing.equalitycol}}</label></td>
                                         <td width="21%" data-title="'Inequality columns'" sortable="'inequalitycol'" style=" border-top: none; "><label>{{Indexing.inequalitycol}}</label></td>
-                                        <td width="21%" data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none;"><label>{{Indexing.includedcol}}</label></td>
+                                        <td  data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none;"><label title="{{Indexing.includedcol}}">{{Indexing.includedcol | limitTo:75}}</label></td>
+                                        <!--<td width="21%" data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none;"><label>{{Indexing.includedcol}} </label></td>-->
                                         <td width="6%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none;"><label>{{Indexing.seeks}}</label></td>
                                         <td width="5%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none;"><label>{{ Indexing.Index_Advantage }}</label></td>                                
                                     </tr>

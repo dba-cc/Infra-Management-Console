@@ -362,9 +362,24 @@ namespace MSUISApi.Controllers
                         Indexing IndexingObj = new Indexing();
 
                         IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["Tablename"]);
-                        IndexingObj.equalitycol = Convert.ToString(Dt.Rows[i]["eql_col"]);
-                        IndexingObj.inequalitycol = Convert.ToString(Dt.Rows[i]["ineql_col"]);
-                        IndexingObj.includedcol = Convert.ToString(Dt.Rows[i]["incl_col"]);
+                        //IndexingObj.equalitycol = Convert.ToString(Dt.Rows[i]["eql_col"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["eql_col"])))
+                            IndexingObj.equalitycol = "---";
+                        else
+                            IndexingObj.equalitycol = Convert.ToString(Dt.Rows[i]["eql_col"]);
+
+                        //IndexingObj.inequalitycol = Convert.ToString(Dt.Rows[i]["ineql_col"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["ineql_col"])))
+                            IndexingObj.inequalitycol = "---";
+                        else
+                            IndexingObj.inequalitycol = Convert.ToString(Dt.Rows[i]["ineql_col"]);
+                        
+                        //IndexingObj.includedcol = Convert.ToString(Dt.Rows[i]["incl_col"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(Dt.Rows[i]["incl_col"])))
+                            IndexingObj.includedcol = "---";
+                        else
+                            IndexingObj.includedcol = Convert.ToString(Dt.Rows[i]["incl_col"]);
+
                         IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["seeks"]);
                         IndexingObj.Index_Advantage = Convert.ToSingle(Dt.Rows[i]["Index_Advantage"]);
                         IndexingList.Add(IndexingObj);
