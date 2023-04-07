@@ -12,6 +12,42 @@
                         <form class="ui mini form">
                             <div class="field">
                                 <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
+                                    <h4>File Extension</h4>
+
+                                    <div class="ui grid">
+
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item active" ng-click="setextension('0')" id="bak">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bak</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bak file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item" ng-click="setextension('1')" id="bacpac">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bacpac</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bacpac file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
                                     <h4>Backup File Location</h4>
                                     <div class="ui big middle aligned selection list">
                                         <div class="item active" ng-click="setLocation('0')" id="def">
@@ -37,6 +73,7 @@
                                                         <i class="right arrow icon"></i>
                                                     </button>
                                                 </div>
+                                                <span style="display:none" id="locnote">*Do not include trailing slash in directory.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +167,7 @@
                                     <tr ng-repeat="Schedule in $data">
                                         <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                         <td data-title="'Database'" filter="{name: 'text'}" sortable="'name'" style=" border-top: none;"><label>{{Schedule.name}}</label></td>
-                                        <td data-title="'State'" filter="{noc: 'text'}" sortable="'noc'" style=" border-top: none;" ><label>{{Schedule.noc}}</label></td>
+                                        <td data-title="'State'" filter="{noc: 'text'}" sortable="'noc'" style=" border-top: none;"><label>{{Schedule.noc}}</label></td>
                                     </tr>
                                 </tbody>
                             </table>

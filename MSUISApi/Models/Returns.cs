@@ -23,6 +23,7 @@ namespace MSUISApi.Models
                 ro.response_code = response_code;
                 ro.obj = obj;
                 ro.token = token;
+                javaScriptSerializer.MaxJsonLength = System.Int32.MaxValue;
                 string json = javaScriptSerializer.Serialize(ro);
                 return new HttpResponseMessage()
                 {

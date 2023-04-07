@@ -21,6 +21,25 @@ function hideLoadingScreen() {
     $('.loading-screen').fadeOut();
 }
 
+function toggleSettings() {
+    $('.settings').fadeToggle();
+}
+
+function toggleDarkMode() {
+    if (document.querySelector(':root').style.getPropertyValue('--invert') == '0' || document.querySelector(':root').style.getPropertyValue('--invert') == '') {
+        document.querySelector(':root').style.setProperty('--invert', '0.9')
+        document.querySelector(':root').style.setProperty('--hue', '180deg')
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.querySelector(':root').style.setProperty('--invert', '0')
+        document.querySelector(':root').style.setProperty('--hue', '0deg')
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+if (localStorage.getItem('theme') == 'dark') {
+    toggleDarkMode();
+}
 
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {
@@ -50,6 +69,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         url: "",
         "abstract": !0,
         templateUrl: "UI/layouts/common/boxed.html"
+    });
+    e.state("Settings", {
+        url: "/Settings",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/Settings.html",
+        controller: "SettingsCtrl"
     });
 
     e.state("plain", {

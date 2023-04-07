@@ -22,7 +22,7 @@
     <script src="scripts/angular/angular-animate.min.js"></script>
 
     <script src="app/admin/script.js"></script>
-
+    <script src="app/admin/controller/Settings.js"></script>
     <script src="app/common/directives/sidenav.js"></script>
     <script src="app/admin/controller/dashboard.js"></script>
     <script src="app/admin/controller/User.js"></script>
@@ -62,15 +62,15 @@
             position: relative;
         }
 
-        .loader:before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-        }
+            .loader:before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                border-radius: 50%;
+            }
 
         .loader-inner {
             display: flex;
@@ -126,7 +126,6 @@
                 box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             }
         }
-
     </style>
 </head>
 

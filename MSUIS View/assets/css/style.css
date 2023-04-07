@@ -31,6 +31,16 @@ File: style.css
 * {
     /*font-family: "Open Sans", sans-serif;*/
 }
+[data-tooltip][data-position="bottom left"]:hover:after, [data-tooltip][data-position="bottom right"]:hover:after, [data-tooltip][data-position="top left"]:hover:after, [data-tooltip][data-position="top right"]:hover:after
+{
+    z-index:9 !important;
+}
+:root {
+    --invert: 0;
+    --hue: 0deg;
+    filter: invert(var(--invert)) hue-rotate(var(--hue));
+    transition: filter 0.3s ease-out;
+}
 
 body {
     background-color: #f3f3f3;
@@ -269,6 +279,15 @@ tr > td > label {
     outline: 0 !important;
 }
 
+
+
+.settings:hover {
+    background: #20bb40ad !important
+}
+
+.settings:hover i {
+    color: white !important;
+}
 /**====== Custom css end ======**/
 /**  =====================
       Main-body css start
@@ -352,7 +371,7 @@ tr > td > label {
       Card-Layout css start
 ==========================  **/
 .card-block {
-    box-shadow: 0 6px 15px #aaaaaa;
+    box-shadow: 0 0px 5px #aaaaaa;
     margin-top: 1.25rem !important;
     border-radius: 15px;
 }
@@ -22936,7 +22955,7 @@ body.dark-layout {
 
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item[item-border="true"] > li > a {
     border-bottom-width: 1px;
-    box-shadow: 0 6px 15px #aaaaaa;
+    box-shadow: 0 0px 5px #aaaaaa;
 }
 .ui.striped.table tbody tr td a:hover {
     background: #1165a7 !important;
