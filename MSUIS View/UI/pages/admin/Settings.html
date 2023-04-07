@@ -53,40 +53,24 @@
 <div class="page-body" ng-controller="SettingsCtrl" ng-init="initfun()" style="transition: transform 0.3s ease-out;">
     <div class="row">
         <div class="col-sm-12">
-            <div id="parent-container">
+            <div id="parent-container" style="pointer-events:none">
 
-                <!--Delete protection password popup-->
-                <div class="ui mini modal addLoginPopup" id="inputPopup">
+                <!--add popup-->
+                <div class="ui mini modal addPopup" id="authenticationPopup" style="pointer-events:auto">
                     <i class="close icon"></i>
                     <div class="header">
-                        Add Login
+                        Confirm Authentication
                     </div>
-                    <div class="content" style="max-height:fit-content">
-                        <form class="ui tiny form">
-                            <div class="field">
-                                <div class="ui big left icon input">
-                                    <i class="user icon"></i>
-                                    <input type="text" name="Loginname" placeholder="Loginname" class="form-control" ng-model="Login.LoginName" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui big action left icon input">
-                                    <i class="lock icon"></i>
-                                    <input name="LoginPassword" autocomplete="off" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" ng-model="Login.LoginPassword" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}" />
-                                    <button type="button" class="ui icon button" ng-click="toggleShowPassword()">
-                                        <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="ui red message" id="add-message-container-login" style="display:none">
-                                <div class="content">
-                                    <p id="add-message-login"></p>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="field" >
+                        <div class="ui big left icon input" style="margin-top:15px;" style="pointer-events:auto">
+                            <!--Enter Password-->
+                            <i class="lock icon"></i>
+                            <input type="text" id="password" name="Enter Password" placeholder="Enter Password" class="form-control" autocomplete="off">
+                        </div>
                     </div>
+
                     <div class="actions">
-                        <div class="ui green animated button" ng-click="AddLogin()" tabindex="0">
+                        <div class="ui green animated button" ng-click="authenticate()" tabindex="0">
                             <div class="visible content">Add</div>
                             <div class="hidden content">
                                 <i class="plus icon"></i>
@@ -94,9 +78,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
                 <div class="card main-card">
                     <div class="card-header">
-                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="setting icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Settings</h3>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="setting icon" ng-click="showAuthPopup()" style=" font-size: 1.5em; vertical-align: middle;"></i>Settings</h3>
                     </div>
                     <div class="card card-block" style=" overflow: scroll; overflow-x: hidden;">
                         <div class="ui grid">
@@ -117,7 +102,7 @@
                                         <h5>Table</h5><br /><br />
                                         <span>Enable/Disable the protection on deleting a table</span>
                                         <label class="switch" style="float:right">
-                                            <input type="checkbox" ng-checked="check_table" ng-click="checkIt_table()" class="checkbox">
+                                            <input type="checkbox" id="table_checkbox" ng-checked="check_table" ng-click="checkIt_table()" class="checkbox">
                                             <div class="slider"></div>
                                         </label>
                                     </div>
@@ -129,10 +114,24 @@
                                         <h3>Appearance</h3>
                                     </div>
                                     <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
+                                        <h5 style="color:grey">Defualt Theme</h5>
+                                        <label class="switch" style="float:right">
+                                            <input type="checkbox" class="checkbox" id="somethemeCheckbox">
+                                            <div class="slider" onclick="toggletheme('default')"></div>
+                                        </label>
+                                    </div>
+                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
                                         <h5 style="color:grey">Dark Theme</h5>
                                         <label class="switch" style="float:right">
-                                            <input type="checkbox" class="checkbox" id="themeCheckbox">
-                                            <div class="slider" onclick="toggleDarkMode()"></div>
+                                            <input type="checkbox" class="checkbox" id="darkthemeCheckbox">
+                                            <div class="slider" onclick="toggletheme('dark')"></div>
+                                        </label>
+                                    </div>
+                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
+                                        <h5 style="color:grey">Ocean Theme</h5>
+                                        <label class="switch" style="float:right">
+                                            <input type="checkbox" class="checkbox" id="oceanthemeCheckbox">
+                                            <div class="slider" onclick="toggletheme('blue')"></div>
                                         </label>
                                     </div>
                                 </div>
