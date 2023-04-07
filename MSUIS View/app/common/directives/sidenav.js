@@ -109,6 +109,10 @@
                         "icon": "bi-file-lock2",
                         "name": "Locks Analytics",
                         "state": "LockAnalysis",
+                    }, {
+                        "icon": "bi bi-card-heading",
+                        "name": "Index Analytics",
+                        "state": "Indexing",
                     }]
                 }
             ]

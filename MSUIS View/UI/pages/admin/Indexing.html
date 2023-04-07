@@ -1,0 +1,150 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+
+
+    .tgl {
+        display: none;
+    }
+
+        .tgl + .tgl-btn {
+            outline: 0;
+            display: block;
+            width: 4em;
+            height: 2.6em;
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin-left: 5px;
+        }
+
+    .tgl-skewed + .tgl-btn {
+        overflow: hidden;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transition: all .2s ease;
+        transition: all .2s ease;
+        font-family: sans-serif;
+        width: 150px;
+        padding: 6px;
+        background-color: #888;
+    }
+
+        .tgl-skewed + .tgl-btn:after, .tgl-skewed + .tgl-btn:before {
+            display: inline-block;
+            -webkit-transition: all .2s ease;
+            transition: all .2s ease;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            line-height: 2em;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .tgl-skewed + .tgl-btn:after {
+            left: 100%;
+            content: attr(data-tg-on);
+        }
+
+        .tgl-skewed + .tgl-btn:before {
+            left: 0;
+            content: attr(data-tg-off);
+        }
+
+    .tgl-skewed:checked + .tgl-btn {
+        background-color: #21BA45;
+        padding-top: 6px;
+        width: 150px
+    }
+
+        .tgl-skewed:checked + .tgl-btn:before {
+            left: -100%;
+        }
+
+        .tgl-skewed:checked + .tgl-btn:after {
+            left: 0;
+        }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="IndexingCtrl" style="transition: transform 0.3s ease-out;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="parent-container">
+                <div class="card main-card">
+                    <div class="card-header">
+                        <div class="ui blue floating dropdown labeled search icon button" ng-click="dropdownDatabase()" style="float: left" ng-init="getDatabaseList()" id="dbDropdown">
+                            <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdownDatabase()" ng-change="showType=true">
+                                <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                            </select>
+                            <i class="database icon"></i>
+                            <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                            <div class="default text">Select Database</div>
+                            <div class="menu">
+                                <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                            </div>
+                        </div>
+                        <div id="formatInputDiv" class="ui green floating dropdown labeled icon button" ng-click="dropdown()" style="float: left;" ng-show="showType" ng-model="index_type" ng-change="changeType()">
+                            <select class="ui search selection dropdown" ng-model="index_type" ng-change="changeType()">
+                                <option class="item" value="Percent">Current Index Performance</option>
+                                <option class="item" value="Sugg">Index Suggestions</option>
+
+                            </select>
+                            <i class="angle right icon"></i>
+                            <span class="text" style=" color: white; margin: 0">Select Format</span>
+                            <div class="menu">
+                                <div class="item" data-value="Percent">Current Index Performance</div>
+                                <div class="item" data-value="Sugg">Index Suggestions</div>
+                            </div>
+                        </div>
+
+
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-card-heading" style=" font-size: 1.5em; vertical-align: middle; margin-right:10px"></i>Index Analytics</h3>
+                    </div>
+                    <div class="card-block scrollbar" id="table-parent-container" ng-show="Percent">
+                        <div class="table-responsive">
+                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="IndexParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="Indexing in $data">
+                                        <td data-title="'Sr.No'" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none;"><label>{{Indexing.tablename}}</label></td>
+                                        <td data-title="'Seeks'" sortable="'seeks'" style=" border-top: none;"><label>{{Indexing.seeks}}</label></td>
+                                        <td data-title="'System Scans'" sortable="'System Scans'" style=" border-top: none; align-items: center;"><label>{{ Indexing.system_scans }}</label></td>
+                                        <td data-title="'Seek Percentage'" sortable="'SeekPercentage'" style=" border-top: none;"><label>{{ Indexing.SeekPercentage}}</label></td>                          
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-block scrollbar" id="table-parent-container" ng-show="Sugg">
+                        <div class="table-responsive" style="overflow:scroll">
+                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="IndexSuggParams" style="width: 100%" show-filter="true">
+                                <tbody style="overflow:scroll; width:100%">
+                                    <tr ng-repeat="Indexing in $data">
+                                        <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td width="21%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none;"><label>{{Indexing.tablename}}</label></td>
+                                        <td width="21%" data-title="'Equality columns'" sortable="'equalitycol'" style=" border-top: none; "><label>{{Indexing.equalitycol}}</label></td>
+                                        <td width="21%" data-title="'Inequality columns'" sortable="'inequalitycol'" style=" border-top: none; "><label>{{Indexing.inequalitycol}}</label></td>
+                                        <td width="21%" data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none;"><label>{{Indexing.includedcol}}</label></td>
+                                        <td width="6%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none;"><label>{{Indexing.seeks}}</label></td>
+                                        <td width="5%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none;"><label>{{ Indexing.Index_Advantage }}</label></td>                                
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
