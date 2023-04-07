@@ -47,6 +47,9 @@ function toggletheme(theme) {
         document.querySelector(':root').style.setProperty('--invert', '1')
         document.querySelector(':root').style.setProperty('--hue', '180deg')
         localStorage.setItem('theme', 'dark');
+        /*document.getElementById('darkthemeCheckbox').checked = true
+        document.getElementById('oceanthemeCheckbox').checked = false
+        document.getElementById('somethemeCheckbox').checked = false*/
         return
 
     }

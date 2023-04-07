@@ -19,6 +19,32 @@ namespace MSUISApi.Controllers
         DataTable Dt = new DataTable();
         DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
+
+        [HttpPost]
+        public HttpResponseMessage checklogin([FromBody] string logindetail)
+        {
+            try
+            {
+                string user = logindetail.Split(' ')[0];
+                string pass = logindetail.Split(' ')[1];
+                SqlCommand cmd = new SqlCommand("Checklogin", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@user", user);
+                cmd.Parameters.AddWithValue("@pass", pass);
+                cmd.Parameters.Add("@message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@message"].Direction = ParameterDirection.Output; 
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@message"].Value);
+                Con.Close();
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+               catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage trigger_status()
         {
