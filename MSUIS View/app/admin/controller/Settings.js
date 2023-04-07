@@ -5,14 +5,19 @@
     $scope.initfun = function () {
         $scope.toggleDefaultLocations();
         $scope.getTrigStatus();
+        $scope.check_table = true;
         $scope.getlocr("rloc");
         $scope.getlocd("dloc");        
         if (localStorage.getItem('theme') == 'dark') {
-            document.getElementById('themeCheckbox').checked = true
+            document.getElementById('darkthemeCheckbox').checked = true
+        }
+        else if (localStorage.getItem('theme') == 'blue') {
+            document.getElementById('oceanthemeCheckbox').checked = true
+        } else if (localStorage.getItem('theme') == 'light') {
+            document.getElementById('somethemeCheckbox').checked = true
         }
         
     }
-
     $scope.toggleDefaultLocations = function () {
         $('#options').slideToggle()
     }
@@ -27,15 +32,42 @@
             $scope.setTrigToggle(0);
         }
     }
+    $scope.authenticate = function () {
+        if (document.getElementById('password').value === 'abc@123') {
+            $scope.check_table = false;
+            document.getElementById('table_checkbox').checked = false;
+            $scope.hideAuthForm();
+        }
+        else {
+            $scope.check_table = true;
+            document.getElementById('table_checkbox').checked = true;
+            $scope.hideAuthForm();
+        }
+    }
+    $scope.showAuthPopup = function () {
+        $('.addPopup').modal({
+            context: '#parent-container',
+            onHidden: function () {
+                //document.getElementById('add-message-container').style.display = 'none';
+                document.getElementById('password').value = '';
+            }
+        }).modal('show');
+    };
+    $scope.hideAuthForm = function () {
+        $('.addPopup').modal('hide');
+    };
     $scope.checkIt_table = function () {
+        
         if (!$scope.check_table) {
             $scope.check_table = true;
             $('#freq').fadeIn();
-           
+            
         } else {
+            $scope.showAuthPopup()
             $scope.check_table = false;
            
         }
+        
         console.log($scope.check_table)
     }
 
