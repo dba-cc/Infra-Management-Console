@@ -4,10 +4,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Configuration;
 using System.Web.Http;
 
 
@@ -97,26 +99,60 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateTablePermissions(TablePermission Obj)
+        public HttpResponseMessage UpdateTablePermissions(List<TablePermission> Obj)
         {
             try
             {
 
-                string UserName = Convert.ToString(Obj.user);
-                string DatabaseName = Convert.ToString(Obj.database);
-                string table = Convert.ToString(Obj.table);
+                string UserName, DatabaseName, TableName;
+                DataTable paramSets = new DataTable();
+
+                DataColumn username = new DataColumn("username", typeof(string));
+                username.MaxLength = 255;
+                paramSets.Columns.Add(username);
+
+                DataColumn databasename = new DataColumn("databasename", typeof(string));
+                databasename.MaxLength = 255;
+                paramSets.Columns.Add(databasename);
+
+                DataColumn tablename = new DataColumn("tablename", typeof(string));
+                tablename.MaxLength = 255;
+                paramSets.Columns.Add(tablename);
+
+                DataColumn selectbit = new DataColumn("selectbit", typeof(bool));
+                paramSets.Columns.Add(selectbit);
+
+                DataColumn insertbit = new DataColumn("insertbit", typeof(bool));
+                paramSets.Columns.Add(insertbit);
+
+                DataColumn updatebit = new DataColumn("updatebit", typeof(bool));
+                paramSets.Columns.Add(updatebit);
+
+                DataColumn deletebit = new DataColumn("deletebit", typeof(bool));
+                paramSets.Columns.Add(deletebit);
+
+                DataColumn alterbit = new DataColumn("alterbit", typeof(bool));
+                paramSets.Columns.Add(alterbit);
+
+                DataColumn controlbit = new DataColumn("controlbit", typeof(bool));
+                paramSets.Columns.Add(controlbit);
+
 
                 SqlCommand cmd = new SqlCommand("UpdateTablePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@user", UserName);
-                cmd.Parameters.AddWithValue("@database", DatabaseName);
-                cmd.Parameters.AddWithValue("@table", table);
-                cmd.Parameters.AddWithValue("@select", Obj.SELECT.HasValue ? Obj.SELECT : null);
-                cmd.Parameters.AddWithValue("@alter", Obj.ALTER.HasValue ? Obj.ALTER : null);
-                cmd.Parameters.AddWithValue("@insert", Obj.INSERT.HasValue ? Obj.INSERT : null);
-                cmd.Parameters.AddWithValue("@update", Obj.UPDATE.HasValue ? Obj.UPDATE : null);
-                cmd.Parameters.AddWithValue("@delete", Obj.DELETE.HasValue ? Obj.DELETE: null);
-                cmd.Parameters.AddWithValue("@control", Obj.CONTROL.HasValue ? Obj.CONTROL : null);
+
+                foreach (TablePermission tablePermission in Obj)
+                {
+                    UserName = Convert.ToString(tablePermission.user);
+                    DatabaseName = Convert.ToString(tablePermission.database);
+                    TableName = Convert.ToString(tablePermission.table);
+                    paramSets.Rows.Add(UserName, DatabaseName, TableName, tablePermission.SELECT.HasValue ? tablePermission.SELECT : null, tablePermission.INSERT.HasValue ? tablePermission.INSERT : null, tablePermission.UPDATE.HasValue ? tablePermission.UPDATE : null, tablePermission.DELETE.HasValue ? tablePermission.DELETE : null, tablePermission.ALTER.HasValue ? tablePermission.ALTER : null, tablePermission.CONTROL.HasValue ? tablePermission.CONTROL : null);
+                }
+
+                SqlParameter param = cmd.Parameters.AddWithValue("@set", paramSets);
+                param.SqlDbType = SqlDbType.Structured;
+                param.TypeName = "TableSet";
+
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();
@@ -325,23 +361,53 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateStoredProcedurePermissions(SPPermission Obj)
+        public HttpResponseMessage UpdateStoredProcedurePermissions(List<SPPermission> Obj)
         {
             try
             {
-                string UserName = Convert.ToString(Obj.user);
-                string DatabaseName = Convert.ToString(Obj.database);
-                string SPName = Convert.ToString(Obj.SPName);
+                string UserName, DatabaseName, SPName;
+                DataTable paramSets = new DataTable();
+
+                DataColumn username = new DataColumn("username", typeof(string));
+                username.MaxLength = 255;
+                paramSets.Columns.Add(username);
+
+                DataColumn databasename = new DataColumn("databasename", typeof(string));
+                databasename.MaxLength = 255;
+                paramSets.Columns.Add(databasename);
+
+                DataColumn storedprocedure = new DataColumn("storedprocedure", typeof(string));
+                storedprocedure.MaxLength = 255;
+                paramSets.Columns.Add(storedprocedure);
+
+                DataColumn executebit = new DataColumn("executebit", typeof(bool));
+                paramSets.Columns.Add(executebit);
+
+                DataColumn alterbit = new DataColumn("alterbit", typeof(bool));
+                paramSets.Columns.Add(alterbit);
+
+                DataColumn viewdefinitionbit = new DataColumn("viewdefinitionbit", typeof(bool));
+                paramSets.Columns.Add(viewdefinitionbit);
+
+                DataColumn controlbit = new DataColumn("controlbit", typeof(bool));
+                paramSets.Columns.Add(controlbit);
+
 
                 SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@user", UserName);
-                cmd.Parameters.AddWithValue("@database", DatabaseName);
-                cmd.Parameters.AddWithValue("@storedProcedure", SPName);
-                cmd.Parameters.AddWithValue("@execute", Obj.EXECUTE.HasValue ? Obj.EXECUTE : null);
-                cmd.Parameters.AddWithValue("@alter", Obj.ALTER.HasValue ? Obj.ALTER : null);
-                cmd.Parameters.AddWithValue("@viewDefinition", Obj.VIEWDEFINITION.HasValue ? Obj.VIEWDEFINITION : null);
-                cmd.Parameters.AddWithValue("@control", Obj.CONTROL.HasValue ? Obj.CONTROL : null);
+
+                foreach (SPPermission sPPermission in Obj)
+                {
+                    UserName = Convert.ToString(sPPermission.user);
+                    DatabaseName = Convert.ToString(sPPermission.database);
+                    SPName = Convert.ToString(sPPermission.SPName);
+                    paramSets.Rows.Add(UserName, DatabaseName, SPName, sPPermission.EXECUTE.HasValue ? sPPermission.EXECUTE : null, sPPermission.ALTER.HasValue ? sPPermission.ALTER : null, sPPermission.VIEWDEFINITION.HasValue ? sPPermission.VIEWDEFINITION : null, sPPermission.CONTROL.HasValue ? sPPermission.CONTROL : null);
+                }
+
+                SqlParameter param = cmd.Parameters.AddWithValue("@set", paramSets);
+                param.SqlDbType = SqlDbType.Structured;
+                param.TypeName = "SPSet";
+
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
                 cmd.ExecuteNonQuery();
