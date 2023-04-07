@@ -232,9 +232,9 @@
                                                 <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'"><label>{{QueryHit.time}}</label></td>
                                                 <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
                                                     <label title="{{QueryHit.query}}" ng-click="toggleCheckbox(QueryHit, $event)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}...</label>
-                                                    <button type="button" class="ui icon button" style="float: right" ng-click="copyQuery(QueryHit.query)">
-                                                        <i class="copy icon"></i>
-                                                    </button>
+                                                    
+                                                        <i style="float: right" class="copy outline icon" ng-click="copyQuery(QueryHit.query)"></i>
+                                                    
                                                 </td>
                                                 <td width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'"><label>{{QueryHit.objectid}}</label></td>
                                                 <td width="10%" data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'"><label>{{QueryHit.execution_count}}</label></td>

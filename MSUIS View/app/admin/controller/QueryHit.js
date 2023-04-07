@@ -142,7 +142,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         fetchPage(pageNum);
     };
 
-    $scope.FetchQueryHitList = function () {
+  $scope.FetchQueryHitList = function () {
         showLoadingScreen();
         $scope.changeView('half', null)
         $scope.db = document.getElementById('dbname').value;
@@ -167,8 +167,9 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
                         showMessage(response.obj);
 
                     }
-                    else {
 
+                    else {
+                        console.log(response.obj)
                         totalData = totalData.concat(response.obj.data);
                         if (response.obj.data.length > 0) {
 
@@ -229,16 +230,17 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             $scope.generateChart(null);
             $scope.changeFactor();
             $('#factor-div').fadeIn();
-            document.getElementById('selectedQueryText').innerText = '';
+            document.getElementById('selectedQueryText').value = '';
             document.getElementById('selectedQueryTextDiv').style.display = 'none';
             return;
         }
         $scope.activator = e.currentTarget.parentNode.parentNode;
         e.currentTarget.parentNode.parentNode.classList.add('activerow');
         $('#factor-div').fadeOut();
-        document.getElementById('selectedQueryText').innerText = data.query;
+        document.getElementById('selectedQueryText').value = data.query;
         document.getElementById('selectedQueryTextDiv').style.display = 'flex';
         $scope.qhgraph(data);
+        //console.log(data.query)
     }
 
     $scope.qhgraph = function (data) {
