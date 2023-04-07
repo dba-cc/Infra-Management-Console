@@ -212,6 +212,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         controller: "LockAnalysisCtrl"
     });
 
+    e.state("Indexing", {
+        url: "/Indexing",
+        parent: "dashboard",
+        templateUrl: "UI/pages/admin/Indexing.html",
+        controller: "IndexingCtrl"
+    });
+
     e.state("PermReport", {
         url: "/PermReport",
         parent: "dashboard",

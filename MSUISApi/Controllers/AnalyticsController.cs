@@ -265,7 +265,9 @@ namespace MSUISApi.Controllers
             {
                 return Return.returnHttp("201", e.Message, null);
             }
-        }[HttpPost]
+        }
+
+        [HttpPost]
         public HttpResponseMessage GetQHGraph([FromBody] String var)
         {
             try
@@ -297,6 +299,78 @@ namespace MSUISApi.Controllers
                     }
                 }
                 return Return.returnHttp("200", qhgraphList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetIndexPercentage([FromBody] String db)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("IndexPercentage", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", db);
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<Indexing> IndexingList = new List<Indexing>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        Indexing IndexingObj = new Indexing();
+                        
+                        IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["TableName"]);                        
+                        IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["TotalUsage"]);
+                        IndexingObj.system_scans = Convert.ToInt32(Dt.Rows[i]["system_scans"]);
+                        IndexingObj.SeekPercentage = Convert.ToSingle(Dt.Rows[i]["SeekPercentage"]);
+                        IndexingList.Add(IndexingObj);
+                    }
+                }
+                return Return.returnHttp("200", IndexingList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetIndexSuggestions([FromBody] String db)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("IndexSuggestions", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", db);
+                Da.SelectCommand = cmd;
+
+                Da.Fill(Dt);
+
+                List<Indexing> IndexingList = new List<Indexing>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        Indexing IndexingObj = new Indexing();
+
+                        IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["Tablename"]);
+                        IndexingObj.equalitycol = Convert.ToString(Dt.Rows[i]["eql_col"]);
+                        IndexingObj.inequalitycol = Convert.ToString(Dt.Rows[i]["ineql_col"]);
+                        IndexingObj.includedcol = Convert.ToString(Dt.Rows[i]["incl_col"]);
+                        IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["seeks"]);
+                        IndexingObj.Index_Advantage = Convert.ToSingle(Dt.Rows[i]["Index_Advantage"]);
+                        IndexingList.Add(IndexingObj);
+                    }
+                }
+                return Return.returnHttp("200", IndexingList, null);
             }
             catch (Exception e)
             {
