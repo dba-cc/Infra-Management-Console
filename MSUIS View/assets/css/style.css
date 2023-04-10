@@ -219,6 +219,10 @@ tr > td > label {
     text-align: center !important;
 }
 
+.ui.table.myLefter thead th {
+    text-align: left !important;
+}
+
 .table td, .table th {
     vertical-align: middle !important;
 }
