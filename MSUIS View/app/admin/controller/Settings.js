@@ -71,11 +71,9 @@
                 document.getElementById('db_password').value = '';
             }
         }).modal('show');
-        document.querySelector('.card.card-block').style.pointerEvents = 'none'
     };
     $scope.hideAuth_DbForm = function () {
         $('.addDbPopup').modal('hide');
-        document.querySelector('.card.card-block').style.pointerEvents = 'auto'
     };
 
     $scope.showAuth_TablePopup = function () {
