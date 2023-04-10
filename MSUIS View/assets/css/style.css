@@ -167,6 +167,7 @@ p {
 .dimmed.dimmable > .ui.visible.dimmer, .ui.active.dimmer {
     border-radius: 15px !important;
     z-index: 1030 !important;
+    pointer-events: none;
 }
 
 .ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {

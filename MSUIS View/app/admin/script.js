@@ -42,7 +42,6 @@ if (localStorage.getItem('theme') == 'dark') {
 }*/
 /////////////////////////////////////
 function toggletheme(theme) {
-    console.log(theme)
     if (theme == 'dark') {
         document.querySelector(':root').style.setProperty('--invert', '1')
         document.querySelector(':root').style.setProperty('--hue', '180deg')
@@ -54,14 +53,14 @@ function toggletheme(theme) {
 
     }
 
-    else if (theme == 'blue') {
+    else if (theme == 'oceanblue') {
         document.querySelector(':root').style.setProperty('--invert', '1')
         document.querySelector(':root').style.setProperty('--hue', '230deg')
-        localStorage.setItem('theme', 'blue');
+        localStorage.setItem('theme', 'oceanblue');
         return
 
     }
-    else if (theme == 'default') {
+    else if (theme == 'light') {
         document.querySelector(':root').style.setProperty('--invert', '0')
         document.querySelector(':root').style.setProperty('--hue', '0deg')
         localStorage.setItem('theme', 'light');

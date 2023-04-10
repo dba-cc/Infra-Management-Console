@@ -47,13 +47,68 @@
         padding: 0 !important;
         margin: 0
     }
+
+    .container form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .container label {
+        display: flex;
+        cursor: pointer;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 0.375em;
+    }
+
+        .container label input {
+            position: absolute;
+            left: -9999px;
+        }
+
+            .container label input:checked + span {
+                background-color: #414181;
+                color: white;
+            }
+
+                .container label input:checked + span:before {
+                    box-shadow: inset 0 0 0 0.4375em #00005c;
+                }
+
+        .container label span {
+            display: flex;
+            align-items: center;
+            padding: 0.375em 0.75em 0.375em 0.375em;
+            border-radius: 99em;
+            transition: 0.25s ease;
+            color: #414181;
+        }
+
+            .container label span:hover {
+                background-color: #d6d6e5;
+            }
+
+            .container label span:before {
+                display: flex;
+                flex-shrink: 0;
+                content: "";
+                background-color: #fff;
+                width: 1.5em;
+                height: 1.5em;
+                border-radius: 50%;
+                margin-right: 0.375em;
+                transition: 0.25s ease;
+                box-shadow: inset 0 0 0 0.125em #00005c;
+            }
 </style>
 
 <!-- Page body start -->
 <div class="page-body" ng-controller="SettingsCtrl" ng-init="initfun()" style="transition: transform 0.3s ease-out;">
     <div class="row">
         <div class="col-sm-12">
-            <div id="parent-container" style="pointer-events:none">
+            <div id="parent-container">
 
                 <!--Table popup-->
                 <div class="ui mini modal addTablePopup" id="inputPopup" style="pointer-events:auto">
@@ -102,7 +157,7 @@
                     </div>
                 </div>
 
-            </div>
+
                 <div class="card main-card">
                     <div class="card-header">
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="setting icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Settings</h3>
@@ -137,27 +192,37 @@
                                     <div class="card-header">
                                         <h3>Appearance</h3>
                                     </div>
-                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
-                                        <h5 style="color:grey">Defualt Theme</h5>
-                                        <label class="switch" style="float:right">
-                                            <input type="checkbox" class="checkbox" id="somethemeCheckbox">
-                                            <div class="slider" onclick="toggletheme('default')"></div>
-                                        </label>
-                                    </div>
-                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
-                                        <h5 style="color:grey">Dark Theme</h5>
-                                        <label class="switch" style="float:right">
-                                            <input type="checkbox" class="checkbox" id="darkthemeCheckbox">
-                                            <div class="slider" onclick="toggletheme('dark')"></div>
-                                        </label>
-                                    </div>
-                                    <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
-                                        <h5 style="color:grey">Ocean Theme</h5>
-                                        <label class="switch" style="float:right">
-                                            <input type="checkbox" class="checkbox" id="oceanthemeCheckbox">
-                                            <div class="slider" onclick="toggletheme('blue')"></div>
-                                        </label>
-                                    </div>
+                                    <form>
+                                        <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
+                                            <div class="container" style=" display: flow-root;;">
+                                                <h5 style=" color: grey; float: left; margin-top: 5px;">Defualt Theme</h5>
+                                                <label style=" float: right !important; margin-bottom: 0;">
+                                                    <input type="radio" name="radio" checked value="Default" id="lightThemeRadio" onclick="toggletheme('light')">
+                                                    <span>Default</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
+
+                                            <div class="container" style=" display: flow-root;">
+                                                <h5 style=" color: grey; float: left; margin-top: 5px;">Dark Theme</h5>
+                                                <label style=" float: right !important; margin-bottom: 0;">
+                                                    <input type="radio" name="radio" value="Dark" id="darkThemeRadio" onclick="toggletheme('dark')">
+                                                    <span>Dark</span>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                        <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
+                                            <div class="container" style=" display: flow-root;">
+                                                <h5 style=" color: grey; float: left; margin-top: 5px;">Ocean Theme</h5>
+                                                <label style=" float: right !important; margin-bottom: 0;">
+                                                    <input type="radio" name="radio" id="oceanBlueThemeRadio" value="Ocean Blue" onclick="toggletheme('oceanblue')">
+                                                    <span>Ocean Blue</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -168,8 +233,8 @@
                             <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin: 15px;">
                                 <h5 style="color:grey">Set custom default locations</h5>
                                 <label class="switch" style="float:right">
-                                    <input type="checkbox"  class="checkbox">
-                                    <div class="slider" ng-click="toggleDefaultLocations()"></div>
+                                    <input type="checkbox" class="checkbox" onchange="$('#options').slideToggle()">
+                                    <div class="slider"></div>
                                 </label>
                             </div>
 
