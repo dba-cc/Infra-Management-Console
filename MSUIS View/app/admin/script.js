@@ -37,6 +37,13 @@ function toggleSettings() {
     }
 }
 
+app.filter('addLineBreak', ['$sce', function ($sce) {
+    return function (input) {
+        if (!input) return '';
+        return $sce.trustAsHtml(input.replace(/,/g, ',<br><br><br>'));
+    }
+}]);
+
 if (localStorage.getItem('theme') == 'dark') {
     toggleDarkMode();
 }*/
