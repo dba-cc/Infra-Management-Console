@@ -6,3 +6,5 @@
 *.dll.config
 *.config
 *.pdb
+/MSUISApi/.vs/
+/MSU View/.vs/
