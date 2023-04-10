@@ -80,17 +80,17 @@
                     }]
                 },
                 {
-                    "icon": "bi bi-device-hdd-fill",
-                    "name": "Manage Backups",
+                    "icon": "database icon",
+                    "name": "Manage Databases",
                     "hasSubmenu": true,
                     "subitems": [{
+                        "icon": "bi bi-database-fill-gear",
+                        "name": "Databases",
+                        "state": "RestoreBackup",
+                    }, {
                         "icon": "bi bi-alarm-fill",
                         "name": "Schedule Backup",
                         "state": "AutoBackup",
-                    }, {
-                        "icon": "bi bi-hdd-fill",
-                        "name": "Restore Backup",
-                        "state": "RestoreBackup",
                     }]
                 },
                 {
