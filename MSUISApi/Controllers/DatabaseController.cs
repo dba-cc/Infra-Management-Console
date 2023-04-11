@@ -202,6 +202,33 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage BackupDatabase(RB DbData)
+        {
+            try
+            {
+                String dbname = Convert.ToString(DbData.FrDbName);
+                String newdbname = Convert.ToString(DbData.ToDbName);
+                String location = Convert.ToString(DbData.bkLocation);
+                SqlCommand cmd = new SqlCommand("BackupDb", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", dbname);
+                cmd.Parameters.AddWithValue("@newdbname", newdbname);
+                cmd.Parameters.AddWithValue("@path", location);
+                cmd.Parameters.Add("@message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@message"].Direction = ParameterDirection.Output;
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@message"].Value);
+                Con.Close();
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage CreateDatabase([FromBody] String str)
         {
             try
