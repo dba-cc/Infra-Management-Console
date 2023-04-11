@@ -1,48 +1,24 @@
 ﻿app.controller('SettingsCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Settings";
-   
-    $scope.initfun = function () {
-        $scope.toggleDefaultLocations();
-        $scope.getTrigStatus();
-        $scope.check_table = true;
-        $scope.getlocr("rloc");
-        $scope.getlocd("dloc");        
-        if (localStorage.getItem('theme') == 'dark')
-        {
-            document.getElementById('darkthemeCheckbox').checked = true
-        }
-        else if (localStorage.getItem('theme') == 'blue')
-        {
-            document.getElementById('oceanthemeCheckbox').checked = true
-        }
-        else if (localStorage.getItem('theme') == 'light')
-        {
-            document.getElementById('somethemeCheckbox').checked = true
-        }
-        
-    }
-    ///////////////////////////////not working yet need a proper funtion to call these...
-    if (localStorage.getItem('theme') == 'dark') {
-        document.getElementById('darkthemeCheckbox').checked = true
-        document.getElementById('oceanthemeCheckbox').checked = false
-        document.getElementById('somethemeCheckbox').checked = false
-    }
-    else if (localStorage.getItem('theme') == 'blue') {
-        document.getElementById('darkthemeCheckbox').checked = false
-        document.getElementById('oceanthemeCheckbox').checked = true
-        document.getElementById('somethemeCheckbox').checked = false
-    }
-    else if (localStorage.getItem('theme') == 'light') {
-        document.getElementById('darkthemeCheckbox').checked = false
-        document.getElementById('oceanthemeCheckbox').checked = false
-        document.getElementById('somethemeCheckbox').checked = true
-    }
-    //////////////////////////////////
+    $scope.showPassword = false;
 
-    $scope.toggleDefaultLocations = function () {
+    $scope.initfun = function () {
         $('#options').slideToggle()
+        $scope.getTrigStatus();
+        $scope.getlocr("rloc");
+        $scope.getlocd("dloc");
+        if (localStorage.getItem('theme') == 'dark') {
+            document.getElementById('darkThemeRadio').checked = true
+        }
+        else if (localStorage.getItem('theme') == 'oceanblue') {
+            document.getElementById('oceanBlueThemeRadio').checked = true
+        }
+        else if (localStorage.getItem('theme') == 'light') {
+            document.getElementById('lightThemeRadio').checked = true
+        }
+
     }
-    //DB trigger Start
+
     $scope.checkIt = function () {
         if (!$scope.check) {
             $scope.check = true;
@@ -53,20 +29,6 @@
             $scope.setTrigToggle(0);
         }
     }
-   /* $scope.authenticate_db = function () {
-        if (document.getElementById('db_password').value === 'abc@123') {
-            $scope.check = false;
-            document.getElementById('db_checkbox').checked = false;
-            $scope.hideAuth_DbForm();
-            $scope.setTrigToggle(0);
-        }
-        else {
-            $scope.check = true;
-            document.getElementById('db_checkbox').checked = true;
-            $scope.hideAuth_DbForm();
-            $scope.setTrigToggle(1);
-        }
-    }*/
 
     $scope.authenticate_db = function () {
         var password = document.getElementById('db_password').value
@@ -106,6 +68,7 @@
     $scope.showAuth_DbPopup = function () {
         $('.addDbPopup').modal({
             context: '#parent-container',
+            closable: false,
             onHidden: function () {
                 document.getElementById('db_password').value = '';
             }
@@ -114,12 +77,11 @@
     $scope.hideAuth_DbForm = function () {
         $('.addDbPopup').modal('hide');
     };
-    //DB trigger End
-    /////////////////////
-    //Table trigger start
+
     $scope.showAuth_TablePopup = function () {
         $('.addTablePopup').modal({
             context: '#parent-container',
+            closable: false,
             onHidden: function () {
                 document.getElementById('tb_password').value = '';
             }
@@ -129,10 +91,10 @@
         $('.addTablePopup').modal('hide');
     };
     $scope.checkIt_table = function () {
-        
+
         if (!$scope.check_table) {
             $scope.check_table = true;
-            
+
         } else {
             $scope.showAuth_TablePopup();
             $scope.check_table = false;
@@ -151,7 +113,6 @@
             $scope.hideAuth_TableForm();
         }
     }
-    //Table trigger end
 
     $scope.getTrigStatus = function () {
         showLoadingScreen();
@@ -173,14 +134,13 @@
                         dataset: response.obj
                     });
                     $scope.check = response.obj;
-                    console.log(response.obj);
                 }
                 hideLoadingScreen();
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
                 hideLoadingScreen();
-               
+
             });
     };
 
@@ -204,8 +164,6 @@
                     }, {
                         dataset: response.obj
                     });
-
-                    //console.log(response.obj);
                 }
                 hideLoadingScreen();
             })
@@ -236,9 +194,7 @@
                     }, {
                         dataset: response.obj
                     });
-                    //$scope.somevalue_r = response.obj;
                     document.getElementById('rloc').value = response.obj;
-                    //console.log(response.obj);
                 }
             })
             .error(function (res) {
@@ -267,9 +223,7 @@
                     }, {
                         dataset: response.obj
                     });
-                    //$scope.somevalue_r = response.obj;
                     document.getElementById('dloc').value = response.obj;
-                    //console.log(response.obj);
                 }
             })
             .error(function (res) {
@@ -285,7 +239,7 @@
         console.log(r);
         console.log(d);
     }
-    $scope.updateloc = function (loc,type) {
+    $scope.updateloc = function (loc, type) {
         console.log(loc)
         console.log(type)
         $http({
@@ -296,7 +250,7 @@
                 "typ": type
             },
             headers: { "Content-Type": 'application/json' }
-            
+
         })
 
             .success(function (response) {
@@ -312,6 +266,4 @@
                 hideLoadingScreen();
             });
     };
-
-
 });

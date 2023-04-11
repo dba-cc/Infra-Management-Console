@@ -1,8 +1,156 @@
-﻿<div class="page-body" ng-controller="AutoBackupCtrl" ng-init="getBackupSchedules()">
+﻿<div class="page-body" ng-controller="BackupCtrl" ng-init="getBackupSchedules()">
     <div class="row">
         <div class="col-sm-12">
             <!-- Basic Form Inputs card start -->
             <div id="parent-container">
+                <!--restore backup popup-->
+                <div class="ui tiny modal addPopup restorebackup" id="inputPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Restore Backup
+                    </div>
+                    <div class="content" style="max-height:fit-content">
+                        <form class="ui mini form">
+                            <div class="field">
+                                <div>
+                                    <div class="ui grid" style=" padding: 15px;">
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item active" ng-click="setextension('0')" id="bak">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bak</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bak file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column ">
+                                            <div class="ui big middle aligned selection list">
+                                                <div class="item" ng-click="setextension('1')" id="bacpac">
+                                                    <div class="col">
+                                                        <i class="bi bi-database-fill-up icon"></i>
+                                                        <b>.bacpac</b>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>To show/use .bacpac file.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
+                                    <h4>Backup File Location</h4>
+                                    <div class="ui big middle aligned selection list">
+                                        <div class="item active" ng-click="setLocation('0')" id="def">
+                                            <div class="col">
+                                                <i class="bi bi-folder icon"></i>
+                                                <b>Default Location</b>
+                                            </div>
+                                            <div class="col">
+                                                <p>Backup will be selected from the default specified location.</p>
+                                            </div>
+                                        </div>
+                                        <div class="item" ng-click="setLocation('new')" id="new">
+                                            <div class="col">
+                                                <i class="bi bi-folder-plus icon"></i>
+                                                <b>Other Location</b>
+                                            </div>
+                                            <div class="col">
+                                                <p>Backup will be selected from the new specified location.</p>
+                                                <div class="ui left icon action input" style="display:none" id="loc">
+                                                    <i class="green link folder open icon"></i>
+                                                    <input style="" name="fileloc" autocomplete="off" placeholder="Enter Backup Location" id="newloc" class="form-control" ng-keydown="$event.keyCode === 13 && nwloc()" required />
+                                                    <button class="ui icon button" ng-click="nwloc()">
+                                                        <i class="right arrow icon"></i>
+                                                    </button>
+                                                </div>
+                                                <span style="display:none" id="locnote">*Do not include trailing slash in directory.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" ng-init="getFiles()" style="width:100%; float: left; margin-bottom: 1em">
+                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName" ng-change="defname()">
+                                    <option class="item" ng-repeat="f in FileList" value="{{f.DbName}}">{{f.DbName}}</option>
+                                </select>
+                                <i class="file icon"></i>
+                                <input type="hidden" ng-model="FC.DbName" style="color: white; font-weight: bold;">
+                                <div class="default text">Select Backup File</div>
+                                <div class="menu">
+                                    <div class="item" ng-repeat="f in FileList" data-value="{{f.DbName}}">{{f.DbName}}</div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
+                                    <h4>Destination Database</h4>
+                                    <div class="ui big middle aligned selection list">
+                                        <div class="item active" ng-click="setRpflag('1')" id="exist">
+                                            <div class="col">
+                                                <i class="bi bi-database-fill-up icon"></i>
+                                                <b>Existing Database</b>
+                                            </div>
+                                            <div class="col">
+                                                <p>Overwriting the existing database.</p>
+                                                <div class="ui small selection floating dropdown labeled search icon Button" ng-init="getDatabaseList()" style="display: flex; margin-bottom: 1em" ng-click="dropdown()" id="existingdbnme">
+                                                    <select class="ui search selection dropdown" ng-model="Database.name" id="toDbName">
+                                                        <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                                                    </select>
+                                                    <i class="bi bi-database-fill-check icon"></i>
+                                                    <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                                                    <div class="default text">Select Existing Database</div>
+                                                    <div class="menu">
+                                                        <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item" ng-click="setRpflag('0')" id="newdb">
+                                            <div class="col">
+                                                <i class="bi bi-database-fill-add icon"></i>
+                                                <b>New Database</b>
+                                            </div>
+                                            <div class="col">
+                                                <p>Creating a new Database</p>
+                                                <div class="ui left icon input" style="display:none" id="nwdb">
+                                                    <i class="bi bi-database-fill-gear icon"></i>
+                                                    <input type="text" style="width:100%" name="fileloc" autocomplete="off" placeholder="New Database Name" id="nwdbname" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui red message" id="add-message-container" style="display:none">
+                                <div class="content">
+                                    <p id="add-message"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <div class="ui animated button" ng-click="hideAddForm('restorebackup')" style=" margin: 0;" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                            <div class="hidden content">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
+                        <div class="ui green animated button" ng-click="RestoreBackup()" tabindex="0">
+                            <div class="visible content">Restore</div>
+                            <div class="hidden content">
+                                <i class="check icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!--Delete popup-->
                 <div class="ui mini modal deletePopup" id="inputPopup">
                     <i class="close icon"></i>
@@ -26,7 +174,7 @@
                 </div>
 
                 <!--add schedule popup-->
-                <div class="ui tiny modal addPopup" id="inputPopup">
+                <div class="ui tiny modal addPopup autobackup" id="inputPopup">
                     <i class="close icon"></i>
                     <div class="header" style="padding: 0; margin: 25px 15px 0 25px">
                         Add Schedule
@@ -144,6 +292,12 @@
                         </form>
                     </div>
                     <div class="actions">
+                        <div class="ui animated button" ng-click="hideAddForm('autobackup')" style=" margin: 0;" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                            <div class="hidden content">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
                         <div class="ui green animated button" ng-click="scheduleAutoBackup()" tabindex="0">
                             <div class="visible content">Schedule</div>
                             <div class="hidden content">
@@ -161,11 +315,17 @@
                         </div>
                     </div>
                     <div class="card-header">
-                        <button class="ui green labeled icon button" ng-click="showAddPopup()" style="float: left">
+                        <button class="ui green labeled icon button" ng-click="showAddPopup('autobackup')" style="float: left">
                             <i class="plus icon"></i>
                             Add Schedule
                         </button>
-                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="clock icon" style=" font-size: 1.5em; vertical-align: middle;"></i>Schedule Backup</h3>
+                        <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px">
+                            <button class="ui green labeled icon button" ng-click="showAddPopup('restorebackup')" style="float: left">
+                                <i class="bi bi-folder-symlink-fill icon"></i>
+                                Restore Database
+                            </button>
+                        </div>
+                        <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-device-hdd-fill" style=" font-size: 1.5em; vertical-align: middle;"></i>Manage Backup</h3>
                     </div>
 
                     <div style="background-color: white; height: 56vh;">
@@ -178,8 +338,6 @@
                                                 <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
                                                 <td data-title="'Database'" filter="{DB: 'text'}" sortable="'DB'" style=" border-top: none;"><label>{{Schedule.DB}}</label></td>
                                                 <td data-title="'Job Name'" filter="{JobName: 'text'}" sortable="'JobName'" style=" border-top: none;"><label>{{Schedule.JobName}}</label></td>
-                                                <!--<td data-title="'Frequency'" filter="{Frequency: 'text'}" sortable="'Frequency'" style=" border-top: none;"><label>{{Schedule.Frequency}}</label></td>
-                                                <td data-title="'Backup Type'" filter="{BackupType: 'text'}" sortable="'BackupType'" style=" border-top: none;"><label>{{Schedule.BackupType}}</label></td>-->
                                                 <td data-title="'Next Run Date'" filter="{NextRunDate: 'text'}" sortable="'NextRunDate'" style=" border-top: none;"><label>{{Schedule.NextRunDate}}</label></td>
                                                 <td data-title="'Next Run Time'" filter="{NextRunTime: 'text'}" sortable="'NextRunTime'" style=" border-top: none;"><label>{{Schedule.NextRunTime}}</label></td>
                                                 <td data-title="'Enabled'" filter="{Enabled: 'text'}" sortable="'Enabled'" style=" border-top: none;"><label>{{Schedule.Enabled}}</label></td>
@@ -216,7 +374,7 @@
                                                     <tr ng-repeat="Log in $data">
                                                         <td data-title="'Job'"><label>{{Log.JobName}}</label></td>
                                                         <td data-title="'Step'"><label>{{Log.StepName}}</label></td>
-                                                        <td data-title="'Status'" style=" display: flex; justify-content: center;" >
+                                                        <td data-title="'Status'" style=" display: flex; justify-content: center;">
                                                             <i title="{{Log.RunStatus}}" style="font-size: 1.3rem; width: 100%; height: 100%;" class="icon" ng-class="{'Succeeded' : 'bi bi-check-lg', 'Failed' : 'bi bi-x', 'Retry' : 'bi bi-arrow-clockwise', 'Cancelled' : 'bi bi-x-circle', 'In Progress' : 'bi bi-clock'}[Log.RunStatus]"></i>
                                                         </td>
                                                         <td data-title="'Date/Time'"><label>{{Log.RunDateTime}}</label></td>
