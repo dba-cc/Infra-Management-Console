@@ -422,7 +422,8 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
 
     $scope.showPopup = function () {
         $('#inputPopup').modal({
-            context: '.parent-container'
+            context: '.parent-container',
+            closable: false,
         }).modal('show');
         var currentDate = new Date();
         var year = currentDate.getFullYear();

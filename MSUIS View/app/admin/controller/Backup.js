@@ -356,6 +356,7 @@
     $scope.showAddPopup = function (type) {
         $('.addPopup.' + type).modal({
             context: '#parent-container',
+            closable: false,
             onHidden: function () {
                 document.getElementById('add-message-container').style.display = 'none';
                 document.getElementById('add-message').innerText = '';
@@ -363,7 +364,7 @@
         }).modal('show');
     };
     $scope.hideAddForm = function (type) {
-        $('.addPopup').modal('hide');
+        $('.addPopup.' + type).modal('hide');
     };
     $scope.showDeletePopup = function (schedule) {
         $scope.scheduleDelete = schedule;

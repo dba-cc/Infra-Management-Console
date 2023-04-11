@@ -136,6 +136,12 @@
                         </form>
                     </div>
                     <div class="actions">
+                        <div class="ui animated button" ng-click="hideAddForm('restorebackup')" style=" margin: 0;" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                            <div class="hidden content">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
                         <div class="ui green animated button" ng-click="RestoreBackup()" tabindex="0">
                             <div class="visible content">Restore</div>
                             <div class="hidden content">
@@ -286,6 +292,12 @@
                         </form>
                     </div>
                     <div class="actions">
+                        <div class="ui animated button" ng-click="hideAddForm('autobackup')" style=" margin: 0;" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                            <div class="hidden content">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
                         <div class="ui green animated button" ng-click="scheduleAutoBackup()" tabindex="0">
                             <div class="visible content">Schedule</div>
                             <div class="hidden content">
