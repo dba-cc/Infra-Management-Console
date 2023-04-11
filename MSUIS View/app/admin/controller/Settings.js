@@ -1,5 +1,6 @@
 ﻿app.controller('SettingsCtrl', function ($scope, $http, $rootScope, NgTableParams) {
     $rootScope.pageTitle = "Settings";
+    $scope.showPassword = false;
 
     $scope.initfun = function () {
         $('#options').slideToggle()
@@ -67,29 +68,27 @@
     $scope.showAuth_DbPopup = function () {
         $('.addDbPopup').modal({
             context: '#parent-container',
+            closable: false,
             onHidden: function () {
                 document.getElementById('db_password').value = '';
             }
         }).modal('show');
-        document.querySelector('.card.card-block').style.pointerEvents = 'none'
     };
     $scope.hideAuth_DbForm = function () {
         $('.addDbPopup').modal('hide');
-        document.querySelector('.card.card-block').style.pointerEvents = 'auto'
     };
 
     $scope.showAuth_TablePopup = function () {
         $('.addTablePopup').modal({
             context: '#parent-container',
+            closable: false,
             onHidden: function () {
                 document.getElementById('tb_password').value = '';
             }
         }).modal('show');
-        document.querySelector('.card.card-block').style.pointerEvents = 'none'
     };
     $scope.hideAuth_TableForm = function () {
         $('.addTablePopup').modal('hide');
-        document.querySelector('.card.card-block').style.pointerEvents = 'auto'
     };
     $scope.checkIt_table = function () {
 

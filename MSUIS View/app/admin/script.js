@@ -25,41 +25,14 @@ function toggleSettings() {
     $('.settings').fadeToggle();
 }
 
-/*function toggleDarkMode() {
-    if (document.querySelector(':root').style.getPropertyValue('--invert') == '0' || document.querySelector(':root').style.getPropertyValue('--invert') == '') {
-        document.querySelector(':root').style.setProperty('--invert', '0.9')
-        document.querySelector(':root').style.setProperty('--hue', '180deg')
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.querySelector(':root').style.setProperty('--invert', '0')
-        document.querySelector(':root').style.setProperty('--hue', '0deg')
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-app.filter('addLineBreak', ['$sce', function ($sce) {
-    return function (input) {
-        if (!input) return '';
-        return $sce.trustAsHtml(input.replace(/,/g, ',<br><br><br>'));
-    }
-}]);
-
-if (localStorage.getItem('theme') == 'dark') {
-    toggleDarkMode();
-}*/
-/////////////////////////////////////
 function toggletheme(theme) {
     if (theme == 'dark') {
         document.querySelector(':root').style.setProperty('--invert', '1')
         document.querySelector(':root').style.setProperty('--hue', '180deg')
         localStorage.setItem('theme', 'dark');
-        /*document.getElementById('darkthemeCheckbox').checked = true
-        document.getElementById('oceanthemeCheckbox').checked = false
-        document.getElementById('somethemeCheckbox').checked = false*/
         return
 
     }
-
     else if (theme == 'oceanblue') {
         document.querySelector(':root').style.setProperty('--invert', '1')
         document.querySelector(':root').style.setProperty('--hue', '230deg')
@@ -82,43 +55,6 @@ function toggletheme(theme) {
     }
 }
 toggletheme(localStorage.getItem('theme'))
-/*function toggleBlueMode() {
-
-    if (currentInvert == '0' || currentInvert == '') {
-        document.querySelector(':root').style.setProperty('--invert', '0.8')
-        document.querySelector(':root').style.setProperty('--hue', '210deg')
-        localStorage.setItem('color-theme', 'blue');
-    } else {
-        document.querySelector(':root').style.setProperty('--invert', currentInvert)
-        document.querySelector(':root').style.setProperty('--hue', '210deg')
-        localStorage.setItem('color-theme', 'light');
-    }
-}*/
-
-/*else if (theme == 'purple') {
-    document.querySelector(':root').style.setProperty('--invert', '1')
-    document.querySelector(':root').style.setProperty('--hue', '360deg')
-    localStorage.setItem('theme', 'purple');
-    return
-
-}  */
-
-
-/*if (localStorage.getItem('theme') == 'blue') {
-    toggleBlueMode();
-} else if (localStorage.getItem('theme') == 'light') {
-    // Do nothing, because light mode is the default
-} else {
-    // If no color theme is set, use the browser's preferred color scheme
-  //  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    if (mediaQuery.matches) {
-        toggleDarkMode();
-    }
-}*/
-
-
-
-/////////////////////////////////////
 
 app.factory('httpRequestInterceptor', function ($cookies) {
     return {
@@ -138,11 +74,18 @@ app.factory('httpRequestInterceptor', function ($cookies) {
     };
 });
 
+app.filter('addLineBreak', ['$sce', function ($sce) {
+    return function (input) {
+        if (!input) return '';
+        return $sce.trustAsHtml(input.replace(/,/g, ',<br><br><br>'));
+    }
+}]);
+
 app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e, t, $httpProvider) {
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/UserLogin"),
+    t.otherwise("/dashboard"),
 
         e.state("boxed", {
             url: "",
@@ -183,18 +126,18 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
         controller: "PermissionCtrl"
     });
 
-    e.state("RestoreBackup", {
-        url: "/RestoreBackup",
+    e.state("Database", {
+        url: "/Database",
         parent: "dashboard",
-        templateUrl: "UI/pages/admin/RestoreBackup.html",
-        controller: "RBCtrl"
+        templateUrl: "UI/pages/admin/Database.html",
+        controller: "DBCtrl"
     });
 
-    e.state("AutoBackup", {
-        url: "/AutoBackup",
+    e.state("Backup", {
+        url: "/Backup",
         parent: "dashboard",
-        templateUrl: "UI/pages/admin/AutoBackup.html",
-        controller: "AutoBackupCtrl"
+        templateUrl: "UI/pages/admin/Backup.html",
+        controller: "BackupCtrl"
     });
 
     e.state("QueryHit", {
