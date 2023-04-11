@@ -14,9 +14,9 @@ namespace MSUISApi.Models
         public string inequalitycol { get; set; }
 
         public string includedcol { get; set; }
-
+        public string columnname { get; set; }
+        public string indexname { get; set; }
         public Int32 seeks { get; set; }
-        public Int32 system_scans { get; set; }
         public float Index_Advantage { get; set; }
         public float SeekPercentage { get; set; }
         
