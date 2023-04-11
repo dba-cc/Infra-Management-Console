@@ -119,7 +119,7 @@
                     <div class="field" style=" margin: 15px;  display: flex;">
                         <div class="ui big action left icon input" style=" width: 88%;">
                             <i class="lock icon"></i>
-                            <input name="Password" autocomplete="off" id="db_password" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}" />
+                            <input name="Password" autocomplete="off" id="tb_password" placeholder="Password" class="form-control" ng-keydown="$event.keyCode === 13 && $event.preventDefault()" required ng-attr-type="{{ showPassword ? 'text' : 'password' }}" />
                             <button type="button" class="ui icon button" ng-click="showPassword=!showPassword">
                                 <i ng-class="{'eye icon': !showPassword,'eye slash icon': showPassword}"></i>
                             </button>
@@ -127,7 +127,7 @@
                     </div>
 
                     <div class="actions">
-                        <div class="ui animated button" ng-click="hideAuth_TableForm()" style=" margin: 0;" tabindex="0">
+                        <div class="ui animated button" ng-click="cancel_table()" style=" margin: 0;" tabindex="0">
                             <div class="visible content">Cancel</div>
                             <div class="hidden content">
                                 <i class="bi bi-x-lg"></i>
@@ -159,7 +159,7 @@
                     </div>
 
                     <div class="actions">
-                        <div class="ui animated button" ng-click="hideAuth_DbForm()" style=" margin: 0;" tabindex="0">
+                        <div class="ui animated button" ng-click="cancel_db()" style=" margin: 0;" tabindex="0">
                             <div class="visible content">Cancel</div>
                             <div class="hidden content">
                                 <i class="bi bi-x-lg"></i>
@@ -212,7 +212,7 @@
                                     <form>
                                         <div style="border: 1px solid lightgrey; border-radius: 15px; padding: 15px; margin-top: 15px">
                                             <div class="container" style=" display: flow-root;;">
-                                                <h5 style=" color: grey; float: left; margin-top: 5px;">Defualt Theme</h5>
+                                                <h5 style=" color: grey; float: left; margin-top: 5px;">Default Theme</h5>
                                                 <label style=" float: right !important; margin-bottom: 0;">
                                                     <input type="radio" name="radio" checked value="Default" id="lightThemeRadio" onclick="toggletheme('light')">
                                                     <span>Default</span>

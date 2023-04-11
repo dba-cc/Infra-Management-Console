@@ -167,6 +167,31 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage CreateDatabase([FromBody] String str)
+        {
+            try
+            {             
+                SqlCommand cmd = new SqlCommand("DBCreate", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName",str);                
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                if (string.Equals(strMessage, "TRUE"))
+                {
+                    strMessage = "Database Created Successfully.";
+                }
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage BackupDatabase(RB DbData)
         {
             try
@@ -185,31 +210,6 @@ namespace MSUISApi.Controllers
                 cmd.ExecuteNonQuery();
                 string strMessage = Convert.ToString(cmd.Parameters["@message"].Value);
                 Con.Close();
-                return Return.returnHttp("200", strMessage.ToString(), null);
-            }
-            catch (Exception e)
-            {
-                return Return.returnHttp("201", e.Message, null);
-            }
-        }
-
-        [HttpPost]
-        public HttpResponseMessage CreateDatabase([FromBody] String str)
-        {
-            try
-            {             
-                SqlCommand cmd = new SqlCommand("DBCreate", Con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@dbName",str);                
-                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
-                cmd.Parameters["@Message"].Direction = ParameterDirection.Output; Con.Open();
-                cmd.ExecuteNonQuery();
-                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
-                Con.Close();
-                if (string.Equals(strMessage, "TRUE"))
-                {
-                    strMessage = "Database Created Successfully.";
-                }
                 return Return.returnHttp("200", strMessage.ToString(), null);
             }
             catch (Exception e)

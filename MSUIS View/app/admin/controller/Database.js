@@ -101,7 +101,6 @@
     }
     $scope.custom = function (data) {
         dbname = data;
-        console.log(dbname);
         $scope.showBkPopup();
         document.getElementById('newname').value = dbname;
     }
@@ -119,6 +118,50 @@
         $('.addBkPopup').modal('hide');
     };
 
+/*Create Db Start*/
+    $scope.showCreatePopup = function () {
+        $('.addCreatePopup').modal({
+            context: '#parent-container',
+            closable: false,
+            onHidden: function () {
+                document.getElementById('dbname').value = '';
+            }
+        }).modal('show');
+    };
+    $scope.hideCreateForm = function () {
+        $('.addCreatePopup').modal('hide');
+    };
+    $scope.CreateDb = function () {
+        var dbname = document.getElementById('dbname').value;
+        if (dbname === undefined || dbname === null || dbname === "") {
+            $scope.message = 'Error! DataBase name can\'t be empty.'
+            showMessage($scope.message)
+        }
+        else {
+            showLoadingScreen();
+            $http({
+                method: 'POST',
+                url: 'api/Database/CreateDatabase',
+                data: '"' + dbname +'"',
+                headers: { "Content-Type": 'application/json' }
+            })
+
+                .success(function (response) {
+                    showMessage(response.obj);
+                    $scope.getDatabaseList();
+                    hideLoadingScreen();
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                    $scope.getDatabaseList();
+                    hideLoadingScreen();
+                });
+            $scope.hideCreateForm();
+        }
+    }
+    /*Create Db end*/
+    ////////////
+/*Backup Db Start*/
     $scope.backupDB = function () {
         var location = document.getElementById('location').value;
         var newname = document.getElementById('newname').value;
@@ -152,4 +195,5 @@
             $scope.hideBkForm();
         }
     }
+    /*Backup Db End*/
 });

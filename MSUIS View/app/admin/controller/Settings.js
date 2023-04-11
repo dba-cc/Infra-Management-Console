@@ -31,7 +31,7 @@
     }
 
     $scope.authenticate_db = function () {
-        var password = document.getElementById('db_password').value
+        var password = document.getElementById('db_password').value;
         $http({
             method: 'POST',
             url: 'api/Settings/checklogin',
@@ -44,7 +44,6 @@
                     $scope.logindetails = {};
                 }
                 else {
-
                     if (response.obj === "True") {
                         $scope.check = false;
                         document.getElementById('db_checkbox').checked = false;
@@ -52,10 +51,7 @@
                         $scope.setTrigToggle(0);
                     }
                     else {
-                        $scope.check = true;
-                        document.getElementById('db_checkbox').checked = true;
-                        $scope.hideAuth_DbForm();
-                        $scope.setTrigToggle(1);
+                        $scope.cancel_db();
                     }
                 }
             })
@@ -64,6 +60,12 @@
                 hideLoadingScreen();
             });
     };
+    $scope.cancel_db = function () {
+        $scope.check = true;
+        document.getElementById('db_checkbox').checked = true;
+        $scope.hideAuth_DbForm();
+        $scope.setTrigToggle(1);
+    }
 
     $scope.showAuth_DbPopup = function () {
         $('.addDbPopup').modal({
@@ -99,7 +101,6 @@
             $scope.showAuth_TablePopup();
             $scope.check_table = false;
         }
-        console.log($scope.check_table)
     }
     $scope.authenticate_table = function () {
         if (document.getElementById('tb_password').value === 'abc@123') {
@@ -108,10 +109,13 @@
             $scope.hideAuth_TableForm();
         }
         else {
-            $scope.check_table = true;
-            document.getElementById('table_checkbox').checked = true;
-            $scope.hideAuth_TableForm();
+            $scope.cancel_table();
         }
+    }
+    $scope.cancel_table = function () {
+        $scope.check_table = true;
+        document.getElementById('table_checkbox').checked = true;
+        $scope.hideAuth_TableForm();
     }
 
     $scope.getTrigStatus = function () {
@@ -236,12 +240,8 @@
         var d = document.getElementById('dloc').value;
         $scope.updateloc(r, 'rloc')
         $scope.updateloc(d, 'dloc')
-        console.log(r);
-        console.log(d);
     }
     $scope.updateloc = function (loc, type) {
-        console.log(loc)
-        console.log(type)
         $http({
             method: 'POST',
             url: 'api/Settings/update_loc',
