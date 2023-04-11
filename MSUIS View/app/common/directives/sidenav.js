@@ -80,17 +80,17 @@
                     }]
                 },
                 {
-                    "icon": "database icon",
-                    "name": "Database",
+                    "icon": "bi bi-device-hdd-fill",
+                    "name": "Manage Backups",
                     "hasSubmenu": true,
                     "subitems": [{
-                        "icon": "bi bi-database-fill-gear",
-                        "name": "Manage Database",
-                        "state": "Database",
+                        "icon": "bi bi-alarm-fill",
+                        "name": "Schedule Backup",
+                        "state": "AutoBackup",
                     }, {
                         "icon": "bi bi-hdd-fill",
-                        "name": "Backup",
-                        "state": "Backup",
+                        "name": "Restore Backup",
+                        "state": "RestoreBackup",
                     }]
                 },
                 {
@@ -140,5 +140,9 @@
                 $('a').parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
             }
         }
+    }
+
+    scope.click = function () {
+
     }
 })

@@ -484,14 +484,12 @@
     $scope.showDeletePopup = function (data) {
         $scope.userDelete = data;
         $('.deletePopup').modal({
-            context: '#parent-container',
-            closable: false,
+            context: '#parent-container'
         }).modal('show');
     }
     $scope.showAddPopup = function () {
         $('.addPopup').modal({
             context: '#parent-container',
-            closable: false,
             onHidden: function () {
                 document.getElementById('add-message-container').style.display = 'none';
                 document.getElementById('add-message').innerText = '';
@@ -510,7 +508,6 @@
     $scope.showEditPopup = function () {
         $('.editPopup').modal({
             context: '#parent-container',
-            closable: false,
             onHidden: function () {
                 document.getElementById('edit-message-container').style.display = 'none';
                 document.getElementById('edit-message').innerText = '';
@@ -527,7 +524,6 @@
     $scope.showAddLoginPopup = function () {
         $('.addLoginPopup').modal({
             context: '#parent-container',
-            closable: false,
             onHidden: function () {
                 document.getElementById('add-message-container-login').style.display = 'none';
                 document.getElementById('add-message-login').innerText = '';
@@ -542,7 +538,6 @@
     $scope.showEditLoginPopup = function () {
         $('.editloginPopup').modal({
             context: '#parent-container',
-            closable: false,
             onHidden: function () {
                 document.getElementById('edit-message-container-login').style.display = 'none';
                 document.getElementById('edit-message-login').innerText = '';
@@ -557,8 +552,7 @@
     $scope.showDeleteLoginPopup = function (data) {
         $scope.loginDelete = data;
         $('.deleteloginPopup').modal({
-            context: '#parent-container',
-            closable: false,
+            context: '#parent-container'
         }).modal('show');
     };
 
