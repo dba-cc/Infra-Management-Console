@@ -6,6 +6,11 @@
         $('.ui.dropdown').dropdown();
     }
 
+    $scope.countDB = function () {
+        $scope.onlineCount = $filter('filter')($scope.DbList, { name: $scope.searchDB, noc: 'ONLINE' }).length;
+        $scope.offlineCount = $filter('filter')($scope.DbList, { name: $scope.searchDB, noc: 'OFFLINE' }).length;
+    }
+
     $scope.getDatabaseList = function () {
         showLoadingScreen();
         $http({
