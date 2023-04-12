@@ -217,5 +217,36 @@ namespace MSUISApi.Controllers
                 return Return.returnHttp("201", e.Message, null);
             }
         }
+        [HttpPost]
+        public HttpResponseMessage DB_Disc(Database obj)
+        {
+            try
+            {
+                string dbname = Convert.ToString(obj.name);
+                SqlCommand cmd = new SqlCommand("DB_Disc", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", dbname);
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+                List<DB_Disc_Mode> Disclist = new List<DB_Disc_Mode>();
+                DB_Disc_Mode ob = new DB_Disc_Mode();
+                ob.Table = Convert.ToInt32(Dt.Rows[0]["Number of Tables"]);
+                ob.SP = Convert.ToInt32(Dt.Rows[0]["Number of Stored Procedures"]);
+                ob.Index = Convert.ToInt32(Dt.Rows[0]["Number of User-Created Indexes"]);
+                ob.Fbak = Convert.ToString(Dt.Rows[0]["Last Full Backup"]);
+                ob.Pbak = Convert.ToString(Dt.Rows[0]["Last Partial Backup"]);
+                ob.owner = Convert.ToString(Dt.Rows[0]["Database Owner"]);
+                ob.Coll = Convert.ToString(Dt.Rows[0]["Database Collation"]);
+                ob.size = Convert.ToString(Dt.Rows[0]["Database Size"]);
+                Disclist.Add(ob);
+                Con.Close();
+
+                return Return.returnHttp("200", Disclist, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
     }
 }
