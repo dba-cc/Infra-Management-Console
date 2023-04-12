@@ -50,7 +50,7 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("trigger_status", Con);
+                SqlCommand cmd = new SqlCommand("trigger_status_db", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 Da.SelectCommand = cmd;
