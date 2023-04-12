@@ -54,6 +54,20 @@
 
             scope.menuItems = [
                 {
+                    "icon": "database icon",
+                    "name": "Databases",
+                    "hasSubmenu": true,
+                    "subitems": [{
+                        "icon": "bi bi-database-fill-gear",
+                        "name": "Manage Databases",
+                        "state": "Database",
+                    }, {
+                        "icon": "bi bi-hdd-fill",
+                        "name": "Backup Manager",
+                        "state": "Backup",
+                    }]
+                },
+                {
                     "icon": "bi bi-person-vcard-fill",
                     "name": "Identity & Access",
                     "hasSubmenu": true,
@@ -77,20 +91,6 @@
                         "icon": "bi bi-person-video2",
                         "name": "Permissions Report",
                         "state": "PermReport",
-                    }]
-                },
-                {
-                    "icon": "database icon",
-                    "name": "Database",
-                    "hasSubmenu": true,
-                    "subitems": [{
-                        "icon": "bi bi-database-fill-gear",
-                        "name": "Manage Database",
-                        "state": "Database",
-                    }, {
-                        "icon": "bi bi-hdd-fill",
-                        "name": "Backup",
-                        "state": "Backup",
                     }]
                 },
                 {

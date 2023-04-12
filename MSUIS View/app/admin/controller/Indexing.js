@@ -64,13 +64,13 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    console.log(response.obj)
+                    
                     $scope.IndexParams = new NgTableParams({
                         count: response.obj.length
                     }, {
                         dataset: response.obj,
                     });
-                    console.log($scope.IndexParams)
+                    
                     showIndexTableflag = true
                 }
                 hideLoadingScreen();
@@ -95,14 +95,12 @@
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
-                else {
-                    console.log(response.obj)
+                else {                 
                     $scope.IndexSuggParams = new NgTableParams({
                         count: response.obj.length
                     }, {
                         dataset: response.obj,
-                    });
-                    console.log($scope.IndexParams)
+                    });                    
                     showIndexTableflag = true
                 }
                 hideLoadingScreen();

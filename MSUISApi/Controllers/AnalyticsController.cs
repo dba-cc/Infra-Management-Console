@@ -311,7 +311,7 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("IndexPercentage", Con);
+                SqlCommand cmd = new SqlCommand("IndexPercentagev2", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@dbname", db);
                 Da.SelectCommand = cmd;
@@ -326,10 +326,13 @@ namespace MSUISApi.Controllers
                     {
                         Indexing IndexingObj = new Indexing();
                         
-                        IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["TableName"]);                        
+                        IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["tableName"]);
+                        IndexingObj.columnname = Convert.ToString(Dt.Rows[i]["columnName"]);
+                        IndexingObj.indexname = Convert.ToString(Dt.Rows[i]["indexname"]);
                         IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["TotalUsage"]);
-                        IndexingObj.system_scans = Convert.ToInt32(Dt.Rows[i]["system_scans"]);
-                        IndexingObj.SeekPercentage = Convert.ToSingle(Dt.Rows[i]["SeekPercentage"]);
+                        object seekPer = Dt.Rows[i]["SeekPercentage"];
+                        if (!(seekPer is DBNull))
+                            IndexingObj.SeekPercentage = Convert.ToSingle(seekPer);
                         IndexingList.Add(IndexingObj);
                     }
                 }
