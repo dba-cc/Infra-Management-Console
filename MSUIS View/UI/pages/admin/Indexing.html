@@ -74,6 +74,24 @@
         .tgl-skewed:checked + .tgl-btn:after {
             left: 0;
         }
+
+    .column-name {
+        padding: 5px;
+        margin: 5px 0;
+        color: black;
+        padding: 6px 10px;
+        transition: all 0.3s ease-out;
+    }
+        .column-name:hover {
+            color: white;
+            background-color: green;
+        }
+
+    .ui.striped.table tbody tr td a:hover {
+        background: none !important;
+        cursor: pointer;
+        color: white !important;
+    }
 </style>
 
 <!-- Page body start -->
@@ -84,7 +102,7 @@
                 <div class="card main-card">
                     <div class="card-header">
                         <div class="ui blue floating dropdown labeled search icon button" ng-click="dropdownDatabase()" style="float: left" ng-init="getDatabaseList()" id="dbDropdown">
-                            <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdownDatabase()" ng-change="showType=true">
+                            <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdownDatabase()" ng-change="showType=true; resetAll()">
                                 <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
                             </select>
                             <i class="database icon"></i>
@@ -98,47 +116,102 @@
                             <select class="ui search selection dropdown" ng-model="index_type" ng-change="changeType()">
                                 <option class="item" value="Percent">Current Index Performance</option>
                                 <option class="item" value="Sugg">Index Suggestions</option>
-
                             </select>
                             <i class="angle right icon"></i>
-                            <span class="text" style=" color: white; margin: 0">Select Format</span>
+                            <span class="text" style=" color: white; margin: 0">Select Type</span>
                             <div class="menu">
                                 <div class="item" data-value="Percent">Current Index Performance</div>
                                 <div class="item" data-value="Sugg">Index Suggestions</div>
                             </div>
                         </div>
-
-
                         <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="bi bi-card-heading" style=" font-size: 1.5em; vertical-align: middle; margin-right:10px"></i>Index Analytics</h3>
                     </div>
                     <div class="card-block scrollbar" id="table-parent-container" ng-show="Percent">
                         <div class="table-responsive">
-                            <table class="ui striped table green main-table selectable" id="example-2" ng-table="IndexParams" style="width: 100%" show-filter="true">
+                            <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="IndexParams" style="width: 100%" show-filter="true">
                                 <tbody style="overflow:scroll; width:100%">
                                     <tr ng-repeat="Indexing in $data">
-                                        <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                        <td width="20%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none;"><label>{{Indexing.tablename}}</label></td>
-                                        <td width="20%" data-title="'Index Name'" filter="{indexname: 'text'}" sortable="'indexname'" style=" border-top: none;"><label>{{Indexing.indexname}}</label></td>
-                                        <td width="25%" data-title="'Column Name'" filter="{columnname: 'text'}" sortable="'columnname'" style=" border-top: none;"><label ng-bind-html="Indexing.columnname | addLineBreak">{{Indexing.columnname}}</label></td>
-                                        <td width="15%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none;"><label>{{Indexing.seeks}}</label></td>
-                                        <td width="15%" data-title="'Seek Percentage'" sortable="'SeekPercentage'" style=" border-top: none;"><label>{{ Indexing.SeekPercentage}}</label></td>
+                                        <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top: none; vertical-align: top !important;"><label>{{ $index + 1 }}</label></td>
+                                        <td width="20%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.tablename}}</label></td>
+                                        <td width="20%" data-title="'Index Name'" filter="{indexname: 'text'}" sortable="'indexname'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.indexname}}</label></td>
+                                        <td width="25%" data-title="'Column Name'" filter="{columnname: 'text'}" sortable="'columnname'" style=" border-top: none; vertical-align: top !important;">
+                                            <label onclick="$(this).siblings().slideToggle()" style="width: 100%">
+                                                <b><span>{{Indexing.columnname.split(',')[0]}}</span></b> <span ng-if="columnnamediv.length > 1"> and <a style="color:#4183c4"><b>{{columnnamediv.length - 1}} More</b></a></span>
+                                            </label><br />
+                                            <div style=" overflow: hidden; width: 100%; display: none; margin-top: 10px; border: 1px solid green; background: aliceblue; border-radius: 15px;">
+                                                <div ng-repeat="col in Indexing.columnname.split(',') as columnnamediv">
+                                                    <div class="column-name" tabindex="0" ng-bind-html="col | addLineBreak">
+                                                        <label style="color: black">
+                                                            {{ col }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.seeks}}</label></td>
+                                        <td width="20%" data-title="'Seek Percentage'" sortable="'SeekPercentage'" style=" border-top: none; vertical-align: top !important;">
+                                            <div class="ui indicating small progress" data-percent="{{Indexing.SeekPercentage}}" style="margin: 0;">
+                                                <div class="bar">
+                                                    <div class="progress" style="background-color: unset;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="card-block scrollbar" id="table-parent-container" ng-show="Sugg">
-                        <div class="table-responsive" style="overflow:scroll">
+                        <div class="table-responsive">
                             <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="IndexSuggParams" style="width: 100%" show-filter="true">
                                 <tbody style="overflow:scroll; width:100%">
                                     <tr ng-repeat="Indexing in $data">
-                                        <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
-                                        <td width="20%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none;"><label>{{Indexing.tablename}}</label></td>
-                                        <td width="15%" data-title="'Equality columns'" sortable="'equalitycol'" style=" border-top: none; "><label ng-bind-html="Indexing.equalitycol | addLineBreak">{{Indexing.equalitycol}}</label></td>
-                                        <td width="15%" data-title="'Inequality columns'" sortable="'inequalitycol'" style=" border-top: none; "><label ng-bind-html="Indexing.inequalitycol | addLineBreak">{{Indexing.inequalitycol}}</label></td>
-                                        <td width="20%" data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none;"><label ng-bind-html="Indexing.includedcol | addLineBreak">{{Indexing.includedcol}}</label></td>
-                                        <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none;"><label>{{Indexing.seeks}}</label></td>
-                                        <td width="10%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none;"><label>{{ Indexing.Index_Advantage }}</label></td>                                
+                                        <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top: none; vertical-align: top !important;"><label>{{ $index + 1 }}</label></td>
+                                        <td width="20%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.tablename}}</label></td>
+                                        <td width="15%" data-title="'Equality columns'" sortable="'equalitycol'" style=" border-top: none; vertical-align: top !important;">
+                                            <label onclick="$(this).siblings().slideToggle()" style="width: 100%">
+                                                <b><span>{{Indexing.equalitycol.split(',')[0]}}</span></b> <span ng-if="equalitycoldiv.length > 1"> and <a style="color:#4183c4"><b>{{equalitycoldiv.length - 1}} More</b></a></span>
+                                            </label><br />
+                                            <div style=" overflow: hidden; width: 100%; display: none; margin-top: 10px; border: 1px solid green; background: aliceblue; border-radius: 15px;">
+                                                <div ng-repeat="col in Indexing.equalitycol.split(',') as equalitycoldiv">
+                                                    <div class="column-name" tabindex="0" ng-bind-html="col | addLineBreak">
+                                                        <label style="color: black">
+                                                            {{ col }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="15%" data-title="'Inequality columns'" sortable="'inequalitycol'" style=" border-top: none; padding-top: 10px; vertical-align: top !important;">
+                                            <label onclick="$(this).siblings().slideToggle()" style="width: 100%">
+                                                <b><span>{{Indexing.inequalitycol.split(',')[0]}}</span></b> <span ng-if="inequalitycoldiv.length > 1"> and <a style="color:#4183c4"><b>{{inequalitycoldiv.length - 1}} More</b></a></span>
+                                            </label><br />
+                                            <div style=" overflow: hidden; width: 100%; display: none; margin-top: 10px; border: 1px solid green; background: aliceblue; border-radius: 15px;">
+                                                <div ng-repeat="col in Indexing.inequalitycol.split(',') as inequalitycoldiv">
+                                                    <div class="column-name" tabindex="0" ng-bind-html="col | addLineBreak">
+                                                        <label style="color: black">
+                                                            {{ col }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="15%" data-title="'Include columns'" sortable="'includedcol'" style=" border-top: none; padding-top: 10px; vertical-align: top !important;">
+                                            <label onclick="$(this).siblings().slideToggle()" style="width: 100%">
+                                                <b><span>{{Indexing.includedcol.split(',')[0]}}</span></b> <span ng-if="includecoldiv.length > 1"> and <a style="color:#4183c4"><b>{{includecoldiv.length - 1}} More</b></a></span>
+                                            </label><br />
+                                            <div style=" overflow: hidden; width: 100%; display: none; margin-top: 10px; border: 1px solid green; background: aliceblue; border-radius: 15px;">
+                                                <div ng-repeat="col in Indexing.includedcol.split(',') as includecoldiv">
+                                                    <div class="column-name" tabindex="0" ng-bind-html="col | addLineBreak">
+                                                        <label style="color: black">
+                                                            {{ col }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.seeks}}</label></td>
+                                        <td width="10%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Index_Advantage }}</label></td>
                                     </tr>
                                 </tbody>
                             </table>

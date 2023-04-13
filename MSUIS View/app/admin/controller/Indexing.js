@@ -1,4 +1,4 @@
-﻿app.controller('IndexingCtrl', function ($scope, $http, $rootScope, NgTableParams) {
+﻿app.controller('IndexingCtrl', function ($scope, $http, $rootScope, NgTableParams, $timeout) {
     $rootScope.pageTitle = "Index Analytics";
     //$scope.IndexParams = new NgTableParams({}, {});
     $scope.showIndexTableflag = false;
@@ -24,6 +24,19 @@
         }
     }
 
+    $scope.resetAll = function () {
+        $scope.Percent = false;
+        $scope.Sugg = false;
+        $scope.index_type = null;
+        document.querySelectorAll('.ui.dropdown > .text')[1].innerText = 'Select Type'
+    }
+
+    $scope.$watch('IndexParams.filter()', function () {
+        $timeout(function () {
+            $('.ui.indicating.progress').progress();
+        }, 500);
+    }, true);
+
     $scope.getDatabaseList = function () {
         showLoadingScreen();
         $http({
@@ -40,7 +53,6 @@
                     $scope.DatabaseList = response.obj;
                 }
                 hideLoadingScreen();
-  
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
@@ -50,7 +62,6 @@
     };
 
     $scope.GetIndexPer = function () {
-        
         showLoadingScreen();
         $http({
             method: 'POST',
@@ -64,14 +75,16 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    
+
                     $scope.IndexParams = new NgTableParams({
                         count: response.obj.length
                     }, {
                         dataset: response.obj,
                     });
-                    
                     showIndexTableflag = true
+                    $timeout(function () {
+                        $('.ui.indicating.progress').progress();
+                    }, 500);
                 }
                 hideLoadingScreen();
             })
@@ -82,7 +95,6 @@
     }
     
     $scope.GetIndexSugg = function () {
-
         showLoadingScreen();
         $http({
             method: 'POST',
@@ -95,12 +107,12 @@
                 if (response.response_code != "200") {
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
-                else {                 
+                else {
                     $scope.IndexSuggParams = new NgTableParams({
                         count: response.obj.length
                     }, {
                         dataset: response.obj,
-                    });                    
+                    });
                     showIndexTableflag = true
                 }
                 hideLoadingScreen();
@@ -110,5 +122,4 @@
                 hideLoadingScreen();
             });
     }
-
 });
