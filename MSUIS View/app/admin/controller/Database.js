@@ -201,4 +201,46 @@
         }
     }
     /*Backup Db End*/
+    //////////////////
+    /*DataBase Description Start*/
+    $scope.openDesc = function (data) {
+        console.log('something')
+        $scope.GetDb_desc(data);
+        document.getElementById("desc_id").style.width = "22%";
+    }
+    $scope.closeDesc = function () {
+        document.getElementById("desc_id").style.width = "0";
+    }
+    $scope.GetDb_desc = function (data) {
+
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Database/DB_Disc',
+            data: {
+                "name": data
+            },
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.DBSuggParams = new NgTableParams({
+                        count: response.obj.length
+                    }, {
+                        dataset: response.obj,
+                    });
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    }
+
+    /*DataBase Description End*/
 });
