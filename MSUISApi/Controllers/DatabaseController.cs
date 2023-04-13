@@ -233,11 +233,13 @@ namespace MSUISApi.Controllers
                 ob.Table = Convert.ToInt32(Dt.Rows[0]["Number of Tables"]);
                 ob.SP = Convert.ToInt32(Dt.Rows[0]["Number of Stored Procedures"]);
                 ob.Index = Convert.ToInt32(Dt.Rows[0]["Number of User-Created Indexes"]);
+                ob.Users = Convert.ToInt32(Dt.Rows[0]["Number of Users"]);
                 ob.Fbak = Convert.ToString(Dt.Rows[0]["Last Full Backup"]);
                 ob.Pbak = Convert.ToString(Dt.Rows[0]["Last Partial Backup"]);
                 ob.owner = Convert.ToString(Dt.Rows[0]["Database Owner"]);
                 ob.Coll = Convert.ToString(Dt.Rows[0]["Database Collation"]);
-                ob.size = Convert.ToString(Dt.Rows[0]["Database Size"]);
+                ob.datasize = Convert.ToString(Dt.Rows[0]["Database Data Size"]);
+                ob.logsize = Convert.ToString(Dt.Rows[0]["Database Log Size"]);
                 Disclist.Add(ob);
                 Con.Close();
 

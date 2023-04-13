@@ -1,75 +1,73 @@
 ﻿<style>
-    .desc {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        right: 0; /* change the left property to right */
-        background-color: white;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 60px;
+    .ui.visible.right.sidebar ~ .fixed, .ui.visible.right.sidebar ~ .pusher {
+        transform: translate3d(-275px, 0, 0) !important;
     }
 
-        .desc .closebtn {
-            position: absolute;
-            top: 0;
-            left: 25px; /* change the right margin to left */
-            font-size: 36px;
-            margin-right: 50px; /* change the left margin to right */
-        }
+    .ui.left.sidebar, .ui.right.sidebar {
+        width: 275px;
+        border-radius: 15px 0 0 15px !important;
+        border: 2px solid green;
+    }
 
+    body.pushable {
+        background: rgba(0,0,0,.44) !important;
+    }
 </style>
 <div class="page-body" ng-controller="DBCtrl" ng-init="getDatabaseList()">
     <div class="row">
         <div class="col-sm-12">
             <div id="parent-container">
-                <!---->
-                <div id="desc_id" class="desc">
-                    <button class="closebtn" ng-click="closeDesc()">&times;</button>
-                    <div class="card-block scrollbar" id="table-parent-container" >
-                        <div class="table-responsive">
-                            <table class="ui striped table green main-table myLefter" ng-table="DBSuggParams" style="width: 100%" >
-                                <tbody style="overflow:scroll; width:100%">
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Number of Tables</th>
-                                        <td style="border-top:none;"><label>{{Desc.Table}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Number of Stored Procedures</th>
-                                        <td   style=" border-top: none;"><label>{{Desc.SP}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Number of User-Created Indexes</th>
-                                        <td  style=" border-top: none; "><label>{{Desc.Index}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Last Full Backup</th>
-                                        <td  style=" border-top: none; "><label>{{Desc.Fbak}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Last Partial Backup</th>
-                                        <td  style=" border-top: none;"><label>{{Desc.Pbak}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Database Owner</th>
-                                        <td  style=" border-top: none;"><label>{{Desc.owner}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Database Collation</th>
-                                        <td style=" border-top: none;"><label>{{Desc.Coll}}</label></td>
-                                    </tr>
-                                    <tr ng-repeat="Desc in $data">
-                                        <th>Database Size</th>
-                                        <td style=" border-top: none;"><label>{{Desc.size}} GB</label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                <div style="margin-left: 15px">
+                    <div class="ui right sidebar vertical menu">
+                        <div class="card-header" style="border-radius: 15px !important; margin: 15px">
+                            <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="database icon"></i> Details</h3>
+                            <h5 style="margin-top: 10px"> {{dbDescription.dbName}}</h5>
+                        </div>
+                        <div class="item" style="margin-top: 15px">
+                            <h4 style="margin-bottom: 5px"><i class="table icon"></i> Number of Tables</h4>
+                            <p>{{dbDescription.Table}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="cogs icon"></i> Number of Stored Procedures</h4>
+                            <p>{{dbDescription.SP}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="sitemap icon"></i> No. of User-Created Indexes</h4>
+                            <p>{{dbDescription.Index}}</p>
+                        </div>
+
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="users icon"></i> Number of Users</h4>
+                            <p>{{dbDescription.Users}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="calendar alternate outline icon"></i> Last Full Backup</h4>
+                            <p>{{dbDescription.Fbak}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="calendar outline icon"></i> Last Partial Backup</h4>
+                            <p>{{dbDescription.Pbak}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="user circle outline icon"></i> Database Owner</h4>
+                            <p>{{dbDescription.owner}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="language icon"></i> Database Collation</h4>
+                            <p>{{dbDescription.Coll}}</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="file icon"></i> Database Data Size</h4>
+                            <p>{{dbDescription.datasize}} GB</p>
+                        </div>
+                        <div class="item">
+                            <h4 style="margin-bottom: 5px"><i class="file alternate icon"></i> Database Log Size</h4>
+                            <p>{{dbDescription.logsize}} GB</p>
                         </div>
                     </div>
                 </div>
-                <!---->
+
                 <!--Database Storage popup-->
                 <div class="ui mini modal addBkPopup" id="inputPopup" style="pointer-events:auto">
                     <i class="close icon"></i>
@@ -154,12 +152,12 @@
                     <div class="ui grid">
                         <div class="twelve wide column">
                             <div class="card-header" style=" margin-top: 30px;">
-                                <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px">Online : {{onlineCount}}</h3>
+                                <h3 style="margin-bottom: 0; margin-top: 0px;"><i class="bi bi-database-check"></i> Online : {{onlineCount}}</h3>
                             </div>
                             <div class="card-block" style="max-height: 76vh; height: 76vh; background-color: white;">
                                 <div class="ui four stackable cards" style="overflow-y: auto; background: white; align-items: center; border-radius: 15px; justify-content: center; display: flex; padding: 15px; margin: 15px 0px; max-height: inherit; ">
                                     <div class="ui card zoomable-cards" style=" width: 19rem; border-radius: 15px !important; min-width:19rem" ng-repeat="DB in DbList | filter:{name: searchDB} | filter:{noc: 'ONLINE'}">
-                                        <div class="card" ng-click="openDesc(DB.name)" style="border-radius: 15px !important; border: 1px solid green; border-top: 1px solid green !important;">
+                                        <div class="card" ng-click="GetDb_desc(DB.name)" style="border-radius: 15px !important; border: 1px solid green; border-top: 1px solid green !important;">
                                             <div class="ui grid">
                                                 <div class="five wide column" style=" display: flex; align-items: center; justify-content: center;">
                                                     <i class="bi bi-database-fill" style=" font-size: 4rem; color: lightgrey"></i>
@@ -192,7 +190,7 @@
                         </div>
                         <div class="four wide column">
                             <div class="card-header" style=" margin-top: 30px;">
-                                <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px">Offline : {{offlineCount}}</h3>
+                                <h3 style="margin-bottom: 0; margin-top: 0px;"><i class="bi bi-database-x"></i> Offline : {{offlineCount}}</h3>
                             </div>
                             <div class="card-block" style="max-height: 76vh; height: 76vh; background-color: white; border-radius: 15px">
                                 <div class="ui two stackable cards " style="overflow-y: auto; background: white; align-items: center; border-radius: 15px; justify-content: center; display: flex; padding: 15px; margin: 15px 0px; max-height: inherit; ">
