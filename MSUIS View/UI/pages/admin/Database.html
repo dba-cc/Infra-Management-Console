@@ -4,13 +4,16 @@
     }
 
     .ui.left.sidebar, .ui.right.sidebar {
-        width: 275px;
-        border-radius: 15px 0 0 15px !important;
-        border: 2px solid green;
+        width: 260px;
+        border-radius: 15px !important;
+        border: 1px solid green;
+        margin: 15px !important;
+        height: 96vh !important;
+        box-shadow: none !important
     }
 
     body.pushable {
-        background: rgba(0,0,0,.44) !important;
+        background: #e9e9e9 !important;
     }
 </style>
 <div class="page-body" ng-controller="DBCtrl" ng-init="getDatabaseList()">
@@ -20,50 +23,82 @@
 
                 <div style="margin-left: 15px">
                     <div class="ui right sidebar vertical menu">
-                        <div class="card-header" style="border-radius: 15px !important; margin: 15px">
+                        <div class="main-menu-header" style="background-color: #20bb40ad; border-radius: 15px; margin: 15px; transition: margin 0.3s ease-in-out; padding: 12px; color: white ">
                             <h3 style="margin-bottom: 0; margin-top: 0px; padding-top: 6px"><i class="database icon"></i> Details</h3>
-                            <h5 style="margin-top: 10px"> {{dbDescription.dbName}}</h5>
+                            <h5 style=" margin-top: 10px; background: white; color: black; border-radius: 15px; padding: 5px 10px;"> {{dbDescription.dbName}}</h5>
                         </div>
-                        <div class="item" style="margin-top: 15px">
-                            <h4 style="margin-bottom: 5px"><i class="table icon"></i> Number of Tables</h4>
-                            <p>{{dbDescription.Table}}</p>
-                        </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="cogs icon"></i> Number of Stored Procedures</h4>
-                            <p>{{dbDescription.SP}}</p>
-                        </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="sitemap icon"></i> No. of User-Created Indexes</h4>
-                            <p>{{dbDescription.Index}}</p>
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="table icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Tables: </span><span style="float: right; vertical-align: middle;">{{dbDescription.Table}}</span></b>
+                            </div>
                         </div>
 
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="users icon"></i> Number of Users</h4>
-                            <p>{{dbDescription.Users}}</p>
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="cogs icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Stored Procedures: </span><span style="float: right; vertical-align: middle;">{{dbDescription.SP}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="calendar alternate outline icon"></i> Last Full Backup</h4>
-                            <p>{{dbDescription.Fbak}}</p>
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="sitemap icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">User-Created Indexes: </span><span style="float: right; vertical-align: middle;">{{dbDescription.Index}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="calendar outline icon"></i> Last Partial Backup</h4>
-                            <p>{{dbDescription.Pbak}}</p>
+
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="users icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Users: </span><span style="float: right; vertical-align: middle;">{{dbDescription.Users}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="user circle outline icon"></i> Database Owner</h4>
-                            <p>{{dbDescription.owner}}</p>
+
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="calendar alternate outline icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Last Full Backup: </span><br /><span>{{dbDescription.Fbak}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="language icon"></i> Database Collation</h4>
-                            <p>{{dbDescription.Coll}}</p>
+
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="calendar outline icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Last Partial Backup: </span><br /><span>{{dbDescription.Pbak}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="file icon"></i> Database Data Size</h4>
-                            <p>{{dbDescription.datasize}} GB</p>
+
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="user circle outline icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Database Owner: </span><br /><span>{{dbDescription.owner}}</span></b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <h4 style="margin-bottom: 5px"><i class="file alternate icon"></i> Database Log Size</h4>
-                            <p>{{dbDescription.logsize}} GB</p>
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="language icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Database Collation: </span><br /><span>{{dbDescription.Coll}}</span></b>
+                            </div>
+                        </div>
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="file icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Database Data Size: </span><br /><span>{{dbDescription.datasize}} GB</span></b>
+                            </div>
+                        </div>
+
+                        <div class="parent-menu" style="background: #8080801f; border-radius: 15px; margin: 0 15px 15px 15px; box-shadow: 0 0px 5px #aaaaaa;">
+                            <div style="border-radius: 15px; padding: 15px">
+                                <span class="pcoded-micon"><i class="file alternate icon" style="font-size: 1.5rem; vertical-align: middle;"></i></span>
+                                <b><span class="pcoded-mtext" data-i18n="nav.widget.main" style="color: black; vertical-align: middle;">Database Log Size </span><br /><span>{{dbDescription.logsize}} GB</span></b>
+                            </div>
                         </div>
                     </div>
                 </div>

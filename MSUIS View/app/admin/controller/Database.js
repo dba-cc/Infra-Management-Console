@@ -255,7 +255,9 @@
                 else {
                     $scope.dbDescription = response.obj[0]
                     $scope.dbDescription.dbName = data;
-                    $('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('toggle');
+                    $('.ui.sidebar').sidebar({
+                        dimPage: false
+                    }).sidebar('toggle');
                 }
                 hideLoadingScreen();
             })
