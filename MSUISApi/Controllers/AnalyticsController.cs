@@ -307,6 +307,28 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetEarliestDate()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Earliest_Accessible", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                String date = Convert.ToString(Dt.Rows[0][0]);
+                Con.Close();
+
+                return Return.returnHttp("200", date, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage GetIndexPercentage([FromBody] String db)
         {
             try

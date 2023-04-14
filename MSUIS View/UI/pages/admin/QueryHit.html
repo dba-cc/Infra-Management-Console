@@ -116,9 +116,10 @@
                     <div class="header">
                         Filter
                     </div>
-                    <div class="content">
+                    <div class="content" style="padding: 0 1.5rem !important">
                         <form class="ui mini form">
-                            <div class="field">
+                            <span ng-if="earliestDate != ''">*Earliest queries are accessible from date {{earliestDate}}.</span>
+                            <div class="field" style="margin-top: 1em;">
                                 <div class="ui green floating dropdown labeled search icon button" style=" padding-bottom: 10px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
                                     <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
                                         <option class="item" value="Query">Query</option>
