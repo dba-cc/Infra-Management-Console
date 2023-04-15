@@ -198,7 +198,30 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         }
 
         fetchPage(pageNum);
-    }
+  }
+
+    $scope.GetEarliestQueryDate = function () {
+        $http({
+            method: 'POST',
+            url: 'api/Analytics/GetEarliestDate',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.obj == 'There is no row at position 0.') {
+                    $scope.earliestDate = '';
+                } else {
+                    $scope.earliestDate = response.obj;
+                    document.getElementById('fromDate').min = $scope.earliestDate;
+                    document.getElementById('toDate').min = $scope.earliestDate;
+                }
+                console.log($scope.earliestDate);
+            })
+            .error(function (res) {
+                alert('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
 
     $scope.getDatabaseList = function () {
 
@@ -431,6 +454,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         var day = ('0' + currentDate.getDate()).slice(-2);
         document.getElementById('fromDate').max = year + '-' + month + '-' + day;
         document.getElementById('toDate').max = year + '-' + month + '-' + day;
+        $scope.GetEarliestQueryDate();
     }
 
     $scope.toggleFilterType = function (type) {

@@ -10,10 +10,12 @@ namespace MSUISApi.Models
         public int Table { get; set; }
         public int SP { get; set; }
         public int Index { get; set; }
+        public int Users { get; set; }
         public string Fbak { get; set; }
         public string Pbak { get; set; }
         public string owner { get; set; }
         public string Coll { get; set; }   
-        public string size { get; set; }   
+        public string datasize { get; set; }   
+        public string logsize { get; set; }   
     }
 }

@@ -1,7 +1,8 @@
 ﻿app.controller('DBCtrl', function ($scope, $http, $rootScope, NgTableParams, $filter) {
     $rootScope.pageTitle = "Manage Databases";
     $scope.DbList = {};
-    $scope.dbname=''
+    $scope.dbname = ''
+    $scope.dbDescription = {}
     $scope.dropdown = function () {
         $('.ui.dropdown').dropdown();
     }
@@ -104,11 +105,44 @@
                 hideLoadingScreen();
             });
     }
+
+    $scope.getlocr = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/Settings/default_loc',
+            data: {
+                "typ": 'rloc'
+            },
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.rloc = {};
+                }
+                else {
+                    $scope.rloc = new NgTableParams({
+                        count: response.obj.length
+                    }, {
+                        dataset: response.obj
+                    });
+                    document.getElementById('location').value = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+
     $scope.custom = function (data) {
         dbname = data;
+        $scope.getlocr()
         $scope.showBkPopup();
         document.getElementById('newname').value = dbname;
     }
+
     $scope.showBkPopup = function () {
         $('.addBkPopup').modal({
             context: '#parent-container',
@@ -119,11 +153,12 @@
             }
         }).modal('show');
     };
+
     $scope.hideBkForm = function () {
         $('.addBkPopup').modal('hide');
     };
 
-/*Create Db Start*/
+    /*Create Db Start*/
     $scope.showCreatePopup = function () {
         $('.addCreatePopup').modal({
             context: '#parent-container',
@@ -133,9 +168,11 @@
             }
         }).modal('show');
     };
+
     $scope.hideCreateForm = function () {
         $('.addCreatePopup').modal('hide');
     };
+
     $scope.CreateDb = function () {
         var dbname = document.getElementById('dbname').value;
         if (dbname === undefined || dbname === null || dbname === "") {
@@ -147,7 +184,7 @@
             $http({
                 method: 'POST',
                 url: 'api/Database/CreateDatabase',
-                data: '"' + dbname +'"',
+                data: '"' + dbname + '"',
                 headers: { "Content-Type": 'application/json' }
             })
 
@@ -164,9 +201,7 @@
             $scope.hideCreateForm();
         }
     }
-    /*Create Db end*/
-    ////////////
-/*Backup Db Start*/
+
     $scope.backupDB = function () {
         var location = document.getElementById('location').value;
         var newname = document.getElementById('newname').value;
@@ -200,19 +235,9 @@
             $scope.hideBkForm();
         }
     }
-    /*Backup Db End*/
-    //////////////////
-    /*DataBase Description Start*/
-    $scope.openDesc = function (data) {
-        console.log('something')
-        $scope.GetDb_desc(data);
-        document.getElementById("desc_id").style.width = "22%";
-    }
-    $scope.closeDesc = function () {
-        document.getElementById("desc_id").style.width = "0";
-    }
-    $scope.GetDb_desc = function (data) {
 
+    $scope.GetDb_desc = function (data) {
+        $scope.dbDescription = {}
         showLoadingScreen();
         $http({
             method: 'POST',
@@ -228,11 +253,11 @@
                     $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
                 }
                 else {
-                    $scope.DBSuggParams = new NgTableParams({
-                        count: response.obj.length
-                    }, {
-                        dataset: response.obj,
-                    });
+                    $scope.dbDescription = response.obj[0]
+                    $scope.dbDescription.dbName = data;
+                    $('.ui.sidebar').sidebar({
+                        dimPage: false
+                    }).sidebar('toggle');
                 }
                 hideLoadingScreen();
             })
@@ -241,6 +266,4 @@
                 hideLoadingScreen();
             });
     }
-
-    /*DataBase Description End*/
 });
