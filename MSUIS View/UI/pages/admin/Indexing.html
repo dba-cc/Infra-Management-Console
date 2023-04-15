@@ -126,6 +126,7 @@
                         <div class="header">
                             Create Index
                         </div>
+                        <label id="warning"style="display: none; padding:0 20px;">Not recommended as Index Advantage is less than 500</label>
                         <div class="field" style=" margin: 15px;  display: flex;">
                             <div class="ui big left icon input" style=" width: 100%;">
                                 <i class="indent icon"></i>
@@ -270,7 +271,15 @@
                                             </div>
                                         </td>
                                         <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.seeks}}</label></td>
-                                        <td width="10%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Index_Advantage }}</label></td>
+                                        <td width="5%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Index_Advantage }}</label></td>
+                                        <!--<td width="5%" data-title="'Percent Reduction'" sortable="'Percent_Red'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Percent_Red }}</label></td>-->
+                                        <td width="5%" data-title="'Percent Reduction'" sortable="'Percent_Red'" style=" border-top: none; vertical-align: top !important;">
+                                            <div class="ui indicating small progress" data-percent="{{Indexing.Percent_Red}}" style="margin: 0;">
+                                                <div class="bar">
+                                                    <div class="progress" style="background-color: unset;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td data-title="'Actions'" style=" border-top: none;">
                                             <div layout="row">
                                                 <span flex></span>

@@ -19,6 +19,7 @@ namespace MSUISApi.Models
         public Int32 seeks { get; set; }
         public float Index_Advantage { get; set; }
         public float SeekPercentage { get; set; }
+        public float Percent_Red { get; set; }
         
     }
 }

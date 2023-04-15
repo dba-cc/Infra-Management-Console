@@ -151,6 +151,10 @@
 
     $scope.showcreatePopup = function (data) {
         $scope.cobj = data;
+        console.log(data.Index_Advantage)
+        if (data.Index_Advantage < 500) {
+            document.getElementById('warning').style.display = 'block'
+        }
         var index=document.getElementById('indexname').value = 'IX_'+data.tablename
         $scope.createformat["indexname"] = index
         if (data.inequalitycol === '---') {
@@ -220,6 +224,12 @@
         $('.createPopup').modal('hide');
         hideLoadingScreen();
     };
+
+    $scope.$watch('IndexSuggParams.filter()', function () {
+        $timeout(function () {
+            $('.ui.indicating.progress').progress();
+        }, 500);
+    }, true);
     
     $scope.GetIndexSugg = function () {
         showLoadingScreen();
@@ -240,6 +250,9 @@
                     }, {
                         dataset: response.obj,
                     });
+                    $timeout(function () {
+                        $('.ui.indicating.progress').progress();
+                    }, 500);
                     showIndexTableflag = true
                 }
                 hideLoadingScreen();

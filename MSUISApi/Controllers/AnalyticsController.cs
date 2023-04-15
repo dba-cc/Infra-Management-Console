@@ -410,6 +410,7 @@ namespace MSUISApi.Controllers
 
                         IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["seeks"]);
                         IndexingObj.Index_Advantage = Convert.ToSingle(Dt.Rows[i]["Index_Advantage"]);
+                        IndexingObj.Percent_Red = Convert.ToSingle(Dt.Rows[i]["Per_Red"]);
                         IndexingList.Add(IndexingObj);
                     }
                 }
