@@ -329,7 +329,10 @@ namespace MSUISApi.Controllers
                         IndexingObj.tablename = Convert.ToString(Dt.Rows[i]["tableName"]);
                         IndexingObj.columnname = Convert.ToString(Dt.Rows[i]["columnName"]);
                         IndexingObj.indexname = Convert.ToString(Dt.Rows[i]["indexname"]);
-                        IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["TotalUsage"]);
+                        //IndexingObj.seeks = Convert.ToInt32(Dt.Rows[i]["TotalUsage"]);
+                        object seeksNull = Dt.Rows[i]["TotalUsage"];
+                        if (!(seeksNull is DBNull))
+                            IndexingObj.seeks = Convert.ToInt32(seeksNull);
                         object seekPer = Dt.Rows[i]["SeekPercentage"];
                         if (!(seekPer is DBNull))
                             IndexingObj.SeekPercentage = Convert.ToSingle(seekPer);
@@ -389,6 +392,57 @@ namespace MSUISApi.Controllers
                     }
                 }
                 return Return.returnHttp("200", IndexingList, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreateIndex(Indexer inObj)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("IndexCreate", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName", inObj.dbName);
+                cmd.Parameters.AddWithValue("@indexName", inObj.indexname);
+                cmd.Parameters.AddWithValue("@whereCols", inObj.whereCols);
+                cmd.Parameters.AddWithValue("@includeCols", inObj.includedcol);
+                cmd.Parameters.AddWithValue("@tableName", inObj.tablename);
+                cmd.Parameters.AddWithValue("@onlineFlag", inObj.onlineFlag);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                return Return.returnHttp("200", strMessage.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage DeleteIndex(Indexer inObj)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("IndexDelete", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbName", inObj.dbName);
+                cmd.Parameters.AddWithValue("@indexName", inObj.indexname);
+                cmd.Parameters.AddWithValue("@tableName", inObj.tablename);
+                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+                Con.Open();
+                cmd.ExecuteNonQuery();
+                string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
+                Con.Close();
+                return Return.returnHttp("200", strMessage.ToString(), null);
             }
             catch (Exception e)
             {

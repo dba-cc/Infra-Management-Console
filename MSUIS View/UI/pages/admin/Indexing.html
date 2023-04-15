@@ -100,6 +100,57 @@
         <div class="col-sm-12">
             <div id="parent-container">
                 <div class="card main-card">
+                    <!--Delete popup-->
+                    <div class="ui mini modal deletePopup" id="inputPopup">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Delete Index
+                        </div>
+                        <div class="content">
+                            <form class="ui tiny form">
+                                <div class="field">
+                                    <label style="text-align: center;">Are you sure want to delete this Index?</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="actions">
+                            <button class="ui labeled red icon button" ng-click="deleteIndex()">
+                                <i class="trash alternate icon"></i>Delete
+                            </button>
+                            <button class="ui button" ng-click="hidedeletePopup()">Cancel</button>
+                        </div>
+                    </div>
+                    <!--Create popup-->
+                    <div class="ui mini modal createPopup" id="inputPopup">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Create Index
+                        </div>
+                        <div class="field" style=" margin: 15px;  display: flex;">
+                            <div class="ui big left icon input" style=" width: 100%;">
+                                <i class="indent icon"></i>
+                                <input name="indexname" autocomplete="off" id="indexname" placeholder="Index Name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="field" style=" margin: 15px;  display: flex;">
+                            <div class="ui big left icon input" style=" width: 100%;">
+                                <i class="columns icon"></i>
+                                <input name="EIcolumnsname" autocomplete="off" id="EIcolumnsname" placeholder="E/I Columns Name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="field" style=" margin: 15px;  display: flex;">
+                            <div class="ui big left icon input" style=" width: 100%;">
+                                <i class="columns icon"></i>
+                                <input name="columnsname" autocomplete="off" id="columnsname" placeholder="Columns Name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="ui labeled red icon button" ng-click="createIndex()">
+                                <i class="plus icon"></i>Create
+                            </button>
+                            <button class="ui button" ng-click="hidecreatePopup()">Cancel</button>
+                        </div>
+                    </div>
                     <div class="card-header">
                         <div class="ui blue floating dropdown labeled search icon button" ng-click="dropdownDatabase()" style="float: left" ng-init="getDatabaseList()" id="dbDropdown">
                             <select class="ui search selection dropdown" ng-model="Database.name" ng-click="dropdownDatabase()" ng-change="showType=true; resetAll()">
@@ -154,6 +205,14 @@
                                                 <div class="bar">
                                                     <div class="progress" style="background-color: unset;"></div>
                                                 </div>
+                                            </div>
+                                        </td>
+                                        <td data-title="'Actions'" style=" border-top: none;">
+                                            <div layout="row">
+                                                <span flex></span>
+                                                <button class="ui icon red button" ng-click="showdeletePopup(Indexing)" data-inverted="" data-tooltip="Delete index '{{Indexing.indexname}}'?" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                    <i class="trash alternate icon"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -212,6 +271,14 @@
                                         </td>
                                         <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.seeks}}</label></td>
                                         <td width="10%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Index_Advantage }}</label></td>
+                                        <td data-title="'Actions'" style=" border-top: none;">
+                                            <div layout="row">
+                                                <span flex></span>
+                                                <button class="ui icon red button" ng-click="showcreatePopup(Indexing)" data-inverted="" data-tooltip="Create index of '{{Indexing.tablename}}'?" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
+                                                    <i class="plus icon"></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
