@@ -1,4 +1,4 @@
-﻿app.directive("sidenav", function ($rootScope) {
+﻿app.directive("sidenav", function ($rootScope, $state) {
     return {
         templateUrl: "UI/layouts/common/directives/sidenav.html",
         restrict: "E",
@@ -50,11 +50,17 @@
                 });
             }
         }],
-        link: function (scope, element, attrs, $interval) {    
+        link: function (scope, element, attrs, $interval) {
 
             scope.menuItems = [
                 {
-                    "icon": "database icon",
+                    "icon": "bi bi-speedometer",
+                    "name": "Dashboard",
+                    "hasSubmenu": false,
+                    "state": "dashboard"
+                },
+                {
+                    "icon": "bi bi-database-fill",
                     "name": "Databases",
                     "hasSubmenu": true,
                     "subitems": [{
@@ -120,8 +126,11 @@
             scope.slideUpMenu = function () {
                 $('.subitem').ready(function () {
                     items = document.getElementsByClassName('subitem')
-                    $(items).hide().slideUp();
+                    $(items).hide().slideUp(300);
                 })
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#20bb40ad'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'white'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'white'
             }
 
             scope.toggleSubmenu = function (e) {
@@ -134,10 +143,25 @@
                 $(e.currentTarget).parent().siblings().children().removeClass('active-menu')
                 $(e.currentTarget).parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
                 e.currentTarget.classList.add('active-menu')
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#8080801f'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'green'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'black'
             }
 
             scope.removeActivePages = function () {
                 $('a').parent().parent().parent().siblings().children(":odd").children().children().removeClass('active-menu')
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#8080801f'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'green'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'black'
+            }
+
+            scope.goToState = function (stateName) {
+                scope.slideUpMenu();
+                scope.removeActivePages();
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#20bb40ad'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'white'
+                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'white'
+                $state.go(stateName);
             }
         }
     }
