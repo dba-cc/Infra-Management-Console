@@ -128,9 +128,17 @@
                     items = document.getElementsByClassName('subitem')
                     $(items).hide().slideUp(300);
                 })
-                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#20bb40ad'
-                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'white'
-                document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'white'
+                if ($state.current.name === 'dashboard') {
+                    document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].style.backgroundColor = '#20bb40ad'
+                    document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].style.color = 'white'
+                    document.querySelectorAll('.pcoded .pcoded-navbar .pcoded-item > li')[0].children[0].children[1].children[0].style.color = 'white'
+                } else {
+                    setTimeout(function () {
+                        var state = $state.current.name;
+                        document.getElementById(state).classList.add('active-menu')
+                        document.getElementById(state).parentNode.parentNode.style.display = 'block';
+                    }, 500);
+                }
             }
 
             scope.toggleSubmenu = function (e) {
