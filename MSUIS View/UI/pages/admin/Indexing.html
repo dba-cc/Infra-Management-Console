@@ -1,4 +1,50 @@
 ﻿<style>
+    .checkbox {
+        display: none;
+    }
+
+    .slider {
+        width: 60px;
+        height: 30px;
+        background-color: lightgray;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        border: 4px solid transparent;
+        transition: .3s;
+        box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.25) inset;
+        cursor: pointer;
+        margin-top: -5px;
+    }
+
+        .slider::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            transform: translateX(-30px);
+            border-radius: 20px;
+            transition: .3s;
+            box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+        }
+
+    .checkbox:checked ~ .slider::before {
+        transform: translateX(30px);
+        box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+    }
+
+    .checkbox:checked ~ .slider {
+        background-color: green;
+    }
+
+    .checkbox:active ~ .slider::before {
+        transform: translate(0);
+    }
+
+/*asdfaf*/
+
     .md-dialog-is-showing {
         top: auto !important;
     }
@@ -133,10 +179,21 @@
                             Create Index
                         </div>
                         <label id="warning" style="display: none; padding: 0 20px; color: orange">*Not recommended as Index Advantage is less than 500.</label>
-                        <div class="field" style=" margin: 15px;  display: flex;">
-                            <div class="ui big left icon input" style=" width: 100%;">
-                                <i class="indent icon"></i>
-                                <input name="indexname" autocomplete="off" id="indexname" placeholder="Index Name" class="form-control" />
+                        <div class="ui grid ">
+                            <div class="twelve wide column">
+                                <div class="field" style=" margin: 15px;  display: flex;">
+                                    <div class="ui big left icon input" style=" width: 100%;">
+                                        <i class="indent icon"></i>
+                                        <input name="indexname" autocomplete="off" id="indexname" placeholder="Index Name" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="four wide column" style="display: flex; justify-content: center; align-items: center;">
+                                <span>Online Flag</span>
+                                <label class="switch" style="float:right">
+                                    <input type="checkbox" id="db_checkbox" ng-checked="check" ng-click="checkIt()" class="checkbox">
+                                    <div class="slider"></div>
+                                </label>
                             </div>
                         </div>
                         <div class="ui two column grid" style="margin: 15px; border: 1px solid green; border-radius: 15px; padding: 15px">
@@ -241,9 +298,9 @@
                                 <tbody style="overflow:scroll; width:100%">
                                     <tr ng-repeat="Indexing in $data">
                                         <td width="5%" data-title="'Sr.No'" sortable="'$index'" style="border-top: none; vertical-align: top !important;"><label>{{ $index + 1 }}</label></td>
-                                        <td width="20%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.tablename}}</label></td>
-                                        <td width="20%" data-title="'Index Name'" filter="{indexname: 'text'}" sortable="'indexname'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.indexname}}</label></td>
-                                        <td width="25%" data-title="'Column Name'" filter="{columnname: 'text'}" sortable="'columnname'" style=" border-top: none; vertical-align: top !important;">
+                                        <td width="18%" data-title="'Table Name'" filter="{tablename: 'text'}" sortable="'tablename'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.tablename}}</label></td>
+                                        <td width="18%" data-title="'Index Name'" filter="{indexname: 'text'}" sortable="'indexname'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.indexname}}</label></td>
+                                        <td width="24%" data-title="'Column Name'" filter="{columnname: 'text'}" sortable="'columnname'" style=" border-top: none; vertical-align: top !important;">
                                             <label onclick="$(this).siblings().slideToggle()" style="width: 100%">
                                                 <b><span>{{Indexing.columnname.split(',')[0]}}</span></b> <span ng-if="columnnamediv.length > 1"> and <a style="color:#4183c4"><b>{{columnnamediv.length - 1}} More</b></a></span>
                                             </label><br />
@@ -265,7 +322,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-title="'Actions'" style=" border-top: none;">
+                                        <td width="5%" data-title="'Actions'" style=" border-top: none;">
                                             <div layout="row">
                                                 <span flex></span>
                                                 <button class="ui icon red button" ng-click="showdeletePopup(Indexing)" data-inverted="" data-tooltip="Delete index '{{Indexing.indexname}}'?" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">
@@ -330,14 +387,14 @@
                                         <td width="10%" data-title="'Seeks'" sortable="'seeks'" style=" border-top: none; vertical-align: top !important;"><label>{{Indexing.seeks}}</label></td>
                                         <td width="5%" data-title="'Index Advantage'" sortable="'Index_Advantage'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Index_Advantage }}</label></td>
                                         <!--<td width="5%" data-title="'Percent Reduction'" sortable="'Percent_Red'" style=" border-top: none; vertical-align: top !important;"><label>{{ Indexing.Percent_Red }}</label></td>-->
-                                        <td width="5%" data-title="'Percent Reduction'" sortable="'Percent_Red'" style=" border-top: none; vertical-align: top !important;">
+                                        <td width="5%" data-title="'% Reduction'" sortable="'Percent_Red'" style=" border-top: none; vertical-align: top !important;">
                                             <div class="ui indicating small progress" data-percent="{{Indexing.Percent_Red}}" style="margin: 0;">
                                                 <div class="bar">
                                                     <div class="progress" style="background-color: unset;"></div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-title="'Actions'" style=" border-top: none;">
+                                        <td width="10%" data-title="'Actions'" style=" border-top: none;">
                                             <div layout="row">
                                                 <span flex></span>
                                                 <button class="ui icon blue button" ng-click="showcreatePopup(Indexing)" data-inverted="" data-tooltip="Create index of '{{Indexing.tablename}}'?" data-position="top right" style="border-radius: 15px; padding: 13.5px" fdprocessedid="lha97d">

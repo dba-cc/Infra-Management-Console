@@ -356,7 +356,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
     $scope.generateChart = function (data) {
         
         if (data != null) {
-            var sr_no_count = 0;
+            var sr_no_count = 1;
             sr_no = data.map(function (obj) {
                 return sr_no_count++;
             });

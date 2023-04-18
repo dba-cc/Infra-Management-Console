@@ -16,6 +16,8 @@
         $('#columnDropdown').dropdown();
     }
 
+
+
     $scope.moveToSelectedList = function (column) {
         if (column.type == 'where_column') {
             var index = $scope.ConditionalColumns.indexOf(column);
@@ -179,12 +181,7 @@
     $scope.hidedeletePopup = function () {
         $('.deletePopup').modal('hide');
     };
-    $scope.createformat = {
-        "indexname": "",
-        "whereCols": "",
-        "includedcol": "",
-        "onlineFlag": 1
-    }
+
 
     $scope.showcreatePopup = function (data) {
         $scope.cobj = data;
@@ -201,14 +198,12 @@
                 return { 'type': 'include_column', 'column': str.trim() };
             }
         });
-        var whereColumns = data.equalitycol + ', ' + data.inequalitycol        
+        var whereColumns = data.equalitycol + ', ' + data.inequalitycol
         whereColumns.split(',').map(function (str) {
             if (str != " ---") {
                 $scope.ConditionalColumns.push({ 'type': 'where_column', 'column': str.trim() });
             }
         });
-        console.log($scope.IncludedColumns);
-        console.log($scope.ConditionalColumns);
         $('.createPopup').modal({
             context: '#parent-container',
             closable: false,
@@ -220,19 +215,53 @@
             }
         }).modal('show');
     }
+    $scope.createformat = {
+        "indexname": "",
+        "onlineFlag": 1
+    }
+    $scope.check = true;
+    $scope.checkIt = function () {
+        if (!$scope.check) {
+            $scope.check = true;
+            $scope.createformat["onlineFlag"] = 1
+        } else {
+            $scope.check = false;
+            $scope.createformat["onlineFlag"] = 0
+        }
+    }
 
     $scope.createIndex = function (data) {
         showLoadingScreen();
+        var selectedwhrcols = ''
+        var selectedinccols = ''
+        $scope.SelectedColumns.forEach((dict, index) => {
+            if (dict['type'] === 'where_column') {
+                if (selectedwhrcols === '') {
+                    selectedwhrcols += dict['column'];
+                }
+                else {
+                    selectedwhrcols += ', ' + dict['column']
+                }
+            } else {
+                if (selectedinccols === '') {
+                    selectedinccols += dict['column'];
+                }
+                else {
+                    selectedinccols += ', ' + dict['column']
+                }
+            }
+        });
+
         $http({
             method: 'POST',
             url: 'api/Analytics/CreateIndex',
             data: {
                 "dbName": $scope.Database.name,
                 "indexname": $scope.createformat["indexname"],
-                "whereCols": $scope.createformat["whereCols"],
-                "includedcol": $scope.createformat["includedcol"],
+                "whereCols": selectedwhrcols,
+                "includedcol": selectedinccols,
                 "tablename": $scope.cobj.tablename,
-                "onlineFlag": 1
+                "onlineFlag": $scope.createformat["onlineFlag"]
             },
             headers: { "Content-Type": 'application/json' }
         })
