@@ -16,6 +16,8 @@
         $('#columnDropdown').dropdown();
     }
 
+
+
     $scope.moveToSelectedList = function (column) {
         if (column.type == 'where_column') {
             var index = $scope.ConditionalColumns.indexOf(column);
@@ -179,12 +181,7 @@
     $scope.hidedeletePopup = function () {
         $('.deletePopup').modal('hide');
     };
-    $scope.createformat = {
-        "indexname": "",
-        "whereCols": "",
-        "includedcol": "",
-        "onlineFlag": 1
-    }
+
 
     $scope.showcreatePopup = function (data) {
         $scope.cobj = data;
@@ -201,14 +198,12 @@
                 return { 'type': 'include_column', 'column': str.trim() };
             }
         });
-        var whereColumns = data.equalitycol + ', ' + data.inequalitycol        
+        var whereColumns = data.equalitycol + ', ' + data.inequalitycol
         whereColumns.split(',').map(function (str) {
             if (str != " ---") {
                 $scope.ConditionalColumns.push({ 'type': 'where_column', 'column': str.trim() });
             }
         });
-        console.log($scope.IncludedColumns);
-        console.log($scope.ConditionalColumns);
         $('.createPopup').modal({
             context: '#parent-container',
             closable: false,
@@ -220,19 +215,53 @@
             }
         }).modal('show');
     }
+    $scope.createformat = {
+        "indexname": "",
+        "onlineFlag": 1
+    }
+    $scope.check = true;
+    $scope.checkIt = function () {
+        if (!$scope.check) {
+            $scope.check = true;
+            $scope.createformat["onlineFlag"] = 1
+        } else {
+            $scope.check = false;
+            $scope.createformat["onlineFlag"] = 0
+        }
+    }
 
     $scope.createIndex = function (data) {
         showLoadingScreen();
+        var selectedwhrcols = ''
+        var selectedinccols = ''
+        $scope.SelectedColumns.forEach((dict, index) => {
+            if (dict['type'] === 'where_column') {
+                if (selectedwhrcols === '') {
+                    selectedwhrcols += dict['column'];
+                }
+                else {
+                    selectedwhrcols += ', ' + dict['column']
+                }
+            } else {
+                if (selectedinccols === '') {
+                    selectedinccols += dict['column'];
+                }
+                else {
+                    selectedinccols += ', ' + dict['column']
+                }
+            }
+        });
+
         $http({
             method: 'POST',
             url: 'api/Analytics/CreateIndex',
             data: {
                 "dbName": $scope.Database.name,
                 "indexname": $scope.createformat["indexname"],
-                "whereCols": $scope.createformat["whereCols"],
-                "includedcol": $scope.createformat["includedcol"],
+                "whereCols": selectedwhrcols,
+                "includedcol": selectedinccols,
                 "tablename": $scope.cobj.tablename,
-                "onlineFlag": 1
+                "onlineFlag": $scope.createformat["onlineFlag"]
             },
             headers: { "Content-Type": 'application/json' }
         })
@@ -273,177 +302,34 @@
     }, true);
 
     $scope.GetIndexSugg = function () {
-        var data = [
-            {
-                "tablename": "Particular_Bill_Detail",
-                "equalitycol": "bno",
-                "inequalitycol": "---",
-                "includedcol": "---",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 130,
-                "Index_Advantage": 0.705,
-                "SeekPercentage": 0,
-                "Percent_Red": 32.19
-            },
-            {
-                "tablename": "Particular_Bill_Detail",
-                "equalitycol": "pr",
-                "inequalitycol": "---",
-                "includedcol": "bno",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 116,
-                "Index_Advantage": 0.613,
-                "SeekPercentage": 0,
-                "Percent_Red": 47.13
-            },
-            {
-                "tablename": "Particular_Bill_Detail",
-                "equalitycol": "bno, radio_s_v",
-                "inequalitycol": "---",
-                "includedcol": "---",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 62,
-                "Index_Advantage": 0.34,
-                "SeekPercentage": 0,
-                "Percent_Red": 33.01
-            },
-            {
-                "tablename": "Particular_Bill_Detail",
-                "equalitycol": "bno, pr",
-                "inequalitycol": "---",
-                "includedcol": "---",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 47,
-                "Index_Advantage": 0.296,
-                "SeekPercentage": 0,
-                "Percent_Red": 60.54
-            },
-            {
-                "tablename": "Particular_Bill_Detail",
-                "equalitycol": "bno",
-                "inequalitycol": "Vendor_Account_ID",
-                "includedcol": "---",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 11,
-                "Index_Advantage": 0.057,
-                "SeekPercentage": 0,
-                "Percent_Red": 24.06
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "status, is_deleted",
-                "inequalitycol": "---",
-                "includedcol": "faculty",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 4,
-                "Index_Advantage": 0.015,
-                "SeekPercentage": 0,
-                "Percent_Red": 30.65
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "faculty, is_deleted",
-                "inequalitycol": "---",
-                "includedcol": "bill_type, budget_head, sub_head, owner, date, sanctioned_amount, total_expanditure, audit_sanction, balance, status, reference_no",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 4,
-                "Index_Advantage": 0.012,
-                "SeekPercentage": 0,
-                "Percent_Red": 61.86
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "faculty, status, fr",
-                "inequalitycol": "---",
-                "includedcol": "bill_type, budget_head, officeof, date, total_expanditure, dean_sanction, audit_sanction",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 3,
-                "Index_Advantage": 0.01,
-                "SeekPercentage": 0,
-                "Percent_Red": 33.77
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "status, fr",
-                "inequalitycol": "---",
-                "includedcol": "faculty",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 2,
-                "Index_Advantage": 0.008,
-                "SeekPercentage": 0,
-                "Percent_Red": 33.77
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "audit, account, status, fr, is_deleted",
-                "inequalitycol": "---",
-                "includedcol": "faculty",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 2,
-                "Index_Advantage": 0.008,
-                "SeekPercentage": 0,
-                "Percent_Red": 35.72
-            },
-            {
-                "tablename": "Bill_Detail",
-                "equalitycol": "faculty, account, status, is_deleted",
-                "inequalitycol": "---",
-                "includedcol": "bill_type, budget_head, officeof, date, total_expanditure, dean_sanction, audit_sanction",
-                "columnname": null,
-                "indexname": null,
-                "seeks": 1,
-                "Index_Advantage": 0.003,
-                "SeekPercentage": 0,
-                "Percent_Red": 33.49
-            }
-        ]
-        $scope.IndexSuggParams = new NgTableParams({
-            count: data.length
-        }, {
-            dataset: data,
-        });
-        $timeout(function () {
-            $('.ui.indicating.progress').progress();
-        }, 500);
-        showIndexTableflag = true
-        //showLoadingScreen();
-        //$http({
-        //    method: 'POST',
-        //    url: 'api/Analytics/GetIndexSuggestions',
-        //    data: '"' + $scope.Database.name + '"',
-        //    headers: { "Content-Type": 'application/json' }
-        //})
-        //    .success(function (response) {
-        //        $rootScope.showLoading = false;
-        //        if (response.response_code != "200") {
-        //            $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
-        //        }
-        //        else {
-        //            $scope.IndexSuggParams = new NgTableParams({
-        //                count: response.obj.length
-        //            }, {
-        //                dataset: response.obj,
-        //            });
-        //            $timeout(function () {
-        //                $('.ui.indicating.progress').progress();
-        //            }, 500);
-        //            showIndexTableflag = true
-        //        }
-        //        hideLoadingScreen();
-        //    })
-        //    .error(function (res) {
-        //        $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
-        //        hideLoadingScreen();
-        //    });
+        showLoadingScreen();
+        $http({
+            method: 'POST',
+            url: 'api/Analytics/GetIndexSuggestions',
+            data: '"' + $scope.Database.name + '"',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.IndexSuggParams = new NgTableParams({
+                        count: response.obj.length
+                    }, {
+                        dataset: response.obj,
+                    });
+                    $timeout(function () {
+                        $('.ui.indicating.progress').progress();
+                    }, 500);
+                    showIndexTableflag = true
+                }
+                hideLoadingScreen();
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
     }
 });

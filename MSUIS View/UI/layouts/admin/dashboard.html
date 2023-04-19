@@ -1,10 +1,160 @@
-﻿<div id="main_content">
+﻿<style>
+    .dashboard-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        overflow: auto;
+    }
+
+    .dashboard-card {
+        min-width: 300px;
+        min-height: 290px;
+        max-width: 50%;
+        max-height: 50%;
+        width: calc((100% - 90px)/3); /* (100% - total margin)/number of cards per row */
+        height: auto; /* (100% - total margin)/number of cards per column */
+        overflow: auto;
+        background-color: white;
+        margin: 15px;
+        padding: 0;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid green;
+        position: relative;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card {
+            width: 90%;
+            height: auto;
+            margin: 5%;
+        }
+    }
+
+    .card-button {
+        bottom: 0 !important;
+        position: absolute !important;
+        width: 100% !important;
+    }
+</style>
+
+<div id="main_content">
     <div class="pcoded-main-container" style="width: 100vw; height:100vh">
         <div class="pcoded-wrapper">
             <sidenav id="sidebar"></sidenav>
-            <div class="pcoded-content" id="main-board">
+            <div class="pcoded-content" id="main-board" ng-init="GetDashboardInfo()">
                 <div class="pcoded-inner-content">
-                    <div ui-view=""></div>
+                    <div ui-view="">
+                        <div class="dashboard-container"    >
+                            <!--row 1-->
+                            <div class="dashboard-card">
+                                <h3 style="padding: 20px; margin-bottom: 0">Database Stats</h3>
+                                <div class="ui grid" style="padding: 0; margin: 0">
+                                    <div class="eight wide column">
+                                        <div style="align-items: center; justify-content: center; display: flex; height: 180px;">
+                                            <i class="bi bi-database-check" style="font-size: 6em"></i>
+                                            <h3 style="margin: 0 5px">Online<br /> --- <br /> <span>{{onlineCount}}</span></h3>
+                                        </div>
+                                    </div>    
+                                    <div class="eight wide column" style="border-left: 1px solid grey">
+                                        <div style="align-items: center; justify-content: center; display: flex; height: 180px;">
+                                            <i class="bi bi-database-x" style="font-size: 6em"></i><br />
+                                            <h3 style="margin: 0 5px">Offline<br /> --- <br /> <span>{{offlineCount}}</span></h3>
+                                        </div>
+                                    </div>    
+                                </div>
+                                <div class="ui bottom attached button card-button" ng-click="goTo(1, 'Database')">
+                                    <i class="right arrow icon"></i>
+                                    Go to Database Manager
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3 style="padding: 20px; margin-bottom: 0">Auto Backup Logs</h3>
+                                <div class="card-block scrollbar" id="table-parent-container" style="margin-top: 0 !important; max-height: 190px !important">
+                                    <div class="table-responsive" style="max-height: 225px !important;">
+                                        <table class="ui striped table green main-table selectable" id="example-2" ng-table="BackupLogParams" style="width: 100%">
+                                            <thead ng-table-header disable-default-header></thead>
+                                            <tbody>
+                                                <tr ng-repeat="Log in $data">
+                                                    <td data-title="'Status'" style=" display: flex; justify-content: center;">
+                                                        <i title="{{Log.RunStatus}}" style="font-size: 1.3rem; width: 100%; height: 100%;" class="icon" ng-class="{'Succeeded' : 'bi bi-check-lg', 'Failed' : 'bi bi-x', 'Retry' : 'bi bi-arrow-clockwise', 'Cancelled' : 'bi bi-x-circle', 'In Progress' : 'bi bi-clock'}[Log.RunStatus]"></i>
+                                                    </td>
+                                                    <td data-title="'Message'"><label title="{{Log.Message}}">{{Log.Message  | limitTo:50 }}...</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="ui bottom attached button card-button" ng-click="goTo(1, 'Backup')">
+                                        <i class="right arrow icon"></i>
+                                        Go to Backup Manager
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3 style="padding: 20px; margin-bottom: 0">Current Locks</h3>
+                                <div class="ui grid" style="padding: 0; margin: 0">
+                                    <div class="column">
+                                        <div style="align-items: center; justify-content: center; display: flex; height: 180px;">
+                                            <i class="bi bi-hdd-rack" style="font-size: 8em"></i>
+                                            <h2 style="margin: 0 25px">Server Locks<br /> --- <br /> <span>{{LockCount}}</span></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui bottom attached button card-button" ng-click="goTo(10, 'LockAnalysis')">
+                                    <i class="right arrow icon"></i>
+                                    Go to Locks
+                                </div>
+                            </div>
+
+                            <!--row 2-->
+                            <div class="dashboard-card" style="width: 64% !important; max-width: none; padding: 0; ">
+                                <h3 style="padding: 20px; margin-bottom: 0">System Query Analytics (Last 1 Minutes)</h3>
+                                <div style="width: 100%; height: 83%; padding-top: 10px;" id="chart-div">
+                                    <canvas id="analytics-chart" style=" width: 100%; height: 178px; padding: 0 15px"></canvas>
+                                </div>
+                                <div class="ui bottom attached button card-button" ng-init="generateChart()" ng-click="goTo(10, 'QueryHit')">
+                                    <i class="right arrow icon"></i>
+                                        Go to Query Analytics
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3 style="padding: 20px; margin-bottom: 0">Active Logins</h3>
+                                <div class="ui grid" style="padding: 0; margin: 0">
+                                    <div class="column">
+                                        <div style="align-items: center; justify-content: center; display: flex; height: 180px;">
+                                            <i class="bi bi-database-lock" style="font-size: 8em"></i>
+                                            <h2 style="margin: 0 25px">DB Login Connections<br /> --- <br /> <span>{{ActiveLoginWithDBCount}}</span></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui bottom attached button card-button" ng-click="goTo(10, 'CredentialAnalytics')">
+                                    <i class="right arrow icon"></i>
+                                    Go to Credential Analytics
+                                </div>
+                            </div>
+
+                            <!--row 3-->
+                            <div class="dashboard-card" style="width: 100% !important; max-width: none; padding: 0; height: 290px !important">
+                                <h3 style="padding: 20px; margin-bottom: 0">Server Logs</h3>
+                                <div class="card-block scrollbar" id="table-parent-container" style="margin-top: 0 !important; max-height: 290px !important">
+                                    <div class="table-responsive" style="max-height: 225px !important;">
+                                        <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="ServerLogParams" style="width: 100%">
+                                            <thead ng-table-header disable-default-header></thead>
+                                            <tbody style="overflow:scroll; width:100%">
+                                                <tr ng-repeat="Log in $data">
+                                                    <td width="10%" style="border-top: none; vertical-align: top !important;"><label>{{ Log.LogDate }}</label></td>
+                                                    <td width="10%" style=" border-top: none; vertical-align: top !important;"><label>{{Log.ProcessInfo}}</label></td>
+                                                    <td width="80%" style=" border-top: none; vertical-align: top !important;"><label title="{{Log.Text}}">{{Log.Text | limitTo:135}}<span ng-if="Log.Text.length > 135">...</span></label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -85,7 +85,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function (e
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
 
-    t.otherwise("/dashboard"),
+    t.otherwise("/UserLogin"),
 
         e.state("boxed", {
             url: "",

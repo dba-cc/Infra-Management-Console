@@ -73,7 +73,7 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DeletionProtectionTriggers", Con);
+                SqlCommand cmd = new SqlCommand("Trigger_toggle_db", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 //string a;
                 Da.SelectCommand = cmd;
