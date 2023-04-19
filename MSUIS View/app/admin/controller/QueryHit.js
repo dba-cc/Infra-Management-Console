@@ -2,16 +2,42 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
     $scope.QueryHitParams = new NgTableParams({}, {});
 
     $scope.filterType = 'rel';
+    $scope.eventype = 'adhoc';
     $scope.timeFormat = 'Minute'
     $scope.time = '1'
     $scope.db = 'Query'
     $scope.chartfactor = 'Time'
+    $scope.tabletype = 'dmv'
+    $scope.autorefresh = 'true'
 
     var executionCount = [];
     var lastElapsedTime = [];
     var lastWorkerTime = [];
     var sr_no = [];
     $scope.o = false;
+
+    $scope.checkmainfn = function () {
+        if (!$scope.checkmn) {
+            $scope.checkmn = true;
+            $scope.autorefresh = 'false'
+            $('#autofreq').fadeOut();
+            $scope.refresh = 'eventype'
+            document.getElementById('event').style.display = 'block'
+            document.getElementById('eventype').style.display = 'block'
+            document.getElementById('dmv').style.display = 'none'
+            document.getElementById('dmvtype').style.display = 'none'
+            
+        } else {
+            $scope.checkmn = false;            
+            $scope.autorefresh = 'true'
+            $('#autofreq').fadeIn();   
+            $scope.refresh = 'dmvtype'
+            document.getElementById('dmv').style.display = 'block'
+            document.getElementById('dmvtype').style.display = 'block'
+            document.getElementById('eventype').style.display = 'none'
+            document.getElementById('event').style.display = 'none'
+        }
+    }
     
     $scope.checkIt = function () {
         if (!$scope.check) {
@@ -26,7 +52,6 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             $interval.cancel($scope.c);
             document.getElementById('placeholder').innerText = 'Auto Refresh Freq'
             document.getElementById('freq').value = "";
-            /$scope.item = "";/
         }
     }
 
@@ -39,9 +64,9 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             $scope.tep($scope.temp);
             $scope.p = $interval(function () {
                 $interval.cancel($scope.c);
-                console.log($scope.temp)
-                $scope.FetchQueryHitList();
+                console.log($scope.temp)                
                 $scope.tep($scope.temp)
+                $scope.FetchQueryHitList();
                 $scope.filterQueries();
             }, $scope.temp);
         }
@@ -141,6 +166,112 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
 
         fetchPage(pageNum);
     };
+    $scope.FetchAdhoc = function () {
+        showLoadingScreen();
+
+        var pageNum = 1;
+        var totalData = [];
+        function fetchPage(pageNum) {
+            $http({
+                method: 'POST',
+                url: 'api/Analytics/GetEventAdhocWithAbsRange',
+                data: '"' + document.getElementById('fromDateadhoc').value + ',' + document.getElementById('toDateadhoc').value + ',' + pageNum + '"',
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code != "200") {
+
+                        showMessage(response.obj);
+
+                    }
+                    else {
+
+                        totalData = totalData.concat(response.obj.data);
+                        if (response.obj.data.length > 0) {
+
+                            setTimeout(function () {
+                                fetchPage(pageNum + 1);
+                            }, 0)
+
+                        } else {
+                            $scope.AdhocParams = new NgTableParams({
+                                count: totalData.length
+                            }, {
+                                dataset: totalData,
+
+                            });
+                            $scope.EventGraph(totalData);
+                            hideLoadingScreen();    
+                            $scope.hideeventsPopup();
+                        }
+                    }
+
+                })
+                .error(function (res) {
+                    showMessage(res.obj);
+                    hideLoadingScreen();
+                });
+        }
+        fetchPage(pageNum);
+    };
+    $scope.FetchSP = function () {
+        
+        showLoadingScreen();
+
+        $scope.db = document.getElementById('dbname').value;
+        if (document.getElementById('dbname').value == '? undefined:undefined ?') {
+            $scope.db = 'Query';
+            document.getElementById('dbname').value = $scope.db;
+            $scope.dropdown();
+        }
+
+        var pageNum = 1;
+        var totalData = [];
+        function fetchPage(pageNum) {
+            $http({
+                method: 'POST',
+                url: 'api/Analytics/GetEventSPWithAbsRange',
+                data: '"' + document.getElementById('fromDatesp').value + ',' + document.getElementById('toDatesp').value + ',' + $scope.db + ',' + pageNum + '"',
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code != "200") {
+
+                        showMessage(response.obj);
+
+                    }
+                    else {
+
+                        totalData = totalData.concat(response.obj.data);
+                        if (response.obj.data.length > 0) {
+
+                            setTimeout(function () {
+                                fetchPage(pageNum + 1);
+                            }, 0)
+
+                        } else {
+                            $scope.SpParams = new NgTableParams({
+                                count: totalData.length
+                            }, {
+                                dataset: totalData,
+
+                            });
+                            $scope.EventGraph(totalData);
+                            hideLoadingScreen();
+                            $scope.hideeventsPopup();
+
+                        }
+                    }
+
+                })
+                .error(function (res) {
+                    showMessage(res.obj);
+                    hideLoadingScreen();
+                });
+        }
+
+        fetchPage(pageNum);
+    };
 
   $scope.FetchQueryHitList = function () {
         showLoadingScreen();
@@ -215,7 +346,48 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
                     document.getElementById('fromDate').min = $scope.earliestDate;
                     document.getElementById('toDate').min = $scope.earliestDate;
                 }
-                console.log($scope.earliestDate);
+            })
+            .error(function (res) {
+                alert('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+    $scope.GetEarliestAdhocDate = function () {
+        $http({
+            method: 'POST',
+            url: 'api/Analytics/GetEarliestAdhocDate',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.obj == 'There is no row at position 0.') {
+                    $scope.earliestadhocDate = '';
+                } else {
+                    $scope.earliestadhocDate = response.obj;
+                    document.getElementById('fromDateadhoc').min = $scope.earliestadhocDate;
+                    document.getElementById('toDateadhoc').min = $scope.earliestadhocDate;
+                }
+            })
+            .error(function (res) {
+                alert('dialog', "Error", "alert", res.obj);
+                hideLoadingScreen();
+            });
+    };
+    $scope.GetEarliestSPDate = function () {
+        $http({
+            method: 'POST',
+            url: 'api/Analytics/GetEarliestSPDate',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.obj == 'There is no row at position 0.') {
+                    $scope.earliestspDate = '';
+                } else {
+                    $scope.earliestspDate = response.obj;
+                    document.getElementById('fromDatesp').min = $scope.earliestspDate;
+                    document.getElementById('toDatesp').min = $scope.earliestspDate;
+                }
             })
             .error(function (res) {
                 alert('dialog', "Error", "alert", res.obj);
@@ -263,6 +435,17 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         document.getElementById('selectedQueryText').value = data.query;
         document.getElementById('selectedQueryTextDiv').style.display = 'flex';
         $scope.qhgraph(data);
+        //console.log(data.query)
+    }
+    $scope.EventGraph = function (data) {
+        if ($scope.activator != null) {
+            $scope.generateeventChart(null);
+            $scope.changeFactor();
+            $('#factor-div').fadeIn();
+            return;
+        }
+        $('#factor-div').fadeOut();
+        $scope.generateeventChart(data);
         //console.log(data.query)
     }
 
@@ -356,7 +539,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
     $scope.generateChart = function (data) {
         
         if (data != null) {
-            var sr_no_count = 0;
+            var sr_no_count = 1;
             sr_no = data.map(function (obj) {
                 return sr_no_count++;
             });
@@ -438,13 +621,95 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             }
         });
     }
+    $scope.generateeventChart = function (data) {
+        
+        if (data != null) {
+            var sr_no_count = 1;
+            sr_no = data.map(function (obj) {
+                return sr_no_count++;
+            });
+            Duration = data.map(function (obj) {
+                return obj.Duration;
+            });
+            CpuTime = data.map(function (obj) {
+                return obj.CpuTime;
+            });
+        }
+        
+        const chartCanvas = document.getElementById('analytics-chart');
+        if (typeof $scope.chart !== 'undefined') {
+            $scope.chart.destroy();
+        }
+
+        $scope.chart = new Chart(chartCanvas, {
+            type: 'line',
+            data: {
+                labels: sr_no,
+                datasets: [{
+                    label: ' Duration (ms)',
+                    data: Duration,
+                    borderWidth: 3,
+                    backgroundColor: '#27bc1a3b',
+                    borderColor: '#20bb40ad',
+                    fill: true
+                }, {
+                    label: ' Cpu Time (ms)',
+                    data: CpuTime,
+                    borderWidth: 3,
+                    backgroundColor: '#2185D03B',
+                    borderColor: '#2185D0AD',
+                    fill: true
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutoutPercentage: 50,
+                responsive: true,
+               /* scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 500,
+                        }
+                    }
+                },*/
+                plugins: {
+                    filler: {
+                        propagate: false,
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                        },
+                    },
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            drag: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'x',
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                },
+            }
+        });
+    }
 
     $scope.resetChart = function () {
         $scope.chart.resetZoom();
     }
 
-    $scope.showPopup = function () {
-        $('#inputPopup').modal({
+    $scope.showPopupdmv = function () {
+        $('#inputdmvPopup').modal({
             context: '.parent-container',
             closable: false,
         }).modal('show');
@@ -455,6 +720,22 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         document.getElementById('fromDate').max = year + '-' + month + '-' + day;
         document.getElementById('toDate').max = year + '-' + month + '-' + day;
         $scope.GetEarliestQueryDate();
+    }
+    $scope.showPopupevents = function () {
+        $('#inputeventsPopup').modal({
+            context: '.parent-container',
+            closable: false,
+        }).modal('show');
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        var day = ('0' + currentDate.getDate()).slice(-2);
+        document.getElementById('fromDateadhoc').max = year + '-' + month + '-' + day;
+        document.getElementById('toDateadhoc').max = year + '-' + month + '-' + day;
+        document.getElementById('fromDatesp').max = year + '-' + month + '-' + day;
+        document.getElementById('toDatesp').max = year + '-' + month + '-' + day;
+        $scope.GetEarliestSPDate();
+        $scope.GetEarliestAdhocDate();
     }
 
     $scope.toggleFilterType = function (type) {
@@ -474,6 +755,32 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             document.getElementById('timeInput').disabled = false
             document.getElementById('formatInputDiv').style.pointerEvents = 'auto'
             $('#formatInputDiv').addClass('green')
+        }
+    }
+    $scope.toggleFilterevent = function (type) {
+        if (type == 'sp') {
+            document.getElementById('abseventsadhoc').style.borderColor = 'lightgray'
+            document.getElementById('abseventsSP').style.borderColor = 'green'
+            document.getElementById('fromDatesp').disabled = false
+            document.getElementById('toDatesp').disabled = false
+            document.getElementById('fromDateadhoc').disabled = true
+            document.getElementById('toDateadhoc').disabled = true
+            document.getElementById('spspan').style.display = 'block'
+            document.getElementById('adhocspan').style.display = 'none'
+            document.getElementById('database').style.pointerEvents = 'auto'
+            $('#database').addClass('green')
+            
+        } else {
+            document.getElementById('abseventsSP').style.borderColor = 'lightgray'
+            document.getElementById('abseventsadhoc').style.borderColor = 'green'
+            document.getElementById('fromDatesp').disabled = true
+            document.getElementById('toDatesp').disabled = true
+            document.getElementById('fromDateadhoc').disabled = false
+            document.getElementById('toDateadhoc').disabled = false
+            document.getElementById('spspan').style.display = 'none'
+            document.getElementById('adhocspan').style.display = 'block'
+            document.getElementById('database').style.pointerEvents = 'none'
+            $('#database').removeClass('green')
         }
     }
 
@@ -502,7 +809,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             var month = ('0' + (toDate.getMonth() + 1)).slice(-2);
             var day = ('0' + toDate.getDate()).slice(-2);
             $scope.toDate = year + '-' + month + '-' + day;
-            $scope.hidePopup();
+            $scope.hidedmvPopup();
             var db;
             if ($scope.Database.name == 'Query' || $scope.Database.name == undefined) {
                 db = 'System Queries'
@@ -510,17 +817,78 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
                 db = 'Database : ' + $scope.Database.name
             } 
             document.getElementById('filter-label').innerText = db + ', From ' + $scope.fromDate + ' To ' + $scope.toDate
+            $scope.tabletype = 'dmv'
             $scope.FetchQueryHitListWithAbs();
         } else {
             if ($scope.time === undefined) {
                 showMessage('Enter number of ' + $scope.timeFormat + 's to fetch queries!')
                 return
             }
-            $scope.hidePopup();
+            $scope.hidedmvPopup();
             var db = $scope.Database.name == 'Query' ? 'System Queries' : 'Database : ' + $scope.Database.name
             var timeFormat = $scope.time == '1' ? $scope.timeFormat : $scope.timeFormat + 's'
             document.getElementById('filter-label').innerText = db + ', Past ' + $scope.time + ' ' + timeFormat 
+            $scope.tabletype = 'dmv'
             $scope.FetchQueryHitList();
+        }
+    }
+    $scope.filterEvents = function () {
+        if ($scope.Database == undefined) {
+            $scope.Database = { name:'DBAdmin'}
+        }
+        if (document.getElementsByName('eventype')[0].checked) {
+            $scope.filterType = 'adhoc'
+        } else {
+            $scope.filterType = 'sp'
+        }
+        if ($scope.filterType == 'sp') {
+            if (document.getElementById('fromDatesp').value == '' || document.getElementById('toDatesp').value == '') {
+                showMessage('Enter date range!');
+                return;
+            }
+            var fromDatesp = new Date($scope.fromDatesp);
+            console.log($scope.fromDatesp)
+            var year = fromDatesp.getFullYear();
+            var month = ('0' + (fromDatesp.getMonth() + 1)).slice(-2);
+            var day = ('0' + fromDatesp.getDate()).slice(-2);
+            $scope.fromDatesp = year + '-' + month + '-' + day;
+
+            var toDatesp = new Date($scope.toDatesp);
+            var year = toDatesp.getFullYear();
+            var month = ('0' + (toDatesp.getMonth() + 1)).slice(-2);
+            var day = ('0' + toDatesp.getDate()).slice(-2);
+            $scope.toDatesp = year + '-' + month + '-' + day;
+            console.log($scope.toDatesp)
+            $scope.hidedmvPopup();
+            var db;
+            if ($scope.Database.name == 'Query' || $scope.Database.name == undefined) {
+                db = 'System Queries'
+            } else {
+                db = 'Database : ' + $scope.Database.name
+            } 
+            document.getElementById('filter-label-Events').innerText = 'SP ' + db + ', From ' + $scope.fromDatesp + ' To ' + $scope.toDatesp
+            $scope.tabletype = 'sptable'
+            $scope.FetchSP();
+        } else {
+            if (document.getElementById('fromDateadhoc').value == '' || document.getElementById('toDateadhoc').value == '') {
+                showMessage('Enter date range!');
+                return;
+            }
+            var fromDateadhoc = new Date($scope.fromDateadhoc);
+            var year = fromDateadhoc.getFullYear();
+            var month = ('0' + (fromDateadhoc.getMonth() + 1)).slice(-2);
+            var day = ('0' + fromDateadhoc.getDate()).slice(-2);
+            $scope.fromDateadhoc = year + '-' + month + '-' + day;
+
+            var toDateadhoc = new Date($scope.toDateadhoc);
+            var year = toDateadhoc.getFullYear();
+            var month = ('0' + (toDateadhoc.getMonth() + 1)).slice(-2);
+            var day = ('0' + toDateadhoc.getDate()).slice(-2);
+            $scope.toDateadhoc = year + '-' + month + '-' + day;
+            $scope.hidedmvPopup();
+            document.getElementById('filter-label-Events').innerText = 'ADHOC From ' + $scope.fromDateadhoc + ' To ' + $scope.toDateadhoc
+            $scope.tabletype = 'adhoctable'
+            $scope.FetchAdhoc();
         }
     }
 
@@ -603,7 +971,9 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
         }
     }
 
-    $scope.hidePopup = function () {
-        $('#inputPopup').modal('hide');
+    $scope.hidedmvPopup = function () {
+        $('#inputdmvPopup').modal('hide');
+    };$scope.hideeventsPopup = function () {
+        $('#inputeventsPopup').modal('hide');
     };
 });

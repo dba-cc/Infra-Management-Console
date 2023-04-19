@@ -4,6 +4,25 @@
         display: none;
     }
 
+    #inputdmvPopup {
+        max-height: fit-content;
+        position: absolute;
+        transform: translate(-50%, -50%) !important;
+        top: 50% !important;
+        left: 50% !important;
+        border-radius: 15px;
+        z-index: 99999 !important;
+    }
+    #inputeventsPopup {
+        max-height: fit-content;
+        position: absolute;
+        transform: translate(-50%, -50%) !important;
+        top: 50% !important;
+        left: 50% !important;
+        border-radius: 15px;
+        z-index: 99999 !important;
+    }
+
         .tgl + .tgl-btn {
             outline: 0;
             display: block;
@@ -110,8 +129,8 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="parent-container">
-                <!--Query popup-->
-                <div class="ui mini modal" id="inputPopup">
+                <!--DMV Query popup-->
+                <div class="ui mini modal" id="inputdmvPopup">
                     <i class="close icon"></i>
                     <div class="header">
                         Filter
@@ -154,7 +173,7 @@
                                                 <div class="item" data-value="Minute">Minute</div>
                                             </div>
                                         </div>
-                                        <div class="ui icon input" style="float: left; display:none" id="timeInputDiv">
+                                        <div class="ui icon input" style="float: left;" id="timeInputDiv">
                                             <input type="number" id="timeInput" name="querycount" placeholder="" ng-model="time" step="any" fdprocessedid="jktz0n" style=" height: 35px; margin-top: 7px; border-radius: 15px" required>
                                         </div>
                                     </div>
@@ -174,7 +193,7 @@
                         </form>
                     </div>
                     <div class="actions">
-                        <div class="ui animated button" ng-click="hidePopup()" style=" margin: 0;" tabindex="0">
+                        <div class="ui animated button" ng-click="hidedmvPopup()" style=" margin: 0;" tabindex="0">
                             <div class="visible content">Cancel</div>
                             <div class="hidden content">
                                 <i class="bi bi-x-lg"></i>
@@ -187,20 +206,94 @@
                             </div>
                         </div>
                     </div>
+                </div> 
+                <!--Events Query popup-->
+                <div class="ui mini modal" id="inputeventsPopup">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Filter
+                    </div>
+                    <div class="content" style="padding: 0 1.5rem !important">
+                        <form class="ui mini form">
+                            <span id="adhocspan" style="display:block;" ng-if="earliestadhocDate != ''">*Earliest Adhoc queries are accessible from date {{earliestadhocDate}}.</span>
+                            <div style="border: 1px solid green; border-radius: 15px; padding: 15px;" id="abseventsadhoc">
+                                <div>
+                                    <input ng-click="toggleFilterevent('adhoc')" type="radio" checked name="eventype" style="margin-top: 4px !important;position: fixed;"><label style="margin-left: 20px !important; margin-top: 2px !important; font-size: 13px;"><b>Adhoc</b></label>
+                                </div>
+                                <div>
+                                    <div class="field" style="display: flex; ">
+                                        <label style=" font-size: 12px; margin: 8px;">From</label><input id="fromDateadhoc" type="date" style="width: 107px;" ng-model="fromDateadhoc" />
+                                        <label style=" font-size: 12px; margin: 8px;">to</label><input id="toDateadhoc" type="date" style="width: 107px;" ng-model="toDateadhoc" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span id="spspan" style="display:none;" ng-if="earliestspDate != ''">*Earliest Stored Procedures are accessible from date {{earliestspDate}}.</span>
+                            <div class="field" style="margin-top: 1em;">
+                                <div id="database" disabled class="ui floating dropdown labeled search icon button" style="pointer-events:none; padding-bottom: 10px;" ng-click="dropdown()" ng-init="getDatabaseList();" id="dblist">
+                                    <select class="ui search selection dropdown" ng-model="Database.name" id="dbname">
+                                        <option class="item" ng-repeat="d in DatabaseList" value="{{d.name}}">{{d.name}}</option>
+                                    </select>
+                                    <i class="bi bi-database-fill-check icon"></i>
+                                    <input type="hidden" ng-model="Database.name" style="color: white; font-weight: bold;">
+                                    <div class="default text">Select Database</div>
+                                    <div class="menu">
+                                        <div class="item" ng-repeat="d in DatabaseList" data-value="{{d.name}}">{{d.name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid lightgray; border-radius: 15px; padding: 15px; margin-top: 10px" id="abseventsSP">
+                                <div>
+                                    <input ng-click="toggleFilterevent('sp')" type="radio" name="eventype" style="margin-top: 4px !important;position: fixed;"><label style="margin-left: 20px !important; margin-top: 2px !important; font-size: 13px;"><b>SP</b></label>
+                                </div>
+                                <div>
+                                    <div class="field" style="display: flex; ">
+                                        <label style=" font-size: 12px; margin: 8px;">From</label><input id="fromDatesp" disabled type="date" style="width: 107px;" ng-model="fromDatesp" />
+                                        <label style=" font-size: 12px; margin: 8px;">to</label><input id="toDatesp" disabled type="date" style="width: 107px;" ng-model="toDatesp" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <div class="ui animated button" ng-click="hideeventsPopup()" style=" margin: 0;" tabindex="0">
+                            <div class="visible content">Cancel</div>
+                            <div class="hidden content">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
+                        <div class="ui green animated button" ng-click="filterEvents()" tabindex="0" style="margin-top: -5px;">
+                            <div class="visible content">Apply</div>
+                            <div class="hidden content">
+                                <i class="check icon"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card main-card">
                     <div class="card-header">
-                        <div class="ui dropdown blue labeled icon button" ng-click="showPopup()" style="float: left; padding-bottom: 14px;">
-                            <label style="margin: 0" id="filter-label">Filter</label>
+                        <div class="row-fluid" style="float: left;" aria-hidden="false">
+                            <input class='tgl tgl-skewed' id='cb3' type='checkbox' ng-checked="checkmn">
+                            <div class='ui tgl-btn button' style=" transition: background 0.5s ease-out;" data-tg-off='FROM DMV' data-tg-on='FROM EVENTS' ng-click="checkmainfn()" ng-model="checkmn"></div>
+                        </div>
+                        <div class="ui dropdown blue labeled icon button" ng-click="showPopupdmv()" id="dmv"style="float: left; padding-bottom: 14px;display:block">
+                            <label style="margin: 0" id="filter-label">Filter DMV</label>
+                            <i class="filter icon"></i>
+                        </div>
+                        <div class="ui dropdown blue labeled icon button" ng-click="showPopupevents()" id="event"style="float: left; padding-bottom: 14px;display:none;">
+                            <label style="margin: 0" id="filter-label-Events">Filter Events</label>
                             <i class="filter icon"></i>
                         </div>
                         <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 7px;" aria-hidden="false">
-                            <div class="ui dropdown labeled icon button" ng-click="filterQueries()" style="float: left; padding-bottom: 14px;">
+                            <div class="ui dropdown labeled icon button" id="dmvtype"  ng-click="filterQueries()" style="display: block; float: left; padding-bottom: 14px;">
+                                Refresh
+                                <i class="sync alternate white link icon"></i>
+                            </div>
+                            <div class="ui dropdown labeled icon button" id="eventype" ng-click="filterEvents()" style=" display:none;float: left; padding-bottom: 14px;">
                                 Refresh
                                 <i class="sync alternate white link icon"></i>
                             </div>
                         </div>
-                        <div class="row-fluid" style="float: left;" aria-hidden="false">
+                        <div class="row-fluid" ng-show="autorefresh=='true'" id="autofreq" style="float: left;" aria-hidden="false">
                             <input class='tgl tgl-skewed' id='cb3' type='checkbox' ng-checked="check">
                             <div class='ui tgl-btn button' style=" transition: background 0.5s ease-out;" data-tg-off='Auto Refresh Off' data-tg-on='Auto Refresh On' ng-click="checkIt()" ng-model="check"></div>
                         </div>
@@ -228,7 +321,7 @@
                     <div style="background-color: white; height: 56vh;">
                         <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
                             <div style="height: 46vh; max-height: 46vh; width: 100%; transition: height 0.3s ease-out, padding 0.3s ease-out" id="table-container">
-                                <div class="table-responsive" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
+                                <div class="table-responsive" ng-show="tabletype=='dmv'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
                                     <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="QueryHit in $data">
@@ -241,9 +334,55 @@
                                                     
                                                 </td>
                                                 <td width="10%" data-title="'Object Name'" filter="{objectid: 'text'}" sortable="'objectid'"><label>{{QueryHit.objectid}}</label></td>
-                                                <td width="10%" data-title="'Execution Count'" filter="{execution_count: 'text'}" sortable="'execution_count'"><label>{{QueryHit.execution_count}}</label></td>
-                                                <td width="10%" data-title="'Last Worker Time'" filter="{last_worker_time: 'text'}" sortable="'last_worker_time'"><label>{{QueryHit.last_worker_time}} ms</label></td>
-                                                <td width="10%" data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'text'}" sortable="'last_elapsed_time'"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
+                                                <td width="10%" data-title="'Execution Count'" filter="{execution_count: 'number'}" sortable="'execution_count'"><label>{{QueryHit.execution_count}}</label></td>
+                                                <td width="10%" data-title="'Last Worker Time'" filter="{last_worker_time: 'number'}" sortable="'last_worker_time'"><label>{{QueryHit.last_worker_time}} ms</label></td>
+                                                <td width="10%" data-title="'Last Elapsed Time'" filter="{last_elapsed_time: 'number'}" sortable="'last_elapsed_time'"><label>{{QueryHit.last_elapsed_time}} ms</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive" ng-show="tabletype=='sptable'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
+                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="SpParams" show-filter="true" style="">
+                                        <tbody>
+                                            <tr ng-repeat="SP in $data">
+                                                <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
+                                                <td width="13%" data-title="'System Time'" filter="{SystemTime: 'text'}" sortable="'SystemTime'"><label>{{SP.SystemTime}}</label></td>
+                                                <td width="13%" data-title="'Object Name'" filter="{ObjectName: 'text'}" sortable="'ObjectName'"><label>{{SP.ObjectName}}</label></td>
+                                                <td data-title="'Statement'" filter="{Statement: 'text'}" sortable="'Statement'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
+                                                    <label title="{{SP.Statement}}" ng-click="" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{SP.Statement | limitTo:75}}...</label>
+                                                    
+                                                        <i style="float: right" class="copy outline icon" ng-click="copyQuery(SP.Statement)"></i>
+                                                    
+                                                </td>
+                                                <td width="10%" data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'"><label>{{SP.UserName}}</label></td>
+                                                <td width="2%" data-title="'Duration'" filter="{Duration: 'number'}" sortable="'Duration'"><label>{{SP.Duration}} ms</label></td>
+                                                <td width="2%" data-title="'Cpu Time'" filter="{CpuTime: 'number'}" sortable="'CpuTime'"><label>{{SP.CpuTime}} ms</label></td>
+                                                <td width="2%" data-title="'Logical Reads'" filter="{LogicalReads: 'number'}" sortable="'LogicalReads'"><label>{{SP.LogicalReads}}</label></td>
+                                                <td width="2%" data-title="'Physical Reads'" filter="{PhysicalReads: 'number'}" sortable="'PhysicalReads'"><label>{{SP.PhysicalReads}}</label></td>
+                                                <td width="2%" data-title="'Writes'" filter="{Writes: 'number'}" sortable="'Writes'"><label>{{SP.Writes}}</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive" ng-show="tabletype=='adhoctable'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
+                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="AdhocParams" show-filter="true" style="">
+                                        <tbody>
+                                            <tr ng-repeat="Adhoc in $data">
+                                                <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
+                                                <td width="5%" data-title="'System Time'" filter="{SystemTime: 'text'}" sortable="'SystemTime'"><label>{{Adhoc.SystemTime}}</label></td>
+                                                <td data-title="'Query'" filter="{Statement: 'text'}" sortable="'Statement'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
+                                                    <label title="{{Adhoc.Statement}}" ng-click="" style="  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{Adhoc.Statement | limitTo:75}}...</label>
+
+                                                    <i style="float: right" class="copy outline icon" ng-click="copyQuery(Adhoc.Statement)"></i>
+
+                                                </td>
+                                                <td width="5%" data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'"><label>{{Adhoc.UserName}}</label></td>
+                                                <td width="2%" data-title="'Duration'" filter="{Duration: 'number'}" sortable="'Duration'"><label>{{Adhoc.Duration}} ms</label></td>
+                                                <td width="2%" data-title="'Cpu Time'" filter="{CpuTime: 'number'}" sortable="'CpuTime'"><label>{{Adhoc.CpuTime}} ms</label></td>
+                                                <td width="1%" data-title="'Logical Reads'" filter="{LogicalReads: 'number'}" sortable="'LogicalReads'"><label>{{Adhoc.LogicalReads}}</label></td>
+                                                <td width="1%" data-title="'Physical Reads'" filter="{PhysicalReads: 'number'}" sortable="'PhysicalReads'"><label>{{Adhoc.PhysicalReads}}</label></td>
+                                                <td width="1%" data-title="'Writes'" filter="{Writes: 'number'}" sortable="'Writes'"><label>{{Adhoc.Writes}}</label></td>
+                                                <td width="1%" data-title="'Spills'" filter="{Spills: 'number'}" sortable="'Spills'"><label>{{Adhoc.Spills}}</label></td>
                                             </tr>
                                         </tbody>
                                     </table>

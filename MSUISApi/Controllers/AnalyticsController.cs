@@ -236,6 +236,126 @@ namespace MSUISApi.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetEventSPWithAbsRange([FromBody] String timeFormat_time)
+        {
+            try
+            {
+                int page = Convert.ToInt32(timeFormat_time.Split(',')[3]);
+                int pageSize = 70; // Number of items per page
+                int startIndex = (page - 1) * pageSize;
+                int endIndex = startIndex + pageSize - 1;
+
+                String timeFormat = timeFormat_time.Split(',')[0];
+                String time = timeFormat_time.Split(',')[1];
+                String db = timeFormat_time.Split(',')[2];
+                SqlCommand cmd = new SqlCommand("EventSPabsoluterange", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@from", timeFormat);
+                cmd.Parameters.AddWithValue("@to", time);
+                cmd.Parameters.AddWithValue("@db", db);
+                Da.SelectCommand = cmd;
+                cmd.CommandTimeout = 0;
+                Da.Fill(Dt);
+
+                List<Events> EventsList = new List<Events>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = startIndex; i <= endIndex && i < Dt.Rows.Count; i++)
+                    {
+                        Events eventObj = new Events();
+                        DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["collect_system_time"]);
+                        eventObj.SystemTime = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        eventObj.ObjectName = Convert.ToString(Dt.Rows[i]["object_name"]);
+                        eventObj.Statement = Convert.ToString(Dt.Rows[i]["statement"]);
+                        eventObj.UserName = Convert.ToString(Dt.Rows[i]["username"]);
+                        eventObj.Duration = Convert.ToInt64(Dt.Rows[i]["duration"]);
+                        eventObj.CpuTime = Convert.ToInt64(Dt.Rows[i]["cpu_time"]);
+                        eventObj.LogicalReads = Convert.ToInt64(Dt.Rows[i]["logical_reads"]);
+                        eventObj.PhysicalReads = Convert.ToInt64(Dt.Rows[i]["physical_reads"]);
+                        eventObj.Writes = Convert.ToInt64(Dt.Rows[i]["writes"]);                        
+                        EventsList.Add(eventObj);
+                    }
+                }
+
+                int totalPages = (int)Math.Ceiling((double)Dt.Rows.Count / pageSize);
+                var pagedResult = new
+                {
+                    totalPages = totalPages,
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalResults = Dt.Rows.Count,
+                    data = EventsList
+                };
+
+                return Return.returnHttp("200", pagedResult, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetEventAdhocWithAbsRange([FromBody] String timeFormat_time)
+        {
+            try
+            {
+                int page = Convert.ToInt32(timeFormat_time.Split(',')[2]);
+                int pageSize = 70; // Number of items per page
+                int startIndex = (page - 1) * pageSize;
+                int endIndex = startIndex + pageSize - 1;
+
+                String timeFormat = timeFormat_time.Split(',')[0];
+                String time = timeFormat_time.Split(',')[1];                
+                SqlCommand cmd = new SqlCommand("EventAdhocabsoluterange", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@from", timeFormat);
+                cmd.Parameters.AddWithValue("@to", time);
+                Da.SelectCommand = cmd;
+                cmd.CommandTimeout = 0;
+                Da.Fill(Dt);
+
+                List<Events> EventsList = new List<Events>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = startIndex; i <= endIndex && i < Dt.Rows.Count; i++)
+                    {
+                        Events eventObj = new Events();
+                        DateTime myDateTime = Convert.ToDateTime(Dt.Rows[i]["collect_system_time"]);
+                        eventObj.SystemTime = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");                     
+                        eventObj.Statement = Convert.ToString(Dt.Rows[i]["sql_text"]);
+                        eventObj.UserName = Convert.ToString(Dt.Rows[i]["username"]);
+                        eventObj.Duration = Convert.ToInt64(Dt.Rows[i]["duration"]);
+                        eventObj.CpuTime = Convert.ToInt64(Dt.Rows[i]["cpu_time"]);
+                        eventObj.LogicalReads = Convert.ToInt64(Dt.Rows[i]["logical_reads"]);
+                        eventObj.PhysicalReads = Convert.ToInt64(Dt.Rows[i]["physical_reads"]);
+                        eventObj.Writes = Convert.ToInt64(Dt.Rows[i]["writes"]);
+                        eventObj.Spills = Convert.ToInt64(Dt.Rows[i]["spills"]);
+                        EventsList.Add(eventObj);
+                    }
+                }
+
+                int totalPages = (int)Math.Ceiling((double)Dt.Rows.Count / pageSize);
+                var pagedResult = new
+                {
+                    totalPages = totalPages,
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalResults = Dt.Rows.Count,
+                    data = EventsList
+                };
+
+                return Return.returnHttp("200", pagedResult, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage GetCredentialAnalysis()
         {
             try
@@ -312,6 +432,48 @@ namespace MSUISApi.Controllers
             try
             {
                 SqlCommand cmd = new SqlCommand("Earliest_Accessible", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                String date = Convert.ToString(Dt.Rows[0][0]);
+                Con.Close();
+
+                return Return.returnHttp("200", date, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        [HttpPost]
+        public HttpResponseMessage GetEarliestAdhocDate()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Earliest_Accessible_Adhoc", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                Da.SelectCommand = cmd;
+                Da.Fill(Dt);
+
+                String date = Convert.ToString(Dt.Rows[0][0]);
+                Con.Close();
+
+                return Return.returnHttp("200", date, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        [HttpPost]
+        public HttpResponseMessage GetEarliestSPDate()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Earliest_Accessible_SP", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 Da.SelectCommand = cmd;
