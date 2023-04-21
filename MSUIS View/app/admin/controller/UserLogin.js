@@ -26,6 +26,7 @@
                     
                     if (response.obj === "True") {
                         $state.go('dashboard')
+                        localStorage.setItem('user', $scope.loginObj.username)
                     }
                     else {
                         $scope.message = 'Oops! Invalid username or password.'

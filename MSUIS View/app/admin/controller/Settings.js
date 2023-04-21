@@ -35,7 +35,7 @@
         $http({
             method: 'POST',
             url: 'api/Settings/checklogin',
-            data: '"' + 'Admin' + ' ' + password + '"',
+            data: '"' + localStorage.getItem('user') + ' ' + password + '"',
             headers: { "Content-Type": 'application/json' }
         })
 
