@@ -162,11 +162,10 @@
 
     $scope.RevokeDatabaseRoleToUser = function () {
         showLoadingScreen();
-
         $http({
             method: 'POST',
             url: 'api/Permission/DropUserFromRole',
-            data: '"' + $scope.Database.name + ' ' + $scope.roleDrop + ' ' + $scope.userDrop + '"',
+            data: '"' + $scope.Database.name.trim() + ' ' + $scope.roleDrop.trim() + ' ' + $scope.userDrop.trim() + '"',
             headers: { "Content-Type": 'application/json' }
         })
 

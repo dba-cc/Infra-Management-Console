@@ -322,13 +322,13 @@
                         <div class="scrollbar ui grid" id="table-parent-container" style="margin-top: 1.25rem !important; height: 85vh; max-height: 85vh;">
                             <div style="height: 46vh; max-height: 46vh; width: 100%; transition: height 0.3s ease-out, padding 0.3s ease-out" id="table-container">
                                 <div class="table-responsive" ng-show="tabletype=='dmv'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
-                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
+                                    <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="QueryHitParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="QueryHit in $data">
                                                 <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
                                                 <td width="13%" data-title="'Time'" filter="{time: 'text'}" sortable="'time'"><label>{{QueryHit.time}}</label></td>
                                                 <td data-title="'Query'" filter="{query: 'text'}" sortable="'Query'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
-                                                    <label title="{{QueryHit.query}}" ng-click="toggleCheckbox(QueryHit, $event)" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}...</label>
+                                                    <label title="{{QueryHit.query}}" ng-click="toggleCheckbox(QueryHit, $event)" style=" width: 100%;  padding: 11px; align-self: center; text-align: left; cursor: pointer; transition: background 0.5s ease-out; ">{{QueryHit.query | limitTo:75}}...</label>
                                                     
                                                         <i style="float: right" class="copy outline icon" ng-click="copyQuery(QueryHit.query)"></i>
                                                     
@@ -342,14 +342,14 @@
                                     </table>
                                 </div>
                                 <div class="table-responsive" ng-show="tabletype=='sptable'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
-                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="SpParams" show-filter="true" style="">
+                                    <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="SpParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="SP in $data">
                                                 <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
                                                 <td width="13%" data-title="'System Time'" filter="{SystemTime: 'text'}" sortable="'SystemTime'"><label>{{SP.SystemTime}}</label></td>
                                                 <td width="13%" data-title="'Object Name'" filter="{ObjectName: 'text'}" sortable="'ObjectName'"><label>{{SP.ObjectName}}</label></td>
                                                 <td data-title="'Statement'" filter="{Statement: 'text'}" sortable="'Statement'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
-                                                    <label title="{{SP.Statement}}" ng-click="" style=" width: 100%;  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{SP.Statement | limitTo:75}}...</label>
+                                                    <label title="{{SP.Statement}}" ng-click="" style=" width: 100%;  padding: 11px; align-self: center; text-align: left; cursor: pointer; transition: background 0.5s ease-out; ">{{SP.Statement | limitTo:75}}...</label>
                                                     
                                                         <i style="float: right" class="copy outline icon" ng-click="copyQuery(SP.Statement)"></i>
                                                     
@@ -365,13 +365,13 @@
                                     </table>
                                 </div>
                                 <div class="table-responsive" ng-show="tabletype=='adhoctable'" style="max-height: 46vh; height: auto; width: 100%; box-shadow: 0 0px 5px #aaaaaa; transition: max-height 0.3s ease-out">
-                                    <table class="ui striped table green main-table selectable" id="example-2" ng-table="AdhocParams" show-filter="true" style="">
+                                    <table class="ui striped table green main-table selectable myLefter" id="example-2" ng-table="AdhocParams" show-filter="true" style="">
                                         <tbody>
                                             <tr ng-repeat="Adhoc in $data">
                                                 <td width="5%" data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'"><label>{{ $index + 1 }}</label></td>
                                                 <td width="5%" data-title="'System Time'" filter="{SystemTime: 'text'}" sortable="'SystemTime'"><label>{{Adhoc.SystemTime}}</label></td>
                                                 <td data-title="'Query'" filter="{Statement: 'text'}" sortable="'Statement'" style="  display: flex; margin: 0; padding: 0; align-items: center; justify-content: center;">
-                                                    <label title="{{Adhoc.Statement}}" ng-click="" style="  padding: 11px; align-self: center; text-align: center; cursor: pointer; transition: background 0.5s ease-out; ">{{Adhoc.Statement | limitTo:75}}...</label>
+                                                    <label title="{{Adhoc.Statement}}" ng-click="" style="  padding: 11px; align-self: center; text-align: left; cursor: pointer; transition: background 0.5s ease-out; ">{{Adhoc.Statement | limitTo:75}}...</label>
 
                                                     <i style="float: right" class="copy outline icon" ng-click="copyQuery(Adhoc.Statement)"></i>
 

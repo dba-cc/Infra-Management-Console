@@ -299,9 +299,9 @@
         }
 
         var jobName = $scope.newSchedule["frequency"].toLowerCase().charAt(0).toUpperCase() + $scope.newSchedule["frequency"].toLowerCase().slice(1) + ' ' + $scope.newSchedule["type"] + ' Backup - ' + $scope.newSchedule["database"];
-        if ($scope.checkExistingJob(jobName) && document.getElementById('add-message-container').style.display == 'none') {
-            document.getElementById('add-message-container').style.display = 'flex';
-            document.getElementById('add-message').innerText = 'The schedule for this database already exists. Click again to overwrite it.';
+        if ($scope.checkExistingJob(jobName) && document.getElementById('add-message-container-autobackup').style.display == 'none') {
+            document.getElementById('add-message-container-autobackup').style.display = 'flex';
+            document.getElementById('add-message-autobackup').innerText = 'The schedule for this database already exists. Click again to overwrite it.';
             hideLoadingScreen()
             return
         }         
@@ -319,7 +319,7 @@
                 }
                 else {
                     showMessage(response.obj);
-                    $scope.hideAddForm();
+                    $scope.hideAddForm('autobackup');
                     $scope.getBackupSchedules();
                 }
                 hideLoadingScreen();

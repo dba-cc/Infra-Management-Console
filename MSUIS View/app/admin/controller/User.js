@@ -285,7 +285,7 @@
                                 } else {
                                     showMessage(response.obj)
                                     //$scope.User = {};
-                                    //$scope.GetUser();
+                                    $scope.GetUser();
                                     $scope.ShowFormFlag = false;
                                     $scope.hideAddForm();
                                 }
@@ -329,7 +329,7 @@
                                 } else {
                                     showMessage(response.obj)
                                     //$scope.User = {};
-                                    //$scope.GetUser();
+                                    $scope.GetUser();
                                     $scope.ShowFormFlag = false;
                                     $scope.hideAddForm();
                                 }
@@ -365,7 +365,7 @@
                             } else {
                                 showMessage(response.obj)
                                 //$scope.User = {};
-                                //$scope.GetUser();
+                                $scope.GetUser();
                                 $scope.ShowFormFlag = false;
                                 $scope.hideAddForm();
                             }
@@ -397,7 +397,8 @@
                 else {
                     showMessage(response.obj);
                     $scope.resp = response.obj
-                    $scope.showLoginList();
+                    $scope.hideDeletePopup()
+                    $scope.GetUser();
                 }
                 hideLoadingScreen();
             })
@@ -440,6 +441,7 @@
                         } else {
                             showMessage(response.obj)
                             //$scope.ShowFormFlag = false;
+                            $scope.showLoginList()
                             $scope.hideEditLoginForm();
                             $scope.LoginEdit = {}
                         }
@@ -473,6 +475,7 @@
                     $scope.showLoginList();
                 }
                 hideLoadingScreen();
+
             })
             .error(function (res) {
                 $rootScope.$broadcast('dialog', "Error", "alert", res.obj);

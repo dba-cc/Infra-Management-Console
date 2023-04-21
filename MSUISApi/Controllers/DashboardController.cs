@@ -139,7 +139,7 @@ namespace MSUISApi.Controllers
 
                 if (Dt.Rows.Count > 0)
                 {
-                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    for (int i = 0; i < 50; i++)
                     {
                         ServerLog serverLog = new ServerLog();
                         serverLog.LogDate = Convert.ToString(Dt.Rows[i]["LogDate"]);

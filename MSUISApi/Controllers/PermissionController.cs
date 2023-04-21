@@ -393,7 +393,7 @@ namespace MSUISApi.Controllers
                 paramSets.Columns.Add(controlbit);
 
 
-                SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissionsTEST", Con);
+                SqlCommand cmd = new SqlCommand("UpdateStoredProcedurePermissions", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 foreach (SPPermission sPPermission in Obj)
