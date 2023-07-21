@@ -17,7 +17,6 @@ namespace MSUISApi.Controllers
         SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
         SqlDataAdapter Da = new SqlDataAdapter();
         DataTable Dt = new DataTable();
-        DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
         [HttpPost]
         public HttpResponseMessage AutoBackupDatabase(BackUp Obj)

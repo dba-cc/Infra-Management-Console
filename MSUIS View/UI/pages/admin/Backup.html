@@ -16,7 +16,7 @@
                                     <div class="ui grid" style=" padding: 15px;">
                                         <div class="eight wide column ">
                                             <div class="ui big middle aligned selection list">
-                                                <div class="item active" ng-click="setextension('0')" id="bak">
+                                                <div class="item active" ng-click="setExtension(false)" id="bak">
                                                     <div class="col">
                                                         <i class="bi bi-database-fill-up icon"></i>
                                                         <b>.bak</b>
@@ -29,7 +29,7 @@
                                         </div>
                                         <div class="eight wide column ">
                                             <div class="ui big middle aligned selection list">
-                                                <div class="item" ng-click="setextension('1')" id="bacpac">
+                                                <div class="item" ng-click="setExtension(true)" id="bacpac">
                                                     <div class="col">
                                                         <i class="bi bi-database-fill-up icon"></i>
                                                         <b>.bacpac</b>
@@ -47,7 +47,7 @@
                                 <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
                                     <h4>Backup File Location</h4>
                                     <div class="ui big middle aligned selection list">
-                                        <div class="item active" ng-click="setLocation('0')" id="def">
+                                        <div class="item active" ng-click="isNewLocation(false)" id="def">
                                             <div class="col">
                                                 <i class="bi bi-folder icon"></i>
                                                 <b>Default Location</b>
@@ -56,7 +56,7 @@
                                                 <p>Backup will be selected from the default specified location.</p>
                                             </div>
                                         </div>
-                                        <div class="item" ng-click="setLocation('new')" id="new">
+                                        <div class="item" ng-click="isNewLocation(true)" id="new">
                                             <div class="col">
                                                 <i class="bi bi-folder-plus icon"></i>
                                                 <b>Other Location</b>
@@ -65,8 +65,8 @@
                                                 <p>Backup will be selected from the new specified location.</p>
                                                 <div class="ui left icon action input" style="display:none" id="loc">
                                                     <i class="green link folder open icon"></i>
-                                                    <input style="" name="fileloc" autocomplete="off" placeholder="Enter Backup Location" id="newloc" class="form-control" ng-keydown="$event.keyCode === 13 && nwloc()" required />
-                                                    <button class="ui icon button" ng-click="nwloc()">
+                                                    <input style="" name="fileloc" autocomplete="off" placeholder="Enter Backup Location" id="newloc" class="form-control" ng-keydown="$event.keyCode === 13 && getFiles()" required />
+                                                    <button class="ui icon button" ng-click="getFiles()">
                                                         <i class="right arrow icon"></i>
                                                     </button>
                                                 </div>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="ui green floating dropdown labeled search icon button" ng-click="dropdown()" ng-init="getFiles()" style="width:100%; float: left; margin-bottom: 1em">
-                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName" ng-change="defname()">
+                                <select class="ui search selection dropdown" ng-model="FC.DbName" id="frDbName" ng-change="restoreBackupInfo['bkLocation'] = FC.DbName">
                                     <option class="item" ng-repeat="f in FileList" value="{{f.DbName}}">{{f.DbName}}</option>
                                 </select>
                                 <i class="file icon"></i>
@@ -91,7 +91,7 @@
                                 <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
                                     <h4>Destination Database</h4>
                                     <div class="ui big middle aligned selection list">
-                                        <div class="item active" ng-click="setRpflag('1')" id="exist">
+                                        <div class="item active" ng-click="setExistingDBFlag(true)" id="exist">
                                             <div class="col">
                                                 <i class="bi bi-database-fill-up icon"></i>
                                                 <b>Existing Database</b>
@@ -111,7 +111,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="item" ng-click="setRpflag('0')" id="newdb">
+                                        <div class="item" ng-click="setExistingDBFlag(false)" id="newdb">
                                             <div class="col">
                                                 <i class="bi bi-database-fill-add icon"></i>
                                                 <b>New Database</b>
@@ -120,7 +120,7 @@
                                                 <p>Creating a new Database</p>
                                                 <div class="ui left icon input" style="display:none" id="nwdb">
                                                     <i class="bi bi-database-fill-gear icon"></i>
-                                                    <input type="text" style="width:100%" name="fileloc" autocomplete="off" placeholder="New Database Name" id="nwdbname" class="form-control" />
+                                                    <input type="text" style="width:100%" name="fileloc" autocomplete="off" placeholder="New Database Name" id="newdbname" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -136,7 +136,7 @@
                         </form>
                     </div>
                     <div class="actions">
-                        <div class="ui animated button" ng-click="hideAddForm('restorebackup')" style=" margin: 0;" tabindex="0">
+                        <div class="ui animated button" ng-click="hidePopup('restorebackup')" style=" margin: 0;" tabindex="0">
                             <div class="visible content">Cancel</div>
                             <div class="hidden content">
                                 <i class="bi bi-x-lg"></i>
@@ -262,7 +262,7 @@
                                 <div style="border:1px solid green; border-radius: 15px; padding: 15px;">
                                     <h4>Backup Type</h4>
                                     <div class="ui big middle aligned selection list">
-                                        <div class="item active" ng-click="setType('full')" id="full">
+                                        <div class="item active" ng-click="setBackupType('full')" id="full">
                                             <div class="col">
                                                 <i class="bi bi-layers-fill"></i>
                                                 <b>Full</b>
@@ -271,7 +271,7 @@
                                                 <p>Complete backup of all the data in a database.</p>
                                             </div>
                                         </div>
-                                        <div class="item" ng-click="setType('partial')" id="partial">
+                                        <div class="item" ng-click="setBackupType('partial')" id="partial">
                                             <div class="col">
                                                 <i class="bi bi-layers-half"></i>
                                                 <b>Partial</b>
@@ -292,7 +292,7 @@
                         </form>
                     </div>
                     <div class="actions">
-                        <div class="ui animated button" ng-click="hideAddForm('autobackup')" style=" margin: 0;" tabindex="0">
+                        <div class="ui animated button" ng-click="hidePopup('autobackup')" style=" margin: 0;" tabindex="0">
                             <div class="visible content">Cancel</div>
                             <div class="hidden content">
                                 <i class="bi bi-x-lg"></i>
@@ -315,12 +315,12 @@
                         </div>
                     </div>
                     <div class="card-header">
-                        <button class="ui green labeled icon button" ng-click="showAddPopup('autobackup')" style="float: left">
+                        <button class="ui green labeled icon button" ng-click="showPopup('autobackup')" style="float: left">
                             <i class="plus icon"></i>
                             Add Schedule
                         </button>
                         <div class="row-fluid" style="float: left; border-left: 2px solid grey; padding-left: 10px; margin-left: 10px">
-                            <button class="ui green labeled icon button" ng-click="showAddPopup('restorebackup')" style="float: left">
+                            <button class="ui green labeled icon button" ng-click="showPopup('restorebackup')" style="float: left">
                                 <i class="bi bi-folder-symlink-fill icon"></i>
                                 Restore Database
                             </button>
@@ -354,20 +354,20 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="chart-item" style=" height: auto;">
-                                <div style="box-shadow: 0 0px 5px #aaaaaa; width: 100%; height: 50px; transition: padding 0.3s ease-out 0s; border-radius: 15px; background: white; overflow: hidden;" id="chart-parent">
+                            <div class="bottom-container-item" style=" height: auto;">
+                                <div style="box-shadow: 0 0px 5px #aaaaaa; width: 100%; height: 50px; transition: padding 0.3s ease-out 0s; border-radius: 15px; background: white; overflow: hidden;" id="log-parent">
                                     <div class="card-header" style="height: 50px !important; padding: 7px 20px;">
-                                        <div id="chart-options">
-                                            <div class="ui blue icon button" style="float: left;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="GetAutoBackupLogs()">
+                                        <div id="log-options">
+                                            <div class="ui blue icon button" style="float: left;" id="resetlogButton" fdprocessedid="yem6kv" ng-click="GetAutoBackupLogs()">
                                                 <i class="undo alternate icon"></i>
                                             </div>
                                         </div>
-                                        <div class="ui icon button" style="float: right;" id="resetChartButton" fdprocessedid="yem6kv" ng-click="changeView()">
+                                        <div class="ui icon button" style="float: right;" id="resetlogButton" fdprocessedid="yem6kv" ng-click="changeView()">
                                             <i class="angle icon" ng-class="{'down' : showLog, 'up' : !showLog}"></i>
                                         </div>
                                         <h3 style="text-align: center;margin-bottom: 0; margin-top: 0px; padding-top: 6px">Logs</h3>
                                     </div>
-                                    <div style="float: left; width: 100%; height: 93%; padding-top: 10px;" id="chart-div">
+                                    <div style="float: left; width: 100%; height: 93%; padding-top: 10px;" id="log-div">
                                         <div class="table-responsive" style=" border: 2px solid lightgrey; max-height: 100%">
                                             <table class="ui striped table green main-table selectable" id="example-2" ng-table="LogParams">
                                                 <tbody>

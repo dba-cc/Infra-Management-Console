@@ -26,8 +26,8 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                string path=s.Split(' ')[0];
-                int type= Convert.ToInt32(s.Split(' ')[1]);
+                string path=s.Split('|')[0];
+                bool type = Convert.ToBoolean(s.Split('|')[1]);
                 SqlCommand cmd = new SqlCommand("FCGet", Con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Path", path);
