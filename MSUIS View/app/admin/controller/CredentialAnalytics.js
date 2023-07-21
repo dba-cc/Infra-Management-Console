@@ -129,7 +129,7 @@
     }
 
     $scope.toggleChart = function () {
-        document.getElementsByClassName('chart-item')[0].style.height = 'auto'
+        document.getElementsByClassName('bottom-container-item')[0].style.height = 'auto'
         if (document.getElementById('chart-parent').style.padding != '0px') {
             document.getElementById('chart-parent').style.padding = 0;
             $('#chart-parent').animate({

@@ -901,7 +901,7 @@ app.controller('QueryHitCtrl', function ($scope, $interval, $http, NgTableParams
             document.getElementById('hideChartButton').classList.remove('active');
             document.getElementById('fullChartButton').classList.remove('active');
         }
-        document.getElementsByClassName('chart-item')[0].style.height = 'auto'
+        document.getElementsByClassName('bottom-container-item')[0].style.height = 'auto'
         if (view == 'hide') {
             document.getElementById('chart-parent').style.padding = 0;
             $('#chart-parent').animate({
