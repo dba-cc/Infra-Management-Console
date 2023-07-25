@@ -1,49 +1,43 @@
 ﻿using MSUISApi.Models;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 
 namespace MSUISApi.Controllers
 {
-    public class RBController : ApiController
+    public class RestoreBackupController : ApiController
     {
-        SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
-        SqlDataAdapter Da = new SqlDataAdapter();
-        DataTable Dt = new DataTable();
-        DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-
-
+        SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+        SqlDataAdapter adapter = new SqlDataAdapter();
+        DataTable table = new DataTable();
 
         [HttpPost]
-        public HttpResponseMessage RbFCGet([FromBody] String s)
+        public HttpResponseMessage GetBackupFilesFromDirectory([FromBody] String s)
         {
             try
             {
                 string path=s.Split('|')[0];
                 bool type = Convert.ToBoolean(s.Split('|')[1]);
-                SqlCommand cmd = new SqlCommand("FCGet", Con);
+                SqlCommand cmd = new SqlCommand("GetBackupFilesFromDirectory", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Path", path);
                 cmd.Parameters.AddWithValue("@type", type);
-                Da.SelectCommand = cmd;
+                adapter.SelectCommand = cmd;
 
-                Da.Fill(Dt);
+                adapter.Fill(table);
 
                 List<FC> FCList = new List<FC>();
 
-                if (Dt.Rows.Count > 0)
+                if (table.Rows.Count > 0)
                 {
-                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    for (int i = 0; i < table.Rows.Count; i++)
                     {
                         FC fc = new FC();
-                        fc.DbName = Convert.ToString(Dt.Rows[i]["FileNames"]);
+                        fc.DbName = Convert.ToString(table.Rows[i]["FileNames"]);
                         FCList.Add(fc);
                     }
                 }
@@ -61,7 +55,7 @@ namespace MSUISApi.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("RestoreBackup_", Con);
+                SqlCommand cmd = new SqlCommand("RestoreBackup_", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@dbFromName", rb.FrDbName);
                 cmd.Parameters.AddWithValue("@dbToName", rb.ToDbName);
@@ -69,10 +63,10 @@ namespace MSUISApi.Controllers
                 cmd.Parameters.AddWithValue("@type", rb.type);
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
                 cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
-                Con.Open();
+                connection.Open();
                 cmd.ExecuteNonQuery();
                 string strMessage = Convert.ToString(cmd.Parameters["@Message"].Value);
-                Con.Close();
+                connection.Close();
                 return Return.returnHttp("200", strMessage.ToString(), null);
             }
             catch (Exception e)

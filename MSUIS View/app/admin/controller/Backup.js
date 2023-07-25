@@ -191,7 +191,7 @@
 
         $http({
             method: 'POST',
-            url: 'api/RB/RbFCGet',
+            url: 'api/RestoreBackup/GetBackupFilesFromDirectory',
             data: '"' + $scope.restoreBackupInfo["bkLocation"] + '|' + $scope.restoreBackupInfo["extension"] + '"',
             headers: { "Content-Type": 'application/json' }
         })
@@ -260,7 +260,7 @@
         showLoadingScreen();
         $http({
             method: 'POST',
-            url: 'api/RB/RestoreBackup',
+            url: 'api/RestoreBackup/RestoreBackup',
             data: $scope.restoreBackupInfo,
             headers: { "Content-Type": 'application/json' }
         })
